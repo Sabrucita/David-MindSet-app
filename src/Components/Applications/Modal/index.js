@@ -9,13 +9,13 @@ function Modal(props) {
     dataContent[0] = `name: ${props.content.name}`;
     dataContent[1] = `position: ${props.content.position}`;
     dataContent[2] = `status: ${props.content.status}`;
-  } else if (props.type === 'dataCreate') {
+  } else if (props.type === 'dataCreateUpdate') {
     dataContent[0] = `idCandidate: ${props.content.idCandidate}`;
     dataContent[1] = `idOpenPosition: ${props.content.idOpenPosition}`;
   }
 
   return (
-    <div className={styles.modal} id="modal-delete">
+    <div className={styles.modal}>
       <div className={styles.centerModal}>
         <div className={styles.modalMessage}>
           <h2>{props.title}</h2>
@@ -36,12 +36,8 @@ function Modal(props) {
                 CANCEL
               </button>
             )}
-            {props.type === 'dataCreate' && (
-              <button
-                className={styles.modalOkConfirm}
-                id="modal-ok-confirm"
-                onClick={props.closeModal}
-              >
+            {props.type === 'dataCreateUpdate' && (
+              <button className={styles.modalOkConfirm} onClick={props.closeModal}>
                 OK
               </button>
             )}

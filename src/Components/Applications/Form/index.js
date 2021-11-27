@@ -3,13 +3,19 @@ import Input from '../Input';
 import Modal from '../Modal';
 import styles from './form.module.css';
 
-function Form() {
+function Form(props) {
+  // console.log(props.typeForm); //IT DOESNT RECEIVE THE CORRECT TYPEFORM. I HAD TO FORCE IT.!!!!!!!
+  // console.log(props.idToUpdate);
+
   const [candidates, setCandidates] = useState([]);
   const [positions, setPositions] = useState([]);
   const [openPositionValue, setOpenPositionValue] = useState();
   const [candidateValue, setCandidateValue] = useState();
+  const [statusValue, setStatusValue] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [applicationCreated, setApplicationCreated] = useState();
+  const [applicationCreatedUpdated, setApplicationCreatedUpdated] = useState();
+  const [applicationToUpdate, setApplicationToUpdate] = useState();
+  const [modalTitle, setModalTitle] = useState();
 
   let idPosition = '';
   let idCandidate = '';
@@ -31,21 +37,25 @@ function Form() {
       });
   }, []);
 
-  //GET THE OPENPOSITION SELECTED
+  //GET THE OPENPOSITION ID SELECTED
   const onChangeOpenPosition = (event) => {
     idPosition = event.target.value.split(' / ', 1);
     idPosition = idPosition[0];
     setOpenPositionValue(idPosition);
   };
-  //GET THE CANDIDATE SELECTED
+  //GET THE CANDIDATE ID SELECTED
   const onChangeCandidate = (event) => {
     idCandidate = event.target.value.split(' / ', 1);
     idCandidate = idCandidate[0];
     setCandidateValue(idCandidate);
   };
+  //GET THE STATUS ID SELECTED
+  const onChangeStatus = (event) => {
+    setStatusValue(event.target.checked);
+  };
 
   //CREATE CANDIDATE
-  function onSubmit(event) {
+  function onSubmitCreate(event) {
     event.preventDefault();
     let application = {
       idCandidate: candidateValue,
@@ -62,8 +72,48 @@ function Form() {
     })
       .then((response) => response.json())
       .then((response) => {
-        // console.log(response);
-        setApplicationCreated(response.application);
+        setApplicationCreatedUpdated(response.application);
+        setModalTitle('Application Added');
+        openModal();
+        if (response.msg) throw new Error(response.msg);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  //PRELOAD THE APP INFO INTO THE INPUTS
+  if (props.typeForm === 'update') {
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_API}/applications/${props.idToUpdate}`)
+        .then((response) => response.json())
+        .then((response) => {
+          setApplicationToUpdate(response.application);
+        })
+        .catch((err) => console.log(err));
+    }, []);
+  }
+
+  //UPDATE CANDIDATE
+  function onSubmitUpdate(event) {
+    event.preventDefault();
+    let application = {
+      idCandidate: candidateValue ? candidateValue : applicationToUpdate.idCandidate._id,
+      idOpenPosition: openPositionValue
+        ? openPositionValue
+        : applicationToUpdate.idOpenPosition._id,
+      isActive: statusValue
+    };
+    fetch(`${process.env.REACT_APP_API}/applications/${props.idToUpdate}`, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(application)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setApplicationCreatedUpdated(response.application);
+        setModalTitle('Application Updated');
         openModal();
         if (response.msg) throw new Error(response.msg);
       })
@@ -84,11 +134,12 @@ function Form() {
         <Modal
           show={showModal}
           closeModal={closeModal}
-          title="Application Added"
-          content={applicationCreated}
-          type="dataCreate"
+          title={modalTitle}
+          content={applicationCreatedUpdated}
+          type="dataCreateUpdate"
         />
-        <h1>Add application</h1>
+        {props.typeForm === 'create' && <h1>Add application</h1>}
+        {props.typeForm === 'update' && <h1>Update application</h1>}
         <form className={styles.formSubscription}>
           <div>
             <div className={styles.containerForm}>
@@ -97,32 +148,48 @@ function Form() {
                   htmlFor="openPosition"
                   labelTitle="Open Position"
                   nameSelect="openPosition"
-                  idSelect="open-position" //ver si vuela
                   onchangeSelect={onChangeOpenPosition}
                   data={positions}
                   type="position"
+                  typeForm={props.typeForm}
+                  applicationToUpdate={applicationToUpdate}
                 />
-                <li className={styles.modalHide}>
-                  <label htmlFor="is-active">Active status</label>
-                  <input type="checkbox" name="date" />
-                </li>
+                {props.typeForm === 'update' && (
+                  <li className={styles.modalHide}>
+                    <label htmlFor="is-active">Active status</label>
+                    <input
+                      type="checkbox"
+                      // checked={applicationToUpdate.isActive && 'checked'}
+                      name="date"
+                      onChange={onChangeStatus}
+                    />
+                  </li>
+                )}
               </ul>
               <ul className={styles.column}>
                 <Input
                   htmlFor="candidate"
                   labelTitle="Candidate"
                   nameSelect="candidate"
-                  idSelect="candidate" //ver si vuela
                   onchangeSelect={onChangeCandidate}
                   data={candidates}
                   type="candidate"
+                  typeForm={props.typeForm}
+                  applicationToUpdate={applicationToUpdate}
                 />
               </ul>
             </div>
           </div>
-          <div className={styles.button}>
-            <input type="button" value="SAVE" onClick={onSubmit} />
-          </div>
+          {props.typeForm === 'create' && (
+            <div className={styles.button}>
+              <input type="button" value="SAVE" onClick={onSubmitCreate} />
+            </div>
+          )}
+          {props.typeForm === 'update' && (
+            <div className={styles.button}>
+              <input type="button" value="UPDATE" onClick={onSubmitUpdate} />
+            </div>
+          )}
         </form>
       </section>
     </div>

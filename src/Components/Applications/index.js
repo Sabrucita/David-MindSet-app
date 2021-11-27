@@ -3,11 +3,11 @@ import styles from './applications.module.css';
 import List from './List';
 import Modal from './Modal';
 
-function Applications() {
+function Applications(props) {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-
+  console.log(applications);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
@@ -68,8 +68,14 @@ function Applications() {
           header={tableHeader}
           openModal={openModal}
           acceptModal={acceptModal}
+          getIdSelected={props.getIdSelected}
+          selectTypeForm={props.selectTypeForm}
         />
-        <a href="/applications/form" className={styles.buttonAdd}>
+        <a
+          href="/applications/form"
+          className={styles.buttonAdd}
+          onClick={() => props.selectTypeForm('create')}
+        >
           <span className={styles.buttonGreen}>Add</span>
         </a>
       </section>

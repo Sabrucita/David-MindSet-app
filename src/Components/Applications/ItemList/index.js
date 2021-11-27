@@ -4,7 +4,7 @@ function ItemList(props) {
   let status = 'Close';
   if (props.status) status = 'Active';
 
-  const dataItem = {
+  const dataDelete = {
     id: props.id,
     name: props.name,
     position: props.position,
@@ -17,12 +17,20 @@ function ItemList(props) {
       <td>{props.position}</td>
       <td>{status}</td>
       <td>
-        <button id={props.id} onClick={() => props.openModal(dataItem)}>
+        <button onClick={() => props.openModal(dataDelete)}>
           <span>DELETE</span>
         </button>
-        <button>
-          <span>EDIT</span>
-        </button>
+        <a href="/applications/form">
+          <button
+            id={props.id}
+            onClick={() => {
+              props.getIdSelected(props.id);
+              props.selectTypeForm('update');
+            }}
+          >
+            <span>EDIT</span>
+          </button>
+        </a>
       </td>
     </tr>
   );

@@ -24,6 +24,8 @@ function List(props) {
                 status={app.isActive}
                 openModal={props.openModal}
                 acceptModal={props.acceptModal}
+                getIdSelected={props.getIdSelected}
+                selectTypeForm={props.selectTypeForm}
               />
             );
           })}

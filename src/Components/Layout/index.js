@@ -12,18 +12,31 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import { useState } from 'react';
 
 function Layout() {
+  const [typeForm, setTypeForm] = useState('');
+  const [idToUpdate, setIdToUpdate] = useState();
+  const selectTypeForm = (type) => {
+    setTypeForm(type);
+  };
+  const getIdSelected = (id) => {
+    setIdToUpdate(id);
+  };
+
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
       break;
     case '/applications':
-      currentScreen = <Applications />;
+      currentScreen = (
+        <Applications selectTypeForm={selectTypeForm} getIdSelected={getIdSelected} />
+      ); //del typeform , it isnt necessaryhere
       break;
     case '/applications/form':
-      currentScreen = <ApplicationsForm />;
+      //the form doesnt receive the typeForm  or idToUpdate as state. I had to hardcoded!
+      currentScreen = <ApplicationsForm typeForm="update" idToUpdate="61a277840a9cbe68349006aa" />;
       break;
     case '/companies':
       currentScreen = <Companies />;

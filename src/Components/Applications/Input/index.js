@@ -1,27 +1,39 @@
 function Input(props) {
   let optionData = [];
+  let preloadValue;
+  // console.log(props.applicationToUpdate);
   if (props.type === 'position') {
     optionData = props.data.map((position) => {
       return `${position._id} / ${position.idCompany} / ${position.jobDescription}`;
     });
+    if (props.applicationToUpdate) {
+      let positionFound = props.data.find(
+        (position) => position._id === props.applicationToUpdate.idOpenPosition._id
+      );
+      preloadValue = `${positionFound._id} / ${positionFound.idCompany} / ${positionFound.jobDescription}`;
+    }
   } else if (props.type === 'candidate') {
     optionData = props.data.map((candidate) => {
       return `${candidate._id} / ${candidate.firstName}  ${candidate.lastName}`;
     });
+    if (props.applicationToUpdate) {
+      let candidateFound = props.data.find(
+        (candidate) => candidate._id === props.applicationToUpdate.idCandidate._id
+      );
+      preloadValue = `${candidateFound._id} / ${candidateFound.firstName} / ${candidateFound.lastName}`;
+    }
   }
 
   return (
     <li>
       <label htmlFor={props.htmlFor}>{props.labelTitle}</label>
-      <select
-        name={props.nameSelect}
-        id={props.idSelect}
-        value={props.value}
-        onChange={props.onchangeSelect}
-      >
-        <option disabled selected value>
-          -- select an option --
-        </option>
+      <select name={props.nameSelect} id={props.idSelect} onChange={props.onchangeSelect}>
+        {props.typeForm === 'create' && (
+          <option disabled selected>
+            -- select an option --
+          </option>
+        )}
+        {props.typeForm === 'update' && <option selected>{preloadValue}</option>}
         {optionData.map((data) => {
           return (
             // eslint-disable-next-line react/jsx-key
