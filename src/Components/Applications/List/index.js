@@ -2,7 +2,6 @@ import styles from './list.module.css';
 import ItemList from '../ItemList';
 
 function List(props) {
-  console.log(props.data);
   return (
     <div className={styles.list}>
       <table>
@@ -16,14 +15,15 @@ function List(props) {
         </thead>
         <tbody>
           {props.data.map((app) => {
-            console.log(app.isActive);
             return (
               // eslint-disable-next-line react/jsx-key
               <ItemList
                 id={app._id}
-                name="nombre candidato"
-                position="position"
+                name={`${app.idCandidate.firstName} ${app.idCandidate.lastName}`}
+                position={app.idOpenPosition.jobDescription}
                 status={app.isActive}
+                openModal={props.openModal}
+                acceptModal={props.acceptModal}
               />
             );
           })}

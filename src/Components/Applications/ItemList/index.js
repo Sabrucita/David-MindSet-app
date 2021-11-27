@@ -4,13 +4,20 @@ function ItemList(props) {
   let status = 'Close';
   if (props.status) status = 'Active';
 
+  const dataItem = {
+    id: props.id,
+    name: props.name,
+    position: props.position,
+    status: status
+  };
+
   return (
     <tr id={props.id}>
       <td>{props.name}</td>
       <td>{props.position}</td>
       <td>{status}</td>
       <td>
-        <button>
+        <button id={props.id} onClick={() => props.openModal(dataItem)}>
           <span>DELETE</span>
         </button>
         <button>

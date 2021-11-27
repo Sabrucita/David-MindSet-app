@@ -5,16 +5,37 @@ function Modal(props) {
     return null;
   }
 
-  const onCloseModal = () => {
-    props.onCloseModal();
-    props.closeModal();
-  };
-
   return (
-    <div className={styles.container}>
-      <div className={styles.modal}>
-        <h3>Modal</h3>
-        <button onClick={onCloseModal}>Close</button>
+    <div className={styles.modal} id="modal-delete">
+      <div className={styles.centerModal}>
+        <div className={styles.modalMessage}>
+          <h2>{props.title}</h2>
+          <ul>
+            <li>name: {props.content.name}</li>
+            <li>position: {props.content.position}</li>
+            <li>status: {props.content.status}</li>
+            {/* { for (const property in props.content) {
+                return (
+                  <li>
+                  `${property}: ${props.content[property]}`
+                  </li>
+                );
+              }
+            }*/}
+          </ul>
+          <div className={styles.buttonModal}>
+            <button
+              className={styles.modalOk}
+              id="modal-delete-confirm"
+              onClick={props.acceptModal}
+            >
+              ACCEPT
+            </button>
+            <button className={styles.modalCancel} id="cancel-button" onClick={props.closeModal}>
+              CANCEL
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
