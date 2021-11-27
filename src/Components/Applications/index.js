@@ -15,16 +15,18 @@ function Applications() {
         setApplications(response.applications);
       });
   }, []);
+  console.log(applications);
 
+  //MODAL
   const closeModal = () => {
     setShowModal(false);
+    // console.log(showModal);
   };
-
   const openModal = (item) => {
     setSelectedItem(item);
     setShowModal(true);
   };
-
+  //MODAL CONFIRM DELETE
   const acceptModal = () => {
     fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
       method: 'DELETE',

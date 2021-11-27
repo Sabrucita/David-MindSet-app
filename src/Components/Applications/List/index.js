@@ -33,8 +33,3 @@ function List(props) {
   );
 }
 export default List;
-
-// {applications.map((application) => {
-//   return <div key={application._id}>{application._id}</div>;
-// })}
-// <ItemList id={app._id} name={app.firstName} />;
