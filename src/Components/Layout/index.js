@@ -5,7 +5,7 @@ import Applications from '../Applications/index';
 import Companies from '../Companies/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
-import Postulants from '../Postulants/index';
+import Candidates from '../Candidates/index';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
@@ -30,8 +30,8 @@ function Layout() {
     case '/positions':
       currentScreen = <Positions />;
       break;
-    case '/postulants':
-      currentScreen = <Postulants />;
+    case '/candidates':
+      currentScreen = <Candidates />;
       break;
     case '/profiles':
       currentScreen = <Profiles />;
