@@ -15,7 +15,14 @@ function Applications() {
         setApplications(response.applications);
       });
   }, []);
-  console.log(applications);
+  //Refresh when delete
+  const refreshDelete = () => {
+    fetch(`${process.env.REACT_APP_API}/applications`)
+      .then((response) => response.json())
+      .then((response) => {
+        setApplications(response.applications);
+      });
+  };
 
   //MODAL
   const closeModal = () => {
@@ -37,6 +44,7 @@ function Applications() {
       .then((response) => response.json())
       .then(() => {
         closeModal();
+        refreshDelete();
       })
       .catch((err) => console.log(err));
   };
@@ -52,6 +60,7 @@ function Applications() {
           acceptModal={acceptModal}
           title="¿Are you sure that you want to delete this data?"
           content={selectedItem}
+          type="delete"
         />
         <h1>Applications</h1>
         <List

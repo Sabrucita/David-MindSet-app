@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Input from '../Input';
+import Modal from '../Modal';
 import styles from './form.module.css';
 
 function Form() {
@@ -7,7 +8,8 @@ function Form() {
   const [positions, setPositions] = useState([]);
   const [openPositionValue, setOpenPositionValue] = useState();
   const [candidateValue, setCandidateValue] = useState();
-  // const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [applicationCreated, setApplicationCreated] = useState();
 
   let idPosition = '';
   let idCandidate = '';
@@ -60,18 +62,34 @@ function Form() {
     })
       .then((response) => response.json())
       .then((response) => {
+        // console.log(response);
+        setApplicationCreated(response.application);
+        openModal();
         if (response.msg) throw new Error(response.msg);
       })
       .catch((err) => console.log(err));
   }
 
+  //MODAL
+  const closeModal = () => {
+    setShowModal(false);
+  };
+  const openModal = () => {
+    setShowModal(true);
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.main}>
-        {/* <InfoModal
-        /> */}
-        <h1 id="title">Add application</h1>
-        <form id="form" className={styles.formSubscription}>
+        <Modal
+          show={showModal}
+          closeModal={closeModal}
+          title="Application Added"
+          content={applicationCreated}
+          type="dataCreate"
+        />
+        <h1>Add application</h1>
+        <form className={styles.formSubscription}>
           <div>
             <div className={styles.containerForm}>
               <ul className={styles.column}>
@@ -84,9 +102,9 @@ function Form() {
                   data={positions}
                   type="position"
                 />
-                <li id="is-active-entry" className={styles.modalHide}>
+                <li className={styles.modalHide}>
                   <label htmlFor="is-active">Active status</label>
-                  <input type="checkbox" id="is-active" name="date" />
+                  <input type="checkbox" name="date" />
                 </li>
               </ul>
               <ul className={styles.column}>
@@ -103,7 +121,7 @@ function Form() {
             </div>
           </div>
           <div className={styles.button}>
-            <input id="save-button" type="button" value="SAVE" onClick={onSubmit} />
+            <input type="button" value="SAVE" onClick={onSubmit} />
           </div>
         </form>
       </section>
