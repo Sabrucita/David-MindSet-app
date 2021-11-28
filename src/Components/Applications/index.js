@@ -18,15 +18,6 @@ function Applications(props) {
       });
   }, []);
 
-  // Refresh when delete  it works but i have doubts if this is the correct way!
-  const refreshDelete = () => {
-    fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => response.json())
-      .then((response) => {
-        setApplications(response.applications);
-      });
-  };
-
   //MODAL
   const closeModal = () => {
     setShowModal(false);
@@ -35,6 +26,15 @@ function Applications(props) {
     setSelectedItem(item);
     setTypeModal(type);
     setShowModal(true);
+  };
+
+  // Refresh when delete  it works but it isnt the correct way! look lines 50-55 but do not refresh!
+  const refreshDelete = () => {
+    fetch(`${process.env.REACT_APP_API}/applications`)
+      .then((response) => response.json())
+      .then((response) => {
+        setApplications(response.applications);
+      });
   };
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
@@ -47,6 +47,11 @@ function Applications(props) {
       .then((response) => response.json())
       .then(() => {
         closeModal();
+        // setApplications(
+        //   applications.filter((app) => {
+        //     app._id !== selectedItem.id;
+        //   })
+        // );
         refreshDelete();
       })
       .catch((err) => console.log(err));
