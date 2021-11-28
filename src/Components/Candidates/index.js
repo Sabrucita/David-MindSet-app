@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import styles from './candidates.module.css';
 
-function Candidates() {
+function Candid() {
   const [candidates, setCandidates] = useState([]);
-
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/candidates`)
-      .then((res) => res.json())
-      .then((res) => {
-        setCandidates(res.data);
+      .then((response) => response.json())
+      .then((response) => {
+        setCandidates(response.candidates);
       });
   }, []);
+  console.log(candidates);
+
   return (
     <section className={styles.container}>
       <h2>Candidates</h2>
@@ -23,4 +24,4 @@ function Candidates() {
   );
 }
 
-export default Candidates;
+export default Candid;
