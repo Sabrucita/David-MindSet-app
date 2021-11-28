@@ -2,7 +2,7 @@ import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
-import Companies from '../Companies/index';
+import Companies from '../Companies/List/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
