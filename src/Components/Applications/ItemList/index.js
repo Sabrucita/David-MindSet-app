@@ -39,7 +39,7 @@ function ItemList(props) {
   const getDataContent = (data) => {
     let content = [];
     for (let property in data) {
-      content.push(<td>{data[property]}</td>);
+      content.push(<td key={property}>{data[property]}</td>);
     }
     return content;
   };
