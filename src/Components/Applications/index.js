@@ -27,15 +27,6 @@ function Applications(props) {
     setTypeModal(type);
     setShowModal(true);
   };
-
-  // Refresh when delete  it works but it isnt the correct way! look lines 50-55 but do not refresh!
-  const refreshDelete = () => {
-    fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => response.json())
-      .then((response) => {
-        setApplications(response.applications);
-      });
-  };
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
     fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
@@ -49,14 +40,13 @@ function Applications(props) {
         closeModal();
         setApplications(
           applications.filter((app) => {
-            app._id !== selectedItem.id;
+            return app._id !== selectedItem.id;
           })
         );
-        // refreshDelete();
       })
       .catch((err) => console.log(err));
   };
-
+  // console.log(applications);
   const tableHeader = ['Candidate', 'Open Position', 'Active Status', 'Action'];
 
   return (
