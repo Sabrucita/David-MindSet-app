@@ -14,18 +14,15 @@ function List(props) {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((app) => {
+          {props.data.map((element) => {
             return (
               <ItemList
-                key={app._id}
-                name={`${app.idCandidate.firstName} ${app.idCandidate.lastName}`}
-                position={app.idOpenPosition.jobDescription}
-                status={app.isActive}
+                key={element._id}
                 openModal={props.openModal}
                 acceptModal={props.acceptModal}
                 getIdSelected={props.getIdSelected}
                 selectTypeForm={props.selectTypeForm}
-                dataApp={app}
+                data={element}
               />
             );
           })}

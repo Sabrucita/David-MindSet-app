@@ -1,13 +1,13 @@
 import styles from './itemList.module.css';
 
 function ItemList(props) {
-  let id = props.dataApp._id;
-  let isActive = props.dataApp.isActive;
-  let idCandidate = props.dataApp.idCandidate.firstName;
-  let firstName = props.dataApp.idCandidate.firstName;
-  let lastName = props.dataApp.idCandidate.lastName;
-  let idOpenPosition = props.dataApp.idOpenPosition._id;
-  let jobDescription = props.dataApp.idOpenPosition.jobDescription;
+  let id = props.data._id;
+  let isActive = props.data.isActive;
+  let idCandidate = props.data.idCandidate.firstName;
+  let firstName = props.data.idCandidate.firstName;
+  let lastName = props.data.idCandidate.lastName;
+  let idOpenPosition = props.data.idOpenPosition._id;
+  let jobDescription = props.data.idOpenPosition.jobDescription;
 
   let status = isActive === true ? 'Active' : 'Close';
   let names = `${firstName} ${lastName}`;
