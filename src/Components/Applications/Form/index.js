@@ -3,9 +3,9 @@ import Input from '../Input';
 import Modal from '../Modal';
 import styles from './form.module.css';
 
-function Form(props) {
-  // console.log(props.typeForm); //IT DOESNT RECEIVE THE CORRECT TYPEFORM. I HAD TO FORCE IT.!!!!!!!
-  // console.log(props.idToUpdate);
+function Form() {
+  let typeForm = localStorage.getItem('typeForm');
+  let idToUpdate = localStorage.getItem('idToUpdate');
 
   const [candidates, setCandidates] = useState([]);
   const [positions, setPositions] = useState([]);
@@ -81,9 +81,11 @@ function Form(props) {
 
   //PRELOAD THE APP INFO INTO THE INPUTS
   // GET THE INFO OF THE CHOOSEN APP
-  if (props.typeForm === 'update') {
+  //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
+  if (typeForm === 'update') {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/applications/${props.idToUpdate}`)
+      //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
+      fetch(`${process.env.REACT_APP_API}/applications/${idToUpdate}`)
         .then((response) => response.json())
         .then((response) => {
           setApplicationToUpdate(response.application);
@@ -102,7 +104,8 @@ function Form(props) {
         : applicationToUpdate.idOpenPosition._id,
       isActive: statusValue
     };
-    fetch(`${process.env.REACT_APP_API}/applications/${props.idToUpdate}`, {
+    //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
+    fetch(`${process.env.REACT_APP_API}/applications/${idToUpdate}`, {
       method: 'PUT',
       mode: 'cors',
       headers: {
@@ -137,8 +140,9 @@ function Form(props) {
           content={applicationCreatedUpdated}
           type={typeModal}
         />
-        {props.typeForm === 'create' && <h1>Add application</h1>}
-        {props.typeForm === 'update' && <h1>Update application</h1>}
+        {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
+        {typeForm === 'create' && <h1>Add application</h1>}
+        {typeForm === 'update' && <h1>Update application</h1>}
         <form className={styles.formSubscription}>
           <div>
             <div className={styles.containerForm}>
@@ -150,10 +154,11 @@ function Form(props) {
                   onchangeSelect={onChangeOpenPosition}
                   data={positions}
                   type="position"
-                  typeForm={props.typeForm}
+                  typeForm={typeForm}
                   applicationToUpdate={applicationToUpdate}
                 />
-                {props.typeForm === 'update' && (
+                {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
+                {typeForm === 'update' && (
                   <li className={styles.modalHide}>
                     <label htmlFor="is-active">Active status</label>
                     <input
@@ -173,18 +178,20 @@ function Form(props) {
                   onchangeSelect={onChangeCandidate}
                   data={candidates}
                   type="candidate"
-                  typeForm={props.typeForm}
+                  typeForm={typeForm}
                   applicationToUpdate={applicationToUpdate}
                 />
               </ul>
             </div>
           </div>
-          {props.typeForm === 'create' && (
+          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
+          {typeForm === 'create' && (
             <div className={styles.button}>
               <input type="button" value="SAVE" onClick={onSubmitCreate} />
             </div>
           )}
-          {props.typeForm === 'update' && (
+          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
+          {typeForm === 'update' && (
             <div className={styles.button}>
               <input type="button" value="UPDATE" onClick={onSubmitUpdate} />
             </div>

@@ -46,7 +46,7 @@ function Applications(props) {
       })
       .catch((err) => console.log(err));
   };
-  // console.log(applications);
+
   const tableHeader = ['Candidate', 'Open Position', 'Active Status', 'Action'];
 
   return (
