@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './candidates.module.css';
 import Form from './Form';
+import List from './List';
 
 function Candid() {
   const [candidates, setCandidates] = useState([]);
@@ -17,11 +18,8 @@ function Candid() {
     <section className={styles.container}>
       <h2>Candidates</h2>
       <div>
-        {candidates.map((candidates) => {
-          return <div key={candidates._id}>{candidates.firstName}</div>;
-        })}
         <Form />
-        <table></table>
+        <List />
       </div>
     </section>
   );

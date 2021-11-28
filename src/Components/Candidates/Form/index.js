@@ -25,11 +25,17 @@ const initialForm = {
 const Form = () => {
   // eslint-disable-next-line
   const [form, setForm] = useState(initialForm);
-  const handlerChange = () => {};
+  const handlerChange = (e) => {
+    e.preventDefault();
+  };
 
-  const handlerSubmit = () => {};
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+  };
 
-  const handlerReset = () => {};
+  const handlerReset = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div>

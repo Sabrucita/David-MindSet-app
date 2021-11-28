@@ -1,36 +1,25 @@
+import TableRow from '../TableRow';
 import styles from './list.module.css';
-// eslint-disable-next-line
-function List() {
-  return (
-    <div className={styles.list}>
-      <table>
-        <thead>
-          <tr>
-            <td>firstName</td>
-            <td>lastName</td>
-            <td>Name</td>
-            <td>email</td>
-            <td>phone</td>
-            <td>Edit</td>
-            <td>Delete</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <button className="editButton">Edit</button>
-            </td>
-            <td>
-              <button className="deleteButton">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
+
+const List = () => (
+  <div className={styles.list}>
+    <h3>Candidates</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>firstName</th>
+          <th>lastName</th>
+          <th>email</th>
+          <th>password</th>
+          <th>phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TableRow />
+      </tbody>
+    </table>
+  </div>
+);
+
+export default List;
