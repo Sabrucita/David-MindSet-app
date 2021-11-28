@@ -11,6 +11,7 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import { CompaniesForm } from '../Companies/Form';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -23,6 +24,12 @@ function Layout() {
       break;
     case '/companies':
       currentScreen = <Companies />;
+      break;
+    case '/companies/form':
+      currentScreen = <CompaniesForm />;
+      break;
+    case '/companies/form/new':
+      currentScreen = <CompaniesForm />;
       break;
     case '/interviews':
       currentScreen = <Interviews />;
