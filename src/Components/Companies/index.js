@@ -21,30 +21,29 @@ function Companies() {
       <div>
         {companies.map((company) => {
           return (
-            <div key={company._id}>
-              <p>{company.name}</p>
-              <p>{company.address}</p>
-              <p>{company.city}</p>
-              <p>{company.province}</p>
-              <p>{company.country}</p>
-              <p>{company.zipCode}</p>
-              <p>{company.phone}</p>
-              <p>{company.email}</p>
-              <p>{company.pictureUrl}</p>
-              <p>{company.contactFullName}</p>
-              <p>{company.contactPhone}</p>
-              <p>{company.isActive}</p>
+            <ul className={styles.ulCompanies} key={company._id}>
+              <li>{company.name}</li>
+              <li>{company.address}</li>
+              <li>{company.city}</li>
+              <li>{company.province}</li>
+              <li>{company.country}</li>
+              <li>{company.zipCode}</li>
+              <li>{company.phone}</li>
+              <li>{company.email}</li>
+              <li>{company.pictureUrl}</li>
+              <li>{company.contactFullName}</li>
+              <li>{company.contactPhone}</li>
+              <li>{company.isActive}</li>
               <button
                 type="button"
                 onClick={() => {
-                  console.log('hola');
                   window.location.href = `/companies/form?_id=${company._id}`;
                 }}
               >
                 EDIT
               </button>
               <button type="button">DELETE</button>
-            </div>
+            </ul>
           );
         })}
       </div>

@@ -16,40 +16,79 @@ export const CompaniesForm = () => {
   const [contactPhoneValue, setContactPhoneValue] = useState('');
   const [isActiveValue, setIsActiveValue] = useState(false);
 
+  let isCreating = false;
+  if (!window.location.search) {
+    isCreating = true;
+  }
+
+  console.log(isCreating);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!isCreating) {
+      const params = new URLSearchParams(window.location.search);
+      const clientId = params.get('_id');
 
-    const params = new URLSearchParams(window.location.search);
-    const clientId = params.get('_id');
-
-    fetch(`${process.env.REACT_APP_API}/companies/${clientId}`, {
-      method: 'PUT',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: fullNameValue,
-        address: addressValue,
-        city: cityValue,
-        province: provinceValue,
-        country: countryValue,
-        zipCode: parseInt(zipCodeValue),
-        phone: parseInt(phoneValue),
-        email: emailValue,
-        pictureUrl: pictureUrlValue,
-        contactFullName: contactFullNameValue,
-        contactPhone: parseInt(contactPhoneValue),
-        isActive: isActiveValue
+      //FUNCTION FOR UPDATING A COMPANY
+      fetch(`${process.env.REACT_APP_API}/companies/${clientId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: fullNameValue,
+          address: addressValue,
+          city: cityValue,
+          province: provinceValue,
+          country: countryValue,
+          zipCode: parseInt(zipCodeValue),
+          phone: parseInt(phoneValue),
+          email: emailValue,
+          pictureUrl: pictureUrlValue,
+          contactFullName: contactFullNameValue,
+          contactPhone: parseInt(contactPhoneValue),
+          isActive: isActiveValue
+        })
       })
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      //FUNCTION FOR CREATING A COMPANY
+      fetch(`${process.env.REACT_APP_API}/companies`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: fullNameValue,
+          address: addressValue,
+          city: cityValue,
+          province: provinceValue,
+          country: countryValue,
+          zipCode: parseInt(zipCodeValue),
+          phone: parseInt(phoneValue),
+          email: emailValue,
+          pictureUrl: pictureUrlValue,
+          contactFullName: contactFullNameValue,
+          contactPhone: parseInt(contactPhoneValue),
+          isActive: isActiveValue
+        })
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -65,7 +104,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setFullNameValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="address">Address</label>
@@ -77,7 +115,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setAddressValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="city">City</label>
@@ -89,7 +126,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setCityValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="province">Province</label>
@@ -101,7 +137,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setProvinceValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="country">Country</label>
@@ -113,7 +148,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setCountryValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="zipCode">Zip Code</label>
@@ -125,7 +159,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setzipCodeValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="phone">Phone</label>
@@ -137,7 +170,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setPhoneValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="email">Email</label>
@@ -149,7 +181,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setEmailValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="pictureUrl">Picture URL</label>
@@ -161,7 +192,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setPictureUrlValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="contactFullName">Contact Full Name</label>
@@ -173,7 +203,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setContactFullNameValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="contactPhone">Contact Phone</label>
@@ -185,7 +214,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setContactPhoneValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="isActive">Is Active</label>
@@ -198,7 +226,6 @@ export const CompaniesForm = () => {
           onChange={(e) => {
             setIsActiveValue(e.currentTarget.checked);
           }}
-          className={styles.input}
         />
         <button
           type="submit"
@@ -206,7 +233,7 @@ export const CompaniesForm = () => {
             window.location.href = '/companies';
           }}
         >
-          SAVE CHANGES
+          {!isCreating ? 'SAVE CHANGES' : 'CREATE'}
         </button>
       </form>
     </div>
