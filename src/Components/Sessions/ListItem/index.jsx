@@ -1,7 +1,11 @@
 import styles from './listitem.module.css';
 import { capitalize } from '../helpers';
 
-function ListItem({ session }) {
+function ListItem({ session, updateItem, deleteItem }) {
+  const deleteThis = () => {
+    deleteItem(session._id);
+  };
+
   return (
     <tr>
       <td>{`${capitalize(session.idCandidate.firstName)} ${capitalize(
@@ -15,7 +19,7 @@ function ListItem({ session }) {
         <button className="edit-btn">
           <span className="material-icons-outlined">edit</span>
         </button>
-        <button className="delete-btn">
+        <button className="delete-btn" onClick={deleteThis}>
           <span className="material-icons-outlined">clear</span>
         </button>
       </td>

@@ -14,6 +14,24 @@ function List() {
       });
   }, []);
 
+  const deleteItem = (id) => {
+    console.log('delete');
+    const sessionsUpdated = sessions.filter((session) => session._id !== id);
+    fetch(`${url}/sessions/${id}`, {
+      method: 'DELETE'
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        console.log('deleted', data);
+        //requestSuccessful(data, 'deleted');
+      })
+      .catch((err) => {
+        console.log('error', err);
+        //displayError(err);
+      });
+    setSessions(sessionsUpdated);
+  };
+
   return (
     <table className={styles.list}>
       <thead>
@@ -26,7 +44,7 @@ function List() {
       </thead>
       <tbody>
         {sessions.map((session) => {
-          return <ListItem key={session._id} session={session} />;
+          return <ListItem key={session._id} session={session} deleteItem={deleteItem} />;
         })}
       </tbody>
     </table>
