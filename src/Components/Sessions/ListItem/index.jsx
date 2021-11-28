@@ -1,0 +1,26 @@
+import styles from './listitem.module.css';
+import { capitalize } from '../helpers';
+
+function ListItem({ session }) {
+  return (
+    <tr>
+      <td>{`${capitalize(session.idCandidate.firstName)} ${capitalize(
+        session.idCandidate.lastName
+      )}`}</td>
+      <td>{`${capitalize(session.idPsychologists.firstName)} ${capitalize(
+        session.idPsychologists.lastName
+      )}`}</td>
+      <td>{`${session.date}`}</td>
+      <td className={styles.actionBtn}>
+        <button className="edit-btn">
+          <span className="material-icons-outlined">edit</span>
+        </button>
+        <button className="delete-btn">
+          <span className="material-icons-outlined">clear</span>
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+export default ListItem;
