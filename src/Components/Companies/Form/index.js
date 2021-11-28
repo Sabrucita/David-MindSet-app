@@ -1,8 +1,32 @@
 import React from 'react';
 import styles from './form.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const CompaniesForm = () => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('_id');
+    fetch(`${process.env.REACT_APP_API}/companies/${clientId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setFullNameValue(response.name);
+        setAddressValue(response.address);
+        setCityValue(response.city);
+        setProvinceValue(response.province);
+        setCountryValue(response.country);
+        setzipCodeValue(response.zipCode);
+        setPhoneValue(response.phone);
+        setEmailValue(response.email);
+        setPictureUrlValue(response.pictureUrl);
+        setContactFullNameValue(response.contactFullName);
+        setContactPhoneValue(response.contactPhone);
+        setIsActiveValue(response.isActive);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const [fullNameValue, setFullNameValue] = useState('');
   const [addressValue, setAddressValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -20,8 +44,6 @@ export const CompaniesForm = () => {
   if (!window.location.search) {
     isCreating = true;
   }
-
-  console.log(isCreating);
 
   const onSubmit = (e) => {
     e.preventDefault();
