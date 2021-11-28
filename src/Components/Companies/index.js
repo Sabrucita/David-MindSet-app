@@ -7,7 +7,6 @@ function Companies() {
     fetch(`${process.env.REACT_APP_API}/companies`)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setCompanies(response);
       })
       .catch((err) => {
@@ -21,7 +20,13 @@ function Companies() {
       <div>
         {companies.map((company) => {
           return (
-            <ul className={styles.ulCompanies} key={company._id}>
+            <ul
+              onDoubleClick={() => {
+                window.location.href = `/companies/listitem?_id=${company._id}`;
+              }}
+              className={styles.ulCompanies}
+              key={company._id}
+            >
               <li>{company.name}</li>
               <li>{company.address}</li>
               <li>{company.city}</li>

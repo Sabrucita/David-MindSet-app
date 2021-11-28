@@ -12,6 +12,7 @@ import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import { CompaniesForm } from '../Companies/Form';
+import ListItem from '../Companies/ListItem';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -30,6 +31,9 @@ function Layout() {
       break;
     case '/companies/form/new':
       currentScreen = <CompaniesForm />;
+      break;
+    case '/companies/listitem':
+      currentScreen = <ListItem />;
       break;
     case '/interviews':
       currentScreen = <Interviews />;
