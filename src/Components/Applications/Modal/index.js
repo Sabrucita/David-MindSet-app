@@ -5,20 +5,22 @@ function Modal(props) {
     return null;
   }
   let dataContent = [];
-  if (props.type === 'delete') {
-    dataContent[0] = `name: ${props.content.name}`;
-    dataContent[1] = `position: ${props.content.position}`;
-    dataContent[2] = `status: ${props.content.status}`;
-  } else if (props.type === 'dataCreateUpdate') {
-    dataContent[0] = `idCandidate: ${props.content.idCandidate}`;
-    dataContent[1] = `idOpenPosition: ${props.content.idOpenPosition}`;
+  let i = 0;
+  for (const property in props.content) {
+    dataContent[i] = `${property} : ${props.content[property]} `;
+    i++;
   }
+  let title;
+  if (props.type === 'delete') title = '¿Are you sure that you want to delete this data?';
+  else if (props.type === 'dataCreate') title = 'Data Created';
+  else if (props.type === 'dataUpdate') title = 'Data Updated';
+  else if (props.type === 'viewMore') title = 'Data Selected';
 
   return (
     <div className={styles.modal}>
       <div className={styles.centerModal}>
         <div className={styles.modalMessage}>
-          <h2>{props.title}</h2>
+          <h2>{title}</h2>
           <ul>
             {dataContent.map((element) => {
               // eslint-disable-next-line react/jsx-key
@@ -36,7 +38,9 @@ function Modal(props) {
                 CANCEL
               </button>
             )}
-            {props.type === 'dataCreateUpdate' && (
+            {(props.type === 'dataCreate' ||
+              props.type === 'dataUpdate' ||
+              props.type === 'viewMore') && (
               <button className={styles.modalOkConfirm} onClick={props.closeModal}>
                 OK
               </button>
@@ -49,13 +53,3 @@ function Modal(props) {
 }
 
 export default Modal;
-{
-  /* { for (const property in props.content) {
-    return (
-      <li>
-      `${property}: ${props.content[property]}`
-      </li>
-    );
-  }
-}*/
-}

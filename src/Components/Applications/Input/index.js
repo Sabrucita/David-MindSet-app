@@ -1,12 +1,14 @@
 function Input(props) {
   let optionData = [];
   let preloadValue;
-  // console.log(props.applicationToUpdate);
+
+  //load the select options list
   if (props.type === 'position') {
     optionData = props.data.map((position) => {
       return `${position._id} / ${position.idCompany} / ${position.jobDescription}`;
     });
     if (props.applicationToUpdate) {
+      //if update, preload the select option
       let positionFound = props.data.find(
         (position) => position._id === props.applicationToUpdate.idOpenPosition._id
       );

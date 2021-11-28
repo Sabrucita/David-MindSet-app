@@ -26,6 +26,7 @@ function List(props) {
                 acceptModal={props.acceptModal}
                 getIdSelected={props.getIdSelected}
                 selectTypeForm={props.selectTypeForm}
+                dataApp={app}
               />
             );
           })}

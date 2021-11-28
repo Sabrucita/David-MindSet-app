@@ -7,6 +7,7 @@ function Applications(props) {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
+  const [typeModal, setTypeModal] = useState();
   console.log(applications);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/applications`)
@@ -29,8 +30,9 @@ function Applications(props) {
     setShowModal(false);
     // console.log(showModal);
   };
-  const openModal = (item) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
+    setTypeModal(type);
     setShowModal(true);
   };
   //MODAL CONFIRM DELETE
@@ -58,9 +60,8 @@ function Applications(props) {
           show={showModal}
           closeModal={closeModal}
           acceptModal={acceptModal}
-          title="¿Are you sure that you want to delete this data?"
           content={selectedItem}
-          type="delete"
+          type={typeModal}
         />
         <h1>Applications</h1>
         <List

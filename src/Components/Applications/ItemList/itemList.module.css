@@ -1,0 +1,6 @@
+/* add by euge */
+.keypad{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}

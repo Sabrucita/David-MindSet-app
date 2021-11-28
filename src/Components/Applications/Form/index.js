@@ -15,10 +15,7 @@ function Form(props) {
   const [showModal, setShowModal] = useState(false);
   const [applicationCreatedUpdated, setApplicationCreatedUpdated] = useState();
   const [applicationToUpdate, setApplicationToUpdate] = useState();
-  const [modalTitle, setModalTitle] = useState();
-
-  let idPosition = '';
-  let idCandidate = '';
+  const [typeModal, setTypeModal] = useState();
 
   //GET ALL EXISTING POSITIONS AND CANDIDATES IN ORDER TO INCLUDES ON THE SELECT OPTIONS
   useEffect(() => {
@@ -38,6 +35,9 @@ function Form(props) {
   }, []);
 
   //GET THE OPENPOSITION ID SELECTED
+  let idPosition;
+  let idCandidate;
+
   const onChangeOpenPosition = (event) => {
     idPosition = event.target.value.split(' / ', 1);
     idPosition = idPosition[0];
@@ -73,7 +73,7 @@ function Form(props) {
       .then((response) => response.json())
       .then((response) => {
         setApplicationCreatedUpdated(response.application);
-        setModalTitle('Application Added');
+        setTypeModal('dataCreate');
         openModal();
         if (response.msg) throw new Error(response.msg);
       })
@@ -113,7 +113,7 @@ function Form(props) {
       .then((response) => response.json())
       .then((response) => {
         setApplicationCreatedUpdated(response.application);
-        setModalTitle('Application Updated');
+        setTypeModal('dataUpdate');
         openModal();
         if (response.msg) throw new Error(response.msg);
       })
@@ -134,9 +134,8 @@ function Form(props) {
         <Modal
           show={showModal}
           closeModal={closeModal}
-          title={modalTitle}
           content={applicationCreatedUpdated}
-          type="dataCreateUpdate"
+          type={typeModal}
         />
         {props.typeForm === 'create' && <h1>Add application</h1>}
         {props.typeForm === 'update' && <h1>Update application</h1>}
