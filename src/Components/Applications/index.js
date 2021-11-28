@@ -47,12 +47,12 @@ function Applications(props) {
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        // setApplications(
-        //   applications.filter((app) => {
-        //     app._id !== selectedItem.id;
-        //   })
-        // );
-        refreshDelete();
+        setApplications(
+          applications.filter((app) => {
+            app._id !== selectedItem.id;
+          })
+        );
+        // refreshDelete();
       })
       .catch((err) => console.log(err));
   };

@@ -37,10 +37,7 @@ function Input(props) {
         )}
         {props.typeForm === 'update' && <option selected>{preloadValue}</option>}
         {optionData.map((data) => {
-          return (
-            // eslint-disable-next-line react/jsx-key
-            <option key={data._id}>{data}</option>
-          );
+          return <option key={data._id}>{data}</option>;
         })}
       </select>
     </li>
