@@ -42,7 +42,28 @@ function Companies() {
               >
                 EDIT
               </button>
-              <button type="button">DELETE</button>
+              <button
+                //FUNCTION FOR DELETING A COMPANY
+                type="button"
+                onClick={() => {
+                  fetch(`${process.env.REACT_APP_API}/companies/${company._id}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-type': 'application/json; charset=UTF-8'
+                    }
+                  })
+                    .then((response) => {
+                      if (response.status == 204) {
+                        setCompanies(
+                          companies.filter((deleteCompany) => deleteCompany._id !== company._id)
+                        );
+                      }
+                    })
+                    .catch((error) => console.log(error));
+                }}
+              >
+                DELETE
+              </button>
             </ul>
           );
         })}
