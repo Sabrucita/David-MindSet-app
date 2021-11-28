@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Options from '../Options';
 import { capitalize } from '../helpers';
 
@@ -6,6 +6,7 @@ import { capitalize } from '../helpers';
 
 function Fieldset({
   operation,
+  currentId,
   element,
   resource,
   name,
@@ -14,13 +15,20 @@ function Fieldset({
   required,
   updateData
 }) {
-  const [inputValue, setInput] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   const changeInputValue = (e) => {
     const value = e.target.value;
-    setInput(value);
+    setInputValue(value);
     updateData(resourceName, value);
   };
+
+  useEffect(() => {
+    if (operation === 'update' && !inputValue) {
+      setInputValue(currentId);
+      updateData(resourceName, currentId);
+    }
+  });
 
   let field;
   switch (element) {
@@ -43,6 +51,7 @@ function Fieldset({
           type={type}
           name={name}
           id={name}
+          value={inputValue}
           required={required}
           onChange={changeInputValue}
         ></input>

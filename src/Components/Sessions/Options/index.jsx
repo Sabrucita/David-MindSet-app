@@ -36,7 +36,7 @@ function Options({ name, resource, operation }) {
           Select a {name}
         </option>
       ) : (
-        ''
+        <option value="" disabled hidden></option>
       )}
       {options.map((option) => {
         return (

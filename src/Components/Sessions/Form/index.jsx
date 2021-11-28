@@ -1,33 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Fieldset from '../Fieldset';
 import styles from './form.module.css';
 const url = process.env.REACT_APP_API;
 
-function Form({ operation }) {
-  operation = 'create';
-
+function Form({ operation, id }) {
   const [formData, setFormData] = useState({});
+  const [currentCandidate, setCurrentCandidate] = useState('');
+  const [currentPsychologist, setCurrentPsychologist] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    if (operation === 'update') {
+      fetch(`${url}/sessions/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setCurrentCandidate(data.data.idCandidate._id);
+          setCurrentPsychologist(data.data.idPsychologists._id);
+          setCurrentDate(data.data.date);
+        });
+    }
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log('submit');
-    console.log(formData);
-    fetch(`${url}/sessions`, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        console.log('successful', data);
-        //requestSuccessful(data, 'created');
+    if (operation === 'create') {
+      fetch(`${url}/sessions`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
-      .catch((err) => {
-        console.log('error', err);
-        //displayError(err);
-      });
+        .then(async (res) => {
+          const data = await res.json();
+          console.log('successful', data);
+          //requestSuccessful(data, 'created');
+        })
+        .catch((err) => {
+          console.log('error', err);
+          //displayError(err);
+        });
+    } else {
+      fetch(`${url}/sessions/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          console.log('successful', data);
+          //requestSuccessful(data, 'created');
+        })
+        .catch((err) => {
+          console.log('error', err);
+          //displayError(err);
+        });
+    }
   };
 
   const updateForm = (field, value) => {
@@ -42,6 +72,7 @@ function Form({ operation }) {
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           operation={operation}
+          currentId={currentCandidate}
           element="select"
           resource="candidates"
           name="candidate"
@@ -51,6 +82,7 @@ function Form({ operation }) {
         />
         <Fieldset
           operation={operation}
+          currentId={currentPsychologist}
           element="select"
           resource="psychologists"
           name="psychologist"
@@ -60,6 +92,7 @@ function Form({ operation }) {
         />
         <Fieldset
           operation={operation}
+          currentId={currentDate.substr(0, 16)}
           element="input"
           name="date"
           resourceName="date"

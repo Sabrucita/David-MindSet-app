@@ -2,13 +2,19 @@ import List from './List';
 import styles from './sessions.module.css';
 
 function Sessions() {
+  const addSession = () => {
+    localStorage.setItem('operation', 'create');
+    localStorage.setItem('id', '');
+    window.location.pathname = './sessions/form';
+  };
+
   return (
     <section className={styles.container}>
       <h2>Sessions</h2>
       <List />
-      <a className={styles.createBtn} href="./sessions/form">
+      <button className={styles.createBtn} onClick={addSession}>
         ADD SESSION
-      </a>
+      </button>
     </section>
   );
 }

@@ -6,6 +6,10 @@ function ListItem({ session, updateItem, deleteItem }) {
     deleteItem(session._id);
   };
 
+  const updateThis = () => {
+    updateItem(session._id);
+  };
+
   return (
     <tr>
       <td>{`${capitalize(session.idCandidate.firstName)} ${capitalize(
@@ -16,7 +20,7 @@ function ListItem({ session, updateItem, deleteItem }) {
       )}`}</td>
       <td>{`${session.date}`}</td>
       <td className={styles.actionBtn}>
-        <button className="edit-btn">
+        <button className="edit-btn" onClick={updateThis}>
           <span className="material-icons-outlined">edit</span>
         </button>
         <button className="delete-btn" onClick={deleteThis}>

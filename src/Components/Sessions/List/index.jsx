@@ -14,6 +14,13 @@ function List() {
       });
   }, []);
 
+  const updateItem = (id) => {
+    console.log('update', id);
+    localStorage.setItem('operation', 'update');
+    localStorage.setItem('id', id);
+    window.location.pathname = './sessions/form';
+  };
+
   const deleteItem = (id) => {
     console.log('delete');
     const sessionsUpdated = sessions.filter((session) => session._id !== id);
@@ -44,7 +51,14 @@ function List() {
       </thead>
       <tbody>
         {sessions.map((session) => {
-          return <ListItem key={session._id} session={session} deleteItem={deleteItem} />;
+          return (
+            <ListItem
+              key={session._id}
+              session={session}
+              updateItem={updateItem}
+              deleteItem={deleteItem}
+            />
+          );
         })}
       </tbody>
     </table>
