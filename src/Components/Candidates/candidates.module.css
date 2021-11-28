@@ -1,6 +1,44 @@
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.resourceTable {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  margin: 1px auto;
+  padding: 20px;
+  border:1px solid #091f40;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #091f40;
+}
+.table {
+  border-collapse: collapse;
+  text-align: center;
+}
+.th {
+  width: 20px;
+  padding: 20px;
+  margin: auto;
+  padding: 10px;
+  font-size: 20px;
+}
+.td {
+  width: 20px;
+  padding: 20px;
+  margin: auto;
+  padding: 10px;
+  font-size: 20px;
+  border-right:1px solid #091f40;
+}
+button{
+  background-color: #4f6175;
+  color: #fff;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
 }
