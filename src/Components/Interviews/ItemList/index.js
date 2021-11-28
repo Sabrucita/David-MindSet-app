@@ -3,7 +3,7 @@ import styles from './itemList.module.css';
 function ItemList(props) {
   let id = props.data._id;
   let statusD = props.data.status;
-  let date = props.data.date;
+  let dateLong = new Date(props.data.date);
   let idCandidate = props.data.idCandidate._id;
   let firstName = props.data.idCandidate.firstName;
   let lastName = props.data.idCandidate.lastName;
@@ -12,6 +12,9 @@ function ItemList(props) {
 
   let status = statusD === true ? 'Active' : 'Close';
   let names = `${firstName} ${lastName}`;
+  let dateShort = `${dateLong.getDate() + 1} / ${
+    dateLong.getMonth() + 1
+  } / ${dateLong.getFullYear()}`;
 
   //to show in modal type delete
   const dataDelete = {
@@ -19,7 +22,7 @@ function ItemList(props) {
     nameCandidate: names,
     nameCompany: nameCompany,
     status: status,
-    date: date
+    date: dateShort
   };
   //to show in modal type view more
   const dataViewMore = {
@@ -29,14 +32,14 @@ function ItemList(props) {
     idCompany: idCompany,
     nameCompany: nameCompany,
     status: status,
-    date: date
+    date: dateShort
   };
 
   //to show in the table list
   const dataTable = {
     company: nameCompany,
     candidate: names,
-    date: date,
+    date: dateShort,
     status: status
   };
 
