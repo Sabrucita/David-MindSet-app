@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './candidates.module.css';
+import Form from './Form';
 
 function Candid() {
   const [candidates, setCandidates] = useState([]);
@@ -19,6 +20,8 @@ function Candid() {
         {candidates.map((candidates) => {
           return <div key={candidates._id}>{candidates.firstName}</div>;
         })}
+        <Form />
+        <table></table>
       </div>
     </section>
   );
