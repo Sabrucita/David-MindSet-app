@@ -36,14 +36,13 @@ function Form(props) {
 
   //GET THE OPENPOSITION ID SELECTED
   let idPosition;
-  let idCandidate;
-
   const onChangeOpenPosition = (event) => {
     idPosition = event.target.value.split(' / ', 1);
     idPosition = idPosition[0];
     setOpenPositionValue(idPosition);
   };
   //GET THE CANDIDATE ID SELECTED
+  let idCandidate;
   const onChangeCandidate = (event) => {
     idCandidate = event.target.value.split(' / ', 1);
     idCandidate = idCandidate[0];
@@ -81,6 +80,7 @@ function Form(props) {
   }
 
   //PRELOAD THE APP INFO INTO THE INPUTS
+  // GET THE INFO OF THE CHOOSEN APP
   if (props.typeForm === 'update') {
     useEffect(() => {
       fetch(`${process.env.REACT_APP_API}/applications/${props.idToUpdate}`)

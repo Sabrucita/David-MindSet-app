@@ -12,26 +12,41 @@ function ItemList(props) {
   let status = isActive === true ? 'Active' : 'Close';
   let names = `${firstName} ${lastName}`;
 
+  //to show in modal type delete
   const dataDelete = {
     id: id,
     name: names,
     position: jobDescription,
     status: status
   };
+  //to show in modal type view more
   const dataViewMore = {
     id: props.id,
     idCandidate: idCandidate,
-    name: props.name,
+    name: names,
     idOpenPosition: idOpenPosition,
     jobDescription: jobDescription,
     status: status
   };
 
+  //to show in the table list
+  const dataTable = {
+    name: names,
+    position: jobDescription,
+    status: status
+  };
+
+  const getDataContent = (data) => {
+    let content = [];
+    for (let property in data) {
+      content.push(<td>{data[property]}</td>);
+    }
+    return content;
+  };
+
   return (
     <tr id={id}>
-      <td>{names}</td>
-      <td>{jobDescription}</td>
-      <td>{status}</td>
+      {getDataContent(dataTable)}
       <td className={styles.keypad}>
         <button onClick={() => props.openModal(dataDelete, 'delete')}>
           <span>DELETE</span>

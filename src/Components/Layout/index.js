@@ -36,7 +36,7 @@ function Layout() {
       break;
     case '/applications/form':
       //the form doesnt receive the typeForm  or idToUpdate as state. I had to hardcoded!
-      currentScreen = <ApplicationsForm typeForm="update" idToUpdate="61a277810a9cbe68349006a8" />;
+      currentScreen = <ApplicationsForm typeForm="create" idToUpdate="61a277810a9cbe68349006a8" />;
       break;
     case '/companies':
       currentScreen = <Companies />;

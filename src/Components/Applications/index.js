@@ -8,7 +8,8 @@ function Applications(props) {
   const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
-  console.log(applications);
+
+  //Get app info from DB
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
@@ -16,7 +17,8 @@ function Applications(props) {
         setApplications(response.applications);
       });
   }, []);
-  //Refresh when delete
+
+  // Refresh when delete  it works but i have doubts if this is the correct way!
   const refreshDelete = () => {
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
@@ -28,7 +30,6 @@ function Applications(props) {
   //MODAL
   const closeModal = () => {
     setShowModal(false);
-    // console.log(showModal);
   };
   const openModal = (item, type) => {
     setSelectedItem(item);

@@ -39,7 +39,7 @@ function Input(props) {
         {optionData.map((data) => {
           return (
             // eslint-disable-next-line react/jsx-key
-            <option>{data}</option>
+            <option key={data._id}>{data}</option>
           );
         })}
       </select>

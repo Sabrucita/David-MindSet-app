@@ -16,9 +16,8 @@ function List(props) {
         <tbody>
           {props.data.map((app) => {
             return (
-              // eslint-disable-next-line react/jsx-key
               <ItemList
-                id={app._id}
+                key={app._id}
                 name={`${app.idCandidate.firstName} ${app.idCandidate.lastName}`}
                 position={app.idOpenPosition.jobDescription}
                 status={app.isActive}
