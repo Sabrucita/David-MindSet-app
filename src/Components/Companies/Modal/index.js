@@ -49,5 +49,23 @@ export const Modal = (props) => {
         </div>
       </div>
     );
+  } else if (props.action == 'update') {
+    const onUpdModal = () => {
+      window.location.href = '/companies';
+    };
+    return (
+      <div className={styles.modal}>
+        <div className={styles.centerModal}>
+          <div className={styles.modalMessage}>
+            <h3 className={styles.modalMessage}>Your company has been updated succesfully</h3>
+          </div>
+          <div className={styles.buttonModal}>
+            <button className={styles.modalCancel} onClick={onUpdModal}>
+              RETURN TO HOMEPAGE
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 };
