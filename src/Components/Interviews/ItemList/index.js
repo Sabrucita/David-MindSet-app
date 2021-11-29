@@ -12,6 +12,7 @@ function ItemList(props) {
   let id = props.data._id;
   let statusD = props.data.status;
   let dateLong = new Date(props.data.date);
+
   dateLong.setDate(dateLong.getDate() + 1);
   if (props.data.idCandidate) {
     idCandidate = props.data.idCandidate._id;
@@ -29,6 +30,7 @@ function ItemList(props) {
     nameCompany = 'This company was deleted';
     missingData = true;
   }
+
   let status = statusD === true ? 'Active' : 'Close';
   let dateShort = `${dateLong.getDate()} / ${dateLong.getMonth() + 1} / ${dateLong.getFullYear()}`;
 
@@ -75,13 +77,8 @@ function ItemList(props) {
           <span>DELETE</span>
         </button>
         {!missingData && (
-          <a href="/interviews/form">
-            <button
-              onClick={() => {
-                props.getIdSelected(id);
-                props.selectTypeForm('update');
-              }}
-            >
+          <a href={`/interviews/form?${id}`}>
+            <button>
               <span>EDIT</span>
             </button>
           </a>

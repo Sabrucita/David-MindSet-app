@@ -4,12 +4,14 @@ function Modal(props) {
   if (!props.show) {
     return null;
   }
+
   let dataContent = [];
   let i = 0;
   for (const property in props.content) {
     dataContent[i] = `${property} : ${props.content[property]} `;
     i++;
   }
+
   let title;
   if (props.type === 'delete') title = '¿Are you sure that you want to delete this data?';
   else if (props.type === 'dataCreate') title = 'Data Created';

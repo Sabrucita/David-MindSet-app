@@ -12,18 +12,8 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
-import { useState } from 'react';
 
 function Layout() {
-  const [typeForm, setTypeForm] = useState('');
-  const [idToUpdate, setIdToUpdate] = useState();
-  const selectTypeForm = (type) => {
-    setTypeForm(type);
-  };
-  const getIdSelected = (id) => {
-    setIdToUpdate(id);
-  };
-
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
@@ -36,9 +26,7 @@ function Layout() {
       currentScreen = <Companies />;
       break;
     case '/interviews':
-      localStorage.setItem('typeForm', typeForm);
-      localStorage.setItem('idToUpdate', idToUpdate);
-      currentScreen = <Interviews selectTypeForm={selectTypeForm} getIdSelected={getIdSelected} />;
+      currentScreen = <Interviews />;
       break;
     case '/interviews/form':
       currentScreen = <InterviewsForm />;

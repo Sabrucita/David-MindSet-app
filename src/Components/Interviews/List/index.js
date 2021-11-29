@@ -19,8 +19,6 @@ function List(props) {
                 key={element._id}
                 openModal={props.openModal}
                 acceptModal={props.acceptModal}
-                getIdSelected={props.getIdSelected}
-                selectTypeForm={props.selectTypeForm}
                 data={element}
               />
             );

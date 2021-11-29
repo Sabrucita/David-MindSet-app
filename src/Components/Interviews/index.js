@@ -66,8 +66,6 @@ function Interviews(props) {
           header={tableHeader}
           openModal={openModal}
           acceptModal={acceptModal}
-          getIdSelected={props.getIdSelected}
-          selectTypeForm={props.selectTypeForm}
         />
         <a
           href="/interviews/form"

@@ -5,8 +5,14 @@ import Modal from '../Modal';
 import styles from './form.module.css';
 
 function Form() {
-  let typeForm = localStorage.getItem('typeForm');
-  let idToUpdate = localStorage.getItem('idToUpdate');
+  let typeForm;
+  let idToUpdate;
+  if (!window.location.search) {
+    typeForm = 'create';
+  } else {
+    typeForm = 'update';
+    idToUpdate = window.location.search.slice(1);
+  }
 
   const [candidates, setCandidates] = useState([]);
   const [companies, setCompanies] = useState([]);
@@ -28,6 +34,7 @@ function Form() {
         setCandidates(response.candidates);
       });
   }, []);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/companies`)
       .then((response) => response.json())
@@ -43,6 +50,7 @@ function Form() {
     idCompany = idCompany[0];
     setCompanyValue(idCompany);
   };
+
   //GET THE CANDIDATE ID SELECTED
   let idCandidate;
   const onChangeCandidate = (event) => {
@@ -50,6 +58,7 @@ function Form() {
     idCandidate = idCandidate[0];
     setCandidateValue(idCandidate);
   };
+
   //GET THE STATUS SELECTED
   let statusSelected;
   const onChangeStatus = (event) => {
@@ -57,6 +66,7 @@ function Form() {
     else statusSelected = false;
     setStatusValue(statusSelected);
   };
+
   //GET THE DATE ID SELECTED
   const onChangeDate = (event) => {
     setDateValue(event.target.value);
@@ -65,7 +75,7 @@ function Form() {
   //CREATE CANDIDATE
   function onSubmitCreate(event) {
     event.preventDefault();
-    if (!candidateValue || !companyValue || !dateValue || !statusValue) {
+    if (!candidateValue || !companyValue || !dateValue || statusValue === undefined) {
       setTypeModal('dataRequired');
       seTTextDescription('Please complete the missing data');
       return openModal();
@@ -97,10 +107,8 @@ function Form() {
 
   //PRELOAD THE APP INFO INTO THE INPUTS
   // GET THE INFO OF THE CHOOSEN APP
-  //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
   if (typeForm === 'update') {
     useEffect(() => {
-      //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
       fetch(`${process.env.REACT_APP_API}/interviews/${idToUpdate}`)
         .then((response) => response.json())
         .then((response) => {
@@ -120,7 +128,6 @@ function Form() {
       date: dateValue ? dateValue : interviewToUpdate.date,
       isActive: true
     };
-    //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
     fetch(`${process.env.REACT_APP_API}/interviews/${idToUpdate}`, {
       method: 'PUT',
       mode: 'cors',
@@ -131,7 +138,11 @@ function Form() {
     })
       .then((response) => response.json())
       .then((response) => {
-        setInterviewCreatedUpdated(response.data);
+        // necessary adaptations in order to show correctly on the modal
+        let data = response.data;
+        data.idCandidate = data.idCandidate._id;
+        data.idCompany = data.idCompany._id;
+        setInterviewCreatedUpdated(data);
         setTypeModal('dataUpdate');
         openModal();
         if (response.msg) throw new Error(response.msg);
@@ -143,6 +154,7 @@ function Form() {
   const closeModal = () => {
     setShowModal(false);
   };
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -157,7 +169,6 @@ function Form() {
           type={typeModal}
           textDescription={textDescription}
         />
-        {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
         {typeForm === 'create' && <h1>Add Interview</h1>}
         {typeForm === 'update' && <h1>Update Interview</h1>}
         <form className={styles.formSubscription}>
@@ -175,7 +186,6 @@ function Form() {
                   typeForm={typeForm}
                   interviewToUpdate={interviewToUpdate}
                 />
-                {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
                 <Input
                   key="status"
                   htmlFor="status"
@@ -210,13 +220,11 @@ function Form() {
               </ul>
             </div>
           </div>
-          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
           {typeForm === 'create' && (
             <div className={styles.button}>
               <input type="button" value="SAVE" onClick={onSubmitCreate} />
             </div>
           )}
-          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
           {typeForm === 'update' && (
             <div className={styles.button}>
               <input type="button" value="UPDATE" onClick={onSubmitUpdate} />
