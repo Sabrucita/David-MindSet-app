@@ -3,14 +3,29 @@ import styles from './itemList.module.css';
 function ItemList(props) {
   let id = props.data._id;
   let isActive = props.data.isActive;
-  let idCandidate = props.data.idCandidate.firstName;
-  let firstName = props.data.idCandidate.firstName;
-  let lastName = props.data.idCandidate.lastName;
-  let idOpenPosition = props.data.idOpenPosition._id;
-  let jobDescription = props.data.idOpenPosition.jobDescription;
+  let idCandidate;
+  let names;
+  let firstName;
+  let lastName;
+  let idOpenPosition;
+  let jobDescription;
+
+  if (props.data.idCandidate) {
+    idCandidate = props.data.idCandidate._id;
+    firstName = props.data.idCandidate.firstName;
+    lastName = props.data.idCandidate.lastName;
+    names = `${firstName} ${lastName}`;
+  } else {
+    names = 'This candidate was deleted';
+  }
+  if (props.data.idOpenPosition) {
+    idOpenPosition = props.data.idOpenPosition._id;
+    jobDescription = props.data.idOpenPosition.jobDescription;
+  } else {
+    jobDescription = 'This position was deleted';
+  }
 
   let status = isActive === true ? 'Active' : 'Close';
-  let names = `${firstName} ${lastName}`;
 
   //to show in modal type delete
   const dataDelete = {

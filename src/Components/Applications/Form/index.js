@@ -48,9 +48,12 @@ function Form() {
     idCandidate = idCandidate[0];
     setCandidateValue(idCandidate);
   };
-  //GET THE STATUS ID SELECTED
+  //GET THE STATUS SELECTED
+  let statusSelected;
   const onChangeStatus = (event) => {
-    setStatusValue(event.target.checked);
+    if (event.target.value === 'True') statusSelected = true;
+    else statusSelected = false;
+    setStatusValue(statusSelected);
   };
 
   //CREATE CANDIDATE
@@ -102,7 +105,7 @@ function Form() {
       idOpenPosition: openPositionValue
         ? openPositionValue
         : applicationToUpdate.idOpenPosition._id,
-      isActive: statusValue
+      isActive: statusValue !== null ? statusValue : applicationToUpdate.isActive
     };
     //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
     fetch(`${process.env.REACT_APP_API}/applications/${idToUpdate}`, {
@@ -148,6 +151,7 @@ function Form() {
             <div className={styles.containerForm}>
               <ul className={styles.column}>
                 <Input
+                  key="openPosition"
                   htmlFor="openPosition"
                   labelTitle="Open Position"
                   nameSelect="openPosition"
@@ -159,19 +163,21 @@ function Form() {
                 />
                 {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
                 {typeForm === 'update' && (
-                  <li className={styles.modalHide}>
-                    <label htmlFor="is-active">Active status</label>
-                    <input
-                      type="checkbox"
-                      // checked={applicationToUpdate.isActive && 'checked'}
-                      name="date"
-                      onChange={onChangeStatus}
-                    />
-                  </li>
+                  <Input
+                    key="status"
+                    htmlFor="status"
+                    labelTitle="Status"
+                    nameSelect="status"
+                    onchangeSelect={onChangeStatus}
+                    type="status"
+                    typeForm={typeForm}
+                    applicationToUpdate={applicationToUpdate}
+                  />
                 )}
               </ul>
               <ul className={styles.column}>
                 <Input
+                  key="candidate"
                   htmlFor="candidate"
                   labelTitle="Candidate"
                   nameSelect="candidate"

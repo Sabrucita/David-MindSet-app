@@ -18,11 +18,19 @@ function Input(props) {
     optionData = props.data.map((candidate) => {
       return `${candidate._id} / ${candidate.firstName}  ${candidate.lastName}`;
     });
+    console.log(props.applicationToUpdate);
     if (props.applicationToUpdate) {
       let candidateFound = props.data.find(
         (candidate) => candidate._id === props.applicationToUpdate.idCandidate._id
       );
       preloadValue = `${candidateFound._id} / ${candidateFound.firstName} / ${candidateFound.lastName}`;
+    }
+  } else if (props.type === 'status') {
+    optionData[0] = 'True';
+    optionData[1] = 'False';
+    if (props.applicationToUpdate) {
+      preloadValue = props.applicationToUpdate.isActive ? 'True' : 'False';
+      optionData = optionData.filter((element) => element !== preloadValue);
     }
   }
 

@@ -47,7 +47,7 @@ function Applications(props) {
       .catch((err) => console.log(err));
   };
 
-  const tableHeader = ['Candidate', 'Open Position', 'Active Status', 'Action'];
+  const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
 
   return (
     <div className={styles.container}>
