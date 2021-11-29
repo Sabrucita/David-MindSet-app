@@ -76,6 +76,7 @@ export const CompaniesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
+          window.location.href = '/companies';
         })
         .catch((err) => {
           console.log(err);
@@ -106,6 +107,7 @@ export const CompaniesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
+          window.location.href = '/companies';
         })
         .catch((err) => {
           console.log(err);
@@ -249,14 +251,7 @@ export const CompaniesForm = () => {
             setIsActiveValue(e.currentTarget.checked);
           }}
         />
-        <button
-          type="submit"
-          onClick={() => {
-            window.location.href = '/companies';
-          }}
-        >
-          {!isCreating ? 'SAVE CHANGES' : 'CREATE'}
-        </button>
+        <button type="submit">{!isCreating ? 'SAVE CHANGES' : 'CREATE'}</button>
       </form>
     </div>
   );
