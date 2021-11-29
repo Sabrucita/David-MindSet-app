@@ -23,8 +23,7 @@ function Modal(props) {
           <h2>{title}</h2>
           <ul>
             {dataContent.map((element) => {
-              // eslint-disable-next-line react/jsx-key
-              return <li>{element}</li>;
+              return <li key={element}>{element}</li>;
             })}
           </ul>
           <div className={styles.buttonModal}>

@@ -1,17 +1,32 @@
 import styles from './itemList.module.css';
 
 function ItemList(props) {
+  let idCandidate;
+  let names;
+  let firstName;
+  let lastName;
+  let idCompany;
+  let nameCompany;
+
   let id = props.data._id;
   let statusD = props.data.status;
   let dateLong = new Date(props.data.date);
-  let idCandidate = props.data.idCandidate._id;
-  let firstName = props.data.idCandidate.firstName;
-  let lastName = props.data.idCandidate.lastName;
-  let idCompany = props.data.idCompany._id;
-  let nameCompany = props.data.idCompany.name;
+  if (props.data.idCandidate) {
+    idCandidate = props.data.idCandidate._id;
+    firstName = props.data.idCandidate.firstName;
+    lastName = props.data.idCandidate.lastName;
+    names = `${firstName} ${lastName}`;
+  } else {
+    names = 'This candidate was deleted';
+  }
+  if (props.data.idCompany) {
+    idCompany = props.data.idCompany._id;
+    nameCompany = props.data.idCompany.name;
+  } else {
+    nameCompany = 'This company was deleted';
+  }
 
   let status = statusD === true ? 'Active' : 'Close';
-  let names = `${firstName} ${lastName}`;
   let dateShort = `${dateLong.getDate() + 1} / ${
     dateLong.getMonth() + 1
   } / ${dateLong.getFullYear()}`;
@@ -46,7 +61,7 @@ function ItemList(props) {
   const getDataContent = (data) => {
     let content = [];
     for (let property in data) {
-      content.push(<td>{data[property]}</td>);
+      content.push(<td key={property}>{data[property]}</td>);
     }
     return content;
   };
@@ -58,7 +73,7 @@ function ItemList(props) {
         <button onClick={() => props.openModal(dataDelete, 'delete')}>
           <span>DELETE</span>
         </button>
-        <a href="/applications/form">
+        <a href="/interviews/form">
           <button
             onClick={() => {
               props.getIdSelected(id);

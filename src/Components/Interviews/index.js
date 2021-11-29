@@ -17,7 +17,7 @@ function Interviews(props) {
         setInterviews(response.data);
       });
   }, []);
-  console.log(interviews);
+
   //MODAL
   const closeModal = () => {
     setShowModal(false);
@@ -28,14 +28,6 @@ function Interviews(props) {
     setShowModal(true);
   };
 
-  // Refresh when delete  it works but it isnt the correct way! look lines 50-55 but do not refresh!
-  const refreshDelete = () => {
-    fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
-      .then((response) => {
-        setInterviews(response.data);
-      });
-  };
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
     fetch(`${process.env.REACT_APP_API}/interviews/${selectedItem.id}`, {
@@ -47,12 +39,11 @@ function Interviews(props) {
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        // setInterviews(
-        //   interviews.filter((app) => {
-        //     app._id !== selectedItem.id;
-        //   })
-        // );
-        refreshDelete();
+        setInterviews(
+          interviews.filter((app) => {
+            return app._id !== selectedItem.id;
+          })
+        );
       })
       .catch((err) => console.log(err));
   };

@@ -8,8 +8,7 @@ function List(props) {
         <thead>
           <tr>
             {props.header.map((element) => {
-              // eslint-disable-next-line react/jsx-key
-              return <th>{element}</th>;
+              return <th key={element}>{element}</th>;
             })}
           </tr>
         </thead>
