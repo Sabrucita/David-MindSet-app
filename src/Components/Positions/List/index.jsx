@@ -14,6 +14,31 @@ function List() {
       });
   }, []);
 
+  const updateItem = (id) => {
+    console.log('update', id);
+    localStorage.setItem('operation', 'update');
+    localStorage.setItem('id', id);
+    window.location.pathname = './positions/form';
+  };
+
+  const deleteItem = (id) => {
+    console.log('delete');
+    const positionsUpdated = positions.filter((position) => position._id !== id);
+    fetch(`${url}/open-positions/${id}`, {
+      method: 'DELETE'
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        console.log('deleted', data);
+        //requestSuccessful(data, 'deleted');
+      })
+      .catch((err) => {
+        console.log('error', err);
+        //displayError(err);
+      });
+    setPositions(positionsUpdated);
+  };
+
   return (
     <table className={styles.list}>
       <thead>
@@ -27,7 +52,14 @@ function List() {
       </thead>
       <tbody>
         {positions.map((position) => {
-          return <ListItem key={position._id} position={position} />;
+          return (
+            <ListItem
+              key={position._id}
+              position={position}
+              updateItem={updateItem}
+              deleteItem={deleteItem}
+            />
+          );
         })}
       </tbody>
     </table>

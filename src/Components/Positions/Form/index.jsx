@@ -10,6 +10,19 @@ function Form({ operation, id }) {
   const [currentEndDate, setCurrentEndDate] = useState('');
   const [currentJobDescription, setCurrentJobDescription] = useState('');
 
+  useEffect(() => {
+    if (operation === 'update') {
+      fetch(`${url}/sessions/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setCurrentCompany(data.data.idCompany._id);
+          setCurrentStartDate(data.data.startDate);
+          setCurrentEndDate(data.data.endDate);
+          setCurrentJobDescription(data.data.jobDescription);
+        });
+    }
+  }, []);
+
   const submitForm = (e) => {
     e.preventDefault();
     if (operation === 'create') {
@@ -29,7 +42,25 @@ function Form({ operation, id }) {
           console.log('error', err);
           //displayError(err);
         });
+    } else {
+      fetch(`${url}/open-positions/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          console.log('successful', data);
+          //requestSuccessful(data, 'created');
+        })
+        .catch((err) => {
+          console.log('error', err);
+          //displayError(err);
+        });
     }
+  };
 
   const updateForm = (field, value) => {
     const newState = formData;
