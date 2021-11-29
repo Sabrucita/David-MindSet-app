@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+import { Modal } from '../Modal';
 import styles from './list.module.css';
 
 function Companies() {
+  const [showModal, setShowModal] = useState(false);
   const [companies, setCompanies] = useState([]);
+  const [lastIdClicked, setLastIdCLicked] = useState('');
+  console.log(lastIdClicked);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/companies`)
       .then((response) => response.json())
@@ -14,6 +19,12 @@ function Companies() {
       });
   }, []);
 
+  //MODAL
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  //FUNCTION FOR DELETING A COMPANY
   const deleteClick = (id) => {
     fetch(`${process.env.REACT_APP_API}/companies/${id}`, {
       method: 'DELETE',
@@ -29,8 +40,13 @@ function Companies() {
       .catch((error) => console.log(error));
   };
 
+  const onConfirmDeleteModal = () => {
+    deleteClick(lastIdClicked);
+  };
+
   return (
     <section className={styles.container}>
+      <Modal show={showModal} closeModal={closeModal} onCloseModal={onConfirmDeleteModal} />
       <h2>Companies</h2>
       <div>
         {companies.map((company) => {
@@ -63,11 +79,11 @@ function Companies() {
                 EDIT
               </button>
               <button
-                //FUNCTION FOR DELETING A COMPANY
-                type="button"
                 onClick={() => {
-                  deleteClick(company._id);
+                  setShowModal(true);
+                  setLastIdCLicked(company._id);
                 }}
+                type="button"
               >
                 DELETE
               </button>
