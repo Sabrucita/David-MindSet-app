@@ -11,12 +11,25 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+//import { AdminsForm } from '../Admins/Form';
+import ListItem from '../Admins/ListItem';
 
 function Layout() {
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    /*
+      case '/admins/form':
+        currentScreen = <AdminsForm />;
+        break;
+    case '/companies/form/new':
+        currentScreen = <AdminsForm />;
+        break;
+    */
+    case '/companies/listitem':
+      currentScreen = <ListItem />;
       break;
     case '/applications':
       currentScreen = <Applications />;
