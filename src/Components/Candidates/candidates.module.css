@@ -5,53 +5,46 @@
   justify-content: center;
   align-items: center;
 }
-.resourceTableHead {
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  margin: 1px auto;
-  padding: 20px;
-  border:1px solid #091f40;
-  border-radius: 10px;
-  color: #b6cef1;
-  background-color: #4f6175;
-}
-.resourceTable {
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  margin: 1px auto;
-  padding: 20px;
-  border:1px solid #091f40;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #091f40;
-}
-
-.table {
-  border-collapse: collapse;
+.list th {
+  background-color: rgba(129, 129, 129);
+  color: rgb(255, 255, 255);
   text-align: center;
+}
+.list tr:nth-of-type(odd) {
+  background-color: rgba(4, 0, 255, 0.349);
+}
 
+.list tr:nth-of-type(even) {
+  background-color: rgba(231, 231, 231, 0.349);
 }
-.th {
-  width: 20px;
-  padding: 20px;
-  margin: auto;
-  padding: 10px;
-  font-size: 20px;
+
+.list tr:hover {
+  background-color: rgb(163, 163, 163);
 }
-.td {
-  width: 15px;
-  margin: 1px 6px;
-  padding: 1px 6px;
-  font-size: 15px;
-  border-right:1px solid #091f40;
+
+.list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.list td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
   text-transform: capitalize;
 }
-button{
-  background-color: #4f6175;
-  color: #fff;
-  margin: 5px;
-  padding: 5px;
-  border-radius: 10px;
+.button {
+  padding: 16px 40px;
+  margin: 15px 2px;
+  border: rgb(21, 139, 10);
+  border-radius: 30px;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+.button:hover{
+  background-color: rgb(88, 88, 88);
 }

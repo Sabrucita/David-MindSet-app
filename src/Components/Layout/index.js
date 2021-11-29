@@ -7,7 +7,7 @@ import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Candidates from '../Candidates/index';
 import { CandidatesForm } from '../Candidates/Form';
-import ListItem from '../Candidates/List';
+import ListItem from '../Candidates/ListItem';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';

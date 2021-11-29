@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import React, { useState, useEffect} from 'react';
-
+import styles from './form.module.css';
 export const CandidatesForm = () => {
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
@@ -48,10 +48,8 @@ export const CandidatesForm = () => {
         setEducationValue(response.data.education);
         setExperiencesValue(response.data.experiences);
         setCoursesValue(response.data.courses);
-        setCandidateAddressValue(response.data.address.number);
-        setCandidateAddressNumberValue(response.data.address.street);
-
-        console.log();
+        setCandidateAddressValue(response.data.address.street);
+        setCandidateAddressNumberValue(response.data.address.number);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +67,7 @@ export const CandidatesForm = () => {
       const params = new URLSearchParams(window.location.search);
       const candidateId = params.get('_id');
 
-      //function for update a Candidate
+      //function for UPDATE a Candidate
       fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`, {
         method: 'PUT',
         mode: 'cors',
@@ -94,7 +92,8 @@ export const CandidatesForm = () => {
           isActive: isActiveValue,
           education: educationValue,
           experiences: experiencesValue,
-          courses: coursesValue
+          courses: coursesValue,
+          address: { street: candidateAddressValue, number: candidateAddressNumberValue }
         })
       })
         .then((response) => response.json())
@@ -105,6 +104,7 @@ export const CandidatesForm = () => {
           console.log(err);
         });
     } else {
+      //function for CREATE a Candidate
       fetch(`${process.env.REACT_APP_API}/candidates`, {
         method: 'POST',
         mode: 'cors',
@@ -153,7 +153,7 @@ export const CandidatesForm = () => {
       >
         Back
       </button>
-      <form onSubmit={onSubmit}>
+      <form className={styles.container} onSubmit={onSubmit}>
         <h2>Form</h2>
         <label id="firstName">First Name</label>
         <input
@@ -255,7 +255,7 @@ export const CandidatesForm = () => {
           }}
           value={birthdayValue}
         />
-        <label id="address">address number</label>
+        <label id="address">address Street</label>
         <input
           type="text"
           name="address"
@@ -265,7 +265,7 @@ export const CandidatesForm = () => {
           }}
           value={candidateAddressValue}
         />
-        <label id="addressStreet">address Street</label>
+        <label id="addressStreet">address Number</label>
         <input
           type="text"
           name="addressStreet"

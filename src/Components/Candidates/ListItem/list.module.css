@@ -1,0 +1,49 @@
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+  .list td {
+    flex-direction: column;
+  }
+  .list tr:nth-of-type(odd) {
+    background-color: rgba(4, 0, 255, 0.349);
+  }
+
+  .list tr:nth-of-type(even) {
+    background-color: rgba(231, 231, 231, 0.349);
+  }
+
+  .list tr:hover {
+    background-color: rgb(163, 163, 163);
+  }
+
+  .list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .list td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-transform: capitalize;
+    text-align: left;
+  }
+
+  button{
+      padding: 16px 20px;
+      margin: 15px 2px;
+      border-radius: 30px;
+      font-size: 15px;
+      cursor: pointer;
+      background-color: rgb(104, 255, 162);
+      border: rgb(88, 88, 88);
+    }

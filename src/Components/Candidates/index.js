@@ -3,6 +3,7 @@ import styles from './candidates.module.css';
 /*import Form from './Form';
 import List from './List';*/
 
+//FUNCTION TO LIST ALL CANDIDATES
 function Candid() {
   const [candidates, setCandidates] = useState([]);
   useEffect(() => {
@@ -16,6 +17,7 @@ function Candid() {
       });
   }, []);
 
+  //FUNCTION TO DELETE A CANDIDATE BY ID
   const onClick = (id) => {
     fetch(`${process.env.REACT_APP_API}/candidates/${id}`, {
       method: 'DELETE',
@@ -30,35 +32,28 @@ function Candid() {
       })
       .catch((error) => console.log(error));
   };
+
   return (
     <section className={styles.container}>
       <h2>Candidates</h2>
       <div>
-        <button
-          type="button"
-          onClick={() => {
-            window.location.href = `/candidates/form`;
-          }}
-        >
-          Create
-        </button>
-        <table className={styles.resourceTableHead}>
+        <table className={styles.list}>
           <thead>
-            <tr className={styles.table}>
-              <th className={styles.th}>firstName</th>
-              <th className={styles.th}>lastName</th>
-              <th className={styles.th}>phone</th>
-              <th className={styles.th}>email</th>
-              <th className={styles.th}>country</th>
-              <th className={styles.th}>province</th>
-              <th className={styles.th}>city</th>
-              <th className={styles.th}>Postal Code</th>
-              <th className={styles.th}>Address</th>
-              <th className={styles.th}>Birthday</th>
-              <th className={styles.th}>Actions</th>
+            <tr>
+              <th>first name</th>
+              <th>last name</th>
+              <th>phone</th>
+              <th>email</th>
+              <th>country</th>
+              <th>province</th>
+              <th>city</th>
+              <th>postal code</th>
+              <th>address</th>
+              <th>birthday</th>
+              <th>actions</th>
             </tr>
           </thead>
-          <tbody className={styles.table}>
+          <tbody>
             {candidates.map((candidate) => {
               return (
                 <tr
@@ -67,18 +62,16 @@ function Candid() {
                   }}
                   key={candidate._id}
                 >
-                  <td className={styles.td}>{candidate.firstName}</td>
-                  <td className={styles.td}>{candidate.lastName}</td>
-                  <td className={styles.td}>{candidate.phone}</td>
-                  <td className={styles.td}>{candidate.email}</td>
-                  <td className={styles.td}>{candidate.country}</td>
-                  <td className={styles.td}>{candidate.province}</td>
-                  <td className={styles.td}>{candidate.city}</td>
-                  <td className={styles.td}>{candidate.postalCode}</td>
-                  <td
-                    className={styles.td}
-                  >{`${candidate.address.street} ${candidate.address.number}`}</td>
-                  <td className={styles.td}>{candidate.birthday}</td>
+                  <td>{candidate.firstName}</td>
+                  <td>{candidate.lastName}</td>
+                  <td>{candidate.phone}</td>
+                  <td>{candidate.email}</td>
+                  <td>{candidate.country}</td>
+                  <td>{candidate.province}</td>
+                  <td>{candidate.city}</td>
+                  <td>{candidate.postalCode}</td>
+                  <td>{`${candidate.address.street} ${candidate.address.number}`}</td>
+                  <td>{candidate.birthday}</td>
                   <td>
                     <button
                       type="button"
@@ -102,6 +95,15 @@ function Candid() {
             })}
           </tbody>
         </table>
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() => {
+            window.location.href = `/candidates/form`;
+          }}
+        >
+          Add
+        </button>
       </div>
     </section>
   );
