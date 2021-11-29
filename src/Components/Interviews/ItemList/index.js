@@ -7,10 +7,12 @@ function ItemList(props) {
   let lastName;
   let idCompany;
   let nameCompany;
+  let missingData = false;
 
   let id = props.data._id;
   let statusD = props.data.status;
   let dateLong = new Date(props.data.date);
+  dateLong.setDate(dateLong.getDate() + 1);
   if (props.data.idCandidate) {
     idCandidate = props.data.idCandidate._id;
     firstName = props.data.idCandidate.firstName;
@@ -18,18 +20,19 @@ function ItemList(props) {
     names = `${firstName} ${lastName}`;
   } else {
     names = 'This candidate was deleted';
+    missingData = true;
   }
   if (props.data.idCompany) {
     idCompany = props.data.idCompany._id;
     nameCompany = props.data.idCompany.name;
   } else {
     nameCompany = 'This company was deleted';
+    missingData = true;
   }
-
+  console.log(props.data.date);
+  console.log(dateLong);
   let status = statusD === true ? 'Active' : 'Close';
-  let dateShort = `${dateLong.getDate() + 1} / ${
-    dateLong.getMonth() + 1
-  } / ${dateLong.getFullYear()}`;
+  let dateShort = `${dateLong.getDate()} / ${dateLong.getMonth() + 1} / ${dateLong.getFullYear()}`;
 
   //to show in modal type delete
   const dataDelete = {
@@ -73,16 +76,18 @@ function ItemList(props) {
         <button onClick={() => props.openModal(dataDelete, 'delete')}>
           <span>DELETE</span>
         </button>
-        <a href="/interviews/form">
-          <button
-            onClick={() => {
-              props.getIdSelected(id);
-              props.selectTypeForm('update');
-            }}
-          >
-            <span>EDIT</span>
-          </button>
-        </a>
+        {!missingData && (
+          <a href="/interviews/form">
+            <button
+              onClick={() => {
+                props.getIdSelected(id);
+                props.selectTypeForm('update');
+              }}
+            >
+              <span>EDIT</span>
+            </button>
+          </a>
+        )}
         <button onClick={() => props.openModal(dataViewMore, 'viewMore')}>
           <span>VIEW MORE</span>
         </button>
