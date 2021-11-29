@@ -1,69 +1,116 @@
 import React from 'react';
 import styles from './form.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export const AdminsForm = () => {
-  const [firstNameValue, setfirstNameValue] = useState('');
+export const CompaniesForm = () => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const adminId = params.get('_id');
+    fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setFirstNameValue(response.firstName);
+        setLastNameValue(response.lastName);
+        setEmailValue(response.email);
+        setPasswordValue(response.password);
+        setIsActiveValue(response.isActive);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isActiveValue, setIsActiveValue] = useState(false);
 
+  let isCreating = false;
+  if (!window.location.search) {
+    isCreating = true;
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!isCreating) {
+      const params = new URLSearchParams(window.location.search);
+      const adminId = params.get('_id');
 
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('_id');
-
-    fetch(`${process.env.REACT_APP_API}/admins/${adminId}`, {
-      method: 'PUT',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        email: emailValue,
-        password: passwordValue,
-        isActive: isActiveValue
+      //FUNCTION FOR UPDATING A COMPANY
+      fetch(`${process.env.REACT_APP_API}/admins/${adminId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          password: passwordValue,
+          isActive: isActiveValue
+        })
       })
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          window.location.href = '/admins';
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      //FUNCTION FOR CREATING A COMPANY
+      fetch(`${process.env.REACT_APP_API}/admins`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          password: passwordValue,
+          isActive: isActiveValue
+        })
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          window.location.href = '/admins';
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <h2>Form</h2>
-        <label id="first-name">First Name</label>
+        <label id="firstname">First Name</label>
         <input
           type="text"
-          id="first-name"
-          name="first-name"
+          id="firstname"
+          name="firstname"
           value={firstNameValue}
           onChange={(e) => {
-            setfirstNameValue(e.target.value);
+            setFirstNameValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
-        <label id="last-name">Last Name</label>
+        <label id="lastname">Last Name</label>
         <input
           type="text"
-          id="last-name"
-          name="last-name"
+          id="lastname"
+          name="lastname"
           value={lastNameValue}
           onChange={(e) => {
             setLastNameValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="email">Email</label>
@@ -75,7 +122,6 @@ export const AdminsForm = () => {
           onChange={(e) => {
             setEmailValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="password">Password</label>
@@ -87,7 +133,6 @@ export const AdminsForm = () => {
           onChange={(e) => {
             setPasswordValue(e.target.value);
           }}
-          className={styles.input}
           required
         />
         <label id="isActive">Is Active</label>
@@ -100,16 +145,8 @@ export const AdminsForm = () => {
           onChange={(e) => {
             setIsActiveValue(e.currentTarget.checked);
           }}
-          className={styles.input}
         />
-        <button
-          type="submit"
-          onClick={() => {
-            window.location.href = '/admins';
-          }}
-        >
-          SAVE CHANGES
-        </button>
+        <button type="submit">{!isCreating ? 'SAVE CHANGES' : 'CREATE'}</button>
       </form>
     </div>
   );
