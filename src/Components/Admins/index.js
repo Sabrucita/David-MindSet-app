@@ -1,14 +1,18 @@
-import styles from './admins.module.css';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Modal } from '../Modal';
+import styles from './list.module.css';
 
-//Function: Show all candidates
 function Admins() {
+  const [showModal, setShowModal] = useState(false);
   const [admins, setAdmins] = useState([]);
+  const [lastIdClicked, setLastIdCLicked] = useState('');
+  const [lastAction, setLastAction] = useState('');
+  const [itemListInfo, setItemListInfo] = useState('');
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setAdmins(response);
       })
       .catch((err) => {
@@ -16,8 +20,13 @@ function Admins() {
       });
   }, []);
 
-  //Function: Delete a candidate
-  const onClick = (id) => {
+  //MODAL
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  //FUNCTION FOR DELETING AN ADMINISTRATOR
+  const deleteClick = (id) => {
     fetch(`${process.env.REACT_APP_API}/admins/${id}`, {
       method: 'DELETE',
       headers: {
@@ -25,36 +34,72 @@ function Admins() {
       }
     })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status == 204) {
           setAdmins(admins.filter((deleteAdmin) => deleteAdmin._id !== id));
         }
       })
       .catch((error) => console.log(error));
   };
-/*
+
+  const onConfirmDeleteModal = () => {
+    deleteClick(lastIdClicked);
+  };
+
   return (
     <section className={styles.container}>
+      <Modal
+        show={showModal}
+        closeModal={closeModal}
+        onCloseModal={onConfirmDeleteModal}
+        itemListInfo={itemListInfo}
+        action={lastAction}
+      />
       <h2>Admins</h2>
       <div>
-        {admins.map((admins) => {
+        {admins.map((admin) => {
           return (
-            <div key={admins._id}>
-              <p>{admins.first_name}</p>
-              <p>{admins.last_name}</p>
-              <p>{admins.email}</p>
-              <p>{admins.password}</p>
-              <p>{admins.isActive}</p>
+            <ul
+              onDoubleClick={() => {
+                window.location.href = `/admins/listitem?_id=${admin._id}`;
+              }}
+              className={styles.ulAdmins}
+              key={admin._id}
+            >
+              <li>{admin.firstName}</li>
+              <li>{admin.lastName}</li>
+              <li>{admin.email}</li>
+              <li>{admin.password}</li>
+              <li>{admin.isActive}</li>
               <button
                 type="button"
                 onClick={() => {
-                  console.log('Admins site');
-                  window.location.href = `/admins/form?_id=${admins._id}`;
+                  window.location.href = `/admins/form?_id=${admin._id}`;
                 }}
               >
                 EDIT
               </button>
-              <button type="button">DELETE</button>
-            </div>
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                  setLastIdCLicked(admin._id);
+                  setLastAction('delete');
+                }}
+                type="button"
+              >
+                DELETE
+              </button>
+              <button
+                onClick={() => {
+                  setLastIdCLicked(admin._id);
+                  setLastAction('view');
+                  setItemListInfo(admin);
+                  setShowModal(true);
+                }}
+                type="button"
+              >
+                VIEW MORE
+              </button>
+            </ul>
           );
         })}
       </div>
@@ -64,73 +109,10 @@ function Admins() {
           window.location.href = `/admins/form/new`;
         }}
       >
-        ADD ADMIN
+        ADD COMPANY
       </button>
     </section>
   );
-}
-*/
-return (
-  <section className={styles.container}>
-    <h2>Admins</h2>
-    <div>
-      <table className={styles.list}>
-        <thead>
-          <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Password</th>
-          </tr>
-        </thead>
-        <tbody>
-          {admins.map((admin) => {
-            return (
-              <tr
-                onDoubleClick={() => {
-                  window.location.href = `/admins/list?_id=${admin._id}`;
-                }}
-                key={admin._id}
-              >
-                <td>{admin.firstName}</td>
-                <td>{admin.lastName}</td>
-                <td>{admin.email}</td>
-                <td>{admin.password}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.location.href = `/admins/form?_id=${admin._id}`;
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClick(admin._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <button
-        className={styles.button}
-        type="button"
-        onClick={() => {
-          window.location.href = `/admin/form`;
-        }}
-      >
-        Add
-      </button>
-    </div>
-  </section>
-);
 }
 
 export default Admins;
