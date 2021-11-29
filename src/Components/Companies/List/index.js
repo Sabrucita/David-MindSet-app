@@ -6,7 +6,8 @@ function Companies() {
   const [showModal, setShowModal] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [lastIdClicked, setLastIdCLicked] = useState('');
-  console.log(lastIdClicked);
+  const [lastAction, setLastAction] = useState('');
+  const [itemListInfo, setItemListInfo] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/companies`)
@@ -46,7 +47,13 @@ function Companies() {
 
   return (
     <section className={styles.container}>
-      <Modal show={showModal} closeModal={closeModal} onCloseModal={onConfirmDeleteModal} />
+      <Modal
+        show={showModal}
+        closeModal={closeModal}
+        onCloseModal={onConfirmDeleteModal}
+        itemListInfo={itemListInfo}
+        action={lastAction}
+      />
       <h2>Companies</h2>
       <div>
         {companies.map((company) => {
@@ -82,10 +89,22 @@ function Companies() {
                 onClick={() => {
                   setShowModal(true);
                   setLastIdCLicked(company._id);
+                  setLastAction('delete');
                 }}
                 type="button"
               >
                 DELETE
+              </button>
+              <button
+                onClick={() => {
+                  setLastIdCLicked(company._id);
+                  setLastAction('view');
+                  setItemListInfo(company);
+                  setShowModal(true);
+                }}
+                type="button"
+              >
+                VIEW MORE
               </button>
             </ul>
           );

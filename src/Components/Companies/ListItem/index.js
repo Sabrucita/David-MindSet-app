@@ -1,48 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import styles from './listItem.module.css';
+import { Modal } from '../Modal';
 
-const params = new URLSearchParams(window.location.search);
-const clientId = params.get('_id');
+function ListItem(props) {
+  const [showModal, setShowModal] = useState(false);
 
-function ListItem() {
-  const [company, setCompany] = useState([]);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/companies/${clientId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setCompany(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  //MODAL
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <section className={styles.container}>
-      <h2>{company.name} Information</h2>
+      <Modal show={showModal} closeModal={closeModal} />
+      <h2>{props.itemListInfo.name} Information</h2>
       <div>
-        <ul className={styles.ulCompanies} key={clientId}>
-          <li>Company Name: {company.name}</li>
-          <li>Address: {company.address}</li>
-          <li>City: {company.city}</li>
-          <li>Province: {company.province}</li>
-          <li>Country: {company.country}</li>
-          <li>Zip Code: {company.zipCode}</li>
-          <li>Phone: {company.phone}</li>
-          <li>Email: {company.email}</li>
-          <li>Picture URL: {company.pictureUrl}</li>
-          <li>Contact Full Name: {company.contactFullName}</li>
-          <li>Contact Phone: {company.contactPhone}</li>
-          <li>Is Available? {company.isActive ? 'YES' : 'NO'}</li>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href = `/companies`;
-            }}
-          >
-            RETURN
-          </button>
+        <ul className={styles.ulCompanies}>
+          <li>Company Name: {props.itemListInfo.name}</li>
+          <li>Address: {props.itemListInfo.address}</li>
+          <li>City: {props.itemListInfo.city}</li>
+          <li>Province: {props.itemListInfo.province}</li>
+          <li>Country: {props.itemListInfo.country}</li>
+          <li>Zip Code: {props.itemListInfo.zipCode}</li>
+          <li>Phone: {props.itemListInfo.phone}</li>
+          <li>Email: {props.itemListInfo.email}</li>
+          <li>Picture URL: {props.itemListInfo.pictureUrl}</li>
+          <li>Contact Full Name: {props.itemListInfo.contactFullName}</li>
+          <li>Contact Phone: {props.itemListInfo.contactPhone}</li>
+          <li>Is Available? {props.itemListInfo.isActive ? 'YES' : 'NO'}</li>
         </ul>
       </div>
     </section>
