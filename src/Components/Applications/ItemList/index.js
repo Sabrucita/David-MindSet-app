@@ -37,6 +37,7 @@ function ItemList(props) {
     position: jobDescription,
     status: status
   };
+
   //to show in modal type view more
   const dataViewMore = {
     id: id,
@@ -70,13 +71,8 @@ function ItemList(props) {
           <span>DELETE</span>
         </button>
         {!missingData && (
-          <a href="/applications/form">
-            <button
-              onClick={() => {
-                props.getIdSelected(id);
-                props.selectTypeForm('update');
-              }}
-            >
+          <a href={`/applications/form?${id}`}>
+            <button>
               <span>EDIT</span>
             </button>
           </a>

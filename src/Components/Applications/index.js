@@ -22,11 +22,13 @@ function Applications(props) {
   const closeModal = () => {
     setShowModal(false);
   };
+
   const openModal = (item, type) => {
     setSelectedItem(item);
     setTypeModal(type);
     setShowModal(true);
   };
+
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
     fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
@@ -65,8 +67,6 @@ function Applications(props) {
           header={tableHeader}
           openModal={openModal}
           acceptModal={acceptModal}
-          getIdSelected={props.getIdSelected}
-          selectTypeForm={props.selectTypeForm}
         />
         <a
           href="/applications/form"

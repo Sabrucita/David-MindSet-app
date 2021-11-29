@@ -4,8 +4,14 @@ import Modal from '../Modal';
 import styles from './form.module.css';
 
 function Form() {
-  let typeForm = localStorage.getItem('typeForm');
-  let idToUpdate = localStorage.getItem('idToUpdate');
+  let typeForm;
+  let idToUpdate;
+  if (!window.location.search) {
+    typeForm = 'create';
+  } else {
+    typeForm = 'update';
+    idToUpdate = window.location.search.slice(1);
+  }
 
   const [candidates, setCandidates] = useState([]);
   const [positions, setPositions] = useState([]);
@@ -26,11 +32,11 @@ function Form() {
         setCandidates(response.candidates);
       });
   }, []);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/open-positions`)
       .then((response) => response.json())
       .then((response) => {
-        //be careful with the .data/ many others resourses give us .candidates or .applications
         setPositions(response.data);
       });
   }, []);
@@ -42,6 +48,7 @@ function Form() {
     idPosition = idPosition[0];
     setOpenPositionValue(idPosition);
   };
+
   //GET THE CANDIDATE ID SELECTED
   let idCandidate;
   const onChangeCandidate = (event) => {
@@ -49,6 +56,7 @@ function Form() {
     idCandidate = idCandidate[0];
     setCandidateValue(idCandidate);
   };
+
   //GET THE STATUS SELECTED
   let statusSelected;
   const onChangeStatus = (event) => {
@@ -90,10 +98,8 @@ function Form() {
 
   //PRELOAD THE APP INFO INTO THE INPUTS
   // GET THE INFO OF THE CHOOSEN APP
-  //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
   if (typeForm === 'update') {
     useEffect(() => {
-      //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
       fetch(`${process.env.REACT_APP_API}/applications/${idToUpdate}`)
         .then((response) => response.json())
         .then((response) => {
@@ -113,7 +119,6 @@ function Form() {
         : applicationToUpdate.idOpenPosition._id,
       isActive: statusValue !== null ? statusValue : applicationToUpdate.isActive
     };
-    //REPLACE WHEN WE USE PROPS!!!!!!!!!!!
     fetch(`${process.env.REACT_APP_API}/applications/${idToUpdate}`, {
       method: 'PUT',
       mode: 'cors',
@@ -136,6 +141,7 @@ function Form() {
   const closeModal = () => {
     setShowModal(false);
   };
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -150,7 +156,6 @@ function Form() {
           type={typeModal}
           textDescription={textDescription}
         />
-        {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
         {typeForm === 'create' && <h1>Add application</h1>}
         {typeForm === 'update' && <h1>Update application</h1>}
         <form className={styles.formSubscription}>
@@ -168,7 +173,6 @@ function Form() {
                   typeForm={typeForm}
                   applicationToUpdate={applicationToUpdate}
                 />
-                {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
                 {typeForm === 'update' && (
                   <Input
                     key="status"
@@ -197,13 +201,11 @@ function Form() {
               </ul>
             </div>
           </div>
-          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
           {typeForm === 'create' && (
             <div className={styles.button}>
               <input type="button" value="SAVE" onClick={onSubmitCreate} />
             </div>
           )}
-          {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
           {typeForm === 'update' && (
             <div className={styles.button}>
               <input type="button" value="UPDATE" onClick={onSubmitUpdate} />
