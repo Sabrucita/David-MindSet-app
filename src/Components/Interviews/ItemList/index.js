@@ -29,8 +29,6 @@ function ItemList(props) {
     nameCompany = 'This company was deleted';
     missingData = true;
   }
-  console.log(props.data.date);
-  console.log(dateLong);
   let status = statusD === true ? 'Active' : 'Close';
   let dateShort = `${dateLong.getDate()} / ${dateLong.getMonth() + 1} / ${dateLong.getFullYear()}`;
 
