@@ -1,177 +1,364 @@
 // eslint-disable-next-line
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 
-const initialForm = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  phone: '',
-  city: '',
-  province: '',
-  country: '',
-  postalCode: '',
-  birthday: '',
-  hobbies: '',
-  mainSkills: '',
-  profileTypes: '',
-  isOpenToWork: '',
-  isActive: '',
-  education: '',
-  experiences: '',
-  courses: ''
-};
+export const CandidatesForm = () => {
+  const [firstNameValue, setFirstNameValue] = useState('');
+  const [lastNameValue, setLastNameValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+  const [phoneValue, setPhoneValue] = useState('');
+  const [cityValue, setCityValue] = useState('');
+  const [provinceValue, setProvinceValue] = useState('');
+  const [countryValue, setCountryValue] = useState('');
+  const [postalCodeValue, setPostalCodeValue] = useState('');
+  const [birthdayValue, setBirthdayValue] = useState('');
+  const [hobbiesValue, setHobbiesValue] = useState('');
+  const [mainSkillsValue, setMainSkillsValue] = useState('');
+  const [profileTypesValue, setProfileTypesValue] = useState('');
+  const [isOpenToWorkValue, setIsOpenToWorkValue] = useState('');
+  const [isActiveValue, setIsActiveValue] = useState('');
+  const [educationValue, setEducationValue] = useState('');
+  const [experiencesValue, setExperiencesValue] = useState('');
+  const [coursesValue, setCoursesValue] = useState('');
+  const [candidateAddressValue, setCandidateAddressValue] = useState('');
+  const [candidateAddressNumberValue, setCandidateAddressNumberValue] = useState('');
 
-const Form = () => {
-  // eslint-disable-next-line
-  const [form, setForm] = useState(initialForm);
-  const handlerChange = (e) => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const candidateId = params.get('_id');
+    fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        setFirstNameValue(response.data.firstName);
+        setLastNameValue(response.data.lastName);
+        setEmailValue(response.data.email);
+        setPasswordValue(response.data.password);
+        setPhoneValue(response.data.phone);
+        setCityValue(response.data.city);
+        setProvinceValue(response.data.province);
+        setCountryValue(response.data.country);
+        setPostalCodeValue(response.data.postalCode);
+        setBirthdayValue(response.data.birthday);
+        setHobbiesValue(response.data.hobbies);
+        setMainSkillsValue(response.data.mainSkills);
+        setProfileTypesValue(response.data.profileTypes);
+        setIsOpenToWorkValue(response.data.isOpenToWork);
+        setIsActiveValue(response.data.isActive);
+        setEducationValue(response.data.education);
+        setExperiencesValue(response.data.experiences);
+        setCoursesValue(response.data.courses);
+        setCandidateAddressValue(response.data.address.number);
+        setCandidateAddressNumberValue(response.data.address.street);
+
+        console.log();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  let create = false;
+  if (!window.location.search) {
+    create = true;
+  }
+
+  const onSubmit = (e) => {
     e.preventDefault();
-  };
+    if (!create) {
+      const params = new URLSearchParams(window.location.search);
+      const candidateId = params.get('_id');
 
-  const handlerSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handlerReset = (e) => {
-    e.preventDefault();
+      //function for update a Candidate
+      fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          password: passwordValue,
+          phone: parseInt(phoneValue),
+          city: cityValue,
+          province: provinceValue,
+          country: countryValue,
+          postalCode: postalCodeValue,
+          birthday: birthdayValue,
+          hobbies: hobbiesValue,
+          mainSkills: mainSkillsValue,
+          profileTypes: profileTypesValue,
+          isOpenToWork: isOpenToWorkValue,
+          isActive: isActiveValue,
+          education: educationValue,
+          experiences: experiencesValue,
+          courses: coursesValue
+        })
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch(`${process.env.REACT_APP_API}/candidates`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          password: passwordValue,
+          phone: parseInt(phoneValue, 10),
+          city: cityValue,
+          province: provinceValue,
+          country: countryValue,
+          postalCode: postalCodeValue,
+          birthday: birthdayValue,
+          address: { street: candidateAddressValue, number: candidateAddressNumberValue }
+          //   hobbies: hobbiesValue,
+          //   mainSkills: mainSkillsValue,
+          //   profileTypes: profileTypesValue,
+          //   isOpenToWork: isOpenToWorkValue,
+          //   isActive: isActiveValue,
+          //   education: educationValue,
+          //   experiences: experiencesValue,
+          //   courses: coursesValue
+        })
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
     <div>
-      <h3>Add</h3>
-      <form onSubmit={handlerSubmit}>
+      <button
+        type="button"
+        onClick={() => {
+          window.location.href = `/candidates`;
+        }}
+      >
+        Back
+      </button>
+      <form onSubmit={onSubmit}>
+        <h2>Form</h2>
+        <label id="firstName">First Name</label>
         <input
           type="text"
+          id="firstName"
           name="firstName"
-          placeholder="FirstName"
-          onChange={handlerChange}
-          value={form.firstName}
+          onChange={(e) => {
+            setFirstNameValue(e.target.value);
+          }}
+          value={firstNameValue}
         />
+        <label id="lastName">lastName</label>
         <input
           type="text"
           name="lastName"
-          placeholder="LastName"
-          onChange={handlerChange}
-          value={form.lastName}
+          id="LastName"
+          onChange={(e) => {
+            setLastNameValue(e.target.value);
+          }}
+          value={lastNameValue}
         />
+        <label id="email">email</label>
         <input
           type="text"
           name="email"
-          placeholder="email"
-          onChange={handlerChange}
-          value={form.email}
+          id="email"
+          onChange={(e) => {
+            setEmailValue(e.target.value);
+          }}
+          value={emailValue}
         />
+        <label id="password">password</label>
         <input
           type="text"
           name="password"
-          placeholder="password"
-          onChange={handlerChange}
-          value={form.password}
+          id="password"
+          onChange={(e) => {
+            setPasswordValue(e.target.value);
+          }}
+          value={passwordValue}
         />
+        <label id="phone">phone</label>
         <input
-          type="number"
+          type="text"
           name="phone"
-          placeholder="phone"
-          onChange={handlerChange}
-          value={form.phone}
+          id="phone"
+          onChange={(e) => {
+            setPhoneValue(e.target.value);
+          }}
+          value={phoneValue}
         />
+        <label id="city">city</label>
         <input
           type="text"
           name="city"
-          placeholder="city"
-          onChange={handlerChange}
-          value={form.city}
+          id="city"
+          onChange={(e) => {
+            setCityValue(e.target.value);
+          }}
+          value={cityValue}
         />
+        <label id="province">province</label>
         <input
           type="text"
           name="province"
-          placeholder="province"
-          onChange={handlerChange}
-          value={form.province}
+          id="province"
+          onChange={(e) => {
+            setProvinceValue(e.target.value);
+          }}
+          value={provinceValue}
         />
+        <label id="country">country</label>
         <input
           type="text"
           name="country"
-          placeholder="country"
-          onChange={handlerChange}
-          value={form.country}
+          id="country"
+          onChange={(e) => {
+            setCountryValue(e.target.value);
+          }}
+          value={countryValue}
         />
-        <input
-          type="number"
-          name="postalCode"
-          placeholder="postalCode"
-          onChange={handlerChange}
-          value={form.postalCode}
-        />
+        <label id="postalCode">postalCode</label>
         <input
           type="text"
-          name="birthday"
-          placeholder="birthday"
-          onChange={handlerChange}
-          value={form.birthday}
+          name="postalCode"
+          id="postalCode"
+          onChange={(e) => {
+            setPostalCodeValue(e.target.value);
+          }}
+          value={postalCodeValue}
         />
+        <label id="birthday">birthday</label>
+        <input
+          type="date"
+          name="birthday"
+          id="birthday"
+          onChange={(e) => {
+            setBirthdayValue(e.target.value);
+          }}
+          value={birthdayValue}
+        />
+        <label id="address">address number</label>
+        <input
+          type="text"
+          name="address"
+          id="address"
+          onChange={(e) => {
+            setCandidateAddressValue(e.target.value);
+          }}
+          value={candidateAddressValue}
+        />
+        <label id="addressStreet">address Street</label>
+        <input
+          type="text"
+          name="addressStreet"
+          id="addressStreet"
+          onChange={(e) => {
+            setCandidateAddressNumberValue(e.target.value);
+          }}
+          value={candidateAddressNumberValue}
+        />
+        <label id="hobbies">hobbies</label>
         <input
           type="text"
           name="hobbies"
-          placeholder="hobbies"
-          onChange={handlerChange}
-          value={form.hobbies}
+          id="hobbies"
+          onChange={(e) => {
+            setHobbiesValue(e.target.value);
+          }}
+          value={hobbiesValue}
         />
+        <label id="mainSkills">mainSkills</label>
         <input
           type="text"
           name="mainSkills"
-          placeholder="mainSkills"
-          onChange={handlerChange}
-          value={form.mainSkills}
+          id="mainSkills"
+          onChange={(e) => {
+            setMainSkillsValue(e.target.value);
+          }}
+          value={mainSkillsValue}
         />
+        <label id="profileTypes">profileTypes</label>
         <input
           type="text"
           name="profileTypes"
-          placeholder="profileTypes"
-          onChange={handlerChange}
-          value={form.profileTypes}
+          id="profileTypes"
+          onChange={(e) => {
+            setProfileTypesValue(e.target.value);
+          }}
+          value={profileTypesValue}
         />
+        <label id="isOpenToWork">isOpenToWork</label>
         <input
-          type="boolean"
+          type="checkbox"
           name="isOpenToWork"
-          placeholder="true or false"
-          onChange={handlerChange}
-          value={form.isOpenToWork}
+          id="isOpenToWork"
+          checked={isOpenToWorkValue}
+          onChange={(e) => {
+            setIsOpenToWorkValue(e.currentTarget.checked);
+          }}
+          value={isOpenToWorkValue}
         />
+        <label id="isActive">isActive</label>
         <input
-          type="boolean"
+          type="checkbox"
           name="isActive"
-          placeholder="true or false"
-          onChange={handlerChange}
-          value={form.isActive}
+          id="isActive"
+          checked={isActiveValue}
+          onChange={(e) => {
+            setIsActiveValue(e.currentTarget.checked);
+          }}
+          value={isActiveValue}
         />
+        <label id="education">education</label>
         <input
           type="text"
           name="education"
-          placeholder="education"
-          onChange={handlerChange}
-          value={form.education}
+          id="education"
+          onChange={(e) => {
+            setEducationValue(e.target.value);
+          }}
+          value={educationValue}
         />
+        <label id="experiences">experiences</label>
         <input
           type="text"
           name="experiences"
-          placeholder="experiences"
-          onChange={handlerChange}
-          value={form.experiences}
+          id="experiences"
+          onChange={(e) => {
+            setExperiencesValue(e.target.value);
+          }}
+          value={experiencesValue}
         />
+        <label id="courses">courses</label>
         <input
           type="text"
           name="courses"
-          placeholder="courses"
-          onChange={handlerChange}
-          value={form.courses}
+          id="courses"
+          onChange={(e) => {
+            setCoursesValue(e.target.value);
+          }}
+          value={coursesValue}
         />
-        <input type="submit" value="ADD" />
-        <input type="reset" value="CLEAR" onClick={handlerReset} />
+        <button type="submit">{!create ? 'SAVE CHANGES' : 'CREATE'}</button>
       </form>
     </div>
   );
 };
-
-export default Form;
