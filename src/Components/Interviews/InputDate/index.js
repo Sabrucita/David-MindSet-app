@@ -26,7 +26,6 @@ function InputDate(props) {
         name={props.name}
         onChange={props.onChange}
       />
-      {/* <span className={styles.msgError}>*Insert a date.</span> */}
     </li>
   );
 }
