@@ -117,7 +117,8 @@ export const CompaniesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
-          window.location.href = '/companies';
+          setLastAction('create');
+          setShowModal(true);
         })
         .catch((err) => {
           console.log(err);
