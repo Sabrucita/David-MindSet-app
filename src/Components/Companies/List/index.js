@@ -14,6 +14,21 @@ function Companies() {
       });
   }, []);
 
+  const deleteClick = (id) => {
+    fetch(`${process.env.REACT_APP_API}/companies/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then((response) => {
+        if (response.status == 204) {
+          setCompanies(companies.filter((deleteCompany) => deleteCompany._id !== id));
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <section className={styles.container}>
       <h2>Companies</h2>
@@ -51,20 +66,7 @@ function Companies() {
                 //FUNCTION FOR DELETING A COMPANY
                 type="button"
                 onClick={() => {
-                  fetch(`${process.env.REACT_APP_API}/companies/${company._id}`, {
-                    method: 'DELETE',
-                    headers: {
-                      'Content-type': 'application/json; charset=UTF-8'
-                    }
-                  })
-                    .then((response) => {
-                      if (response.status == 204) {
-                        setCompanies(
-                          companies.filter((deleteCompany) => deleteCompany._id !== company._id)
-                        );
-                      }
-                    })
-                    .catch((error) => console.log(error));
+                  deleteClick(company._id);
                 }}
               >
                 DELETE
