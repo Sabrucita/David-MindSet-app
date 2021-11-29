@@ -42,7 +42,7 @@ function ItemList(props) {
   };
   //to show in modal type view more
   const dataViewMore = {
-    id: props.id,
+    id: id,
     idCandidate: idCandidate,
     nameCandidate: names,
     idCompany: idCompany,
