@@ -9,6 +9,7 @@ function ItemList(props) {
   let lastName;
   let idOpenPosition;
   let jobDescription;
+  let missingData = false;
 
   if (props.data.idCandidate) {
     idCandidate = props.data.idCandidate._id;
@@ -17,12 +18,14 @@ function ItemList(props) {
     names = `${firstName} ${lastName}`;
   } else {
     names = 'This candidate was deleted';
+    missingData = true;
   }
   if (props.data.idOpenPosition) {
     idOpenPosition = props.data.idOpenPosition._id;
     jobDescription = props.data.idOpenPosition.jobDescription;
   } else {
     jobDescription = 'This position was deleted';
+    missingData = true;
   }
 
   let status = isActive === true ? 'Active' : 'Close';
@@ -66,16 +69,18 @@ function ItemList(props) {
         <button onClick={() => props.openModal(dataDelete, 'delete')}>
           <span>DELETE</span>
         </button>
-        <a href="/applications/form">
-          <button
-            onClick={() => {
-              props.getIdSelected(id);
-              props.selectTypeForm('update');
-            }}
-          >
-            <span>EDIT</span>
-          </button>
-        </a>
+        {!missingData && (
+          <a href="/applications/form">
+            <button
+              onClick={() => {
+                props.getIdSelected(id);
+                props.selectTypeForm('update');
+              }}
+            >
+              <span>EDIT</span>
+            </button>
+          </a>
+        )}
         <button onClick={() => props.openModal(dataViewMore, 'viewMore')}>
           <span>VIEW MORE</span>
         </button>

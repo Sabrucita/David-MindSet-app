@@ -16,6 +16,7 @@ function Form() {
   const [applicationCreatedUpdated, setApplicationCreatedUpdated] = useState();
   const [applicationToUpdate, setApplicationToUpdate] = useState();
   const [typeModal, setTypeModal] = useState();
+  const [textDescription, seTTextDescription] = useState();
 
   //GET ALL EXISTING POSITIONS AND CANDIDATES IN ORDER TO INCLUDES ON THE SELECT OPTIONS
   useEffect(() => {
@@ -59,6 +60,11 @@ function Form() {
   //CREATE CANDIDATE
   function onSubmitCreate(event) {
     event.preventDefault();
+    if (!candidateValue || !openPositionValue) {
+      setTypeModal('dataRequired');
+      seTTextDescription('Please complete the missing data');
+      return openModal();
+    }
     let application = {
       idCandidate: candidateValue,
       idOpenPosition: openPositionValue,
@@ -142,6 +148,7 @@ function Form() {
           closeModal={closeModal}
           content={applicationCreatedUpdated}
           type={typeModal}
+          textDescription={textDescription}
         />
         {/* //REPLACE WHEN WE USE PROPS!!!!!!!!!!! */}
         {typeForm === 'create' && <h1>Add application</h1>}

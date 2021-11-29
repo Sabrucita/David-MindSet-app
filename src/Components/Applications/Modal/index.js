@@ -15,6 +15,7 @@ function Modal(props) {
   else if (props.type === 'dataCreate') title = 'Data Created';
   else if (props.type === 'dataUpdate') title = 'Data Updated';
   else if (props.type === 'viewMore') title = 'Data Selected';
+  else if (props.type === 'dataRequired') title = 'Data Required!';
 
   return (
     <div className={styles.modal}>
@@ -22,9 +23,11 @@ function Modal(props) {
         <div className={styles.modalMessage}>
           <h2>{title}</h2>
           <ul>
-            {dataContent.map((element) => {
-              return <li key={element}>{element}</li>;
-            })}
+            {props.type !== 'dataRequired' &&
+              dataContent.map((element) => {
+                return <li key={element}>{element}</li>;
+              })}
+            {props.type === 'dataRequired' && <li key="dataModal">{props.textDescription}</li>}
           </ul>
           <div className={styles.buttonModal}>
             {props.type === 'delete' && (
@@ -39,7 +42,8 @@ function Modal(props) {
             )}
             {(props.type === 'dataCreate' ||
               props.type === 'dataUpdate' ||
-              props.type === 'viewMore') && (
+              props.type === 'viewMore' ||
+              props.type === 'dataRequired') && (
               <button className={styles.modalOkConfirm} onClick={props.closeModal}>
                 OK
               </button>
