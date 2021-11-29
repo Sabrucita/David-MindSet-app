@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Input from '../Input';
+import InputDate from '../InputDate';
 import Modal from '../Modal';
 import styles from './form.module.css';
 
@@ -125,7 +126,6 @@ function Form() {
       .then((response) => response.json())
       .then((response) => {
         setInterviewCreatedUpdated(response.data);
-        console.log(response.data);
         setTypeModal('dataUpdate');
         openModal();
         if (response.msg) throw new Error(response.msg);
@@ -192,11 +192,14 @@ function Form() {
                   typeForm={typeForm}
                   interviewToUpdate={interviewToUpdate}
                 />
-                <li>
-                  <label htmlFor="date">Date</label>
-                  <input key="date" type="date" name="date" onChange={onChangeDate} />
-                  <span className={styles.msgError}>*Insert a date.</span>
-                </li>
+                <InputDate
+                  key="date"
+                  htmlFor="date"
+                  type="date"
+                  name="date"
+                  interviewToUpdate={interviewToUpdate}
+                  onChange={onChangeDate}
+                />
               </ul>
             </div>
           </div>
