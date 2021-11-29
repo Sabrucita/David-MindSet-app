@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ListItem from '../ListItem';
 import styles from './list.module.css';
 const url = process.env.REACT_APP_API;
 
@@ -17,22 +18,16 @@ function List() {
     <table className={styles.list}>
       <thead>
         <tr>
-          <th>Candidate</th>
-          <th>Psychologist</th>
-          <th>Date</th>
+          <th>Company</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Job Description</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        {positions.map((session) => {
-          return (
-            <ListItem
-              key={session._id}
-              session={session}
-              updateItem={updateItem}
-              deleteItem={deleteItem}
-            />
-          );
+        {positions.map((position) => {
+          return <ListItem key={position._id} position={position} />;
         })}
       </tbody>
     </table>
