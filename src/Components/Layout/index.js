@@ -5,6 +5,7 @@ import Applications from '../Applications/index';
 import Companies from '../Companies/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
+import PositionsForm from '../Positions/Form/index';
 import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
@@ -29,6 +30,14 @@ function Layout() {
       break;
     case '/positions':
       currentScreen = <Positions />;
+      break;
+    case '/positions/form':
+      currentScreen = (
+        <PositionsForm
+          operation={localStorage.getItem('operation')}
+          id={localStorage.getItem('id')}
+        />
+      );
       break;
     case '/postulants':
       currentScreen = <Postulants />;
