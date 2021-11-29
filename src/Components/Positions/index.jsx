@@ -1,3 +1,4 @@
+import List from './List';
 import styles from './positions.module.css';
 
 function Positions() {
