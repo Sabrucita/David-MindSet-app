@@ -176,7 +176,7 @@ export const CompaniesForm = () => {
         />
         <label id="zipCode">Zip Code</label>
         <input
-          type="text"
+          type="number"
           id="zipCode"
           name="zipCode"
           value={zipCodeValue}

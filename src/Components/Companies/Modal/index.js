@@ -5,31 +5,47 @@ import ListItem from '../ListItem';
 export const Modal = (props) => {
   if (!props.show) {
     return null;
+    //MODAL FOR DELETE CONFIRMATION
   } else if (props.action == 'delete') {
     const onConfirmDeleteModal = () => {
       props.onCloseModal();
       props.closeModal();
     };
+    const onReturnModal = () => {
+      props.closeModal();
+    };
 
     return (
-      <div className={styles.container}>
-        <div className={styles.modal}>
-          <h3>Are you sure you want to delete this company?</h3>
-          <button onClick={onConfirmDeleteModal}>DELETE</button>
+      <div className={styles.modal}>
+        <div className={styles.centerModal}>
+          <h3 className={styles.modalMessage}>Are you sure you want to delete this company?</h3>
+          <div className={styles.buttonModal}>
+            <button className={styles.modalOk} onClick={onConfirmDeleteModal}>
+              DELETE
+            </button>
+            <button className={styles.modalCancel} onClick={onReturnModal}>
+              RETURN
+            </button>
+          </div>
         </div>
       </div>
     );
+    //MODAL FOR VIEWING AN ITEM LIST
   } else if (props.action == 'view') {
     const onViewItemModal = () => {
       props.closeModal();
     };
     return (
-      <div className={styles.container}>
-        <div className={styles.modal}>
-          <ListItem itemListInfo={props.itemListInfo} />;
-          <button className={styles.buttonModal} onClick={onViewItemModal}>
-            RETURN
-          </button>
+      <div className={styles.modal}>
+        <div className={styles.centerModal}>
+          <div className={styles.modalMessage}>
+            <ListItem className={styles.modalMessage} itemListInfo={props.itemListInfo} />;
+          </div>
+          <div className={styles.buttonModal}>
+            <button className={styles.modalCancel} onClick={onViewItemModal}>
+              RETURN
+            </button>
+          </div>
         </div>
       </div>
     );

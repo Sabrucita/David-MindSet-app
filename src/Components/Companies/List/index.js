@@ -68,15 +68,8 @@ function Companies() {
               <li>{company.name}</li>
               <li>{company.address}</li>
               <li>{company.city}</li>
-              <li>{company.province}</li>
-              <li>{company.country}</li>
-              <li>{company.zipCode}</li>
               <li>{company.phone}</li>
               <li>{company.email}</li>
-              <li>{company.pictureUrl}</li>
-              <li>{company.contactFullName}</li>
-              <li>{company.contactPhone}</li>
-              <li>{company.isActive}</li>
               <button
                 type="button"
                 onClick={() => {
