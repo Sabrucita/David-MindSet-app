@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import Options from '../Options';
 import { capitalize } from '../helpers';
 
-// import styles from './fieldset.module.css';
-
 function Fieldset({
   operation,
   currentId,

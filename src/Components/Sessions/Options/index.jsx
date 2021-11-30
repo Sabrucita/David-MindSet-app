@@ -23,7 +23,6 @@ function Options({ name, resource, operation }) {
         throw new Error(`HTTP ${res.status}`);
       } catch (err) {
         console.log(err);
-        //displayError(err);
       }
     };
     getNames();

@@ -3,10 +3,7 @@ import styles from './list.module.css';
 
 function List({ sessions, modalContent, setShowModal, setModalType }) {
   const updateItem = (id) => {
-    console.log('update', id);
-    localStorage.setItem('operation', 'update');
-    localStorage.setItem('id', id);
-    window.location.pathname = './sessions/form';
+    window.location.href = `/sessions/form?id=${id}`;
   };
 
   const openDeleteModal = (id) => {

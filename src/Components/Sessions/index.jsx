@@ -45,7 +45,7 @@ function Sessions() {
   const addSession = () => {
     localStorage.setItem('operation', 'create');
     localStorage.setItem('id', '');
-    window.location.pathname = './sessions/form';
+    window.location.href = 'sessions/form';
   };
 
   return (

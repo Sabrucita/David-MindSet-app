@@ -44,12 +44,7 @@ function Layout() {
       currentScreen = <Sessions />;
       break;
     case '/sessions/form':
-      currentScreen = (
-        <SessionsForm
-          operation={localStorage.getItem('operation')}
-          id={localStorage.getItem('id')}
-        />
-      );
+      currentScreen = <SessionsForm />;
       break;
     default:
       break;
