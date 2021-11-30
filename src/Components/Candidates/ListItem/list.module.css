@@ -8,6 +8,7 @@
   .list {
     display: flex;
     flex-direction: column;
+    border-radius: 30px;
   }
   .list td {
     flex-direction: column;
@@ -27,6 +28,7 @@
   .list table {
     width: 100%;
     border-collapse: collapse;
+    border-radius: 30px;
   }
 
   .list td,

@@ -1,94 +1,92 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import styles from './list.module.css';
+import { Modal } from '../Modal';
 
-const params = new URLSearchParams(window.location.search);
-const candidateId = params.get('_id');
+// const params = new URLSearchParams(window.location.search);
+// const candidateId = params.get('_id');
 
-function ListItem() {
-  const [candidate, setCandidate] = useState([]);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setCandidate(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+function ListItem(props) {
+  const [showModal, setShowModal] = useState(false);
+  // const [props.itemListInfo, setprops.itemListInfo] = useState([]);
+  // useEffect(() => {
+  //   fetch(`${process.env.REACT_APP_API}/props.itemListInfos/${props.itemListInfoId}`)
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       setprops.itemListInfo(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <section className={styles.container}>
-      <h2>CANDIDATE INFO</h2>
+      <Modal show={showModal} closeModal={closeModal} />
+      <h2>{props.itemListInfo.name} INFO</h2>
       <div>
         <table className={styles.list}>
-          <tr key={candidate._id}>
-            <td>Name: {candidate.firstName}</td>
+          <tr key={props.itemListInfo._id}>
+            <td>Name: {props.itemListInfo.firstName}</td>
             <tr>
-              <td>Surname: {candidate.lastName}</td>
+              <td>Surname: {props.itemListInfo.lastName}</td>
             </tr>
             <tr>
-              <td>E-Mail: {candidate.email}</td>
+              <td>E-Mail: {props.itemListInfo.email}</td>
             </tr>
             <tr>
-              <td>PassWord: {candidate.password}</td>
+              <td>PassWord: {props.itemListInfo.password}</td>
             </tr>
             <tr>
-              <td>Phone Number: {candidate.phone}</td>
+              <td>Phone Number: {props.itemListInfo.phone}</td>
             </tr>
             <tr>
-              <td>City: {candidate.city}</td>
+              <td>City: {props.itemListInfo.city}</td>
             </tr>
             <tr>
-              <td>Province: {candidate.province}</td>
+              <td>Province: {props.itemListInfo.province}</td>
             </tr>
             <tr>
-              <td>Country: {candidate.country}</td>
+              <td>Country: {props.itemListInfo.country}</td>
             </tr>
             <tr>
-              <td>Zip Code: {candidate.postalCode}</td>
+              <td>Zip Code: {props.itemListInfo.postalCode}</td>
             </tr>
             <tr>
-              <td>Birthday: {candidate.birthday}</td>
+              <td>Birthday: {props.itemListInfo.birthday}</td>
             </tr>
             <tr>
-              <td>Hobbies: {candidate.hobbies}</td>
+              <td>Hobbies: {props.itemListInfo.hobbies}</td>
             </tr>
             <tr>
-              <td>Main Skills: {candidate.mainSkills}</td>
+              <td>Main Skills: {props.itemListInfo.mainSkills}</td>
             </tr>
             <tr>
-              <td>Profile Types: {candidate.profileTypes}</td>
+              <td>Profile Types: {props.itemListInfo.profileTypes}</td>
             </tr>
             <tr>
-              <td>Is Open To Work: {candidate.isOpenToWork}</td>
+              <td>Is Open To Work: {props.itemListInfo.isOpenToWork}</td>
             </tr>
             <tr>
-              <td>Is Active: {candidate.isActive}</td>
+              <td>Is Active: {props.itemListInfo.isActive}</td>
             </tr>
             <tr>
-              <td>Education: {candidate.education}</td>
+              <td>Education: {props.itemListInfo.education}</td>
             </tr>
             <tr>
-              <td>Experiences: {candidate.experiences}</td>
+              <td>Experiences: {props.itemListInfo.experiences}</td>
             </tr>
-            <td>Courses: {candidate.courses}</td>
+            <td>Courses: {props.itemListInfo.courses}</td>
           </tr>
           <tr>
-            <td>Address Street: {candidate.street}</td>
+            <td>Address Street: {props.itemListInfo.street}</td>
           </tr>
           <tr>
-            <td>Address Number: {candidate.number}</td>
+            <td>Address Number: {props.itemListInfo.number}</td>
           </tr>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href = `/candidates`;
-            }}
-          >
-            Back
-          </button>
         </table>
       </div>
     </section>
