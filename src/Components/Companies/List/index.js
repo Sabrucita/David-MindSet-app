@@ -62,54 +62,55 @@ function Companies() {
           <th>City</th>
           <th>Phone</th>
           <th>Email</th>
-          <th>Edit</th>
-          <th>Delete</th>
-          <th>View More</th>
+          <th>Actions</th>
         </tr>
         {companies.map((company) => {
           return (
-            <tbody key={company._id}>
-              <tr className={styles.ulCompanies}>
-                <td>{company.name}</td>
-                <td>{company.address}</td>
-                <td>{company.city}</td>
-                <td>{company.phone}</td>
-                <td>{company.email}</td>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.location.href = `/companies/form?_id=${company._id}`;
-                  }}
-                >
-                  EDIT
-                </button>
-                <button
-                  onClick={() => {
-                    setShowModal(true);
-                    setLastIdCLicked(company._id);
-                    setLastAction('delete');
-                  }}
-                  type="button"
-                >
-                  DELETE
-                </button>
-                <button
-                  onClick={() => {
-                    setLastIdCLicked(company._id);
-                    setLastAction('view');
-                    setItemListInfo(company);
-                    setShowModal(true);
-                  }}
-                  type="button"
-                >
-                  VIEW MORE
-                </button>
+            <tbody className={styles.list} key={company._id}>
+              <tr>
+                <th>{company.name}</th>
+                <th>{company.address}</th>
+                <th>{company.city}</th>
+                <th>{company.phone}</th>
+                <th>{company.email}</th>
+                <th className={styles.keypad}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.href = `/companies/form?_id=${company._id}`;
+                    }}
+                  >
+                    EDIT
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowModal(true);
+                      setLastIdCLicked(company._id);
+                      setLastAction('delete');
+                    }}
+                    type="button"
+                  >
+                    DELETE
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLastIdCLicked(company._id);
+                      setLastAction('view');
+                      setItemListInfo(company);
+                      setShowModal(true);
+                    }}
+                    type="button"
+                  >
+                    VIEW MORE
+                  </button>
+                </th>
               </tr>
             </tbody>
           );
         })}
       </div>
       <button
+        className={styles.addButton}
         type="button"
         onClick={() => {
           window.location.href = `/companies/form/new`;
