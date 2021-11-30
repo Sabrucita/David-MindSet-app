@@ -4,7 +4,7 @@ import Modal from '../Modal';
 import styles from './form.module.css';
 const url = process.env.REACT_APP_API;
 
-function Form({ operation, id }) {
+function Form() {
   const [formData, setFormData] = useState({});
   const [currentCompany, setCurrentCompany] = useState('');
   const [currentStartDate, setCurrentStartDate] = useState('');
@@ -13,6 +13,13 @@ function Form({ operation, id }) {
   const [modalContent, setModalContent] = useState();
   const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  let operation;
+
+  if (id) operation = 'update';
+  else operation = 'create';
 
   useEffect(() => {
     if (operation === 'update') {
@@ -45,14 +52,13 @@ function Form({ operation, id }) {
       })
         .then(async (res) => {
           const data = await res.json();
-          console.log('successful', data);
           setShowModal(true);
           setModalType('create');
           setModalContent(data.data);
         })
-        .catch((err) => {
-          console.log('error', err);
-          //displayError(err);
+        .catch(() => {
+          setShowModal(true);
+          setModalType('error');
         });
     } else {
       fetch(`${url}/open-positions/${id}`, {
@@ -64,14 +70,13 @@ function Form({ operation, id }) {
       })
         .then(async (res) => {
           const data = await res.json();
-          console.log('successful', data);
           setShowModal(true);
           setModalType('create');
           setModalContent(data.data);
         })
-        .catch((err) => {
-          console.log('error', err);
-          //displayError(err);
+        .catch(() => {
+          setShowModal(true);
+          setModalType('error');
         });
     }
   };
@@ -84,7 +89,7 @@ function Form({ operation, id }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    if (modalType !== 'error') window.location.pathname = './positions';
+    if (modalType !== 'error') window.location.href = '/positions';
   };
 
   return (

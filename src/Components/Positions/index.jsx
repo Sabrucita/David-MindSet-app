@@ -43,9 +43,7 @@ function Positions() {
   };
 
   const addPosition = () => {
-    localStorage.setItem('operation', 'create');
-    localStorage.setItem('id', '');
-    window.location.pathname = './positions/form';
+    window.location.href = 'positions/form';
   };
 
   return (

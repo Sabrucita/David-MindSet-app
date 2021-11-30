@@ -3,10 +3,7 @@ import styles from './list.module.css';
 
 function List({ positions, modalContent, setShowModal, setModalType }) {
   const updateItem = (id) => {
-    console.log('update', id);
-    localStorage.setItem('operation', 'update');
-    localStorage.setItem('id', id);
-    window.location.pathname = './positions/form';
+    window.location.href = `./positions/form?id=${id}`;
   };
 
   const openDeleteModal = (id) => {

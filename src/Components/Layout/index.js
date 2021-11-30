@@ -32,12 +32,7 @@ function Layout() {
       currentScreen = <Positions />;
       break;
     case '/positions/form':
-      currentScreen = (
-        <PositionsForm
-          operation={localStorage.getItem('operation')}
-          id={localStorage.getItem('id')}
-        />
-      );
+      currentScreen = <PositionsForm />;
       break;
     case '/postulants':
       currentScreen = <Postulants />;
