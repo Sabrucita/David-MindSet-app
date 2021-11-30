@@ -56,50 +56,56 @@ function Companies() {
       />
       <h2>Companies</h2>
       <div>
+        <tr className={styles.title}>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Edit</th>
+          <th>Delete</th>
+          <th>View More</th>
+        </tr>
         {companies.map((company) => {
           return (
-            <ul
-              onDoubleClick={() => {
-                window.location.href = `/companies/listitem?_id=${company._id}`;
-              }}
-              className={styles.ulCompanies}
-              key={company._id}
-            >
-              <li>{company.name}</li>
-              <li>{company.address}</li>
-              <li>{company.city}</li>
-              <li>{company.phone}</li>
-              <li>{company.email}</li>
-              <button
-                type="button"
-                onClick={() => {
-                  window.location.href = `/companies/form?_id=${company._id}`;
-                }}
-              >
-                EDIT
-              </button>
-              <button
-                onClick={() => {
-                  setShowModal(true);
-                  setLastIdCLicked(company._id);
-                  setLastAction('delete');
-                }}
-                type="button"
-              >
-                DELETE
-              </button>
-              <button
-                onClick={() => {
-                  setLastIdCLicked(company._id);
-                  setLastAction('view');
-                  setItemListInfo(company);
-                  setShowModal(true);
-                }}
-                type="button"
-              >
-                VIEW MORE
-              </button>
-            </ul>
+            <tbody key={company._id}>
+              <tr className={styles.ulCompanies}>
+                <td>{company.name}</td>
+                <td>{company.address}</td>
+                <td>{company.city}</td>
+                <td>{company.phone}</td>
+                <td>{company.email}</td>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.location.href = `/companies/form?_id=${company._id}`;
+                  }}
+                >
+                  EDIT
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                    setLastIdCLicked(company._id);
+                    setLastAction('delete');
+                  }}
+                  type="button"
+                >
+                  DELETE
+                </button>
+                <button
+                  onClick={() => {
+                    setLastIdCLicked(company._id);
+                    setLastAction('view');
+                    setItemListInfo(company);
+                    setShowModal(true);
+                  }}
+                  type="button"
+                >
+                  VIEW MORE
+                </button>
+              </tr>
+            </tbody>
           );
         })}
       </div>

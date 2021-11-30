@@ -6,10 +6,24 @@
   align-items: center;
 }
 
+.title{
+  display: flex;
+  border: 1px solid #8877d1;
+  justify-content: space-around;
+  background-color: #8877d1;
+  align-items: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #fff;
+  padding: 7px;
+}
+
 .ulCompanies{
   display: flex;
-  border: 1px solid #002147;
-  justify-content: space-between;
+  border: 1px solid #8877d1;
+  justify-content: space-around;
+  background-color: rgb(240, 236, 245);
+  align-items: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .ulCompanies li{
@@ -18,9 +32,13 @@
 }
 
 button{
-  background-color: #002147;
-  color: #fff;
-  margin: 5px;
-  padding: 5px;
+  padding: 8px 10px;
+  margin: 15px 2px;
   border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  background-color: #8877d1;
+  color: #fff;
+  border: 2px solid #8877d1;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
