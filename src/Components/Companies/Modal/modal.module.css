@@ -79,6 +79,7 @@
 
 .buttonModal button:hover {
   background-color: rgb(88, 88, 88);
+  color: #fff;
 }
 
 .hide {
