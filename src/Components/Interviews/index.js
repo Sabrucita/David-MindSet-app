@@ -3,7 +3,7 @@ import styles from './interviews.module.css';
 import List from './List';
 import Modal from './Modal';
 
-function Interviews(props) {
+function Interviews() {
   const [showModal, setShowModal] = useState(false);
   const [interviews, setInterviews] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
@@ -67,11 +67,7 @@ function Interviews(props) {
           openModal={openModal}
           acceptModal={acceptModal}
         />
-        <a
-          href="/interviews/form"
-          className={styles.buttonAdd}
-          onClick={() => props.selectTypeForm('create')}
-        >
+        <a href="/interviews/form" className={styles.buttonAdd}>
           <span className={styles.buttonGreen}>Add</span>
         </a>
       </section>
