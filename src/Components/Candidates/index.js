@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './candidates.module.css';
-/*import Form from './Form';
-import List from './List';*/
+import { Modal } from './Modal';
 
 //FUNCTION TO LIST ALL CANDIDATES
 function Candid() {
+  const [showModal, setShowModal] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [lastIdClicked, setLastIdClicked] = useState('');
+  const [lastAction, setLastAction] = useState('');
+  const [itemListInfo, setItemListInfo] = useState('');
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/candidates`)
       .then((response) => response.json())
@@ -17,8 +21,13 @@ function Candid() {
       });
   }, []);
 
+  //modal
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   //FUNCTION TO DELETE A CANDIDATE BY ID
-  const onClick = (id) => {
+  const deleteClick = (id) => {
     fetch(`${process.env.REACT_APP_API}/candidates/${id}`, {
       method: 'DELETE',
       headers: {
@@ -32,9 +41,19 @@ function Candid() {
       })
       .catch((error) => console.log(error));
   };
+  const onConfirmDeleteModal = () => {
+    deleteClick(lastIdClicked);
+  };
 
   return (
     <section className={styles.container}>
+      <Modal
+        show={showModal}
+        closeModal={closeModal}
+        onCloseModal={onConfirmDeleteModal}
+        itemListInfo={itemListInfo}
+        action={lastAction}
+      />
       <h2>Candidates</h2>
       <div>
         <table className={styles.list}>
@@ -82,12 +101,25 @@ function Candid() {
                       Edit
                     </button>
                     <button
-                      type="button"
                       onClick={() => {
-                        onClick(candidate._id);
+                        setShowModal(true);
+                        setLastIdClicked(candidate._id);
+                        setLastAction('delete');
                       }}
+                      type="button"
                     >
                       Delete
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLastIdClicked(candidate._id);
+                        setLastAction('view');
+                        setItemListInfo(candidate);
+                        setShowModal(true);
+                      }}
+                      type="button"
+                    >
+                      View More
                     </button>
                   </td>
                 </tr>
@@ -108,5 +140,4 @@ function Candid() {
     </section>
   );
 }
-
 export default Candid;

@@ -1,7 +1,12 @@
 // eslint-disable-next-line
-import React, { useState, useEffect} from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
+import { Modal } from '../Modal';
+
 export const CandidatesForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [lastAction, setLastAction] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -56,6 +61,10 @@ export const CandidatesForm = () => {
       });
   }, []);
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   let create = false;
   if (!window.location.search) {
     create = true;
@@ -79,26 +88,28 @@ export const CandidatesForm = () => {
           lastName: lastNameValue,
           email: emailValue,
           password: passwordValue,
-          phone: parseInt(phoneValue),
+          phone: parseInt(phoneValue, 10),
           city: cityValue,
           province: provinceValue,
           country: countryValue,
           postalCode: postalCodeValue,
           birthday: birthdayValue,
-          hobbies: hobbiesValue,
-          mainSkills: mainSkillsValue,
-          profileTypes: profileTypesValue,
-          isOpenToWork: isOpenToWorkValue,
-          isActive: isActiveValue,
-          education: educationValue,
-          experiences: experiencesValue,
-          courses: coursesValue,
           address: { street: candidateAddressValue, number: candidateAddressNumberValue }
+          //   hobbies: hobbiesValue,
+          //   mainSkills: mainSkillsValue,
+          //   profileTypes: profileTypesValue,
+          //   isOpenToWork: isOpenToWorkValue,
+          //   isActive: isActiveValue,
+          //   education: educationValue,
+          //   experiences: experiencesValue,
+          //   courses: coursesValue
         })
       })
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
+          setLastAction('update');
+          setShowModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -136,6 +147,8 @@ export const CandidatesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
+          setLastAction('create');
+          setShowModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -145,6 +158,7 @@ export const CandidatesForm = () => {
 
   return (
     <div>
+      <Modal show={showModal} closeModal={closeModal} action={lastAction} />
       <button
         type="button"
         onClick={() => {
