@@ -18,7 +18,7 @@ function Fieldset({
   const [inputValue, setInputValue] = useState('');
 
   const changeInputValue = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
     setInputValue(value);
     updateData(resourceName, value);
   };

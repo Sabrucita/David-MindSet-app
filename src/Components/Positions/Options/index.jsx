@@ -11,7 +11,7 @@ function Options({ name, resource, operation }) {
         if (res.status === 200) {
           const data = await res.json();
           let names = [];
-          data[resource].forEach((element) => {
+          data['data'].forEach((element) => {
             let name = {
               id: element._id,
               name: `${capitalize(element.name)}}`

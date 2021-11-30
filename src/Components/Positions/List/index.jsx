@@ -1,19 +1,7 @@
-import { useState, useEffect } from 'react';
 import ListItem from '../ListItem';
 import styles from './list.module.css';
-const url = process.env.REACT_APP_API;
 
-function List() {
-  const [positions, setPositions] = useState([]);
-
-  useEffect(() => {
-    fetch(`${url}/open-positions`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPositions(data.data);
-      });
-  }, []);
-
+function List({ positions, modalContent, setShowModal, setModalType }) {
   const updateItem = (id) => {
     console.log('update', id);
     localStorage.setItem('operation', 'update');
@@ -21,22 +9,17 @@ function List() {
     window.location.pathname = './positions/form';
   };
 
-  const deleteItem = (id) => {
-    console.log('delete');
-    const positionsUpdated = positions.filter((position) => position._id !== id);
-    fetch(`${url}/open-positions/${id}`, {
-      method: 'DELETE'
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        console.log('deleted', data);
-        //requestSuccessful(data, 'deleted');
-      })
-      .catch((err) => {
-        console.log('error', err);
-        //displayError(err);
-      });
-    setPositions(positionsUpdated);
+  const openDeleteModal = (id) => {
+    modalContent(id);
+    setShowModal(true);
+    setModalType('delete');
+  };
+
+  const openViewModal = (id) => {
+    const position = positions.find((position) => position._id === id);
+    modalContent(position);
+    setShowModal(true);
+    setModalType('viewMore');
   };
 
   return (
@@ -57,7 +40,8 @@ function List() {
               key={position._id}
               position={position}
               updateItem={updateItem}
-              deleteItem={deleteItem}
+              deleteItem={openDeleteModal}
+              viewItem={openViewModal}
             />
           );
         })}
