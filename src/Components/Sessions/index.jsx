@@ -43,8 +43,6 @@ function Sessions() {
   };
 
   const addSession = () => {
-    localStorage.setItem('operation', 'create');
-    localStorage.setItem('id', '');
     window.location.href = 'sessions/form';
   };
 
