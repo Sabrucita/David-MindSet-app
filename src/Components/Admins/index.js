@@ -109,7 +109,7 @@ function Admins() {
           window.location.href = `/admins/form/new`;
         }}
       >
-        ADD COMPANY
+        ADD ADMIN
       </button>
     </section>
   );
