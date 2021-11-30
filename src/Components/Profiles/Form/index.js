@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import Input from '../Input';
-import InputDate from '../InputDate';
 import Modal from '../Modal';
 import styles from './form.module.css';
 
@@ -14,90 +13,41 @@ function Form() {
     idToUpdate = window.location.search.slice(1);
   }
 
-  const [candidates, setCandidates] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [companyValue, setCompanyValue] = useState();
-  const [candidateValue, setCandidateValue] = useState();
-  const [statusValue, setStatusValue] = useState();
-  const [dateValue, setDateValue] = useState();
+  const [nameValue, setNameValue] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [interviewCreatedUpdated, setInterviewCreatedUpdated] = useState();
-  const [interviewToUpdate, setInterviewToUpdate] = useState();
+  const [profileCreatedUpdated, setProfileCreatedUpdated] = useState();
+  const [profileToUpdate, setProfileToUpdate] = useState();
   const [typeModal, setTypeModal] = useState();
   const [textDescription, seTTextDescription] = useState();
 
-  //GET ALL EXISTING COMPANIES AND CANDIDATES IN ORDER TO INCLUDES ON THE SELECT OPTIONS
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/candidates`)
-      .then((response) => response.json())
-      .then((response) => {
-        setCandidates(response.candidates);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/companies`)
-      .then((response) => response.json())
-      .then((response) => {
-        setCompanies(response.data);
-      });
-  }, []);
-
-  //GET THE COMPANY ID SELECTED
-  let idCompany;
-  const onChangeCompany = (event) => {
-    idCompany = event.target.value.split(' / ', 1);
-    idCompany = idCompany[0];
-    setCompanyValue(idCompany);
+  //GET THE NAME
+  const onChangeName = (event) => {
+    setNameValue(event.target.value);
   };
 
-  //GET THE CANDIDATE ID SELECTED
-  let idCandidate;
-  const onChangeCandidate = (event) => {
-    idCandidate = event.target.value.split(' / ', 1);
-    idCandidate = idCandidate[0];
-    setCandidateValue(idCandidate);
-  };
-
-  //GET THE STATUS SELECTED
-  let statusSelected;
-  const onChangeStatus = (event) => {
-    if (event.target.value === 'True') statusSelected = true;
-    else statusSelected = false;
-    setStatusValue(statusSelected);
-  };
-
-  //GET THE DATE ID SELECTED
-  const onChangeDate = (event) => {
-    setDateValue(event.target.value);
-  };
-
-  //CREATE CANDIDATE
+  //CREATE PROFILE
   function onSubmitCreate(event) {
     event.preventDefault();
-    if (!candidateValue || !companyValue || !dateValue || statusValue === undefined) {
+    if (!nameValue) {
       setTypeModal('dataRequired');
       seTTextDescription('Please complete the missing data');
       return openModal();
     }
-    let interview = {
-      idCandidate: candidateValue,
-      idCompany: companyValue,
-      date: dateValue,
-      status: statusValue,
+    let profile = {
+      name: nameValue,
       isActive: true
     };
-    fetch(`${process.env.REACT_APP_API}/interviews`, {
+    fetch(`${process.env.REACT_APP_API}/profile-types`, {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(interview)
+      body: JSON.stringify(profile)
     })
       .then((response) => response.json())
       .then((response) => {
-        setInterviewCreatedUpdated(response.data);
+        setProfileCreatedUpdated(response.data);
         setTypeModal('dataCreate');
         openModal();
         if (response.msg) throw new Error(response.msg);
@@ -106,43 +56,42 @@ function Form() {
   }
 
   //PRELOAD THE APP INFO INTO THE INPUTS
-  // GET THE INFO OF THE CHOOSEN APP
+  // GET THE INFO OF THE CHOOSEN PROFILE
   if (typeForm === 'update') {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/interviews/${idToUpdate}`)
+      fetch(`${process.env.REACT_APP_API}/profile-types/${idToUpdate}`)
         .then((response) => response.json())
         .then((response) => {
-          setInterviewToUpdate(response.data);
+          setProfileToUpdate(response.data);
         })
         .catch((err) => console.log(err));
     }, []);
   }
 
-  //UPDATE CANDIDATE
+  //UPDATE PROFILE
   function onSubmitUpdate(event) {
     event.preventDefault();
-    let interview = {
-      idCandidate: candidateValue ? candidateValue : interviewToUpdate.idCandidate._id,
-      idCompany: companyValue ? companyValue : interviewToUpdate.idCompany._id,
-      status: statusValue !== null ? statusValue : interviewToUpdate.status,
-      date: dateValue ? dateValue : interviewToUpdate.date,
+    if (!nameValue) {
+      setTypeModal('dataRequired');
+      seTTextDescription('Please complete the missing data');
+      return openModal();
+    }
+    let profile = {
+      name: nameValue ? nameValue : profileToUpdate.name,
       isActive: true
     };
-    fetch(`${process.env.REACT_APP_API}/interviews/${idToUpdate}`, {
+    fetch(`${process.env.REACT_APP_API}/profile-types/${idToUpdate}`, {
       method: 'PUT',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(interview)
+      body: JSON.stringify(profile)
     })
       .then((response) => response.json())
       .then((response) => {
-        // necessary adaptations in order to show correctly on the modal
-        let data = response.data;
-        data.idCandidate = data.idCandidate._id;
-        data.idCompany = data.idCompany._id;
-        setInterviewCreatedUpdated(data);
+        console.log(response);
+        setProfileCreatedUpdated(response.newProfileType);
         setTypeModal('dataUpdate');
         openModal();
         if (response.msg) throw new Error(response.msg);
@@ -165,57 +114,25 @@ function Form() {
         <Modal
           show={showModal}
           closeModal={closeModal}
-          content={interviewCreatedUpdated}
+          content={profileCreatedUpdated}
           type={typeModal}
           textDescription={textDescription}
         />
-        {typeForm === 'create' && <h1>Add Interview</h1>}
-        {typeForm === 'update' && <h1>Update Interview</h1>}
+        {typeForm === 'create' && <h1>Add Profile Type</h1>}
+        {typeForm === 'update' && <h1>Update Profile Type</h1>}
         <form className={styles.formSubscription}>
           <div>
             <div className={styles.containerForm}>
               <ul className={styles.column}>
                 <Input
-                  key="company"
-                  htmlFor="company"
-                  labelTitle="Company"
-                  nameSelect="Company"
-                  onchangeSelect={onChangeCompany}
-                  data={companies}
-                  type="company"
+                  key="name"
+                  htmlFor="name"
+                  labelTitle="Name"
+                  nameSelect="name"
+                  onchangeValue={onChangeName}
+                  type="name"
                   typeForm={typeForm}
-                  interviewToUpdate={interviewToUpdate}
-                />
-                <Input
-                  key="status"
-                  htmlFor="status"
-                  labelTitle="Status"
-                  nameSelect="status"
-                  onchangeSelect={onChangeStatus}
-                  type="status"
-                  typeForm={typeForm}
-                  interviewToUpdate={interviewToUpdate}
-                />
-              </ul>
-              <ul className={styles.column}>
-                <Input
-                  key="candidate"
-                  htmlFor="candidate"
-                  labelTitle="Candidate"
-                  nameSelect="candidate"
-                  onchangeSelect={onChangeCandidate}
-                  data={candidates}
-                  type="candidate"
-                  typeForm={typeForm}
-                  interviewToUpdate={interviewToUpdate}
-                />
-                <InputDate
-                  key="date"
-                  htmlFor="date"
-                  type="date"
-                  name="date"
-                  interviewToUpdate={interviewToUpdate}
-                  onChange={onChangeDate}
+                  profileToUpdate={profileToUpdate}
                 />
               </ul>
             </div>
