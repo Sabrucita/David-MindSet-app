@@ -178,6 +178,9 @@ export const CandidatesForm = () => {
             setFirstNameValue(e.target.value);
           }}
           value={firstNameValue}
+          minLength="2"
+          maxLength="10"
+          required
         />
         <label id="lastName">lastName</label>
         <input
@@ -188,16 +191,20 @@ export const CandidatesForm = () => {
             setLastNameValue(e.target.value);
           }}
           value={lastNameValue}
+          minLength="2"
+          maxLength="10"
+          required
         />
         <label id="email">email</label>
         <input
-          type="text"
+          type="email"
           name="email"
           id="email"
           onChange={(e) => {
             setEmailValue(e.target.value);
           }}
           value={emailValue}
+          required
         />
         <label id="password">password</label>
         <input
@@ -208,6 +215,9 @@ export const CandidatesForm = () => {
             setPasswordValue(e.target.value);
           }}
           value={passwordValue}
+          minLength="5"
+          maxLength="10"
+          required
         />
         <label id="phone">phone</label>
         <input
@@ -228,6 +238,9 @@ export const CandidatesForm = () => {
             setCityValue(e.target.value);
           }}
           value={cityValue}
+          required
+          minLength="3"
+          maxLength="15"
         />
         <label id="province">province</label>
         <input
@@ -238,6 +251,9 @@ export const CandidatesForm = () => {
             setProvinceValue(e.target.value);
           }}
           value={provinceValue}
+          required
+          minLength="3"
+          maxLength="15"
         />
         <label id="country">country</label>
         <input
@@ -258,6 +274,8 @@ export const CandidatesForm = () => {
             setPostalCodeValue(e.target.value);
           }}
           value={postalCodeValue}
+          minLength="1"
+          maxLength="4"
         />
         <label id="birthday">birthday</label>
         <input
@@ -278,6 +296,9 @@ export const CandidatesForm = () => {
             setCandidateAddressValue(e.target.value);
           }}
           value={candidateAddressValue}
+          minLength="1"
+          maxLength="10"
+          required
         />
         <label id="addressStreet">address Number</label>
         <input
@@ -288,6 +309,9 @@ export const CandidatesForm = () => {
             setCandidateAddressNumberValue(e.target.value);
           }}
           value={candidateAddressNumberValue}
+          minLength="1"
+          maxLength="10"
+          required
         />
         <label id="hobbies">hobbies</label>
         <input
