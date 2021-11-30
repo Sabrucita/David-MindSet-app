@@ -3,7 +3,7 @@ import styles from './applications.module.css';
 import List from './List';
 import Modal from './Modal';
 
-function Applications(props) {
+function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
@@ -68,11 +68,7 @@ function Applications(props) {
           openModal={openModal}
           acceptModal={acceptModal}
         />
-        <a
-          href="/applications/form"
-          className={styles.buttonAdd}
-          onClick={() => props.selectTypeForm('create')}
-        >
+        <a href="/applications/form" className={styles.buttonAdd}>
           <span className={styles.buttonGreen}>Add</span>
         </a>
       </section>
