@@ -1,13 +1,17 @@
 import styles from './listitem.module.css';
 import { capitalize } from '../helpers';
 
-function ListItem({ session, updateItem, deleteItem }) {
+function ListItem({ session, updateItem, deleteItem, viewItem }) {
   const deleteThis = () => {
     deleteItem(session._id);
   };
 
   const updateThis = () => {
     updateItem(session._id);
+  };
+
+  const viewThis = () => {
+    viewItem(session._id);
   };
 
   return (
@@ -25,6 +29,9 @@ function ListItem({ session, updateItem, deleteItem }) {
         </button>
         <button className="delete-btn" onClick={deleteThis}>
           <span className="material-icons-outlined">clear</span>
+        </button>
+        <button className="view-btn" onClick={viewThis}>
+          <span className="material-icons-outlined">search</span>
         </button>
       </td>
     </tr>

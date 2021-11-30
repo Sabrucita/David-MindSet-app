@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Fieldset from '../Fieldset';
+import Modal from '../Modal';
 import styles from './form.module.css';
 const url = process.env.REACT_APP_API;
 
@@ -8,6 +9,9 @@ function Form({ operation, id }) {
   const [currentCandidate, setCurrentCandidate] = useState('');
   const [currentPsychologist, setCurrentPsychologist] = useState('');
   const [currentDate, setCurrentDate] = useState('');
+  const [modalContent, setModalContent] = useState();
+  const [modalType, setModalType] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (operation === 'update') {
@@ -34,7 +38,9 @@ function Form({ operation, id }) {
         .then(async (res) => {
           const data = await res.json();
           console.log('successful', data);
-          //requestSuccessful(data, 'created');
+          setShowModal(true);
+          setModalType('create');
+          setModalContent(data.data);
         })
         .catch((err) => {
           console.log('error', err);
@@ -51,7 +57,9 @@ function Form({ operation, id }) {
         .then(async (res) => {
           const data = await res.json();
           console.log('successful', data);
-          //requestSuccessful(data, 'created');
+          setShowModal(true);
+          setModalType('update');
+          setModalContent(data.data);
         })
         .catch((err) => {
           console.log('error', err);
@@ -64,6 +72,11 @@ function Form({ operation, id }) {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
+  };
+
+  const closeModalFn = () => {
+    setShowModal(false);
+    window.location.pathname = './sessions';
   };
 
   return (
@@ -102,6 +115,12 @@ function Form({ operation, id }) {
         />
         <button type="submit">Submit</button>
       </form>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+      />
     </div>
   );
 }

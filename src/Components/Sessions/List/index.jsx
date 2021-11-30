@@ -1,19 +1,7 @@
-import { useState, useEffect } from 'react';
 import ListItem from '../ListItem';
 import styles from './list.module.css';
-const url = process.env.REACT_APP_API;
 
-function List() {
-  const [sessions, setSessions] = useState([]);
-
-  useEffect(() => {
-    fetch(`${url}/sessions`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSessions(data.data);
-      });
-  }, []);
-
+function List({ sessions, modalContent, setShowModal, setModalType }) {
   const updateItem = (id) => {
     console.log('update', id);
     localStorage.setItem('operation', 'update');
@@ -21,22 +9,17 @@ function List() {
     window.location.pathname = './sessions/form';
   };
 
-  const deleteItem = (id) => {
-    console.log('delete');
-    const sessionsUpdated = sessions.filter((session) => session._id !== id);
-    fetch(`${url}/sessions/${id}`, {
-      method: 'DELETE'
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        console.log('deleted', data);
-        //requestSuccessful(data, 'deleted');
-      })
-      .catch((err) => {
-        console.log('error', err);
-        //displayError(err);
-      });
-    setSessions(sessionsUpdated);
+  const openDeleteModal = (id) => {
+    modalContent(id);
+    setShowModal(true);
+    setModalType('delete');
+  };
+
+  const openViewModal = (id) => {
+    const session = sessions.find((session) => session._id === id);
+    modalContent(session);
+    setShowModal(true);
+    setModalType('viewMore');
   };
 
   return (
@@ -56,7 +39,8 @@ function List() {
               key={session._id}
               session={session}
               updateItem={updateItem}
-              deleteItem={deleteItem}
+              deleteItem={openDeleteModal}
+              viewItem={openViewModal}
             />
           );
         })}
