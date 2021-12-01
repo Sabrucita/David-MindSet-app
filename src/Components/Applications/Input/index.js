@@ -4,15 +4,16 @@ function Input(props) {
 
   //load the select options list
   if (props.type === 'position') {
+    console.log(props.data);
     optionData = props.data.map((position) => {
-      return `${position._id} / ${position.idCompany} / ${position.jobDescription}`;
+      return `${position._id} / ${position.idCompany.name} / ${position.jobDescription}`;
     });
     if (props.applicationToUpdate) {
       //if update, preload the select option
       let positionFound = props.data.find(
         (position) => position._id === props.applicationToUpdate.idOpenPosition._id
       );
-      preloadValue = `${positionFound._id} / ${positionFound.idCompany} / ${positionFound.jobDescription}`;
+      preloadValue = `${positionFound._id} / ${positionFound.idCompany.name} / ${positionFound.jobDescription}`;
     }
   } else if (props.type === 'candidate') {
     optionData = props.data.map((candidate) => {
