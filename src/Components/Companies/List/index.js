@@ -46,79 +46,101 @@ function Companies() {
   };
 
   return (
-    <section className={styles.container}>
-      <Modal
-        show={showModal}
-        closeModal={closeModal}
-        onCloseModal={onConfirmDeleteModal}
-        itemListInfo={itemListInfo}
-        action={lastAction}
-      />
-      <h2>Companies</h2>
-      <div>
-        <tr className={styles.title}>
-          <th>Name</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-        {companies.map((company) => {
-          return (
-            <tbody className={styles.list} key={company._id}>
-              <tr>
-                <th>{company.name}</th>
-                <th>{company.address}</th>
-                <th>{company.city}</th>
-                <th>{company.phone}</th>
-                <th>{company.email}</th>
-                <th className={styles.keypad}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.location.href = `/companies/form?_id=${company._id}`;
-                    }}
-                  >
-                    EDIT
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowModal(true);
-                      setLastIdCLicked(company._id);
-                      setLastAction('delete');
-                    }}
-                    type="button"
-                  >
-                    DELETE
-                  </button>
-                  <button
-                    onClick={() => {
-                      setLastIdCLicked(company._id);
-                      setLastAction('view');
-                      setItemListInfo(company);
-                      setShowModal(true);
-                    }}
-                    type="button"
-                  >
-                    VIEW MORE
-                  </button>
-                </th>
+    <div className={styles.containerMain}>
+      <section className={styles.container}>
+        <Modal
+          show={showModal}
+          closeModal={closeModal}
+          onCloseModal={onConfirmDeleteModal}
+          itemListInfo={itemListInfo}
+          action={lastAction}
+        />
+        <aside className={styles.sideMenu}>
+          <div>
+            <ul>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+              <li>.</li>
+            </ul>
+          </div>
+        </aside>
+        <section className={styles.main}>
+          <h1>Companies</h1>
+          <table>
+            <thead>
+              <tr className={styles.title}>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
               </tr>
+            </thead>
+            <tbody className={styles.list}>
+              {companies.map((company) => {
+                return (
+                  <tr key={company._id}>
+                    <td>{company.name}</td>
+                    <td>{company.address}</td>
+                    <td>{company.city}</td>
+                    <td>{company.phone}</td>
+                    <td>{company.email}</td>
+                    <td className={styles.keypad}>
+                      <button
+                        className="material-icons-outlined"
+                        onClick={() => {
+                          setShowModal(true);
+                          setLastIdCLicked(company._id);
+                          setLastAction('delete');
+                        }}
+                        type="button"
+                      >
+                        clear
+                      </button>
+                      <button
+                        className="material-icons-outlined"
+                        type="button"
+                        onClick={() => {
+                          window.location.href = `/companies/form?_id=${company._id}`;
+                        }}
+                      >
+                        edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          setLastIdCLicked(company._id);
+                          setLastAction('view');
+                          setItemListInfo(company);
+                          setShowModal(true);
+                        }}
+                        type="button"
+                      >
+                        VIEW MORE
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+              <button
+                className={styles.buttonGreen}
+                type="button"
+                onClick={() => {
+                  window.location.href = `/companies/form/new`;
+                }}
+              >
+                ADD COMPANY
+              </button>
             </tbody>
-          );
-        })}
-      </div>
-      <button
-        className={styles.addButton}
-        type="button"
-        onClick={() => {
-          window.location.href = `/companies/form/new`;
-        }}
-      >
-        ADD COMPANY
-      </button>
-    </section>
+          </table>
+        </section>
+      </section>
+    </div>
   );
 }
 

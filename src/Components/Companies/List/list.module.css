@@ -1,29 +1,57 @@
-.container {
+/*.container {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.addButton{
-  padding: 25px;
-  border-radius: 50px;
-  font-size: 20px;
-}
+}*/
 
 button{
-  background-color: rgb(111, 207, 108);
-  color: #fff;
-  padding: 13px;
-  border: 1px solid #fff;
-  border-radius: 30px;
+  margin: 0px 5px 0px 5px;
 }
 
-button:hover{
-  background-color: rgb(181, 231, 179);
-  color:rgb(88, 88, 88);
-  font-style: italic;
-  border: 1px solid rgb(88, 88, 88);
+.container-main {
+  display: flex;
+}
+
+.main {
+  order: 2;
+  width: 100%;
+}
+
+.main h1 {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
+  display: flex;
+  color: rgb(99, 99, 99);
+}
+
+.buttonGreen {
+  padding: 16px 40px;
+  margin: 15px 2px;
+  border: rgb(21, 139, 10);
+  border-radius: 30px;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.buttonGreen:hover {
+  background-color: rgb(88, 88, 88);
+}
+
+.sideMenu{
+  order: 1;
+  margin: 20px;
+  padding: 60px 30px 60px 30px;
+  width: 20%;
+  border: 2px rgb(191, 191, 191) solid;
+  border-radius: 30px;
+  float: left;
 }
 
 .title{
@@ -33,7 +61,6 @@ button:hover{
 
 .list tr {
   background-color: rgba(129, 129, 129);
-  color: rgb(255, 255, 255);
   text-align: center;
 }
 

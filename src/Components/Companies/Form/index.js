@@ -263,7 +263,9 @@ export const CompaniesForm = () => {
             setIsActiveValue(e.currentTarget.checked);
           }}
         />
-        <button type="submit">{!isCreating ? 'SAVE CHANGES' : 'CREATE'}</button>
+        <button className={styles.saveButton} type="submit">
+          {!isCreating ? 'SAVE CHANGES' : 'CREATE'}
+        </button>
       </form>
     </div>
   );
