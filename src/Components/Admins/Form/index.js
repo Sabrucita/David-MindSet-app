@@ -1,8 +1,12 @@
 import React from 'react';
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import { Modal } from '../Modal';
 
-export const CompaniesForm = () => {
+export const AdminsForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [lastAction, setLastAction] = useState('');
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('_id');
@@ -26,6 +30,11 @@ export const CompaniesForm = () => {
   const [passwordValue, setPasswordValue] = useState('');
   const [isActiveValue, setIsActiveValue] = useState(false);
 
+  //Modal
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   let isCreating = false;
   if (!window.location.search) {
     isCreating = true;
@@ -37,7 +46,7 @@ export const CompaniesForm = () => {
       const params = new URLSearchParams(window.location.search);
       const adminId = params.get('_id');
 
-      //FUNCTION FOR UPDATING A COMPANY
+      //Update an admin
       fetch(`${process.env.REACT_APP_API}/admins/${adminId}`, {
         method: 'PUT',
         mode: 'cors',
@@ -55,13 +64,14 @@ export const CompaniesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
-          window.location.href = '/admins';
+          setLastAction('update');
+          setShowModal(true);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      //FUNCTION FOR CREATING A COMPANY
+      //Create an admin
       fetch(`${process.env.REACT_APP_API}/admins`, {
         method: 'POST',
         mode: 'cors',
@@ -79,7 +89,8 @@ export const CompaniesForm = () => {
         .then((response) => response.json())
         .then((response) => {
           console.log(response);
-          window.location.href = '/admins';
+          setLastAction('create');
+          setShowModal(true);
         })
         .catch((err) => {
           console.log(err);
@@ -89,6 +100,7 @@ export const CompaniesForm = () => {
 
   return (
     <div className={styles.container}>
+      <Modal show={showModal} closeModal={closeModal} action={lastAction} />
       <form onSubmit={onSubmit}>
         <h2>Form</h2>
         <label id="firstname">First Name</label>

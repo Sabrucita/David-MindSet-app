@@ -16,12 +16,12 @@ function ListItem(props) {
       <Modal show={showModal} closeModal={closeModal} />
       <h2>{props.itemListInfo.name} Information</h2>
       <div>
-        <ul className={styles.ulAdmins}>
+        <ul className={styles.ulCompanies}>
           <li>First Name: {props.itemListInfo.firstName}</li>
           <li>Last Name: {props.itemListInfo.lastName}</li>
           <li>Email: {props.itemListInfo.email}</li>
           <li>Password: {props.itemListInfo.password}</li>
-          <li>Is Active? {props.itemListInfo.isActive ? 'YES' : 'NO'}</li>
+          <li>Is Available? {props.itemListInfo.isActive ? 'YES' : 'NO'}</li>
         </ul>
       </div>
     </section>

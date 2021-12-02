@@ -1,6 +1,6 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
-import Admins from '../Admins/index';
+import Admins from '../Admins/List/index';
 import Applications from '../Applications/index';
 import Companies from '../Companies/index';
 import Interviews from '../Interviews/index';
@@ -11,7 +11,7 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
-//import { AdminsForm } from '../Admins/Form';
+import { AdminsForm } from '../Admins/Form';
 import ListItem from '../Admins/ListItem';
 
 function Layout() {
@@ -20,15 +20,13 @@ function Layout() {
     case '/admins':
       currentScreen = <Admins />;
       break;
-    /*
-      case '/admins/form':
-        currentScreen = <AdminsForm />;
-        break;
-    case '/companies/form/new':
-        currentScreen = <AdminsForm />;
-        break;
-    */
-    case '/companies/listitem':
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
+      break;
+    case '/admins/form/new':
+      currentScreen = <AdminsForm />;
+      break;
+    case '/admins/listitem':
       currentScreen = <ListItem />;
       break;
     case '/applications':
