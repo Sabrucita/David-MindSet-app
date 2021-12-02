@@ -13,7 +13,8 @@ function Companies() {
     fetch(`${process.env.REACT_APP_API}/companies`)
       .then((response) => response.json())
       .then((response) => {
-        setCompanies(response);
+        setCompanies(response.data);
+        console.log(response, companies);
       })
       .catch((err) => {
         console.log(err);
