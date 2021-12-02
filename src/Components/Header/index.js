@@ -47,7 +47,7 @@ function Header() {
             <a href="/positions">positions</a>
           </li>
           <li>
-            <a href="/postulants">postulants</a>
+            <a href="/candidates">candidates</a>
           </li>
           <li>
             <a href="/profiles">profiles</a>
