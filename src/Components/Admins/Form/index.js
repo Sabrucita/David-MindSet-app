@@ -10,7 +10,7 @@ export const AdminsForm = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('_id');
-    fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
+    fetch(`${process.env.REACT_APP_API}/administrators/${adminId}`)
       .then((response) => response.json())
       .then((response) => {
         setFirstNameValue(response.firstName);
@@ -47,7 +47,7 @@ export const AdminsForm = () => {
       const adminId = params.get('_id');
 
       //Update an admin
-      fetch(`${process.env.REACT_APP_API}/admins/${adminId}`, {
+      fetch(`${process.env.REACT_APP_API}/administrators/${adminId}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -72,7 +72,7 @@ export const AdminsForm = () => {
         });
     } else {
       //Create an admin
-      fetch(`${process.env.REACT_APP_API}/admins`, {
+      fetch(`${process.env.REACT_APP_API}/administrators`, {
         method: 'POST',
         mode: 'cors',
         headers: {

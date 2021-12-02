@@ -10,10 +10,10 @@ function Admins() {
   const [itemListInfo, setItemListInfo] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/admins`)
+    fetch(`${process.env.REACT_APP_API}/administrators`)
       .then((response) => response.json())
       .then((response) => {
-        setAdmins(response);
+        setAdmins(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -27,14 +27,14 @@ function Admins() {
 
   //Delete an admin
   const deleteClick = (id) => {
-    fetch(`${process.env.REACT_APP_API}/admins/${id}`, {
+    fetch(`${process.env.REACT_APP_API}/administrators/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
       .then((response) => {
-        if (response.status == 204) {
+        if (response.status == 200) {
           setAdmins(admins.filter((deleteAdmin) => deleteAdmin._id !== id));
         }
       })
@@ -61,7 +61,6 @@ function Admins() {
           <th>Last Name</th>
           <th>Email</th>
           <th>Password</th>
-          <th>Is active?</th>
           <th>Actions</th>
         </tr>
         {admins.map((admin) => {
@@ -72,7 +71,6 @@ function Admins() {
                 <th>{admin.lastName}</th>
                 <th>{admin.email}</th>
                 <th>{admin.password}</th>
-                <th>{admin.isActive}</th>
                 <th className={styles.keypad}>
                   <button
                     type="button"
