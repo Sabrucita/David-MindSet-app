@@ -1,0 +1,28 @@
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    margin: 80px auto;
+    padding: 50px;
+    border-radius: 30px;
+    background-color: #9aa2b0;
+  }
+
+.container label {
+    display: block;
+    padding: 10px 5px;
+    font-size: 25px;
+    text-transform: capitalize;
+}
+.container input{
+    display: inline;
+    width: 40%;
+    padding: 10px 20px;
+    border: 1px solid rgb(167, 167, 167);
+    border-radius: 30px;
+    font-size: 20px;
+    text-align: center;
+}
