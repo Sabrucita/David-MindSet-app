@@ -8,9 +8,9 @@ import CompaniesForm from '../Companies/Form';
 import Interviews from '../Interviews/index';
 import InterviewsForm from '../Interviews/Form';
 import Positions from '../Positions/index';
+import PositionsForm from '../Positions/Form/index';
 import Candidates from '../Candidates/index';
-import { CandidatesForm } from '../Candidates/Form';
-import ListItem from '../Candidates/ListItem';
+import CandidatesForm from '../Candidates/Form';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
@@ -48,14 +48,14 @@ function Layout() {
     case '/positions':
       currentScreen = <Positions />;
       break;
+    case '/positions/form':
+      currentScreen = <PositionsForm />;
+      break;
     case '/candidates':
       currentScreen = <Candidates />;
       break;
     case '/candidates/form':
       currentScreen = <CandidatesForm />;
-      break;
-    case '/candidates/list':
-      currentScreen = <ListItem />;
       break;
     case '/profiles':
       currentScreen = <Profiles />;
