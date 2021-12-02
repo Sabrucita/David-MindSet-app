@@ -25,7 +25,7 @@ function Admins() {
     setShowModal(false);
   };
 
-  //FUNCTION FOR DELETING A COMPANY
+  //Delete an admin
   const deleteClick = (id) => {
     fetch(`${process.env.REACT_APP_API}/admins/${id}`, {
       method: 'DELETE',
@@ -54,7 +54,7 @@ function Admins() {
         itemListInfo={itemListInfo}
         action={lastAction}
       />
-      <h2>Companies</h2>
+      <h2>Admins</h2>
       <div>
         <tr className={styles.title}>
           <th>First Name</th>
@@ -113,7 +113,7 @@ function Admins() {
         className={styles.addButton}
         type="button"
         onClick={() => {
-          window.location.href = `/admin/form/new`;
+          window.location.href = `/admins/form/new`;
         }}
       >
         ADD ADMIN
