@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Modal } from '../Modal';
 import styles from './list.module.css';
+import { Link } from 'react-router-dom';
 
 function Companies() {
   const [showModal, setShowModal] = useState(false);
@@ -104,15 +105,11 @@ function Companies() {
                       >
                         clear
                       </button>
-                      <button
-                        className="material-icons-outlined"
-                        type="button"
-                        onClick={() => {
-                          window.location.href = `/companies/form?_id=${company._id}`;
-                        }}
-                      >
-                        edit
-                      </button>
+                      <Link to={`/companies/form/${company._id}`}>
+                        <button className="material-icons-outlined" type="button">
+                          edit
+                        </button>
+                      </Link>
                       <button
                         onClick={() => {
                           setLastIdCLicked(company._id);
@@ -128,15 +125,11 @@ function Companies() {
                   </tr>
                 );
               })}
-              <button
-                className={styles.buttonGreen}
-                type="button"
-                onClick={() => {
-                  window.location.href = `/companies/form/new`;
-                }}
-              >
-                ADD COMPANY
-              </button>
+              <Link to={`/companies/form`}>
+                <button className={styles.buttonGreen} type="button">
+                  ADD COMPANY
+                </button>
+              </Link>
             </tbody>
           </table>
         </section>
