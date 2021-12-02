@@ -2,14 +2,19 @@ import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
-import Companies from '../Companies/index';
+import ApplicationsForm from '../Applications/Form';
+import Companies from '../Companies/List/index';
+import CompaniesForm from '../Companies/Form';
 import Interviews from '../Interviews/index';
+import InterviewsForm from '../Interviews/Form';
 import Positions from '../Positions/index';
 import PositionsForm from '../Positions/Form/index';
-import Postulants from '../Postulants/index';
+import Candidates from '../Candidates/index';
+import CandidatesForm from '../Candidates/Form';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
+import SessionsForm from '../Sessions/Form/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 
@@ -22,11 +27,23 @@ function Layout() {
     case '/applications':
       currentScreen = <Applications />;
       break;
+    case '/applications/form':
+      currentScreen = <ApplicationsForm />;
+      break;
     case '/companies':
       currentScreen = <Companies />;
       break;
+    case '/companies/form':
+      currentScreen = <CompaniesForm />;
+      break;
+    case '/companies/form/new':
+      currentScreen = <CompaniesForm />;
+      break;
     case '/interviews':
       currentScreen = <Interviews />;
+      break;
+    case '/interviews/form':
+      currentScreen = <InterviewsForm />;
       break;
     case '/positions':
       currentScreen = <Positions />;
@@ -34,8 +51,11 @@ function Layout() {
     case '/positions/form':
       currentScreen = <PositionsForm />;
       break;
-    case '/postulants':
-      currentScreen = <Postulants />;
+    case '/candidates':
+      currentScreen = <Candidates />;
+      break;
+    case '/candidates/form':
+      currentScreen = <CandidatesForm />;
       break;
     case '/profiles':
       currentScreen = <Profiles />;
@@ -45,6 +65,9 @@ function Layout() {
       break;
     case '/sessions':
       currentScreen = <Sessions />;
+      break;
+    case '/sessions/form':
+      currentScreen = <SessionsForm />;
       break;
     default:
       break;
