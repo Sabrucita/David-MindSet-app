@@ -7,10 +7,12 @@ import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
-import Psychologists from '../Psychologists/index';
+import Psychologists from '../Psychologists/List/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import { PsychologistForm } from '../Psychologists/Form';
+import ListItem from '../Psychologists/ListItem';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -38,6 +40,15 @@ function Layout() {
       break;
     case '/psychologists':
       currentScreen = <Psychologists />;
+      break;
+    case '/psychologists/form':
+      currentScreen = <PsychologistForm />;
+      break;
+    case '/psychologists/form/new':
+      currentScreen = <PsychologistForm />;
+      break;
+    case '/psychologists/listitem':
+      currentScreen = <ListItem />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;
