@@ -3,13 +3,12 @@ import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 import { Modal } from '../Modal';
 
-function CompaniesForm() {
+function CompaniesForm({ match }) {
   const [showModal, setShowModal] = useState(false);
   const [lastAction, setLastAction] = useState('');
-
+  let clientId;
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const clientId = params.get('_id');
+    clientId = match.params.id;
     fetch(`${process.env.REACT_APP_API}/companies/${clientId}`)
       .then((response) => response.json())
       .then((response) => {
@@ -49,17 +48,9 @@ function CompaniesForm() {
     setShowModal(false);
   };
 
-  let isCreating = false;
-  if (!window.location.search) {
-    isCreating = true;
-  }
-
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!isCreating) {
-      const params = new URLSearchParams(window.location.search);
-      const clientId = params.get('_id');
-
+    if (clientId) {
       //FUNCTION FOR UPDATING A COMPANY
       fetch(`${process.env.REACT_APP_API}/companies/${clientId}`, {
         method: 'PUT',
@@ -264,7 +255,7 @@ function CompaniesForm() {
           }}
         />
         <button className={styles.saveButton} type="submit">
-          {!isCreating ? 'SAVE CHANGES' : 'CREATE'}
+          {clientId ? 'SAVE CHANGES' : 'CREATE'}
         </button>
       </form>
     </div>

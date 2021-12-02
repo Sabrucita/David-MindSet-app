@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Modal } from '../Modal';
 import styles from './list.module.css';
+import { Link } from 'react-router-dom';
 
 function Admins() {
   const [showModal, setShowModal] = useState(false);
@@ -72,14 +73,9 @@ function Admins() {
                 <th>{admin.email}</th>
                 <th>{admin.password}</th>
                 <th className={styles.keypad}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.location.href = `/admins/form?_id=${admin._id}`;
-                    }}
-                  >
-                    EDIT
-                  </button>
+                  <Link to={`/admins/form?_id=${admin._id}`}>
+                    <button type="button">EDIT</button>
+                  </Link>
                   <button
                     onClick={() => {
                       setShowModal(true);
@@ -107,15 +103,11 @@ function Admins() {
           );
         })}
       </div>
-      <button
-        className={styles.addButton}
-        type="button"
-        onClick={() => {
-          window.location.href = `/admins/form/new`;
-        }}
-      >
-        ADD ADMIN
-      </button>
+      <Link to="/admins/form">
+        <button className={styles.addButton} type="button">
+          ADD ADMIN
+        </button>
+      </Link>
     </section>
   );
 }

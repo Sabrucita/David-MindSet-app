@@ -2,8 +2,9 @@ import React from 'react';
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 import { Modal } from '../Modal';
+import Psychologists from '../List';
 
-export const PsychologistForm = () => {
+function PsychologistForm() {
   const [showModal, setShowModal] = useState(false);
   const [lastAction, setLastAction] = useState('');
 
@@ -177,4 +178,6 @@ export const PsychologistForm = () => {
       </form>
     </div>
   );
-};
+}
+
+export default PsychologistForm;
