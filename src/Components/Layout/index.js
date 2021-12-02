@@ -1,6 +1,6 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
-import Admins from '../Admins/index';
+import Admins from '../Admins/List/index';
 import Applications from '../Applications/index';
 import ApplicationsForm from '../Applications/Form';
 import Companies from '../Companies/List/index';
@@ -18,12 +18,23 @@ import Sessions from '../Sessions/index';
 import SessionsForm from '../Sessions/Form/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import { AdminsForm } from '../Admins/Form';
+import ListItem from '../Admins/ListItem';
 
 function Layout() {
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
+      break;
+    case '/admins/form/new':
+      currentScreen = <AdminsForm />;
+      break;
+    case '/admins/listitem':
+      currentScreen = <ListItem />;
       break;
     case '/applications':
       currentScreen = <Applications />;
