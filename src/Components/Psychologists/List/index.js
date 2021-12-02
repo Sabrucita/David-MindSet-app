@@ -13,7 +13,7 @@ function Psychologists() {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => response.json())
       .then((response) => {
-        setPsychologists(response);
+        setPsychologists(response.psychologists);
       })
       .catch((err) => {
         console.log(err);
