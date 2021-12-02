@@ -2,7 +2,9 @@ import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
+import ApplicationsForm from '../Applications/Form';
 import Companies from '../Companies/List/index';
+import CompaniesForm from '../Companies/Form';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
@@ -12,8 +14,6 @@ import Sessions from '../Sessions/index';
 import SessionsForm from '../Sessions/Form/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
-import { CompaniesForm } from '../Companies/Form';
-import ListItem from '../Companies/ListItem';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -24,6 +24,9 @@ function Layout() {
     case '/applications':
       currentScreen = <Applications />;
       break;
+    case '/applications/form':
+      currentScreen = <ApplicationsForm />;
+      break;
     case '/companies':
       currentScreen = <Companies />;
       break;
@@ -32,9 +35,6 @@ function Layout() {
       break;
     case '/companies/form/new':
       currentScreen = <CompaniesForm />;
-      break;
-    case '/companies/listitem':
-      currentScreen = <ListItem />;
       break;
     case '/interviews':
       currentScreen = <Interviews />;

@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 import { Modal } from '../Modal';
 
-export const CompaniesForm = () => {
+function CompaniesForm() {
   const [showModal, setShowModal] = useState(false);
   const [lastAction, setLastAction] = useState('');
 
@@ -269,4 +269,6 @@ export const CompaniesForm = () => {
       </form>
     </div>
   );
-};
+}
+
+export default CompaniesForm;
