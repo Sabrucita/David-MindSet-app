@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import { Modal } from '../Modal';
 
-export const CandidatesForm = () => {
+function CandidatesForm() {
   const [showModal, setShowModal] = useState(false);
   const [lastAction, setLastAction] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
@@ -399,4 +399,6 @@ export const CandidatesForm = () => {
       </form>
     </div>
   );
-};
+}
+
+export default CandidatesForm;
