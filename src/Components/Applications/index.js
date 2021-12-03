@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import List from './List';
-import Modal from './Modal';
+import Modal from '../shared/Modal';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
+  const [titleModal, setTitleModal] = useState();
 
   //Get app info from DB
   useEffect(() => {
@@ -23,9 +24,10 @@ function Applications() {
     setShowModal(false);
   };
 
-  const openModal = (item, type) => {
+  const openModal = (item, type, title) => {
     setSelectedItem(item);
     setTypeModal(type);
+    setTitleModal(title);
     setShowModal(true);
   };
 
@@ -55,11 +57,12 @@ function Applications() {
     <div className={styles.container}>
       <section className={styles.main}>
         <Modal
-          show={showModal}
-          closeModal={closeModal}
-          acceptModal={acceptModal}
+          showModal={showModal}
+          closeModalFn={closeModal}
+          acceptModalFn={acceptModal}
           content={selectedItem}
           type={typeModal}
+          titleModal={titleModal}
         />
         <h1>Applications</h1>
         <List

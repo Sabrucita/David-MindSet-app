@@ -4,7 +4,6 @@ function Input(props) {
 
   //load the select options list
   if (props.type === 'position') {
-    console.log(props.data);
     optionData = props.data.map((position) => {
       return `${position._id} / ${position.idCompany.name} / ${position.jobDescription}`;
     });

@@ -1,5 +1,5 @@
 import styles from './list.module.css';
-import ItemList from '../ItemList';
+import ListItem from '../../shared/ListItem';
 
 function List(props) {
   return (
@@ -15,11 +15,23 @@ function List(props) {
         <tbody>
           {props.data.map((element) => {
             return (
-              <ItemList
+              <ListItem
                 key={element._id}
+                id={element._id}
+                dataTable={{
+                  name: `${element.idCandidate.firstName} ${element.idCandidate.lastName}`,
+                  position: element.idOpenPosition.jobDescription,
+                  status: element.isActive
+                }}
+                dataElement={{
+                  id: element._id,
+                  name: element.idCandidate.firstName,
+                  position: element.idOpenPosition.jobDescription,
+                  status: element.isActive
+                }}
                 openModal={props.openModal}
-                acceptModal={props.acceptModal}
-                data={element}
+                missingData={element.idCandidate === null || element.idPosition === null}
+                resource="applications"
               />
             );
           })}

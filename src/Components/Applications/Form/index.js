@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import Input from '../Input';
-import Modal from '../Modal';
+import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
-function Form() {
+function Form({ match }) {
   let typeForm;
   let idToUpdate;
-  if (!window.location.search) {
+  if (!match.params.id) {
     typeForm = 'create';
   } else {
     typeForm = 'update';
-    idToUpdate = window.location.search.slice(1);
+    idToUpdate = match.params.id;
   }
 
   const [candidates, setCandidates] = useState([]);
@@ -23,6 +23,7 @@ function Form() {
   const [applicationToUpdate, setApplicationToUpdate] = useState();
   const [typeModal, setTypeModal] = useState();
   const [textDescription, seTTextDescription] = useState();
+  const [titleModal, setTitleModal] = useState();
 
   //GET ALL EXISTING POSITIONS AND CANDIDATES IN ORDER TO INCLUDES ON THE SELECT OPTIONS
   useEffect(() => {
@@ -69,7 +70,8 @@ function Form() {
   function onSubmitCreate(event) {
     event.preventDefault();
     if (!candidateValue || !openPositionValue) {
-      setTypeModal('dataRequired');
+      setTypeModal('error');
+      setTitleModal('Data required');
       seTTextDescription('Please complete the missing data');
       return openModal();
     }
@@ -89,7 +91,8 @@ function Form() {
       .then((response) => response.json())
       .then((response) => {
         setApplicationCreatedUpdated(response.application);
-        setTypeModal('dataCreate');
+        setTitleModal('Application Created');
+        setTypeModal('create');
         openModal();
         if (response.msg) throw new Error(response.msg);
       })
@@ -130,9 +133,15 @@ function Form() {
       .then((response) => response.json())
       .then((response) => {
         setApplicationCreatedUpdated(response.application);
-        setTypeModal('dataUpdate');
+        setTitleModal('Application Updated');
+        setTypeModal('update');
         openModal();
-        if (response.msg) throw new Error(response.msg);
+        if (response.msg) {
+          setTitleModal('Ups... an error happened');
+          setTypeModal('error');
+          setApplicationCreatedUpdated(response);
+          throw new Error(response.msg);
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -150,10 +159,11 @@ function Form() {
     <div className={styles.container}>
       <section className={styles.main}>
         <Modal
-          show={showModal}
-          closeModal={closeModal}
+          showModal={showModal}
+          closeModalFn={closeModal}
           content={applicationCreatedUpdated}
           type={typeModal}
+          titleModal={titleModal}
           textDescription={textDescription}
         />
         {typeForm === 'create' && <h1>Add application</h1>}
