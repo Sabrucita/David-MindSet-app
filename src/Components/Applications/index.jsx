@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
+import { Link } from 'react-router-dom';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
@@ -10,9 +11,10 @@ function Applications() {
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
 
+  const url = process.env.REACT_APP_API;
   //Get app info from DB
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/applications`)
+    fetch(`${url}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.applications);
@@ -33,7 +35,7 @@ function Applications() {
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
+    fetch(`${url}/applications/${selectedItem.id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -64,16 +66,11 @@ function Applications() {
           type={typeModal}
           titleModal={titleModal}
         />
-        <h1>Applications</h1>
-        <List
-          data={applications}
-          header={tableHeader}
-          openModal={openModal}
-          acceptModal={acceptModal}
-        />
-        <a href="/applications/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>Add</span>
-        </a>
+        <h1 className={styles.h1}>Applications</h1>
+        <List data={applications} header={tableHeader} openModal={openModal} />
+        <Link to="/applications/form" className={styles.buttonAdd}>
+          <span className={styles.buttonGreen}>ADD APPLICATION</span>
+        </Link>
       </section>
     </div>
   );

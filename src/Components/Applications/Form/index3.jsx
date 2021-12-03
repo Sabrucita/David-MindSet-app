@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Input from '../Input';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import Fieldset from '../../shared/Fieldset';
 
 function Form({ match }) {
   let typeForm;
@@ -172,7 +173,7 @@ function Form({ match }) {
           <div>
             <div className={styles.containerForm}>
               <ul className={styles.column}>
-                <Input
+                <Fieldset
                   key="openPosition"
                   htmlFor="openPosition"
                   labelTitle="Open Position"
