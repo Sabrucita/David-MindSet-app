@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
 import List from './List';
-import Modal from './Modal';
+import Modal from '../shared/Modal';
+import { Link } from 'react-router-dom';
 
 function Interviews() {
   const [showModal, setShowModal] = useState(false);
   const [interviews, setInterviews] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
+  const [titleModal, setTitleModal] = useState();
 
+  const url = process.env.REACT_APP_API;
   //Get app info from DB
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/interviews`)
+    fetch(`${url}/interviews`)
       .then((response) => response.json())
       .then((response) => {
         setInterviews(response.data);
@@ -22,15 +25,17 @@ function Interviews() {
   const closeModal = () => {
     setShowModal(false);
   };
-  const openModal = (item, type) => {
+
+  const openModal = (item, type, title) => {
     setSelectedItem(item);
     setTypeModal(type);
+    setTitleModal(title);
     setShowModal(true);
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${process.env.REACT_APP_API}/interviews/${selectedItem.id}`, {
+    fetch(`${url}/interviews/${selectedItem.id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -40,8 +45,8 @@ function Interviews() {
       .then(() => {
         closeModal();
         setInterviews(
-          interviews.filter((app) => {
-            return app._id !== selectedItem.id;
+          interviews.filter((element) => {
+            return element._id !== selectedItem.id;
           })
         );
       })
@@ -54,22 +59,18 @@ function Interviews() {
     <div className={styles.container}>
       <section className={styles.main}>
         <Modal
-          show={showModal}
-          closeModal={closeModal}
-          acceptModal={acceptModal}
+          showModal={showModal}
+          closeModalFn={closeModal}
+          acceptModalFn={acceptModal}
           content={selectedItem}
           type={typeModal}
+          titleModal={titleModal}
         />
-        <h1>Interviews</h1>
-        <List
-          data={interviews}
-          header={tableHeader}
-          openModal={openModal}
-          acceptModal={acceptModal}
-        />
-        <a href="/interviews/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>Add</span>
-        </a>
+        <h1 className={styles.h1}>Interviews</h1>
+        <List data={interviews} header={tableHeader} openModal={openModal} />
+        <Link to="/interviews/form" className={styles.buttonAdd}>
+          <span className={styles.buttonGreen}>ADD INTERVIEW</span>
+        </Link>
       </section>
     </div>
   );
