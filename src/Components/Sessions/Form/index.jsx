@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
-import Fieldset from '../Fieldset';
+import Fieldset from '../../shared/Fieldset';
 import Modal from '../Modal';
 import styles from './form.module.css';
 const url = process.env.REACT_APP_API;
 
 function Form() {
   const [formData, setFormData] = useState({});
-  const [currentCandidate, setCurrentCandidate] = useState('');
-  const [currentPsychologist, setCurrentPsychologist] = useState('');
-  const [currentDate, setCurrentDate] = useState('');
   const [modalContent, setModalContent] = useState();
   const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -25,9 +22,12 @@ function Form() {
       fetch(`${url}/sessions/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setCurrentCandidate(data.data.idCandidate._id);
-          setCurrentPsychologist(data.data.idPsychologists._id);
-          setCurrentDate(data.data.date);
+          const currentData = {
+            idCandidate: data.data.idCandidate._id,
+            idPsychologists: data.data.idPsychologists._id,
+            date: data.data.date
+          };
+          setFormData(currentData);
         });
     }
   }, []);
@@ -89,32 +89,32 @@ function Form() {
       {operation === 'create' ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
-          operation={operation}
-          currentId={currentCandidate}
+          update={id ? true : false}
+          currentValue={formData.idCandidate}
           element="select"
           resource="candidates"
           name="candidate"
-          resourceName="idCandidate"
+          objectProperty="idCandidate"
           required
           updateData={updateForm}
         />
         <Fieldset
-          operation={operation}
-          currentId={currentPsychologist}
+          update={id ? true : false}
+          currentValue={formData.idPsychologists}
           element="select"
           resource="psychologists"
           name="psychologist"
-          resourceName="idPsychologists"
+          objectProperty="idPsychologists"
           required
           updateData={updateForm}
         />
         <Fieldset
-          operation={operation}
-          currentId={currentDate.substr(0, 16)}
+          update={id ? true : false}
+          currentValue={formData.date ? formData.date.substr(0, 16) : ''}
           element="input"
           name="date"
-          resourceName="date"
-          type="datetime-local"
+          objectProperty="date"
+          inputType="datetime-local"
           required
           updateData={updateForm}
         />
