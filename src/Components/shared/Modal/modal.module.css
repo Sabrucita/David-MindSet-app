@@ -1,4 +1,4 @@
-.modal {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,18 +11,15 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.212);
 }
-
 .closeModal {
   display: flex;
   justify-content: flex-end;
   margin: 5px;
 }
-
 .modalHide {
   display: none;
 }
-
-.modalMessage {
+.modal {
   background-color: #ffffff;
   margin: 30% auto;
   padding: 1.5em;
@@ -32,24 +29,20 @@
   line-height: 25px;
   text-align: center;
 }
-
-.modalMessage h2 {
+.modal h2 {
   margin-bottom: 10px;
   font-style: italic;
 }
-
-.modalMessage ul {
+.modal ul {
   margin-bottom: 10px;
   padding: 0;
   font-size: 12px;
   list-style-type: none;
 }
-
 .buttonModal {
   display: flex;
   justify-content: center;
 }
-
 .buttonModal button {
   padding: 16px 20px;
   margin: 15px 2px;
@@ -57,21 +50,17 @@
   font-size: 15px;
   cursor: pointer;
 }
-
 .modalOk {
   background-color: rgb(104, 255, 162);
   border: rgb(88, 88, 88);
 }
-
 .modalCancel {
   background-color: rgb(255, 104, 104);
   border: rgb(88, 88, 88);
 }
-
 .buttonModal button:hover {
   background-color: rgb(88, 88, 88);
 }
-
-.hide {
+.hidden {
   display: none;
 }
