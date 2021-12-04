@@ -15,7 +15,7 @@ function Sessions() {
     fetch(`${url}/sessions`)
       .then((res) => res.json())
       .then((data) => {
-        setSessions(data.data);
+        setSessions(data);
       });
   }, []);
 

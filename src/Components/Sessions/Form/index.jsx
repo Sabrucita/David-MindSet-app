@@ -23,9 +23,9 @@ function Form() {
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
-            idCandidate: data.data.idCandidate._id,
-            idPsychologists: data.data.idPsychologists._id,
-            date: data.data.date
+            idCandidate: data.idCandidate._id,
+            idPsychologists: data.idPsychologists._id,
+            date: data.date
           };
           setFormData(currentData);
         });

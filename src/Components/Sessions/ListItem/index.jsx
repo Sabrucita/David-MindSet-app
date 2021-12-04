@@ -1,5 +1,5 @@
 import styles from './listitem.module.css';
-import { capitalize } from '../helpers';
+import { capitalize } from '../../helpers';
 
 function ListItem({ session, updateItem, deleteItem, viewItem }) {
   const deleteThis = () => {
