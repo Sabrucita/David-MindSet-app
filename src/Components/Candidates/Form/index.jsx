@@ -95,14 +95,6 @@ function CandidatesForm() {
           postalCode: postalCodeValue,
           birthday: birthdayValue,
           address: { street: candidateAddressValue, number: candidateAddressNumberValue }
-          //   hobbies: hobbiesValue,
-          //   mainSkills: mainSkillsValue,
-          //   profileTypes: profileTypesValue,
-          //   isOpenToWork: isOpenToWorkValue,
-          //   isActive: isActiveValue,
-          //   education: educationValue,
-          //   experiences: experiencesValue,
-          //   courses: coursesValue
         })
       })
         .then((response) => response.json())
@@ -134,14 +126,6 @@ function CandidatesForm() {
           postalCode: postalCodeValue,
           birthday: birthdayValue,
           address: { street: candidateAddressValue, number: candidateAddressNumberValue }
-          //   hobbies: hobbiesValue,
-          //   mainSkills: mainSkillsValue,
-          //   profileTypes: profileTypesValue,
-          //   isOpenToWork: isOpenToWorkValue,
-          //   isActive: isActiveValue,
-          //   education: educationValue,
-          //   experiences: experiencesValue,
-          //   courses: coursesValue
         })
       })
         .then((response) => response.json())

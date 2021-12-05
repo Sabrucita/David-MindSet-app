@@ -3,22 +3,8 @@ import React from 'react';
 import styles from './list.module.css';
 import { Modal } from '../Modal';
 
-// const params = new URLSearchParams(window.location.search);
-// const candidateId = params.get('_id');
-
 function ListItem(props) {
   const [showModal, setShowModal] = useState(false);
-  // const [props.itemListInfo, setprops.itemListInfo] = useState([]);
-  // useEffect(() => {
-  //   fetch(`${process.env.REACT_APP_API}/props.itemListInfos/${props.itemListInfoId}`)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       setprops.itemListInfo(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
   const closeModal = () => {
     setShowModal(false);
   };
