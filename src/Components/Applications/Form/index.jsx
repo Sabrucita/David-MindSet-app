@@ -99,7 +99,7 @@ function Form({ match, history }) {
   const closeModalFn = () => {
     setShowModal(false);
     if (disableProperty) {
-      history.goBack();
+      history.push('/applications');
     }
   };
 
