@@ -1,43 +1,65 @@
-import ListItem from '../ListItem';
+import ListItem from '../../shared/ListItem';
+import { capitalize } from '../../helpers';
 import styles from './list.module.css';
 
-function List({ sessions, modalContent, setShowModal, setModalType }) {
-  const updateItem = (id) => {
-    window.location.href = `/sessions/form?id=${id}`;
+function List({ data, header, openModal }) {
+  const fillDataTable = (element) => {
+    const dataTable = {
+      candidate: element.idCandidate
+        ? `${capitalize(element.idCandidate.firstName)} ${capitalize(element.idCandidate.lastName)}`
+        : 'This candidate was deleted',
+      psychologist: element.idPsychologist
+        ? `${capitalize(element.idPsychologist.firstName)} ${capitalize(
+            element.idPsychologist.lastName
+          )}`
+        : 'This psychologist was deleted',
+      date: `${element.date.substr(0, 10)} ${element.date.substr(11, 5)}`
+    };
+    return dataTable;
   };
 
-  const openDeleteModal = (id) => {
-    modalContent(id);
-    setShowModal(true);
-    setModalType('delete');
+  const fillDataElement = (element) => {
+    const dataElement = {
+      id: element._id,
+      idCandidate: element.idCandidate ? element.idCandidate._id : 'Deleted',
+      candidate: element.idCandidate
+        ? `${capitalize(element.idCandidate.firstName)} ${capitalize(element.idCandidate.lastName)}`
+        : 'Deleted',
+      idPsychologist: element.idPsychologist ? element.idPsychologist._id : 'Deleted',
+      psychologist: element.idPsychologist
+        ? `${capitalize(element.idPsychologist.firstName)} ${capitalize(
+            element.idPsychologist.lastName
+          )}`
+        : 'Deleted',
+      date: element.date
+    };
+    return dataElement;
   };
 
-  const openViewModal = (id) => {
-    const session = sessions.find((session) => session._id === id);
-    modalContent(session);
-    setShowModal(true);
-    setModalType('viewMore');
+  const isMissingData = (element) => {
+    return element.idCandidate === null || element.idOpenPosition === null;
   };
 
   return (
     <table className={styles.list}>
       <thead>
         <tr>
-          <th>Candidate</th>
-          <th>Psychologist</th>
-          <th>Date</th>
-          <th>Action</th>
+          {header.map((element) => {
+            return <th key={element}>{element}</th>;
+          })}
         </tr>
       </thead>
       <tbody>
-        {sessions.map((session) => {
+        {data.map((element) => {
           return (
             <ListItem
-              key={session._id}
-              session={session}
-              updateItem={updateItem}
-              deleteItem={openDeleteModal}
-              viewItem={openViewModal}
+              key={element._id}
+              id={element._id}
+              dataTable={fillDataTable(element)}
+              dataElement={fillDataElement(element)}
+              missingData={isMissingData(element)}
+              openModal={openModal}
+              resource="sessions"
             />
           );
         })}

@@ -1,30 +1,28 @@
 import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
-import Modal from '../Modal';
+import Modal from '../../shared/Modal';
 import styles from './form.module.css';
-const url = process.env.REACT_APP_API;
 
-function Form() {
+function Form({ match }) {
   const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState();
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  let operation;
+  const url = process.env.REACT_APP_API;
+  const id = match.params.id;
 
-  if (id) operation = 'update';
-  else operation = 'create';
+  const resource = 'sessions';
 
   useEffect(() => {
-    if (operation === 'update') {
-      fetch(`${url}/sessions/${id}`)
+    if (id) {
+      fetch(`${url}/${resource}/${id}`)
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
             idCandidate: data.idCandidate._id,
-            idPsychologists: data.idPsychologists._id,
+            idPsychologist: data.idPsychologist._id,
             date: data.date
           };
           setFormData(currentData);
@@ -34,8 +32,8 @@ function Form() {
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (operation === 'create') {
-      fetch(`${url}/sessions`, {
+    if (!id) {
+      fetch(`${url}/${resource}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -46,14 +44,15 @@ function Form() {
           const data = await res.json();
           setShowModal(true);
           setModalType('create');
-          setModalContent(data.data);
+          setModalTitle('Application Created');
+          setModalContent(data);
         })
         .catch(() => {
           setShowModal(true);
           setModalType('error');
         });
     } else {
-      fetch(`${url}/sessions/${id}`, {
+      fetch(`${url}/${resource}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(formData),
         headers: {
@@ -64,7 +63,8 @@ function Form() {
           const data = await res.json();
           setShowModal(true);
           setModalType('update');
-          setModalContent(data.data);
+          setModalTitle('Application Updated');
+          setModalContent(data);
         })
         .catch(() => {
           setShowModal(true);
@@ -86,7 +86,7 @@ function Form() {
 
   return (
     <div>
-      {operation === 'create' ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
+      {!id ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
@@ -100,11 +100,11 @@ function Form() {
         />
         <Fieldset
           update={id ? true : false}
-          currentValue={formData.idPsychologists}
+          currentValue={formData.idPsychologist}
           element="select"
           resource="psychologists"
           name="psychologist"
-          objectProperty="idPsychologists"
+          objectProperty="idPsychologist"
           required
           updateData={updateForm}
         />
@@ -123,6 +123,7 @@ function Form() {
       <Modal
         showModal={showModal}
         type={modalType}
+        titleModal={modalTitle}
         content={modalContent}
         closeModalFn={closeModalFn}
       />

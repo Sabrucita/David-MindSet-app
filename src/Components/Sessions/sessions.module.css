@@ -1,4 +1,4 @@
-h2 {
+.mainTitle {
   width: 100%;
   text-align: center;
 }
@@ -9,7 +9,12 @@ h2 {
   align-items: center;
   flex-wrap: wrap;
 }
-.createBtn {
+.buttonAdd {
+  display: inline-flex;
+  width: fit-content;
+  text-decoration: none;
+}
+.buttonGreen {
   padding: 16px 40px;
   margin: 15px 2px;
   border: rgb(21, 139, 10);
@@ -18,9 +23,8 @@ h2 {
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 15px;
-  text-decoration: none;
   cursor: pointer;
 }
-.createBtn:hover {
+.buttonGreen:hover {
   background-color: rgb(88, 88, 88);
 }
