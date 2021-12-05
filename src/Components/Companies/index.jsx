@@ -3,6 +3,7 @@ import styles from './companies.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
+import Preloader from '../shared/Preloader/index';
 
 function Companies() {
   const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,7 @@ function Companies() {
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
+  const [isFetching, setIsFetching] = useState(true);
 
   const url = process.env.REACT_APP_API;
   //Get info from DB
@@ -18,6 +20,7 @@ function Companies() {
       .then((response) => response.json())
       .then((response) => {
         setCompanies(response);
+        setIsFetching(false);
       });
   }, []);
 
@@ -67,10 +70,16 @@ function Companies() {
           titleModal={titleModal}
         />
         <h1 className={styles.h1}>Companies</h1>
-        <List data={companies} header={tableHeader} openModal={openModal} />
-        <Link to="/companies/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>ADD COMPANY</span>
-        </Link>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <>
+            <List data={companies} header={tableHeader} openModal={openModal} />
+            <Link to="/companies/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>ADD COMPANY</span>
+            </Link>
+          </>
+        )}
       </section>
     </div>
   );
