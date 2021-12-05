@@ -3,7 +3,7 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
-function Form({ match }) {
+function Form({ match, history }) {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
@@ -81,7 +81,7 @@ function Form({ match }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    window.location.href = '/sessions';
+    history.push('/sessions');
   };
 
   return (
