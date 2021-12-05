@@ -1,32 +1,34 @@
 import { useState, useEffect } from 'react';
 import Options from '../Options';
-import { capitalize } from '../helpers';
+import { capitalize } from '../../helpers';
 
 function Fieldset({
-  operation,
-  currentId,
+  update,
+  currentValue,
   element,
   resource,
   name,
-  resourceName,
-  type,
+  displayedName,
+  objectProperty,
+  inputType,
   required,
   updateData
 }) {
   const [inputValue, setInputValue] = useState('');
 
   const changeInputValue = (e) => {
-    const value = e.target.value;
+    if (inputType === 'checkbox') {
+      setInputValue(!inputValue);
+      return updateData(objectProperty, !inputValue);
+    }
+    let value = e.target.value;
     setInputValue(value);
-    updateData(resourceName, value);
+    updateData(objectProperty, value);
   };
 
   useEffect(() => {
-    if (operation === 'update' && !inputValue) {
-      setInputValue(currentId);
-      updateData(resourceName, currentId);
-    }
-  });
+    setInputValue(currentValue);
+  }, [currentValue]);
 
   let field;
   switch (element) {
@@ -39,19 +41,20 @@ function Fieldset({
           required={required}
           onChange={changeInputValue}
         >
-          <Options name={name} resource={resource} operation={operation} />
+          <Options name={name} resource={resource} update={update} />
         </select>
       );
       break;
     case 'input':
       field = (
         <input
-          type={type}
+          type={inputType}
           name={name}
           id={name}
           value={inputValue}
           required={required}
           onChange={changeInputValue}
+          checked={inputValue}
         ></input>
       );
       break;
@@ -61,7 +64,7 @@ function Fieldset({
 
   return (
     <fieldset>
-      <label htmlFor={name}>{capitalize(name)}</label>
+      <label htmlFor={name}>{capitalize(displayedName || name)}</label>
       {field}
     </fieldset>
   );

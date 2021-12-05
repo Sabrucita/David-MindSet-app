@@ -17,7 +17,7 @@ function Companies() {
     fetch(`${url}/companies`)
       .then((response) => response.json())
       .then((response) => {
-        setCompanies(response.data);
+        setCompanies(response);
       });
   }, []);
 
