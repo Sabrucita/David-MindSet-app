@@ -12,40 +12,44 @@ function List({ header, data, openModal }) {
             })}
           </tr>
         </thead>
-        <tbody>
-          {data.map((element) => {
-            return (
-              <ListItem
-                key={element._id}
-                id={element._id}
-                dataTable={{
-                  name: element.idCandidate
-                    ? `${element.idCandidate.firstName} ${element.idCandidate.lastName}`
-                    : 'This candidate was deleted',
-                  position: element.idOpenPosition
-                    ? element.idOpenPosition.jobDescription
-                    : 'This position was deleted',
-                  status: element.isActive ? 'Active' : 'Close'
-                }}
-                dataElement={{
-                  id: element._id,
-                  idCandidate: element.idCandidate ? element.idCandidate._id : 'Deleted',
-                  name: element.idCandidate
-                    ? `${element.idCandidate.firstName} ${element.idCandidate.lastName}`
-                    : 'Deleted',
-                  idPosition: element.idOpenPosition ? element.idOpenPosition._id : 'Deleted',
-                  position: element.idOpenPosition
-                    ? element.idOpenPosition.jobDescription
-                    : 'Deleted',
-                  status: element.isActive
-                }}
-                openModal={openModal}
-                missingData={element.idCandidate === null || element.idOpenPosition === null}
-                resource="applications"
-              />
-            );
-          })}
-        </tbody>
+        {data.length === 0 ? (
+          <p className={styles.loading}>There are no applications</p>
+        ) : (
+          <tbody>
+            {data.map((element) => {
+              return (
+                <ListItem
+                  key={element._id}
+                  id={element._id}
+                  dataTable={{
+                    name: element.idCandidate
+                      ? `${element.idCandidate.firstName} ${element.idCandidate.lastName}`
+                      : 'This candidate was deleted',
+                    position: element.idOpenPosition
+                      ? element.idOpenPosition.jobDescription
+                      : 'This position was deleted',
+                    status: element.isActive ? 'Active' : 'Close'
+                  }}
+                  dataElement={{
+                    id: element._id,
+                    idCandidate: element.idCandidate ? element.idCandidate._id : 'Deleted',
+                    name: element.idCandidate
+                      ? `${element.idCandidate.firstName} ${element.idCandidate.lastName}`
+                      : 'Deleted',
+                    idPosition: element.idOpenPosition ? element.idOpenPosition._id : 'Deleted',
+                    position: element.idOpenPosition
+                      ? element.idOpenPosition.jobDescription
+                      : 'Deleted',
+                    status: element.isActive
+                  }}
+                  openModal={openModal}
+                  missingData={element.idCandidate === null || element.idOpenPosition === null}
+                  resource="applications"
+                />
+              );
+            })}
+          </tbody>
+        )}
       </table>
     </div>
   );

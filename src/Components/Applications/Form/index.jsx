@@ -4,12 +4,13 @@ import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 const url = process.env.REACT_APP_API;
 
-function Form({ match }) {
+function Form({ match, history }) {
   const [formData, setFormData] = useState({});
   const [modalContent, setModalContent] = useState();
   const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState();
+  const [disableProperty, setDisableProperty] = useState(false);
 
   const id = match.params.id;
   let operation;
@@ -34,6 +35,7 @@ function Form({ match }) {
 
   const submitForm = (e) => {
     e.preventDefault();
+    setDisableProperty(true);
     if (operation === 'create') {
       fetch(`${url}/applications`, {
         method: 'POST',
@@ -45,13 +47,16 @@ function Form({ match }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          setModalType('create');
-          setTitleModal('Application Created');
-          setModalContent(data.data);
+          if (data.data) {
+            setModalType('create');
+            setTitleModal('Application Created');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
-        .catch(() => {
+        .catch((err) => {
+          msgError(err);
           setShowModal(true);
-          setModalType('error');
         });
     } else {
       fetch(`${url}/applications/${id}`, {
@@ -64,15 +69,25 @@ function Form({ match }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          setModalType('update');
-          setTitleModal('Application Updated');
-          setModalContent(data.data);
+          if (data.data) {
+            setModalType('update');
+            setTitleModal('Application Updated');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
-        .catch(() => {
+        .catch((err) => {
+          msgError(err);
           setShowModal(true);
-          setModalType('error');
         });
     }
+  };
+
+  const msgError = (data) => {
+    setModalType('error');
+    setTitleModal('Upsss an error has happened');
+    setModalContent(data);
+    setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
@@ -83,7 +98,9 @@ function Form({ match }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    // window.location.href = '/applications';
+    if (disableProperty) {
+      history.goBack();
+    }
   };
 
   return (
@@ -121,7 +138,11 @@ function Form({ match }) {
             updateData={updateForm}
           />
         )}
-        <button className={(styles.buttonAdd, styles.buttonGreen)} Addtype="submit">
+        <button
+          className={(styles.buttonAdd, styles.buttonGreen)}
+          disabled={disableProperty}
+          Addtype="submit"
+        >
           SUBMIT APPLICATION
         </button>
       </form>

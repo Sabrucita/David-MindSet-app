@@ -15,7 +15,7 @@ function Fieldset({
   updateData
 }) {
   const [inputValue, setInputValue] = useState('');
-  console.log(currentValue);
+
   const changeInputValue = (e) => {
     if (inputType === 'checkbox') {
       setInputValue(!inputValue);
