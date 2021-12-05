@@ -28,7 +28,7 @@ function List({ header, data, openModal }) {
                     position: element.idOpenPosition
                       ? element.idOpenPosition.jobDescription
                       : 'This position was deleted',
-                    status: element.isActive ? 'Active' : 'Close'
+                    status: element.status ? 'Active' : 'Close'
                   }}
                   dataElement={{
                     id: element._id,
@@ -40,7 +40,7 @@ function List({ header, data, openModal }) {
                     position: element.idOpenPosition
                       ? element.idOpenPosition.jobDescription
                       : 'Deleted',
-                    status: element.isActive
+                    status: element.status
                   }}
                   openModal={openModal}
                   missingData={element.idCandidate === null || element.idOpenPosition === null}

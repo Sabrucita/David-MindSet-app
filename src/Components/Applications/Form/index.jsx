@@ -26,7 +26,7 @@ function Form({ match, history }) {
           const currentData = {
             idCandidate: data.idCandidate._id,
             idOpenPosition: data.idOpenPosition._id,
-            isActive: data.isActive
+            status: data.status
           };
           setFormData(currentData);
         });
@@ -130,11 +130,11 @@ function Form({ match, history }) {
         {id && (
           <Fieldset
             update={id ? true : false}
-            currentValue={formData.isActive ? true : false}
+            currentValue={formData.status ? true : false}
             element="input"
             inputType="checkbox"
             name="status"
-            objectProperty="isActive"
+            objectProperty="status"
             updateData={updateForm}
           />
         )}
