@@ -49,21 +49,25 @@ function List({ data, header, openModal }) {
           })}
         </tr>
       </thead>
-      <tbody>
-        {data.map((element) => {
-          return (
-            <ListItem
-              key={element._id}
-              id={element._id}
-              dataTable={fillDataTable(element)}
-              dataElement={fillDataElement(element)}
-              missingData={isMissingData(element)}
-              openModal={openModal}
-              resource="sessions"
-            />
-          );
-        })}
-      </tbody>
+      {data.length === 0 ? (
+        <p>There are no sessions.</p>
+      ) : (
+        <tbody>
+          {data.map((element) => {
+            return (
+              <ListItem
+                key={element._id}
+                id={element._id}
+                dataTable={fillDataTable(element)}
+                dataElement={fillDataElement(element)}
+                missingData={isMissingData(element)}
+                openModal={openModal}
+                resource="sessions"
+              />
+            );
+          })}
+        </tbody>
+      )}
     </table>
   );
 }

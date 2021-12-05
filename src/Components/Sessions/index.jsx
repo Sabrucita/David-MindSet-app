@@ -58,7 +58,7 @@ function Sessions() {
   return (
     <>
       <section className={styles.container}>
-        <h2 className="mainTitle">Sessions</h2>
+        <h1 className="mainTitle">Sessions</h1>
         {isFetching ? (
           <Preloader />
         ) : (

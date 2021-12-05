@@ -86,7 +86,7 @@ function Form({ match }) {
 
   return (
     <div>
-      {!id ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
+      {!id ? <h1>Create Session</h1> : <h1>Edit Session</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
