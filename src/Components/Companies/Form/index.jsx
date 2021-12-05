@@ -1,265 +1,243 @@
-import React from 'react';
-import styles from './form.module.css';
 import { useState, useEffect } from 'react';
-import { Modal } from '../Modal';
+import Fieldset from '../../shared/Fieldset';
+import Modal from '../../shared/Modal';
+import styles from './form.module.css';
+const url = process.env.REACT_APP_API;
 
-function CompaniesForm({ match }) {
+function Form({ match }) {
+  const [formData, setFormData] = useState({});
+  const [modalContent, setModalContent] = useState();
+  const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [lastAction, setLastAction] = useState('');
-  let clientId;
+  const [titleModal, setTitleModal] = useState();
+
+  const id = match.params.id;
+  let operation;
+
+  if (id) operation = 'update';
+  else operation = 'create';
+
   useEffect(() => {
-    clientId = match.params.id;
-    fetch(`${process.env.REACT_APP_API}/companies/${clientId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setFullNameValue(response.name);
-        setAddressValue(response.address);
-        setCityValue(response.city);
-        setProvinceValue(response.province);
-        setCountryValue(response.country);
-        setzipCodeValue(response.zipCode);
-        setPhoneValue(response.phone);
-        setEmailValue(response.email);
-        setPictureUrlValue(response.pictureUrl);
-        setContactFullNameValue(response.contactFullName);
-        setContactPhoneValue(response.contactPhone);
-        setIsActiveValue(response.isActive);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (operation === 'update') {
+      fetch(`${url}/companies/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const currentData = {
+            name: data.name,
+            address: data.address,
+            city: data.city,
+            province: data.province,
+            country: data.country,
+            zipCode: parseInt(data.zipCode),
+            phone: parseInt(data.phone),
+            email: data.email,
+            pictureUrl: data.pictureUrl,
+            contactFullName: data.contactFullName,
+            contactPhone: parseInt(data.contactPhone),
+            isActive: data.isActive
+          };
+          setFormData(currentData);
+        });
+    }
   }, []);
 
-  const [fullNameValue, setFullNameValue] = useState('');
-  const [addressValue, setAddressValue] = useState('');
-  const [cityValue, setCityValue] = useState('');
-  const [provinceValue, setProvinceValue] = useState('');
-  const [countryValue, setCountryValue] = useState('');
-  const [zipCodeValue, setzipCodeValue] = useState('');
-  const [phoneValue, setPhoneValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [pictureUrlValue, setPictureUrlValue] = useState('');
-  const [contactFullNameValue, setContactFullNameValue] = useState('');
-  const [contactPhoneValue, setContactPhoneValue] = useState('');
-  const [isActiveValue, setIsActiveValue] = useState(false);
-
-  //MODAL
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onSubmit = (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
-    if (clientId) {
-      //FUNCTION FOR UPDATING A COMPANY
-      fetch(`${process.env.REACT_APP_API}/companies/${clientId}`, {
-        method: 'PUT',
-        mode: 'cors',
+    console.log(formData);
+    if (operation === 'create') {
+      fetch(`${url}/companies`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: fullNameValue,
-          address: addressValue,
-          city: cityValue,
-          province: provinceValue,
-          country: countryValue,
-          zipCode: parseInt(zipCodeValue),
-          phone: parseInt(phoneValue),
-          email: emailValue,
-          pictureUrl: pictureUrlValue,
-          contactFullName: contactFullNameValue,
-          contactPhone: parseInt(contactPhoneValue),
-          isActive: isActiveValue
-        })
+        }
       })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          setLastAction('update');
+        .then(async (res) => {
+          const data = await res.json();
           setShowModal(true);
+          console.log(data);
+          setTitleModal('Company created');
+          setModalType('create');
+          setModalContent(data.Company);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          setShowModal(true);
+          setModalType('error');
         });
     } else {
-      //FUNCTION FOR CREATING A COMPANY
-      fetch(`${process.env.REACT_APP_API}/companies`, {
-        method: 'POST',
-        mode: 'cors',
+      fetch(`${url}/companies/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: fullNameValue,
-          address: addressValue,
-          city: cityValue,
-          province: provinceValue,
-          country: countryValue,
-          zipCode: parseInt(zipCodeValue),
-          phone: parseInt(phoneValue),
-          email: emailValue,
-          pictureUrl: pictureUrlValue,
-          contactFullName: contactFullNameValue,
-          contactPhone: parseInt(contactPhoneValue),
-          isActive: isActiveValue
-        })
+        }
       })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          setLastAction('create');
+        .then(async (res) => {
+          const data = await res.json();
           setShowModal(true);
+          setModalType('update');
+          setTitleModal('Company updated');
+          setModalContent(data.Company);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          setShowModal(true);
+          setModalType('error');
         });
     }
   };
 
+  const updateForm = (field, value) => {
+    const newState = formData;
+    console.log(value);
+    console.log(field);
+    if (field === 'zipCode' || field === 'phone' || field === 'contactPhone') {
+      newState[field] = parseInt(value);
+    } else {
+      newState[field] = value;
+    }
+    setFormData(newState);
+  };
+
+  const closeModalFn = () => {
+    setShowModal(false);
+    //window.location.href = '/companies';
+  };
+
   return (
-    <div className={styles.container}>
-      <Modal show={showModal} closeModal={closeModal} action={lastAction} />
-      <form onSubmit={onSubmit}>
-        <h2>Form</h2>
-        <label id="fullname">Full Name</label>
-        <input
-          type="text"
-          id="fullname"
+    <div>
+      {operation === 'create' ? <h2>Create Company</h2> : <h2>Edit Company</h2>}
+      <form className={styles.form} onSubmit={submitForm}>
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.name}
+          element="input"
+          resource="companies"
           name="fullname"
-          value={fullNameValue}
-          onChange={(e) => {
-            setFullNameValue(e.target.value);
-          }}
+          objectProperty="name"
           required
+          updateData={updateForm}
         />
-        <label id="address">Address</label>
-        <input
-          type="text"
-          id="address"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.address}
+          element="input"
+          resource="companies"
           name="address"
-          value={addressValue}
-          onChange={(e) => {
-            setAddressValue(e.target.value);
-          }}
+          objectProperty="address"
           required
+          updateData={updateForm}
         />
-        <label id="city">City</label>
-        <input
-          type="text"
-          id="city"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.city}
+          element="input"
+          resource="companies"
           name="city"
-          value={cityValue}
-          onChange={(e) => {
-            setCityValue(e.target.value);
-          }}
+          objectProperty="city"
           required
+          updateData={updateForm}
         />
-        <label id="province">Province</label>
-        <input
-          type="text"
-          id="province"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.province}
+          element="input"
+          resource="companies"
           name="province"
-          value={provinceValue}
-          onChange={(e) => {
-            setProvinceValue(e.target.value);
-          }}
+          objectProperty="province"
           required
+          updateData={updateForm}
         />
-        <label id="country">Country</label>
-        <input
-          type="text"
-          id="country"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.country}
+          element="input"
+          resource="companies"
           name="country"
-          value={countryValue}
-          onChange={(e) => {
-            setCountryValue(e.target.value);
-          }}
+          objectProperty="country"
           required
+          updateData={updateForm}
         />
-        <label id="zipCode">Zip Code</label>
-        <input
-          type="number"
-          id="zipCode"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.zipCode}
+          element="input"
+          resource="companies"
           name="zipCode"
-          value={zipCodeValue}
-          onChange={(e) => {
-            setzipCodeValue(e.target.value);
-          }}
+          objectProperty="zipCode"
           required
+          updateData={updateForm}
         />
-        <label id="phone">Phone</label>
-        <input
-          type="text"
-          id="phone"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.phone}
+          element="input"
+          resource="companies"
           name="phone"
-          value={phoneValue}
-          onChange={(e) => {
-            setPhoneValue(e.target.value);
-          }}
+          objectProperty="phone"
           required
+          updateData={updateForm}
         />
-        <label id="email">Email</label>
-        <input
-          type="text"
-          id="email"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.email}
+          element="input"
+          resource="companies"
           name="email"
-          value={emailValue}
-          onChange={(e) => {
-            setEmailValue(e.target.value);
-          }}
+          objectProperty="email"
           required
+          updateData={updateForm}
         />
-        <label id="pictureUrl">Picture URL</label>
-        <input
-          type="text"
-          id="pictureUrl"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.pictureUrl}
+          element="input"
+          resource="companies"
           name="pictureUrl"
-          value={pictureUrlValue}
-          onChange={(e) => {
-            setPictureUrlValue(e.target.value);
-          }}
+          objectProperty="pictureUrl"
           required
+          updateData={updateForm}
         />
-        <label id="contactFullName">Contact Full Name</label>
-        <input
-          type="text"
-          id="contactFullName"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.contactFullName}
+          element="input"
+          resource="companies"
           name="contactFullName"
-          value={contactFullNameValue}
-          onChange={(e) => {
-            setContactFullNameValue(e.target.value);
-          }}
+          objectProperty="contactFullName"
           required
+          updateData={updateForm}
         />
-        <label id="contactPhone">Contact Phone</label>
-        <input
-          type="text"
-          id="contactPhone"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.contactPhone}
+          element="input"
+          resource="companies"
           name="contactPhone"
-          value={contactPhoneValue}
-          onChange={(e) => {
-            setContactPhoneValue(e.target.value);
-          }}
+          objectProperty="contactPhone"
           required
+          updateData={updateForm}
         />
-        <label id="isActive">Is Active</label>
-        <input
-          type="checkbox"
-          id="isActive"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.isActive}
+          element="input"
+          resource="companies"
           name="isActive"
-          value={isActiveValue}
-          checked={isActiveValue}
-          onChange={(e) => {
-            setIsActiveValue(e.currentTarget.checked);
-          }}
+          inputType="checkbox"
+          objectProperty="isActive"
+          updateData={updateForm}
         />
-        <button className={styles.saveButton} type="submit">
-          {clientId ? 'SAVE CHANGES' : 'CREATE'}
-        </button>
+        <button type="submit">Submit</button>
       </form>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
     </div>
   );
 }
 
-export default CompaniesForm;
+export default Form;
