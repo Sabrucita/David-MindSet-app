@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import List from './List';
 import Modal from '../shared/Modal';
+import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
 
 function Sessions() {
   const [sessions, setSessions] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
@@ -19,6 +21,7 @@ function Sessions() {
       .then((res) => res.json())
       .then((data) => {
         setSessions(data);
+        setIsFetching(false);
       });
   }, []);
 
@@ -56,10 +59,16 @@ function Sessions() {
     <>
       <section className={styles.container}>
         <h2 className="mainTitle">Sessions</h2>
-        <List data={sessions} header={tableHeader} openModal={openModal} />
-        <Link to="/sessions/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>ADD SESSION</span>
-        </Link>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <>
+            <List data={sessions} header={tableHeader} openModal={openModal} />
+            <Link to="/sessions/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>ADD SESSION</span>
+            </Link>
+          </>
+        )}
       </section>
       <Modal
         showModal={showModal}

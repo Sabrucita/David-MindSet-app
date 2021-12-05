@@ -45,7 +45,7 @@ function Form({ match }) {
           setShowModal(true);
           setModalType('create');
           setModalTitle('Application Created');
-          setModalContent(data);
+          setModalContent(data.data);
         })
         .catch(() => {
           setShowModal(true);
@@ -64,7 +64,7 @@ function Form({ match }) {
           setShowModal(true);
           setModalType('update');
           setModalTitle('Application Updated');
-          setModalContent(data);
+          setModalContent(data.data);
         })
         .catch(() => {
           setShowModal(true);
