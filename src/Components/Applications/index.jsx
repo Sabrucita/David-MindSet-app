@@ -17,7 +17,7 @@ function Applications() {
     fetch(`${url}/applications`)
       .then((response) => response.json())
       .then((response) => {
-        setApplications(response.applications);
+        setApplications(response);
       });
   }, []);
 

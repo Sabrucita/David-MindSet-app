@@ -22,11 +22,10 @@ function Form({ match }) {
       fetch(`${url}/applications/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           const currentData = {
-            idCandidate: data.application.idCandidate._id,
-            idOpenPosition: data.application.idOpenPosition._id,
-            isActive: data.application.isActive
+            idCandidate: data.idCandidate._id,
+            idOpenPosition: data.idOpenPosition._id,
+            isActive: data.isActive
           };
           setFormData(currentData);
         });
@@ -48,7 +47,7 @@ function Form({ match }) {
           setShowModal(true);
           setModalType('create');
           setTitleModal('Application Created');
-          setModalContent(data.application);
+          setModalContent(data.data);
         })
         .catch(() => {
           setShowModal(true);
@@ -67,7 +66,7 @@ function Form({ match }) {
           setShowModal(true);
           setModalType('update');
           setTitleModal('Application Updated');
-          setModalContent(data.application);
+          setModalContent(data.data);
         })
         .catch(() => {
           setShowModal(true);
@@ -84,7 +83,7 @@ function Form({ match }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    window.location.href = '/applications';
+    // window.location.href = '/applications';
   };
 
   return (
@@ -106,20 +105,22 @@ function Form({ match }) {
           currentValue={formData.idOpenPosition}
           element="select"
           resource="open-positions"
-          name="open-positions"
+          name="open-position"
           objectProperty="idOpenPosition"
           required
           updateData={updateForm}
         />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.isActive ? 'True' : 'False'}
-          element="input"
-          name="status"
-          objectProperty="isActive"
-          required
-          updateData={updateForm}
-        />
+        {id && (
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.isActive ? true : false}
+            element="input"
+            inputType="checkbox"
+            name="status"
+            objectProperty="isActive"
+            updateData={updateForm}
+          />
+        )}
         <button className={(styles.buttonAdd, styles.buttonGreen)} Addtype="submit">
           SUBMIT APPLICATION
         </button>
