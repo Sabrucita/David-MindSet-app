@@ -47,11 +47,15 @@ function Form({ match, history }) {
         }
       })
         .then(async (res) => {
+          if (res.status === 201) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('create');
+            setModalTitle('Application Created');
+            return setModalContent(data.data);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('create');
-          setModalTitle('Application Created');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
         .catch((err) => {
           showErrorMsg(err);
@@ -65,11 +69,18 @@ function Form({ match, history }) {
         }
       })
         .then(async (res) => {
+          if (res.status === 200) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('update');
+            setModalTitle('Application Updated');
+            const formatData = data.data;
+            formatData.idCandidate = formatData.idCandidate._id;
+            formatData.idPsychologist = formatData.idPsychologist._id;
+            return setModalContent(formatData);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('update');
-          setModalTitle('Application Updated');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
         .catch((err) => {
           showErrorMsg(err);
