@@ -34,7 +34,7 @@ function Form({ match, history }) {
             city: data.city,
             province: data.province,
             country: data.country,
-            postalcode: data.postalcode,
+            postalCode: data.postalCode,
             birthday: data.birthday,
             hobbies: data.hobbies,
             mainSkills: data.mainSkills,
@@ -43,8 +43,9 @@ function Form({ match, history }) {
             education: data.education,
             experiences: data.experiences,
             courses: data.courses,
-            address: `${data.address.street} ${data.address.number}`
+            address: { street: data.address.street, number: data.address.number }
           };
+          console.log(currentData);
           setFormData(currentData);
         });
     }
@@ -53,6 +54,7 @@ function Form({ match, history }) {
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
+    console.log(formData);
     if (operation === 'create') {
       fetch(`${url}/candidates`, {
         method: 'POST',
@@ -108,6 +110,12 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     const newState = formData;
+    console.log(formData);
+    if (field === 'number' || field === 'street') {
+      if (!newState.address) newState.address = {};
+      newState.address[field] = value;
+      return setFormData(newState);
+    }
     newState[field] = value;
     setFormData(newState);
   };
@@ -213,11 +221,11 @@ function Form({ match, history }) {
         />
         <Fieldset
           update={id ? true : false}
-          currentValue={formData.postalcode}
+          currentValue={formData.postalCode}
           element="input"
-          name="postalcode"
+          name="postalCode"
           displayedName="Postal Code"
-          objectProperty="postalcode"
+          objectProperty="postalCode"
           required
           updateData={updateForm}
           inputType="number"
@@ -305,21 +313,21 @@ function Form({ match, history }) {
         />
         <Fieldset
           update={id ? true : false}
-          currentValue={formData.street}
+          currentValue={formData.address?.street}
           element="input"
-          name="address.street"
+          name="addressStreet"
           displayedName="Address Street"
-          objectProperty="address.street"
+          objectProperty="street"
           updateData={updateForm}
           inputType="text"
         />
         <Fieldset
           update={id ? true : false}
-          currentValue={formData.number}
+          currentValue={formData.address?.number}
           element="input"
-          name="address.number"
+          name="addressNumber"
           displayedName="Address number"
-          objectProperty="address.number"
+          objectProperty="number"
           updateData={updateForm}
           inputType="number"
         />

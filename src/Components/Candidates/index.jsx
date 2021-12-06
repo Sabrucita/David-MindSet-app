@@ -75,7 +75,7 @@ function Candid() {
     <div className={styles.container}>
       <section className={styles.main}>
         <Modal
-          show={showModal}
+          showModal={showModal}
           closeModalFn={closeModal}
           acceptModalFn={acceptModal}
           content={selectedItem}
