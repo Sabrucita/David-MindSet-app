@@ -4,16 +4,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  order: 2;
-  width: 75%;
-}
-
-.main h1 {
+.container h1 {
+  width: 100%;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 2px rgb(191, 191, 191) solid;
@@ -41,6 +38,7 @@
   display: block;
   padding: 10px 5px;
 }
+
 .form input,
 .form select {
   width: 100%;
@@ -68,7 +66,6 @@
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 15px;
-  cursor: pointer;
 }
 
 .buttonGreen:hover {

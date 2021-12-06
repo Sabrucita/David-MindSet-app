@@ -104,8 +104,15 @@ function Form({ match, history }) {
   };
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
+    <>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.h1}>Create Application</h1>
         ) : (
@@ -149,15 +156,8 @@ function Form({ match, history }) {
             </button>
           </div>
         </form>
-        <Modal
-          showModal={showModal}
-          type={modalType}
-          content={modalContent}
-          closeModalFn={closeModalFn}
-          titleModal={titleModal}
-        />
       </section>
-    </div>
+    </>
   );
 }
 
