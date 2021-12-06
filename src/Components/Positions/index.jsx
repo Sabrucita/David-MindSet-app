@@ -22,6 +22,9 @@ function Positions() {
       .then((data) => {
         setPositions(data);
         setIsFetching(false);
+      })
+      .catch((err) => {
+        showErrorMsg(err);
       });
   }, []);
 
@@ -38,9 +41,8 @@ function Positions() {
           throw new Error(`HTTP ${res.status}`);
         }
       })
-      .catch(() => {
-        setShowModal(true);
-        setModalType('error');
+      .catch((err) => {
+        showErrorMsg(err);
       });
   };
 
@@ -53,6 +55,13 @@ function Positions() {
 
   const closeModalFn = () => {
     setShowModal(false);
+  };
+
+  const showErrorMsg = (data) => {
+    setModalType('error');
+    setModalTitle('Upsss an error has happened');
+    setSelectedItem(data);
+    setShowModal(true);
   };
 
   return (

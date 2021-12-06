@@ -5,6 +5,7 @@ import styles from './form.module.css';
 
 function Form({ match, history }) {
   const [formData, setFormData] = useState({});
+  const [disableProperty, setDisableProperty] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
@@ -27,18 +28,17 @@ function Form({ match, history }) {
             jobDescription: data.jobDescription
           };
           setFormData(currentData);
+          setDisableProperty(false);
+        })
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    /*if (formData.jobDescription.length < 10 || formData.jobDescription.length > 500) {
-      setShowModal(true);
-      setModalType('error');
-      setModalContent({ msg: 'Job description must be between 10 and 500 characters' });
-      return;
-    }*/
+    setDisableProperty(true);
     if (!id) {
       fetch(`${url}/${resource}`, {
         method: 'POST',
@@ -54,9 +54,8 @@ function Form({ match, history }) {
           setModalTitle('Application Created');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     } else {
       fetch(`${url}/${resource}/${id}`, {
@@ -73,9 +72,8 @@ function Form({ match, history }) {
           setModalTitle('Application Updated');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   };
@@ -84,11 +82,32 @@ function Form({ match, history }) {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
+    validateFields();
+  };
+
+  const validateFields = () => {
+    if (!formData.idCompany) setDisableProperty(true);
+    else if (!formData.startDate) setDisableProperty(true);
+    else if (!formData.endDate) setDisableProperty(true);
+    else if (
+      !formData.jobDescription ||
+      formData.jobDescription.length < 10 ||
+      formData.jobDescription.length > 500
+    )
+      setDisableProperty(true);
+    else setDisableProperty(false);
   };
 
   const closeModalFn = () => {
     setShowModal(false);
     history.push('/positions');
+  };
+
+  const showErrorMsg = (data) => {
+    setModalType('error');
+    setModalTitle('Upsss an error has happened');
+    setModalContent(data);
+    setShowModal(true);
   };
 
   return (
@@ -135,7 +154,11 @@ function Form({ match, history }) {
           required
           updateData={updateForm}
         />
-        <button className={(styles.buttonAdd, styles.buttonGreen)} type="submit">
+        <button
+          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+          type="submit"
+          disabled={disableProperty}
+        >
           Submit
         </button>
       </form>

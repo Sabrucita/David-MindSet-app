@@ -12,11 +12,6 @@
   max-width: 1200px;
   padding: 0px 40px 40px 40px;
 }
-.buttonAdd {
-  display: inline-flex;
-  width: fit-content;
-  text-decoration: none;
-}
 .buttonGreen {
   width: 30%;
   padding: 15px 0;
@@ -28,4 +23,10 @@
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
+}
+.disabled {
+  border: rgb(121, 121, 121);
+  background-color: rgb(121, 121, 121);
+  color: rgba(0, 0, 0, 0.603);
+  cursor: not-allowed;
 }
