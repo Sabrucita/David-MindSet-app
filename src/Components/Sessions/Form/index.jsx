@@ -5,6 +5,7 @@ import styles from './form.module.css';
 
 function Form({ match, history }) {
   const [formData, setFormData] = useState({});
+  const [disableProperty, setDisableProperty] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
@@ -21,17 +22,22 @@ function Form({ match, history }) {
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
-            idCandidate: data.idCandidate._id,
-            idPsychologist: data.idPsychologist._id,
+            idCandidate: data.idCandidate?._id,
+            idPsychologist: data.idPsychologist?._id,
             date: data.date
           };
           setFormData(currentData);
+          setDisableProperty(false);
+        })
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
+    setDisableProperty(true);
     if (!id) {
       fetch(`${url}/${resource}`, {
         method: 'POST',
@@ -47,9 +53,8 @@ function Form({ match, history }) {
           setModalTitle('Application Created');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     } else {
       fetch(`${url}/${resource}/${id}`, {
@@ -66,9 +71,8 @@ function Form({ match, history }) {
           setModalTitle('Application Updated');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   };
@@ -77,6 +81,14 @@ function Form({ match, history }) {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
+    validateFields();
+  };
+
+  const validateFields = () => {
+    if (!formData.idCandidate) setDisableProperty(true);
+    else if (!formData.idPsychologist) setDisableProperty(true);
+    else if (!formData.date) setDisableProperty(true);
+    else setDisableProperty(false);
   };
 
   const closeModalFn = () => {
@@ -84,8 +96,15 @@ function Form({ match, history }) {
     history.push('/sessions');
   };
 
+  const showErrorMsg = (data) => {
+    setModalType('error');
+    setModalTitle('Upsss an error has happened');
+    setModalContent(data);
+    setShowModal(true);
+  };
+
   return (
-    <div>
+    <div className={styles.container}>
       {!id ? <h1>Create Session</h1> : <h1>Edit Session</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
@@ -118,7 +137,13 @@ function Form({ match, history }) {
           required
           updateData={updateForm}
         />
-        <button type="submit">Submit</button>
+        <button
+          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+          type="submit"
+          disabled={disableProperty}
+        >
+          Submit
+        </button>
       </form>
       <Modal
         showModal={showModal}

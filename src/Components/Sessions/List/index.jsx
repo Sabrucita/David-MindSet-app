@@ -6,14 +6,16 @@ function List({ data, header, openModal }) {
   const fillDataTable = (element) => {
     const dataTable = {
       candidate: element.idCandidate
-        ? `${capitalize(element.idCandidate.firstName)} ${capitalize(element.idCandidate.lastName)}`
+        ? `${capitalize(element.idCandidate?.firstName)} ${capitalize(
+            element.idCandidate?.lastName
+          )}`
         : 'This candidate was deleted',
       psychologist: element.idPsychologist
-        ? `${capitalize(element.idPsychologist.firstName)} ${capitalize(
-            element.idPsychologist.lastName
+        ? `${capitalize(element.idPsychologist?.firstName)} ${capitalize(
+            element.idPsychologist?.lastName
           )}`
         : 'This psychologist was deleted',
-      date: `${element.date.substr(0, 10)} ${element.date.substr(11, 5)}`
+      date: `${element.date?.substr(0, 10)} ${element.date?.substr(11, 5)}`
     };
     return dataTable;
   };
