@@ -105,7 +105,7 @@ function Form({ match, history }) {
 
   return (
     <div>
-      {operation === 'create' ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
+      {operation === 'create' ? <h2>Create Application</h2> : <h2>Edit Application</h2>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
