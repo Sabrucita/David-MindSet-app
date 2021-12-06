@@ -5,7 +5,6 @@ import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 
-//FUNCTION TO LIST ALL CANDIDATES
 function Candid() {
   const [showModal, setShowModal] = useState(false);
   const [candidates, setCandidates] = useState([]);
@@ -25,7 +24,6 @@ function Candid() {
       });
   }, []);
 
-  //Modal
   const closeModal = () => {
     setShowModal(false);
   };
@@ -37,7 +35,6 @@ function Candid() {
     setShowModal(true);
   };
 
-  //Modal Confirm Delete
   const acceptModal = () => {
     fetch(`${url}/candidates/${selectedItem.id}`, {
       method: 'DELETE',

@@ -45,7 +45,6 @@ function Form({ match, history }) {
             courses: data.courses,
             address: { street: data.address.street, number: data.address.number }
           };
-          console.log(currentData);
           setFormData(currentData);
         });
     }
@@ -54,7 +53,6 @@ function Form({ match, history }) {
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    console.log(formData);
     if (operation === 'create') {
       fetch(`${url}/candidates`, {
         method: 'POST',
@@ -110,7 +108,6 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     const newState = formData;
-    console.log(formData);
     if (field === 'number' || field === 'street') {
       if (!newState.address) newState.address = {};
       newState.address[field] = value;
@@ -129,7 +126,7 @@ function Form({ match, history }) {
 
   return (
     <div>
-      {operation === 'create' ? <h2>Create Candidate</h2> : <h2>Edit Candidate</h2>}
+      {operation === 'create' ? <h1>Create Candidate</h1> : <h1>Edit Candidate</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
@@ -336,7 +333,7 @@ function Form({ match, history }) {
           disabled={disableProperty}
           Addtype="submit"
         >
-          SUBMIT APPLICATION
+          SUBMIT CANDIDATE
         </button>
       </form>
       <Modal
