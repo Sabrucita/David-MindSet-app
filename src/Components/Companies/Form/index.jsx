@@ -117,142 +117,146 @@ function Form({ match, history }) {
   };
 
   return (
-    <div>
-      {operation === 'create' ? <h1>Create Company</h1> : <h1>Edit Company</h1>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.name}
-          element="input"
-          resource="companies"
-          name="fullname"
-          objectProperty="name"
-          displayedName="Full name"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.address}
-          element="input"
-          resource="companies"
-          name="address"
-          objectProperty="address"
-          displayedName="Address"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.city}
-          element="input"
-          resource="companies"
-          name="city"
-          objectProperty="city"
-          displayedName="City"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.province}
-          element="input"
-          resource="companies"
-          name="province"
-          objectProperty="province"
-          displayedName="Province"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.country}
-          element="input"
-          resource="companies"
-          name="country"
-          objectProperty="country"
-          displayedName="Country"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.zipCode}
-          element="input"
-          resource="companies"
-          name="zipCode"
-          inputType="number"
-          objectProperty="zipCode"
-          displayedName="Zip Code"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.phone}
-          element="input"
-          resource="companies"
-          name="phone"
-          inputType="number"
-          objectProperty="phone"
-          displayedName="Phone Number"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.email}
-          element="input"
-          resource="companies"
-          name="email"
-          inputType="email"
-          objectProperty="email"
-          displayedName="Email"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.pictureUrl}
-          element="input"
-          resource="companies"
-          name="pictureUrl"
-          objectProperty="pictureUrl"
-          displayedName="Picture URL"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.contactFullName}
-          element="input"
-          resource="companies"
-          name="contactFullName"
-          objectProperty="contactFullName"
-          displayedName="Contact Full Name"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.contactPhone}
-          element="input"
-          resource="companies"
-          name="contactPhone"
-          inputType="number"
-          objectProperty="contactPhone"
-          displayedName="Contact Phone"
-          required
-          updateData={updateForm}
-        />
-        <button
-          className={(styles.buttonAdd, styles.buttonGreen)}
-          disabled={disableProperty}
-          Addtype="submit"
-        >
-          SUBMIT COMPANY
-        </button>
-      </form>
+    <>
+      <section className={styles.container}>
+        {operation === 'create' ? <h1>Create Company</h1> : <h1>Edit Company</h1>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.name}
+            element="input"
+            resource="companies"
+            name="fullname"
+            objectProperty="name"
+            displayedName="Full name"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.address}
+            element="input"
+            resource="companies"
+            name="address"
+            objectProperty="address"
+            displayedName="Address"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.city}
+            element="input"
+            resource="companies"
+            name="city"
+            objectProperty="city"
+            displayedName="City"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.province}
+            element="input"
+            resource="companies"
+            name="province"
+            objectProperty="province"
+            displayedName="Province"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.country}
+            element="input"
+            resource="companies"
+            name="country"
+            objectProperty="country"
+            displayedName="Country"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.zipCode}
+            element="input"
+            resource="companies"
+            name="zipCode"
+            inputType="number"
+            objectProperty="zipCode"
+            displayedName="Zip Code"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.phone}
+            element="input"
+            resource="companies"
+            name="phone"
+            inputType="number"
+            objectProperty="phone"
+            displayedName="Phone Number"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.email}
+            element="input"
+            resource="companies"
+            name="email"
+            inputType="email"
+            objectProperty="email"
+            displayedName="Email"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.pictureUrl}
+            element="input"
+            resource="companies"
+            name="pictureUrl"
+            objectProperty="pictureUrl"
+            displayedName="Picture URL"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.contactFullName}
+            element="input"
+            resource="companies"
+            name="contactFullName"
+            objectProperty="contactFullName"
+            displayedName="Contact Full Name"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.contactPhone}
+            element="input"
+            resource="companies"
+            name="contactPhone"
+            inputType="number"
+            objectProperty="contactPhone"
+            displayedName="Contact Phone"
+            required
+            updateData={updateForm}
+          />
+          <div className={styles.containerButton}>
+            <button
+              className={(styles.buttonAdd, styles.buttonGreen)}
+              disabled={disableProperty}
+              Addtype="submit"
+            >
+              SUBMIT COMPANY
+            </button>
+          </div>
+        </form>
+      </section>
       <Modal
         showModal={showModal}
         type={modalType}
@@ -260,7 +264,7 @@ function Form({ match, history }) {
         closeModalFn={closeModalFn}
         titleModal={titleModal}
       />
-    </div>
+    </>
   );
 }
 

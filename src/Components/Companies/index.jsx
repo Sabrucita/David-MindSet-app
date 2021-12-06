@@ -59,8 +59,8 @@ function Companies() {
   const tableHeader = ['Name', 'Address', 'City', 'Phone', 'Email', 'Actions'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
+    <>
+      <section className={styles.container}>
         <Modal
           showModal={showModal}
           closeModalFn={closeModal}
@@ -81,7 +81,7 @@ function Companies() {
           </>
         )}
       </section>
-    </div>
+    </>
   );
 }
 
