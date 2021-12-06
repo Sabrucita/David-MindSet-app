@@ -56,7 +56,7 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          if (data) {
+          if (data.status === 201) {
             setTitleModal('Company created');
             setModalType('create');
             return setModalContent(data.data);
@@ -92,10 +92,10 @@ function Form({ match, history }) {
     }
   };
 
-  const msgError = (data) => {
+  const msgError = (err) => {
     setModalType('error');
     setTitleModal('Upsss an error has happened');
-    setModalContent(data);
+    setModalContent(err);
     setDisableProperty(false);
   };
 
@@ -127,6 +127,7 @@ function Form({ match, history }) {
           resource="companies"
           name="fullname"
           objectProperty="name"
+          displayedName="Full name"
           required
           updateData={updateForm}
         />
@@ -137,6 +138,7 @@ function Form({ match, history }) {
           resource="companies"
           name="address"
           objectProperty="address"
+          displayedName="Address"
           required
           updateData={updateForm}
         />
@@ -147,6 +149,7 @@ function Form({ match, history }) {
           resource="companies"
           name="city"
           objectProperty="city"
+          displayedName="City"
           required
           updateData={updateForm}
         />
@@ -157,6 +160,7 @@ function Form({ match, history }) {
           resource="companies"
           name="province"
           objectProperty="province"
+          displayedName="Province"
           required
           updateData={updateForm}
         />
@@ -167,6 +171,7 @@ function Form({ match, history }) {
           resource="companies"
           name="country"
           objectProperty="country"
+          displayedName="Country"
           required
           updateData={updateForm}
         />
@@ -176,7 +181,9 @@ function Form({ match, history }) {
           element="input"
           resource="companies"
           name="zipCode"
+          inputType="number"
           objectProperty="zipCode"
+          displayedName="Zip Code"
           required
           updateData={updateForm}
         />
@@ -186,7 +193,9 @@ function Form({ match, history }) {
           element="input"
           resource="companies"
           name="phone"
+          inputType="number"
           objectProperty="phone"
+          displayedName="Phone Number"
           required
           updateData={updateForm}
         />
@@ -196,7 +205,9 @@ function Form({ match, history }) {
           element="input"
           resource="companies"
           name="email"
+          inputType="email"
           objectProperty="email"
+          displayedName="Email"
           required
           updateData={updateForm}
         />
@@ -207,6 +218,7 @@ function Form({ match, history }) {
           resource="companies"
           name="pictureUrl"
           objectProperty="pictureUrl"
+          displayedName="Picture URL"
           required
           updateData={updateForm}
         />
@@ -217,6 +229,7 @@ function Form({ match, history }) {
           resource="companies"
           name="contactFullName"
           objectProperty="contactFullName"
+          displayedName="Contact Full Name"
           required
           updateData={updateForm}
         />
@@ -226,7 +239,9 @@ function Form({ match, history }) {
           element="input"
           resource="companies"
           name="contactPhone"
+          inputType="number"
           objectProperty="contactPhone"
+          displayedName="Contact Phone"
           required
           updateData={updateForm}
         />
