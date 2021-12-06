@@ -69,16 +69,16 @@ function Candid() {
   ];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+    <>
+      <Modal
+        showModal={showModal}
+        closeModalFn={closeModal}
+        acceptModalFn={acceptModal}
+        content={selectedItem}
+        type={typeModal}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
         <h1 className={styles.h1}>Candidates</h1>
         {isFetching ? (
           <Preloader />
@@ -91,7 +91,7 @@ function Candid() {
           </>
         )}
       </section>
-    </div>
+    </>
   );
 }
 export default Candid;

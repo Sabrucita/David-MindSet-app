@@ -126,223 +126,227 @@ function Form({ match, history }) {
 
   return (
     <div>
-      {operation === 'create' ? <h1>Create Candidate</h1> : <h1>Edit Candidate</h1>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.firstName}
-          element="input"
-          name="firstName"
-          displayedName="First Name"
-          objectProperty="firstName"
-          required
-          updateData={updateForm}
-          inputType="text"
+      <section className={styles.main}>
+        {operation === 'create' ? (
+          <h1 className={styles.h1}>Create Candidate</h1>
+        ) : (
+          <h1 className={styles.h1}>Edit Candidate</h1>
+        )}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.firstName}
+            element="input"
+            name="firstName"
+            displayedName="First Name"
+            objectProperty="firstName"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.lastName}
+            element="input"
+            name="lastName"
+            displayedName="Last Name"
+            objectProperty="lastName"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.email}
+            element="input"
+            name="email"
+            displayedName="E-Mail"
+            objectProperty="email"
+            required
+            updateData={updateForm}
+            inputType="email"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.password}
+            element="input"
+            name="password"
+            displayedName="PassWord"
+            objectProperty="password"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.phone}
+            element="input"
+            name="phone"
+            displayedName="Phone Number"
+            objectProperty="phone"
+            required
+            updateData={updateForm}
+            inputType="number"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.city}
+            element="input"
+            name="city"
+            displayedName="City"
+            objectProperty="city"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.province}
+            element="input"
+            name="province"
+            displayedName="Province"
+            objectProperty="province"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.country}
+            element="input"
+            name="country"
+            displayedName="Country"
+            objectProperty="country"
+            required
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.postalCode}
+            element="input"
+            name="postalCode"
+            displayedName="Postal Code"
+            objectProperty="postalCode"
+            required
+            updateData={updateForm}
+            inputType="number"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.birthday}
+            element="input"
+            name="birthday"
+            displayedName="Birthday"
+            objectProperty="birthday"
+            required
+            updateData={updateForm}
+            inputType="date"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.hobbies}
+            element="input"
+            name="hobbies"
+            displayedName="Hobbies"
+            objectProperty="hobbies"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.mainSkills}
+            element="input"
+            name="mainSkills"
+            displayedName="Main Skills"
+            objectProperty="mainSkills"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.profileTypes}
+            element="input"
+            name="profileTypes"
+            displayedName="Profile Types"
+            objectProperty="profileTypes"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.isOpenToWork}
+            element="input"
+            name="isOpenToWork"
+            displayedName="is Open To Work?"
+            objectProperty="isOpenToWork"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.education}
+            element="input"
+            name="education"
+            displayedName="Education"
+            objectProperty="education"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.experiences}
+            element="input"
+            name="experiences"
+            displayedName="Experiences"
+            objectProperty="experiences"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.courses}
+            element="input"
+            name="courses"
+            displayedName="Courses"
+            objectProperty="courses"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.address?.street}
+            element="input"
+            name="addressStreet"
+            displayedName="Address Street"
+            objectProperty="street"
+            updateData={updateForm}
+            inputType="text"
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.address?.number}
+            element="input"
+            name="addressNumber"
+            displayedName="Address number"
+            objectProperty="number"
+            updateData={updateForm}
+            inputType="number"
+          />
+          <div className={styles.containerButton}>
+            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
+              SUBMIT CANDIDATE
+            </button>
+          </div>
+        </form>
+        <Modal
+          showModal={showModal}
+          type={modalType}
+          content={modalContent}
+          closeModalFn={closeModalFn}
+          titleModal={titleModal}
         />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.lastName}
-          element="input"
-          name="lastName"
-          displayedName="Last Name"
-          objectProperty="lastName"
-          required
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.email}
-          element="input"
-          name="email"
-          displayedName="E-Mail"
-          objectProperty="email"
-          required
-          updateData={updateForm}
-          inputType="email"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.password}
-          element="input"
-          name="password"
-          displayedName="PassWord"
-          objectProperty="password"
-          required
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.phone}
-          element="input"
-          name="phone"
-          displayedName="Phone Number"
-          objectProperty="phone"
-          required
-          updateData={updateForm}
-          inputType="number"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.city}
-          element="input"
-          name="city"
-          displayedName="City"
-          objectProperty="city"
-          required
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.province}
-          element="input"
-          name="province"
-          displayedName="Province"
-          objectProperty="province"
-          required
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.country}
-          element="input"
-          name="country"
-          displayedName="Country"
-          objectProperty="country"
-          required
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.postalCode}
-          element="input"
-          name="postalCode"
-          displayedName="Postal Code"
-          objectProperty="postalCode"
-          required
-          updateData={updateForm}
-          inputType="number"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.birthday}
-          element="input"
-          name="birthday"
-          displayedName="Birthday"
-          objectProperty="birthday"
-          required
-          updateData={updateForm}
-          inputType="date"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.hobbies}
-          element="input"
-          name="hobbies"
-          displayedName="Hobbies"
-          objectProperty="hobbies"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.mainSkills}
-          element="input"
-          name="mainSkills"
-          displayedName="Main Skills"
-          objectProperty="mainSkills"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.profileTypes}
-          element="input"
-          name="profileTypes"
-          displayedName="Profile Types"
-          objectProperty="profileTypes"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.isOpenToWork}
-          element="input"
-          name="isOpenToWork"
-          displayedName="is Open To Work?"
-          objectProperty="isOpenToWork"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.education}
-          element="input"
-          name="education"
-          displayedName="Education"
-          objectProperty="education"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.experiences}
-          element="input"
-          name="experiences"
-          displayedName="Experiences"
-          objectProperty="experiences"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.courses}
-          element="input"
-          name="courses"
-          displayedName="Courses"
-          objectProperty="courses"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.address?.street}
-          element="input"
-          name="addressStreet"
-          displayedName="Address Street"
-          objectProperty="street"
-          updateData={updateForm}
-          inputType="text"
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.address?.number}
-          element="input"
-          name="addressNumber"
-          displayedName="Address number"
-          objectProperty="number"
-          updateData={updateForm}
-          inputType="number"
-        />
-        <button
-          className={(styles.buttonAdd, styles.buttonGreen)}
-          disabled={disableProperty}
-          Addtype="submit"
-        >
-          SUBMIT CANDIDATE
-        </button>
-      </form>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
+      </section>
     </div>
   );
 }
