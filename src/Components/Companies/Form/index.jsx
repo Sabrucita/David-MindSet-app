@@ -45,7 +45,6 @@ function Form({ match, history }) {
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    console.log(formData);
     if (operation === 'create') {
       fetch(`${url}/companies`, {
         method: 'POST',
