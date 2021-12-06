@@ -3,7 +3,7 @@ import styles from './candidates.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
-//import Preloader from '../shared/Preloader';
+import Preloader from '../shared/Preloader';
 
 //FUNCTION TO LIST ALL CANDIDATES
 function Candid() {
@@ -83,16 +83,16 @@ function Candid() {
           titleModal={titleModal}
         />
         <h1 className={styles.h1}>Candidates</h1>
-        {/* {isFetching ? (
+        {isFetching ? (
           <Preloader />
         ) : (
-          <> */}
-        <List data={candidates} header={tableHeader} openModal={openModal} />
-        <Link to="/candidates/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}> ADD CANDIDATE</span>
-        </Link>
-        {/* </> */}
-        {/* )} */}
+          <>
+            <List data={candidates} header={tableHeader} openModal={openModal} />
+            <Link to="/candidates/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}> ADD CANDIDATE</span>
+            </Link>
+          </>
+        )}
       </section>
     </div>
   );
