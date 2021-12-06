@@ -92,7 +92,7 @@ function Form({ match, history }) {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {!id ? <h1>Create Position</h1> : <h1>Edit Position</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
@@ -135,7 +135,9 @@ function Form({ match, history }) {
           required
           updateData={updateForm}
         />
-        <button type="submit">Submit</button>
+        <button className={(styles.buttonAdd, styles.buttonGreen)} type="submit">
+          Submit
+        </button>
       </form>
       <Modal
         showModal={showModal}

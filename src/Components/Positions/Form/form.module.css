@@ -1,24 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
 .form {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  width: 80%;
+  max-width: 1200px;
   padding: 0px 40px 40px 40px;
 }
-.form fieldset {
-  width: 50%;
-  padding: 10px 40px;
-  margin: 0;
-  border: none;
-  box-sizing: border-box;
+.buttonAdd {
+  display: inline-flex;
+  width: fit-content;
+  text-decoration: none;
 }
-.form label {
-  display: block;
-  padding: 10px 5px;
-}
-.form input,
-.form select {
-  width: 100%;
-  padding: 10px 20px;
-  border: 1px solid rgb(167, 167, 167);
+.buttonGreen {
+  width: 30%;
+  padding: 15px 0;
+  margin: 40px 0 0;
+  border: rgb(21, 139, 10);
   border-radius: 30px;
-  box-sizing: border-box;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
 }
