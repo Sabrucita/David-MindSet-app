@@ -74,7 +74,6 @@ function Form({ match, history }) {
           const data = await res.json();
           setShowModal(true);
           if (data.data) {
-            console.log(data.data);
             let formatData = data.data;
             formatData.idCompany = formatData.idCompany._id;
             formatData.idCandidate = formatData.idCandidate._id;
@@ -112,58 +111,7 @@ function Form({ match, history }) {
   };
 
   return (
-    <div>
-      {operation === 'create' ? <h2>Create Interview</h2> : <h2>Edit Interview</h2>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCandidate}
-          element="select"
-          resource="candidates"
-          name="candidate"
-          objectProperty="idCandidate"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCompany}
-          element="select"
-          resource="companies"
-          name="company"
-          objectProperty="idCompany"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.date ? formData.date.substr(0, 16) : ''}
-          element="input"
-          inputType="datetime-local"
-          name="date"
-          objectProperty="date"
-          required
-          updateData={updateForm}
-        />
-        {id && (
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.status ? true : false}
-            element="input"
-            inputType="checkbox"
-            name="status"
-            objectProperty="status"
-            updateData={updateForm}
-          />
-        )}
-        <button
-          className={(styles.buttonAdd, styles.buttonGreen)}
-          disabled={disableProperty}
-          Addtype="submit"
-        >
-          SUBMIT INTERVIEW
-        </button>
-      </form>
+    <>
       <Modal
         showModal={showModal}
         type={modalType}
@@ -171,7 +119,58 @@ function Form({ match, history }) {
         closeModalFn={closeModalFn}
         titleModal={titleModal}
       />
-    </div>
+      <section>
+        {operation === 'create' ? <h2>Create Interview</h2> : <h2>Edit Interview</h2>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idCandidate}
+            element="select"
+            resource="candidates"
+            name="candidate"
+            objectProperty="idCandidate"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idCompany}
+            element="select"
+            resource="companies"
+            name="company"
+            objectProperty="idCompany"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.date ? formData.date.substr(0, 16) : ''}
+            element="input"
+            inputType="datetime-local"
+            name="date"
+            objectProperty="date"
+            required
+            updateData={updateForm}
+          />
+          {id && (
+            <Fieldset
+              update={id ? true : false}
+              currentValue={formData.status ? true : false}
+              element="input"
+              inputType="checkbox"
+              name="status"
+              objectProperty="status"
+              updateData={updateForm}
+            />
+          )}
+          <div className={styles.containerButton}>
+            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
+              SUBMIT INTERVIEW
+            </button>
+          </div>
+        </form>
+      </section>
+    </>
   );
 }
 

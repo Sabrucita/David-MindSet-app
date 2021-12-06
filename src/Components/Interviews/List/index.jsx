@@ -1,19 +1,8 @@
 import styles from './list.module.css';
 import ListItem from '../../shared/ListItem';
+import { formatDate } from '../../helpers';
 
 function List({ header, data, openModal }) {
-  const formatDate = (element) => {
-    let dateLong = new Date(element.date);
-    dateLong.setDate(dateLong.getDate());
-    let hours = dateLong.getHours();
-    if (hours < 10) hours = `0${hours}`;
-    let minutes = dateLong.getMinutes();
-    if (minutes < 10) minutes = `0${minutes}`;
-    const dateShort = `${dateLong.getDate()} / ${
-      dateLong.getMonth() + 1
-    } / ${dateLong.getFullYear()} ${hours}:${minutes}hs`;
-    return dateShort;
-  };
   return (
     <div className={styles.list}>
       <table>
@@ -40,7 +29,7 @@ function List({ header, data, openModal }) {
                     candidate: element.idCandidate
                       ? `${element.idCandidate.firstName} ${element.idCandidate.lastName}`
                       : 'This candidate was Deleted',
-                    date: formatDate(element),
+                    date: formatDate(element.date),
                     status: element.status ? 'Active' : 'Close'
                   }}
                   dataElement={{
