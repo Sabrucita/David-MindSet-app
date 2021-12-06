@@ -40,7 +40,7 @@ function List({ header, data, openModal }) {
                       : 'Deleted',
                     idCompany: element.idCompany ? element.idCompany._id : 'Deleted',
                     nameCompany: element.idCompany ? element.idCompany.name : 'Deleted',
-                    date: formatDate(element),
+                    date: formatDate(element.date),
                     status: element.status
                   }}
                   openModal={openModal}
