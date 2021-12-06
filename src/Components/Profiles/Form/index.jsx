@@ -43,7 +43,6 @@ function Form({ match, history }) {
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    console.log(formData);
     if (operation === 'create') {
       fetch(`${url}/profile-types`, {
         method: 'POST',
@@ -131,7 +130,7 @@ function Form({ match, history }) {
           disabled={disableProperty}
           Addtype="submit"
         >
-          SUBMIT
+          SUBMIT PROFILE-TYPE
         </button>
       </form>
       <Modal
