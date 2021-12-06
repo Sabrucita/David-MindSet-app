@@ -17,8 +17,7 @@
 }
 
 .list table {
-  width: 50%;
-  margin: 0 auto;
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -29,10 +28,6 @@ th {
   padding: 8px;
 }
 
-.list th:last-child{
-  width: 40%;
-}
-
 .action {
   display: flex;
   justify-content: center;
@@ -41,4 +36,9 @@ th {
 .action a:nth-of-type(3) {
   background-color: rgb(248, 83, 83);
   color: rgb(20, 20, 20);
+}
+
+.loading {
+  font-size: 1.5em;
+  font-weight: bold;
 }

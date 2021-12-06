@@ -1,154 +1,146 @@
 import { useState, useEffect } from 'react';
-import Input from '../Input';
-import Modal from '../Modal';
+import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
+import Modal from '../../shared/Modal';
+const url = process.env.REACT_APP_API;
 
-function Form() {
-  let typeForm;
-  let idToUpdate;
-  if (!window.location.search) {
-    typeForm = 'create';
-  } else {
-    typeForm = 'update';
-    idToUpdate = window.location.search.slice(1);
-  }
-
-  const [nameValue, setNameValue] = useState();
+function Form({ match, history }) {
+  // let typeForm;
+  // let idToUpdate;
+  // if (!window.location.search) {
+  //   typeForm = 'create';
+  // } else {
+  //   typeForm = 'update';
+  //   idToUpdate = window.location.search.slice(1);
+  // }
+  const [formData, setFormData] = useState({});
+  const [modalContent, setModalContent] = useState();
+  const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [profileCreatedUpdated, setProfileCreatedUpdated] = useState();
-  const [profileToUpdate, setProfileToUpdate] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [textDescription, seTTextDescription] = useState();
+  const [titleModal, setTitleModal] = useState();
+  const [disableProperty, setDisableProperty] = useState(false);
 
-  //GET THE NAME
-  const onChangeName = (event) => {
-    setNameValue(event.target.value);
-  };
+  const id = match.params.id;
+  let operation;
 
-  //CREATE PROFILE
-  function onSubmitCreate(event) {
-    event.preventDefault();
-    if (!nameValue) {
-      setTypeModal('dataRequired');
-      seTTextDescription('Please complete the missing data');
-      return openModal();
+  if (id) operation = 'update';
+  else operation = 'create';
+
+  useEffect(() => {
+    if (operation === 'update') {
+      fetch(`${url}/profiles/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const currentData = {
+            idProfile: data._id,
+            name: data.name
+          };
+          setFormData(currentData);
+        });
     }
-    let profile = {
-      name: nameValue,
-      isActive: true
-    };
-    fetch(`${process.env.REACT_APP_API}/profile-types`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(profile)
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setProfileCreatedUpdated(response.data);
-        setTypeModal('dataCreate');
-        openModal();
-        if (response.msg) throw new Error(response.msg);
-      })
-      .catch((err) => console.log(err));
-  }
+  }, []);
 
-  //PRELOAD THE APP INFO INTO THE INPUTS
-  // GET THE INFO OF THE CHOOSEN PROFILE
-  if (typeForm === 'update') {
-    useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/profile-types/${idToUpdate}`)
-        .then((response) => response.json())
-        .then((response) => {
-          setProfileToUpdate(response.data);
+  const submitForm = (e) => {
+    e.preventDefault();
+    setDisableProperty(true);
+    console.log(formData);
+    if (operation === 'create') {
+      fetch(`${url}/profiles`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          setShowModal(true);
+          if (data.data) {
+            setModalType('create');
+            setTitleModal('Profile Type Created');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
-        .catch((err) => console.log(err));
-    }, []);
-  }
-
-  //UPDATE PROFILE
-  function onSubmitUpdate(event) {
-    event.preventDefault();
-    if (!nameValue) {
-      setTypeModal('dataRequired');
-      seTTextDescription('Please complete the missing data');
-      return openModal();
-    }
-    let profile = {
-      name: nameValue ? nameValue : profileToUpdate.name,
-      isActive: true
-    };
-    fetch(`${process.env.REACT_APP_API}/profile-types/${idToUpdate}`, {
-      method: 'PUT',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(profile)
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        setProfileCreatedUpdated(response.newProfileType);
-        setTypeModal('dataUpdate');
-        openModal();
-        if (response.msg) throw new Error(response.msg);
+        .catch((err) => {
+          msgError(err);
+          setShowModal(true);
+        });
+    } else {
+      fetch(`${url}/profiles/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
-      .catch((err) => console.log(err));
-  }
-
-  //MODAL
-  const closeModal = () => {
-    setShowModal(false);
+        .then(async (res) => {
+          const data = await res.json();
+          setShowModal(true);
+          if (data.data) {
+            setModalType('update');
+            setTitleModal('Profile Type Updated');
+            return setModalContent(data.data);
+          }
+          msgError(data);
+        })
+        .catch((err) => {
+          msgError(err);
+          setShowModal(true);
+        });
+    }
   };
 
-  const openModal = () => {
-    setShowModal(true);
+  const msgError = (data) => {
+    setModalType('error');
+    setTitleModal('Upsss an error has happened');
+    setModalContent(data);
+    setDisableProperty(false);
+  };
+
+  const updateForm = (field, value) => {
+    const newState = formData;
+    newState[field] = value;
+    setFormData(newState);
+  };
+
+  const closeModalFn = () => {
+    setShowModal(false);
+    if (disableProperty) {
+      history.push('/profiles');
+    }
   };
 
   return (
     <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          show={showModal}
-          closeModal={closeModal}
-          content={profileCreatedUpdated}
-          type={typeModal}
-          textDescription={textDescription}
+      {operation === 'create' ? <h2>Create Profile Type</h2> : <h2>Edit Profile Type</h2>}
+      <form className={styles.form}>
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.name}
+          element="input"
+          name="name"
+          displayedName="Profile Type Name"
+          objectProperty="name"
+          required
+          updateData={updateForm}
+          inputType="text"
         />
-        {typeForm === 'create' && <h1>Add Profile Type</h1>}
-        {typeForm === 'update' && <h1>Update Profile Type</h1>}
-        <form className={styles.formSubscription}>
-          <div>
-            <div className={styles.containerForm}>
-              <ul className={styles.column}>
-                <Input
-                  key="name"
-                  htmlFor="name"
-                  labelTitle="Name"
-                  nameSelect="name"
-                  onchangeValue={onChangeName}
-                  type="name"
-                  typeForm={typeForm}
-                  profileToUpdate={profileToUpdate}
-                />
-              </ul>
-            </div>
-          </div>
-          {typeForm === 'create' && (
-            <div className={styles.button}>
-              <input type="button" value="SAVE" onClick={onSubmitCreate} />
-            </div>
-          )}
-          {typeForm === 'update' && (
-            <div className={styles.button}>
-              <input type="button" value="UPDATE" onClick={onSubmitUpdate} />
-            </div>
-          )}
-        </form>
-      </section>
+        <button
+          className={(styles.buttonAdd, styles.buttonGreen)}
+          disabled={disableProperty}
+          Addtype="submit"
+        >
+          SUBMIT
+        </button>
+      </form>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
     </div>
   );
 }
