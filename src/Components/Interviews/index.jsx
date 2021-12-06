@@ -59,17 +59,17 @@ function Interviews() {
   const tableHeader = ['Company	', 'Candidate	', 'Date', 'Status', 'Action'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
-        <h1 className={styles.h1}>Interviews</h1>
+    <>
+      <Modal
+        showModal={showModal}
+        closeModalFn={closeModal}
+        acceptModalFn={acceptModal}
+        content={selectedItem}
+        type={typeModal}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
+        <h1>Interviews</h1>
         {isFetching ? (
           <Preloader />
         ) : (
@@ -81,7 +81,7 @@ function Interviews() {
           </>
         )}
       </section>
-    </div>
+    </>
   );
 }
 
