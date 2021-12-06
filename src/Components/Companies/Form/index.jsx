@@ -60,7 +60,7 @@ function Form({ match, history }) {
           if (data) {
             setTitleModal('Company created');
             setModalType('create');
-            return setModalContent(data.Company);
+            return setModalContent(data.data);
           }
           msgError(data);
         })
@@ -82,7 +82,7 @@ function Form({ match, history }) {
           if (data) {
             setModalType('update');
             setTitleModal('Company updated');
-            return setModalContent(data.Company);
+            return setModalContent(data.data);
           }
           msgError(data);
         })
