@@ -7,3 +7,4 @@ export const capitalize = (str) => {
 };
 
 export const removeLastChar = (str) => str.substr(0, str.length - 1);
+export const fixCompaniesTitle = (str) => str.substr(0, str.length - 3) + 'y';
