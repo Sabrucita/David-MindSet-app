@@ -119,7 +119,7 @@ function Form({ match, history }) {
 
   return (
     <div>
-      {operation === 'create' ? <h2>Create Company</h2> : <h2>Edit Company</h2>}
+      {operation === 'create' ? <h1>Create Company</h1> : <h1>Edit Company</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}

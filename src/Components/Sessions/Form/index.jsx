@@ -94,7 +94,6 @@ function Form() {
           element="select"
           resource="candidates"
           name="candidate"
-          //objectProperty="idCandidate"
           required
           updateData={updateForm}
         />

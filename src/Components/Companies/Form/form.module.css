@@ -48,3 +48,10 @@
   border-radius: 30px;
   box-sizing: border-box;
 }
+
+h1 {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
+}
