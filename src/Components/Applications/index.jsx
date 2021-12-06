@@ -59,16 +59,16 @@ function Applications() {
   const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+    <>
+      <Modal
+        showModal={showModal}
+        closeModalFn={closeModal}
+        acceptModalFn={acceptModal}
+        content={selectedItem}
+        type={typeModal}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
         <h1>Applications</h1>
         {isFetching ? (
           <Preloader />
@@ -81,7 +81,7 @@ function Applications() {
           </>
         )}
       </section>
-    </div>
+    </>
   );
 }
 

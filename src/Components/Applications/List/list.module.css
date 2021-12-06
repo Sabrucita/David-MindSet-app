@@ -1,3 +1,6 @@
+.list{
+  width: 100%;
+}
 .list th {
   background-color: rgba(129, 129, 129);
   color: rgb(255, 255, 255);
