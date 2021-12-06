@@ -14,7 +14,7 @@ function Profiles() {
   const [isFetching, setIsFetching] = useState(true);
 
   const url = process.env.REACT_APP_API;
-  //Get app info from DB
+
   useEffect(() => {
     fetch(`${url}/profile-types`)
       .then((response) => response.json())
@@ -24,7 +24,6 @@ function Profiles() {
       });
   }, []);
 
-  //MODAL
   const closeModal = () => {
     setShowModal(false);
   };
@@ -36,7 +35,6 @@ function Profiles() {
     setShowModal(true);
   };
 
-  //MODAL CONFIRM DELETE
   const acceptModal = () => {
     fetch(`${url}/profile-types/${selectedItem.id}`, {
       method: 'DELETE',
@@ -70,16 +68,16 @@ function Profiles() {
           titleModal={titleModal}
         />
         <h1 className={styles.h1}>Profile Types</h1>
-        {/* {isFetching ? (
+        {isFetching ? (
           <Preloader />
         ) : (
-          <> */}
-        <List data={profiles} header={tableHeader} openModal={openModal} />
-        <Link to="/profiles/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>Add Profile</span>
-        </Link>
-        {/* </>
-        )} */}
+          <>
+            <List data={profiles} header={tableHeader} openModal={openModal} />
+            <Link to="/profiles/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>Add Profile</span>
+            </Link>
+          </>
+        )}
       </section>
     </div>
   );

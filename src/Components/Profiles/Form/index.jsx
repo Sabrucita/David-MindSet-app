@@ -5,14 +5,6 @@ import Modal from '../../shared/Modal';
 const url = process.env.REACT_APP_API;
 
 function Form({ match, history }) {
-  // let typeForm;
-  // let idToUpdate;
-  // if (!window.location.search) {
-  //   typeForm = 'create';
-  // } else {
-  //   typeForm = 'update';
-  //   idToUpdate = window.location.search.slice(1);
-  // }
   const [formData, setFormData] = useState({});
   const [modalContent, setModalContent] = useState();
   const [modalType, setModalType] = useState('');
@@ -112,7 +104,7 @@ function Form({ match, history }) {
 
   return (
     <div className={styles.container}>
-      {operation === 'create' ? <h2>Create Profile Type</h2> : <h2>Edit Profile Type</h2>}
+      {operation === 'create' ? <h1>Create Profile Type</h1> : <h1>Edit Profile Type</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
