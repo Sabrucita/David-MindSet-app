@@ -13,7 +13,7 @@ function Options({ name, resource, update }) {
           const data = await res.json();
           let names = [];
           data.forEach((element) => {
-            const elementName = element.fullName
+            const elementName = element.name
               ? element.name
               : `${element.firstName} ${element.lastName}`;
             const name = {

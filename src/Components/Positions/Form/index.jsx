@@ -1,49 +1,46 @@
 import { useState, useEffect } from 'react';
-import Fieldset from '../Fieldset';
-import Modal from '../Modal';
+import Fieldset from '../../shared/Fieldset';
+import Modal from '../../shared/Modal';
 import styles from './form.module.css';
-const url = process.env.REACT_APP_API;
 
-function Form() {
+function Form({ match, history }) {
   const [formData, setFormData] = useState({});
-  const [currentCompany, setCurrentCompany] = useState('');
-  const [currentStartDate, setCurrentStartDate] = useState('');
-  const [currentEndDate, setCurrentEndDate] = useState('');
-  const [currentJobDescription, setCurrentJobDescription] = useState('');
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState();
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  let operation;
+  const url = process.env.REACT_APP_API;
+  const id = match.params.id;
 
-  if (id) operation = 'update';
-  else operation = 'create';
+  const resource = 'open-positions';
 
   useEffect(() => {
-    if (operation === 'update') {
-      fetch(`${url}/open-positions/${id}`)
+    if (id) {
+      fetch(`${url}/${resource}/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setCurrentCompany(data.data.idCompany);
-          setCurrentStartDate(data.data.startDate.substr(0, 10));
-          setCurrentEndDate(data.data.endDate.substr(0, 10));
-          setCurrentJobDescription(data.data.jobDescription);
+          const currentData = {
+            idCompany: data.idCompany._id,
+            startDate: data.startDate?.substr(0, 10),
+            endDate: data.endDate?.substr(0, 10),
+            jobDescription: data.jobDescription
+          };
+          setFormData(currentData);
         });
     }
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (formData.jobDescription.length < 10 || formData.jobDescription.length > 500) {
+    /*if (formData.jobDescription.length < 10 || formData.jobDescription.length > 500) {
       setShowModal(true);
       setModalType('error');
       setModalContent({ msg: 'Job description must be between 10 and 500 characters' });
       return;
-    }
-    if (operation === 'create') {
-      fetch(`${url}/open-positions`, {
+    }*/
+    if (!id) {
+      fetch(`${url}/${resource}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -54,6 +51,7 @@ function Form() {
           const data = await res.json();
           setShowModal(true);
           setModalType('create');
+          setModalTitle('Application Created');
           setModalContent(data.data);
         })
         .catch(() => {
@@ -61,7 +59,7 @@ function Form() {
           setModalType('error');
         });
     } else {
-      fetch(`${url}/open-positions/${id}`, {
+      fetch(`${url}/${resource}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(formData),
         headers: {
@@ -72,6 +70,7 @@ function Form() {
           const data = await res.json();
           setShowModal(true);
           setModalType('create');
+          setModalTitle('Application Updated');
           setModalContent(data.data);
         })
         .catch(() => {
@@ -89,50 +88,50 @@ function Form() {
 
   const closeModalFn = () => {
     setShowModal(false);
-    if (modalType !== 'error') window.location.href = '/positions';
+    history.push('/positions');
   };
 
   return (
     <div>
-      {operation === 'create' ? <h2>Create Position</h2> : <h2>Edit Position</h2>}
+      {!id ? <h1>Create Position</h1> : <h1>Edit Position</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
-          operation={operation}
-          currentId={currentCompany}
+          update={id ? true : false}
+          currentValue={formData.idCompany}
           element="select"
           resource="companies"
           name="company"
-          resourceName="idCompany"
+          objectProperty="idCompany"
           required
           updateData={updateForm}
         />
         <Fieldset
-          operation={operation}
-          currentId={currentStartDate.substr(0, 16)}
+          update={id ? true : false}
+          currentValue={formData.startDate}
           element="input"
           name="startDate"
-          resourceName="startDate"
-          type="date"
+          objectProperty="startDate"
+          inputType="date"
           required
           updateData={updateForm}
         />
         <Fieldset
-          operation={operation}
-          currentId={currentEndDate.substr(0, 16)}
+          update={id ? true : false}
+          currentValue={formData.endDate}
           element="input"
           name="endDate"
-          resourceName="endDate"
-          type="date"
+          objectProperty="endDate"
+          inputType="date"
           required
           updateData={updateForm}
         />
         <Fieldset
-          operation={operation}
-          currentId={currentJobDescription}
+          update={id ? true : false}
+          currentValue={formData.jobDescription}
           element="input"
           name="jobDescription"
-          resourceName="jobDescription"
-          type="text"
+          objectProperty="jobDescription"
+          inputType="text"
           required
           updateData={updateForm}
         />
@@ -141,6 +140,7 @@ function Form() {
       <Modal
         showModal={showModal}
         type={modalType}
+        titleModal={modalTitle}
         content={modalContent}
         closeModalFn={closeModalFn}
       />
