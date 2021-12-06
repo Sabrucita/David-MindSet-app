@@ -37,8 +37,7 @@ function List({ data, header, openModal }) {
                   zipCode: element.zipCode,
                   pictureUrl: element.pictureUrl,
                   contactFullName: element.contactFullName,
-                  contactPhone: element.contactPhone,
-                  isActive: element.isActive
+                  contactPhone: element.contactPhone
                 }}
                 openModal={openModal}
                 missingData={element._id === null || element._id === null}

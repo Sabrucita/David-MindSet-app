@@ -57,7 +57,7 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          if (data.Company) {
+          if (data) {
             setTitleModal('Company created');
             setModalType('create');
             return setModalContent(data.Company);
@@ -79,7 +79,7 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          if (data.Company) {
+          if (data) {
             setModalType('update');
             setTitleModal('Company updated');
             return setModalContent(data.Company);
@@ -102,8 +102,6 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     const newState = formData;
-    console.log(value);
-    console.log(field);
     if (field === 'zipCode' || field === 'phone' || field === 'contactPhone') {
       newState[field] = parseInt(value);
     } else {
@@ -231,15 +229,6 @@ function Form({ match, history }) {
           name="contactPhone"
           objectProperty="contactPhone"
           required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.isActive ? true : false}
-          element="input"
-          inputType="checkbox"
-          name="isActive"
-          objectProperty="isActive"
           updateData={updateForm}
         />
         <button
