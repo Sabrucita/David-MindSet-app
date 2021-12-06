@@ -22,9 +22,9 @@ function List({ header, data, openModal }) {
                   key={element._id}
                   id={element._id}
                   dataTable={{
-                    firstname: element.firstName,
-                    lastname: element.lastName,
-                    phone: element.phoneNumber,
+                    firstName: element.firstName,
+                    lastName: element.lastName,
+                    phone: element.phone,
                     email: element.email,
                     country: element.country,
                     province: element.province,
@@ -37,7 +37,7 @@ function List({ header, data, openModal }) {
                     id: element._id,
                     firstname: element.firstName,
                     lastname: element.lastName,
-                    phone: element.phoneNumber,
+                    phone: element.phone,
                     email: element.email,
                     country: element.country,
                     province: element.province,
