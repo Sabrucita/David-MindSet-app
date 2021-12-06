@@ -104,55 +104,59 @@ function Form({ match, history }) {
   };
 
   return (
-    <div>
-      {operation === 'create' ? <h2>Create Application</h2> : <h2>Edit Application</h2>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCandidate}
-          element="select"
-          resource="candidates"
-          name="candidate"
-          objectProperty="idCandidate"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idOpenPosition}
-          element="select"
-          resource="open-positions"
-          name="open-position"
-          objectProperty="idOpenPosition"
-          required
-          updateData={updateForm}
-        />
-        {id && (
+    <div className={styles.container}>
+      <section className={styles.main}>
+        {operation === 'create' ? (
+          <h1 className={styles.h1}>Create Application</h1>
+        ) : (
+          <h1 className={styles.h1}>Edit Application</h1>
+        )}
+        <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
-            currentValue={formData.status ? true : false}
-            element="input"
-            inputType="checkbox"
-            name="status"
-            objectProperty="status"
+            currentValue={formData.idCandidate}
+            element="select"
+            resource="candidates"
+            name="candidate"
+            objectProperty="idCandidate"
+            required
             updateData={updateForm}
           />
-        )}
-        <button
-          className={(styles.buttonAdd, styles.buttonGreen)}
-          disabled={disableProperty}
-          Addtype="submit"
-        >
-          SUBMIT APPLICATION
-        </button>
-      </form>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idOpenPosition}
+            element="select"
+            resource="open-positions"
+            name="open-position"
+            objectProperty="idOpenPosition"
+            required
+            updateData={updateForm}
+          />
+          {id && (
+            <Fieldset
+              update={id ? true : false}
+              currentValue={formData.status ? true : false}
+              element="input"
+              inputType="checkbox"
+              name="status"
+              objectProperty="status"
+              updateData={updateForm}
+            />
+          )}
+          <div className={styles.containerButton}>
+            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
+              SUBMIT APPLICATION
+            </button>
+          </div>
+        </form>
+        <Modal
+          showModal={showModal}
+          type={modalType}
+          content={modalContent}
+          closeModalFn={closeModalFn}
+          titleModal={titleModal}
+        />
+      </section>
     </div>
   );
 }

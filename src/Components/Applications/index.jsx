@@ -69,7 +69,7 @@ function Applications() {
           type={typeModal}
           titleModal={titleModal}
         />
-        <h1 className={styles.h1}>Applications</h1>
+        <h1>Applications</h1>
         {isFetching ? (
           <Preloader />
         ) : (
