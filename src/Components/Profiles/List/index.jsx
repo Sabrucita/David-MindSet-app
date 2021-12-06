@@ -1,29 +1,40 @@
 import styles from './list.module.css';
-import ItemList from '../ItemList';
+import ListItem from '../../shared/ListItem';
 
-function List(props) {
+function List({ header, data, openModal }) {
   return (
     <div className={styles.list}>
       <table>
         <thead>
           <tr>
-            {props.header.map((element) => {
+            {header.map((element) => {
               return <th key={element}>{element}</th>;
             })}
           </tr>
         </thead>
-        <tbody>
-          {props.data.map((element) => {
-            return (
-              <ItemList
-                key={element._id}
-                openModal={props.openModal}
-                acceptModal={props.acceptModal}
-                data={element}
-              />
-            );
-          })}
-        </tbody>
+        {data.length === 0 ? (
+          <p className={styles.loading}>There are no Profiles</p>
+        ) : (
+          <tbody>
+            {data.map((element) => {
+              return (
+                <ListItem
+                  key={element._id}
+                  id={element._id}
+                  dataTable={{
+                    nameProfile: element.name
+                  }}
+                  dataElement={{
+                    id: element._id,
+                    name: element.name
+                  }}
+                  openModal={openModal}
+                  resource="candidates"
+                />
+              );
+            })}
+          </tbody>
+        )}
       </table>
     </div>
   );
