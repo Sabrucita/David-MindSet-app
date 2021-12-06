@@ -2,42 +2,45 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
-const url = process.env.REACT_APP_API;
 
-function Form({ match }) {
+function Form({ match, history }) {
   const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
+  const [disableProperty, setDisableProperty] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState();
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState();
 
+  const url = process.env.REACT_APP_API;
   const id = match.params.id;
-  let operation;
 
-  if (id) operation = 'update';
-  else operation = 'create';
+  const resource = 'administrators';
 
   useEffect(() => {
-    if (operation === 'update') {
-      fetch(`${url}/administrators/${id}`)
+    if (id) {
+      fetch(`${url}/${resource}/${id}`)
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
-            password: data.password,
-            isActive: data.isActive
+            password: data.password
           };
           setFormData(currentData);
+          setDisableProperty(false);
+        })
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (operation === 'create') {
-      fetch(`${url}/administrators`, {
+    setDisableProperty(true);
+    if (!id) {
+      fetch(`${url}/${resource}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -48,15 +51,14 @@ function Form({ match }) {
           const data = await res.json();
           setShowModal(true);
           setModalType('create');
-          setTitleModal('New admin added');
+          setModalTitle('New admin added');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     } else {
-      fetch(`${url}/administrators/${id}`, {
+      fetch(`${url}/${resource}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(formData),
         headers: {
@@ -67,12 +69,11 @@ function Form({ match }) {
           const data = await res.json();
           setShowModal(true);
           setModalType('update');
-          setTitleModal('Administrators Updated');
+          setModalTitle('Admin Updated');
           setModalContent(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   };
@@ -81,22 +82,38 @@ function Form({ match }) {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
+    validateFields();
+  };
+
+  const validateFields = () => {
+    if (!formData.firstName) setDisableProperty(true);
+    else if (!formData.lastName) setDisableProperty(true);
+    else if (!formData.email) setDisableProperty(true);
+    else if (!formData.password) setDisableProperty(true);
+    else setDisableProperty(false);
   };
 
   const closeModalFn = () => {
     setShowModal(false);
-    // window.location.href = '/admins';
+    history.push('/admins');
+  };
+
+  const showErrorMsg = (data) => {
+    setModalType('error');
+    setModalTitle('Upsss an error has happened');
+    setModalContent(data);
+    setShowModal(true);
   };
 
   return (
-    <div>
-      {operation === 'create' ? <h2>Add admins</h2> : <h2>Edit admin</h2>}
+    <div className={styles.container}>
+      {!id ? <h1>Add admin</h1> : <h1>Edit admin</h1>}
       <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
           currentValue={formData.firstName}
           element="input"
-          resource="admins"
+          resource="administrators"
           name="firstname"
           objectProperty="name"
           required
@@ -106,7 +123,7 @@ function Form({ match }) {
           update={id ? true : false}
           currentValue={formData.lastName}
           element="input"
-          resource="admins"
+          resource="administrators"
           name="lastname"
           objectProperty="name"
           required
@@ -116,7 +133,7 @@ function Form({ match }) {
           update={id ? true : false}
           currentValue={formData.email}
           element="input"
-          resource="admins"
+          resource="administrators"
           name="email"
           objectProperty="email"
           required
@@ -126,30 +143,26 @@ function Form({ match }) {
           update={id ? true : false}
           currentValue={formData.pictureUrl}
           element="input"
-          resource="admins"
+          resource="administrators"
           name="password"
           objectProperty="password"
           required
           updateData={updateForm}
         />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.isActive ? true : false}
-          element="input"
-          resource="companies"
-          name="isActive"
-          inputType="checkbox"
-          objectProperty="isActive"
-          updateData={updateForm}
-        />
-        <button type="submit">Submit</button>
+        <button
+          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+          type="submit"
+          disabled={disableProperty}
+        >
+          Submit
+        </button>
       </form>
       <Modal
         showModal={showModal}
         type={modalType}
+        titleModal={modalTitle}
         content={modalContent}
         closeModalFn={closeModalFn}
-        titleModal={titleModal}
       />
     </div>
   );
