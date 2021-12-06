@@ -70,16 +70,16 @@ function Profiles() {
           titleModal={titleModal}
         />
         <h1 className={styles.h1}>Profile Types</h1>
-        {isFetching ? (
+        {/* {isFetching ? (
           <Preloader />
         ) : (
-          <>
-            <List data={profiles} header={tableHeader} openModal={openModal} />
-            <Link to="/profiles/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>Add Profile</span>
-            </Link>
-          </>
-        )}
+          <> */}
+        <List data={profiles} header={tableHeader} openModal={openModal} />
+        <Link to="/profiles/form" className={styles.buttonAdd}>
+          <span className={styles.buttonGreen}>Add Profile</span>
+        </Link>
+        {/* </>
+        )} */}
       </section>
     </div>
   );

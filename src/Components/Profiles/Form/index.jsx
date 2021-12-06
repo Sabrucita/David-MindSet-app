@@ -28,7 +28,7 @@ function Form({ match, history }) {
 
   useEffect(() => {
     if (operation === 'update') {
-      fetch(`${url}/profiles/${id}`)
+      fetch(`${url}/profile-types/${id}`)
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
@@ -45,7 +45,7 @@ function Form({ match, history }) {
     setDisableProperty(true);
     console.log(formData);
     if (operation === 'create') {
-      fetch(`${url}/profiles`, {
+      fetch(`${url}/profile-types`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -67,7 +67,7 @@ function Form({ match, history }) {
           setShowModal(true);
         });
     } else {
-      fetch(`${url}/profiles/${id}`, {
+      fetch(`${url}/profile-types/${id}`, {
         method: 'PUT',
         body: JSON.stringify(formData),
         headers: {
@@ -114,7 +114,7 @@ function Form({ match, history }) {
   return (
     <div className={styles.container}>
       {operation === 'create' ? <h2>Create Profile Type</h2> : <h2>Edit Profile Type</h2>}
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitForm}>
         <Fieldset
           update={id ? true : false}
           currentValue={formData.name}

@@ -29,7 +29,7 @@ function List({ header, data, openModal }) {
                     name: element.name
                   }}
                   openModal={openModal}
-                  resource="candidates"
+                  resource="profiles"
                 />
               );
             })}
