@@ -52,7 +52,7 @@ function List({ data, header, openModal }) {
         </tr>
       </thead>
       {data.length === 0 ? (
-        <p>There are no sessions.</p>
+        <p className={styles.loading}>There are no sessions.</p>
       ) : (
         <tbody>
           {data.map((element) => {

@@ -104,47 +104,7 @@ function Form({ match, history }) {
   };
 
   return (
-    <div className={styles.container}>
-      {!id ? <h1>Create Session</h1> : <h1>Edit Session</h1>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCandidate}
-          element="select"
-          resource="candidates"
-          name="candidate"
-          objectProperty="idCandidate"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idPsychologist}
-          element="select"
-          resource="psychologists"
-          name="psychologist"
-          objectProperty="idPsychologist"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.date ? formData.date.substr(0, 16) : ''}
-          element="input"
-          name="date"
-          objectProperty="date"
-          inputType="datetime-local"
-          required
-          updateData={updateForm}
-        />
-        <button
-          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-          type="submit"
-          disabled={disableProperty}
-        >
-          Submit
-        </button>
-      </form>
+    <>
       <Modal
         showModal={showModal}
         type={modalType}
@@ -152,7 +112,49 @@ function Form({ match, history }) {
         content={modalContent}
         closeModalFn={closeModalFn}
       />
-    </div>
+      <section className={styles.container}>
+        {!id ? <h1>Create Session</h1> : <h1>Edit Session</h1>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idCandidate}
+            element="select"
+            resource="candidates"
+            name="candidate"
+            objectProperty="idCandidate"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idPsychologist}
+            element="select"
+            resource="psychologists"
+            name="psychologist"
+            objectProperty="idPsychologist"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.date ? formData.date.substr(0, 16) : ''}
+            element="input"
+            name="date"
+            objectProperty="date"
+            inputType="datetime-local"
+            required
+            updateData={updateForm}
+          />
+          <button
+            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+            type="submit"
+            disabled={disableProperty}
+          >
+            SUBMIT SESSION
+          </button>
+        </form>
+      </section>
+    </>
   );
 }
 

@@ -66,8 +66,16 @@ function Sessions() {
 
   return (
     <>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        titleModal={modalTitle}
+        content={selectedItem}
+        closeModalFn={closeModalFn}
+        acceptModalFn={deleteItem}
+      />
       <section className={styles.container}>
-        <h1 className="mainTitle">Sessions</h1>
+        <h1 className={styles.mainTitle}>Sessions</h1>
         {isFetching ? (
           <Preloader />
         ) : (
@@ -79,14 +87,6 @@ function Sessions() {
           </>
         )}
       </section>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        titleModal={modalTitle}
-        content={selectedItem}
-        closeModalFn={closeModalFn}
-        acceptModalFn={deleteItem}
-      />
     </>
   );
 }
