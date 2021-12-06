@@ -3,6 +3,7 @@ import styles from './interviews.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
+import Preloader from '../shared/Preloader';
 
 function Interviews() {
   const [showModal, setShowModal] = useState(false);
@@ -10,14 +11,16 @@ function Interviews() {
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
+  const [isFetching, setIsFetching] = useState(true);
 
   const url = process.env.REACT_APP_API;
   //Get app info from DB
   useEffect(() => {
     fetch(`${url}/interviews`)
       .then((response) => response.json())
-      .then((response) => {
-        setInterviews(response.data);
+      .then((data) => {
+        setInterviews(data);
+        setIsFetching(false);
       });
   }, []);
 
@@ -67,10 +70,16 @@ function Interviews() {
           titleModal={titleModal}
         />
         <h1 className={styles.h1}>Interviews</h1>
-        <List data={interviews} header={tableHeader} openModal={openModal} />
-        <Link to="/interviews/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>ADD INTERVIEW</span>
-        </Link>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <>
+            <List data={interviews} header={tableHeader} openModal={openModal} />
+            <Link to="/interviews/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>ADD APPLICATION</span>
+            </Link>
+          </>
+        )}
       </section>
     </div>
   );
