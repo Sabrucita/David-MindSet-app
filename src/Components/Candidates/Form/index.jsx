@@ -1,388 +1,345 @@
-// eslint-disable-next-line
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
-import { Modal } from '../Modal';
+import Modal from '../../shared/Modal';
+const url = process.env.REACT_APP_API;
 
-function CandidatesForm() {
+function Form({ match, history }) {
+  const [formData, setFormData] = useState({});
+  const [modalContent, setModalContent] = useState();
+  const [modalType, setModalType] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [lastAction, setLastAction] = useState('');
-  const [firstNameValue, setFirstNameValue] = useState('');
-  const [lastNameValue, setLastNameValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [phoneValue, setPhoneValue] = useState('');
-  const [cityValue, setCityValue] = useState('');
-  const [provinceValue, setProvinceValue] = useState('');
-  const [countryValue, setCountryValue] = useState('');
-  const [postalCodeValue, setPostalCodeValue] = useState('');
-  const [birthdayValue, setBirthdayValue] = useState('');
-  const [hobbiesValue, setHobbiesValue] = useState('');
-  const [mainSkillsValue, setMainSkillsValue] = useState('');
-  const [profileTypesValue, setProfileTypesValue] = useState('');
-  const [isOpenToWorkValue, setIsOpenToWorkValue] = useState('');
-  const [isActiveValue, setIsActiveValue] = useState('');
-  const [educationValue, setEducationValue] = useState('');
-  const [experiencesValue, setExperiencesValue] = useState('');
-  const [coursesValue, setCoursesValue] = useState('');
-  const [candidateAddressValue, setCandidateAddressValue] = useState('');
-  const [candidateAddressNumberValue, setCandidateAddressNumberValue] = useState('');
+  const [titleModal, setTitleModal] = useState();
+  const [disableProperty, setDisableProperty] = useState(false);
+
+  const id = match.params.id;
+  let operation;
+
+  if (id) operation = 'update';
+  else operation = 'create';
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const candidateId = params.get('_id');
-    fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        setFirstNameValue(response.data.firstName);
-        setLastNameValue(response.data.lastName);
-        setEmailValue(response.data.email);
-        setPasswordValue(response.data.password);
-        setPhoneValue(response.data.phone);
-        setCityValue(response.data.city);
-        setProvinceValue(response.data.province);
-        setCountryValue(response.data.country);
-        setPostalCodeValue(response.data.postalCode);
-        setBirthdayValue(response.data.birthday);
-        setHobbiesValue(response.data.hobbies);
-        setMainSkillsValue(response.data.mainSkills);
-        setProfileTypesValue(response.data.profileTypes);
-        setIsOpenToWorkValue(response.data.isOpenToWork);
-        setIsActiveValue(response.data.isActive);
-        setEducationValue(response.data.education);
-        setExperiencesValue(response.data.experiences);
-        setCoursesValue(response.data.courses);
-        setCandidateAddressValue(response.data.address.street);
-        setCandidateAddressNumberValue(response.data.address.number);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (operation === 'update') {
+      fetch(`${url}/candidates/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const currentData = {
+            idCandidate: data._id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            phone: data.phone,
+            city: data.city,
+            province: data.province,
+            country: data.country,
+            postalcode: data.postalcode,
+            birthday: data.birthday,
+            hobbies: data.hobbies,
+            mainSkills: data.mainSkills,
+            profileTypes: data.profileTypes,
+            isOpenToWork: data.isOpenToWork,
+            education: data.education,
+            experiences: data.experiences,
+            courses: data.courses,
+            address: `${data.address.street} ${data.address.number}`
+          };
+          setFormData(currentData);
+        });
+    }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  let create = false;
-  if (!window.location.search) {
-    create = true;
-  }
-
-  const onSubmit = (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
-    if (!create) {
-      const params = new URLSearchParams(window.location.search);
-      const candidateId = params.get('_id');
-
-      //function for UPDATE a Candidate
-      fetch(`${process.env.REACT_APP_API}/candidates/${candidateId}`, {
-        method: 'PUT',
-        mode: 'cors',
+    setDisableProperty(true);
+    if (operation === 'create') {
+      fetch(`${url}/candidates`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstName: firstNameValue,
-          lastName: lastNameValue,
-          email: emailValue,
-          password: passwordValue,
-          phone: parseInt(phoneValue, 10),
-          city: cityValue,
-          province: provinceValue,
-          country: countryValue,
-          postalCode: postalCodeValue,
-          birthday: birthdayValue,
-          address: { street: candidateAddressValue, number: candidateAddressNumberValue }
-        })
+        }
       })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          setLastAction('update');
+        .then(async (res) => {
+          const data = await res.json();
           setShowModal(true);
+          if (data.data) {
+            setModalType('create');
+            setTitleModal('Candidate Created');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
         .catch((err) => {
-          console.log(err);
+          msgError(err);
+          setShowModal(true);
         });
     } else {
-      //function for CREATE a Candidate
-      fetch(`${process.env.REACT_APP_API}/candidates`, {
-        method: 'POST',
-        mode: 'cors',
+      fetch(`${url}/candidates/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstName: firstNameValue,
-          lastName: lastNameValue,
-          email: emailValue,
-          password: passwordValue,
-          phone: parseInt(phoneValue, 10),
-          city: cityValue,
-          province: provinceValue,
-          country: countryValue,
-          postalCode: postalCodeValue,
-          birthday: birthdayValue,
-          address: { street: candidateAddressValue, number: candidateAddressNumberValue }
-        })
+        }
       })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          setLastAction('create');
+        .then(async (res) => {
+          const data = await res.json();
           setShowModal(true);
+          if (data.data) {
+            setModalType('update');
+            setTitleModal('Candidate Updated');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
         .catch((err) => {
-          console.log(err);
+          msgError(err);
+          setShowModal(true);
         });
+    }
+  };
+  const msgError = (data) => {
+    setModalType('error');
+    setTitleModal('Upsss an error has happened');
+    setModalContent(data);
+    setDisableProperty(false);
+  };
+
+  const updateForm = (field, value) => {
+    const newState = formData;
+    newState[field] = value;
+    setFormData(newState);
+  };
+
+  const closeModalFn = () => {
+    setShowModal(false);
+    if (disableProperty) {
+      history.push('/candidates');
     }
   };
 
   return (
     <div>
-      <Modal show={showModal} closeModal={closeModal} action={lastAction} />
-      <button
-        type="button"
-        onClick={() => {
-          window.location.href = `/candidates`;
-        }}
-      >
-        Back
-      </button>
-      <form className={styles.container} onSubmit={onSubmit}>
-        <h2>Form</h2>
-        <label id="firstName">First Name</label>
-        <input
-          type="text"
-          id="firstName"
+      {operation === 'create' ? <h2>Create Candidate</h2> : <h2>Edit Candidate</h2>}
+      <form className={styles.form} onSubmit={submitForm}>
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.firstName}
+          element="input"
           name="firstName"
-          onChange={(e) => {
-            setFirstNameValue(e.target.value);
-          }}
-          value={firstNameValue}
-          minLength="2"
-          maxLength="10"
+          displayedName="First Name"
+          objectProperty="firstName"
           required
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="lastName">lastName</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.lastName}
+          element="input"
           name="lastName"
-          id="LastName"
-          onChange={(e) => {
-            setLastNameValue(e.target.value);
-          }}
-          value={lastNameValue}
-          minLength="2"
-          maxLength="10"
+          displayedName="Last Name"
+          objectProperty="lastName"
           required
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="email">email</label>
-        <input
-          type="email"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.email}
+          element="input"
           name="email"
-          id="email"
-          onChange={(e) => {
-            setEmailValue(e.target.value);
-          }}
-          value={emailValue}
+          displayedName="E-Mail"
+          objectProperty="email"
           required
+          updateData={updateForm}
+          inputType="email"
         />
-        <label id="password">password</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.password}
+          element="input"
           name="password"
-          id="password"
-          onChange={(e) => {
-            setPasswordValue(e.target.value);
-          }}
-          value={passwordValue}
-          minLength="5"
-          maxLength="10"
+          displayedName="PassWord"
+          objectProperty="password"
           required
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="phone">phone</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.phone}
+          element="input"
           name="phone"
-          id="phone"
-          onChange={(e) => {
-            setPhoneValue(e.target.value);
-          }}
-          value={phoneValue}
+          displayedName="Phone Number"
+          objectProperty="phone"
+          required
+          updateData={updateForm}
+          inputType="number"
         />
-        <label id="city">city</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.city}
+          element="input"
           name="city"
-          id="city"
-          onChange={(e) => {
-            setCityValue(e.target.value);
-          }}
-          value={cityValue}
+          displayedName="City"
+          objectProperty="city"
           required
-          minLength="3"
-          maxLength="15"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="province">province</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.province}
+          element="input"
           name="province"
-          id="province"
-          onChange={(e) => {
-            setProvinceValue(e.target.value);
-          }}
-          value={provinceValue}
+          displayedName="Province"
+          objectProperty="province"
           required
-          minLength="3"
-          maxLength="15"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="country">country</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.country}
+          element="input"
           name="country"
-          id="country"
-          onChange={(e) => {
-            setCountryValue(e.target.value);
-          }}
-          value={countryValue}
+          displayedName="Country"
+          objectProperty="country"
+          required
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="postalCode">postalCode</label>
-        <input
-          type="text"
-          name="postalCode"
-          id="postalCode"
-          onChange={(e) => {
-            setPostalCodeValue(e.target.value);
-          }}
-          value={postalCodeValue}
-          minLength="1"
-          maxLength="4"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.postalcode}
+          element="input"
+          name="postalcode"
+          displayedName="Postal Code"
+          objectProperty="postalcode"
+          required
+          updateData={updateForm}
+          inputType="number"
         />
-        <label id="birthday">birthday</label>
-        <input
-          type="date"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.birthday}
+          element="input"
           name="birthday"
-          id="birthday"
-          onChange={(e) => {
-            setBirthdayValue(e.target.value);
-          }}
-          value={birthdayValue}
-        />
-        <label id="address">address Street</label>
-        <input
-          type="text"
-          name="address"
-          id="address"
-          onChange={(e) => {
-            setCandidateAddressValue(e.target.value);
-          }}
-          value={candidateAddressValue}
-          minLength="1"
-          maxLength="10"
+          displayedName="Birthday"
+          objectProperty="birthday"
           required
+          updateData={updateForm}
+          inputType="date"
         />
-        <label id="addressStreet">address Number</label>
-        <input
-          type="text"
-          name="addressStreet"
-          id="addressStreet"
-          onChange={(e) => {
-            setCandidateAddressNumberValue(e.target.value);
-          }}
-          value={candidateAddressNumberValue}
-          minLength="1"
-          maxLength="10"
-          required
-        />
-        <label id="hobbies">hobbies</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.hobbies}
+          element="input"
           name="hobbies"
-          id="hobbies"
-          onChange={(e) => {
-            setHobbiesValue(e.target.value);
-          }}
-          value={hobbiesValue}
+          displayedName="Hobbies"
+          objectProperty="hobbies"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="mainSkills">mainSkills</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.mainSkills}
+          element="input"
           name="mainSkills"
-          id="mainSkills"
-          onChange={(e) => {
-            setMainSkillsValue(e.target.value);
-          }}
-          value={mainSkillsValue}
+          displayedName="Main Skills"
+          objectProperty="mainSkills"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="profileTypes">profileTypes</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.profileTypes}
+          element="input"
           name="profileTypes"
-          id="profileTypes"
-          onChange={(e) => {
-            setProfileTypesValue(e.target.value);
-          }}
-          value={profileTypesValue}
+          displayedName="Profile Types"
+          objectProperty="profileTypes"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="isOpenToWork">isOpenToWork</label>
-        <input
-          type="checkbox"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.isOpenToWork}
+          element="input"
           name="isOpenToWork"
-          id="isOpenToWork"
-          checked={isOpenToWorkValue}
-          onChange={(e) => {
-            setIsOpenToWorkValue(e.currentTarget.checked);
-          }}
-          value={isOpenToWorkValue}
+          displayedName="is Open To Work?"
+          objectProperty="isOpenToWork"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="isActive">isActive</label>
-        <input
-          type="checkbox"
-          name="isActive"
-          id="isActive"
-          checked={isActiveValue}
-          onChange={(e) => {
-            setIsActiveValue(e.currentTarget.checked);
-          }}
-          value={isActiveValue}
-        />
-        <label id="education">education</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.education}
+          element="input"
           name="education"
-          id="education"
-          onChange={(e) => {
-            setEducationValue(e.target.value);
-          }}
-          value={educationValue}
+          displayedName="Education"
+          objectProperty="education"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="experiences">experiences</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.experiences}
+          element="input"
           name="experiences"
-          id="experiences"
-          onChange={(e) => {
-            setExperiencesValue(e.target.value);
-          }}
-          value={experiencesValue}
+          displayedName="Experiences"
+          objectProperty="experiences"
+          updateData={updateForm}
+          inputType="text"
         />
-        <label id="courses">courses</label>
-        <input
-          type="text"
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.courses}
+          element="input"
           name="courses"
-          id="courses"
-          onChange={(e) => {
-            setCoursesValue(e.target.value);
-          }}
-          value={coursesValue}
+          displayedName="Courses"
+          objectProperty="courses"
+          updateData={updateForm}
+          inputType="text"
         />
-        <button type="submit">{!create ? 'SAVE CHANGES' : 'CREATE'}</button>
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.street}
+          element="input"
+          name="address.street"
+          displayedName="Address Street"
+          objectProperty="address.street"
+          updateData={updateForm}
+          inputType="text"
+        />
+        <Fieldset
+          update={id ? true : false}
+          currentValue={formData.number}
+          element="input"
+          name="address.number"
+          displayedName="Address number"
+          objectProperty="address.number"
+          updateData={updateForm}
+          inputType="number"
+        />
+        <button
+          className={(styles.buttonAdd, styles.buttonGreen)}
+          disabled={disableProperty}
+          Addtype="submit"
+        >
+          SUBMIT APPLICATION
+        </button>
       </form>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
     </div>
   );
 }
 
-export default CandidatesForm;
+export default Form;
