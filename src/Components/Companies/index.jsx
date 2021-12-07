@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
-import styles from './applications.module.css';
+import styles from './companies.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
+import { Link } from 'react-router-dom';
+import Preloader from '../shared/Preloader/index';
 
-function Applications() {
+function Companies() {
   const [showModal, setShowModal] = useState(false);
-  const [applications, setApplications] = useState([]);
+  const [companies, setCompanies] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
+  const [isFetching, setIsFetching] = useState(true);
 
-  //Get app info from DB
+  const url = process.env.REACT_APP_API;
+  //Get info from DB
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/applications`)
+    fetch(`${url}/companies`)
       .then((response) => response.json())
       .then((response) => {
-        setApplications(response.applications);
+        setCompanies(response);
+        setIsFetching(false);
       });
   }, []);
 
@@ -33,7 +38,7 @@ function Applications() {
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
+    fetch(`${url}/companies/${selectedItem.id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -42,20 +47,20 @@ function Applications() {
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        setApplications(
-          applications.filter((app) => {
-            return app._id !== selectedItem.id;
+        setCompanies(
+          companies.filter((company) => {
+            return company._id !== selectedItem.id;
           })
         );
       })
       .catch((err) => console.log(err));
   };
 
-  const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
+  const tableHeader = ['Name', 'Address', 'City', 'Phone', 'Email', 'Actions'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
+    <>
+      <section className={styles.container}>
         <Modal
           showModal={showModal}
           closeModalFn={closeModal}
@@ -64,19 +69,20 @@ function Applications() {
           type={typeModal}
           titleModal={titleModal}
         />
-        <h1>Applications</h1>
-        <List
-          data={applications}
-          header={tableHeader}
-          openModal={openModal}
-          acceptModal={acceptModal}
-        />
-        <a href="/applications/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>Add</span>
-        </a>
+        <h1 className={styles.h1}>Companies</h1>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <>
+            <List data={companies} header={tableHeader} openModal={openModal} />
+            <Link to="/companies/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>ADD COMPANY</span>
+            </Link>
+          </>
+        )}
       </section>
-    </div>
+    </>
   );
 }
 
-export default Applications;
+export default Companies;

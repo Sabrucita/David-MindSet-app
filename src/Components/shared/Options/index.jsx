@@ -4,7 +4,6 @@ const url = process.env.REACT_APP_API;
 
 function Options({ name, resource, update }) {
   const [options, setOptions] = useState([]);
-
   useEffect(() => {
     const getNames = async () => {
       try {
@@ -12,16 +11,26 @@ function Options({ name, resource, update }) {
         if (res.status === 200) {
           const data = await res.json();
           let names = [];
-          data.forEach((element) => {
-            const elementName = element.name
-              ? element.name
-              : `${element.firstName} ${element.lastName}`;
-            const name = {
-              id: element._id,
-              name: `${capitalize(elementName)}`
-            };
-            names.push(name);
-          });
+          if (resource === 'open-positions') {
+            data.forEach((element) => {
+              const elementJob = {
+                id: element._id,
+                name: `${capitalize(element.jobDescription)}`
+              };
+              names.push(elementJob);
+            });
+          } else {
+            data.forEach((element) => {
+              const elementName = element.name
+                ? element.name
+                : `${element.firstName} ${element.lastName}`;
+              const name = {
+                id: element._id,
+                name: `${capitalize(elementName)}`
+              };
+              names.push(name);
+            });
+          }
           return setOptions(names);
         }
         throw new Error(`HTTP ${res.status}`);
@@ -31,7 +40,6 @@ function Options({ name, resource, update }) {
     };
     getNames();
   }, []);
-
   return (
     <>
       {!update ? (
