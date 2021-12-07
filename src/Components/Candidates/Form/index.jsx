@@ -125,7 +125,7 @@ function Form({ match, history }) {
   };
 
   return (
-    <div>
+    <>
       <section className={styles.main}>
         {operation === 'create' ? (
           <h1 className={styles.h1}>Create Candidate</h1>
@@ -339,15 +339,15 @@ function Form({ match, history }) {
             </button>
           </div>
         </form>
-        <Modal
-          showModal={showModal}
-          type={modalType}
-          content={modalContent}
-          closeModalFn={closeModalFn}
-          titleModal={titleModal}
-        />
       </section>
-    </div>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
+    </>
   );
 }
 
