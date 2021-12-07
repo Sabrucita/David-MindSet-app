@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Options from '../Options';
 import { capitalize } from '../../helpers';
+import styles from './fieldset.module.css';
 
 function Fieldset({
   update,
@@ -63,7 +64,7 @@ function Fieldset({
   }
 
   return (
-    <fieldset>
+    <fieldset className={styles.fieldset}>
       <label htmlFor={name}>{capitalize(displayedName || name)}</label>
       {field}
     </fieldset>
