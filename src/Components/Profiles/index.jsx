@@ -57,16 +57,16 @@ function Profiles() {
   const tableHeader = ['Name Profile', 'Action'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+    <>
+      <Modal
+        showModal={showModal}
+        closeModalFn={closeModal}
+        acceptModalFn={acceptModal}
+        content={selectedItem}
+        type={typeModal}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
         <h1 className={styles.h1}>Profile Types</h1>
         {isFetching ? (
           <Preloader />
@@ -74,12 +74,12 @@ function Profiles() {
           <>
             <List data={profiles} header={tableHeader} openModal={openModal} />
             <Link to="/profiles/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>Add Profile</span>
+              <span className={styles.buttonGreen}>ADD PROFILE</span>
             </Link>
           </>
         )}
       </section>
-    </div>
+    </>
   );
 }
 
