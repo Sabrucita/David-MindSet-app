@@ -1,5 +1,5 @@
 import ListItem from '../../shared/ListItem';
-import { capitalize } from '../../helpers';
+import { capitalize, formatDate } from '../../helpers';
 import styles from './list.module.css';
 
 function List({ data, header, openModal }) {
@@ -15,7 +15,7 @@ function List({ data, header, openModal }) {
             element.idPsychologist?.lastName
           )}`
         : 'This psychologist was deleted',
-      date: `${element.date?.substr(0, 10)} ${element.date?.substr(11, 5)}`
+      date: formatDate(element.date)
     };
     return dataTable;
   };
