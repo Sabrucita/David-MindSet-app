@@ -6,12 +6,12 @@
   align-items: center;
 }
 
-input{
+.input {
   margin: 30px 10px 30px 0px;
 }
 
-form{
+.form {
   width: 50%;
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
