@@ -21,7 +21,7 @@ function Options({ name, resource, update }) {
             });
           } else {
             data.forEach((element) => {
-              const elementName = element.fullName
+              const elementName = element.name
                 ? element.name
                 : `${element.firstName} ${element.lastName}`;
               const name = {

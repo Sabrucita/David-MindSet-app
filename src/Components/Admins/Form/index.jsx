@@ -50,12 +50,16 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          setModalType('create');
-          setModalTitle('New admin added');
-          setModalContent(data.data);
+          if (data.status === 201) {
+            setModalTitle('New admin added');
+            setModalType('create');
+            return setModalContent(data.data); 
+          }
+          msgError(data)
         })
         .catch((err) => {
           showErrorMsg(err);
+          setShowModal(true);
         });
     } else {
       fetch(`${url}/${resource}/${id}`, {
@@ -95,14 +99,14 @@ function Form({ match, history }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    history.push('/admins');
+    history.push('/administrators');
   };
 
-  const showErrorMsg = (data) => {
+  const showErrorMsg = (err) => {
     setModalType('error');
     setModalTitle('Upsss an error has happened');
-    setModalContent(data);
-    setShowModal(true);
+    setModalContent(err);
+    setShowModal(false);
   };
 
   return (

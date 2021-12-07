@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 import { Modal } from '../Modal';
-import Psychologists from '../List';
 
 function PsychologistForm() {
   const [showModal, setShowModal] = useState(false);
