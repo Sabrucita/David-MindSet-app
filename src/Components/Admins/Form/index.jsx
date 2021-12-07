@@ -116,7 +116,7 @@ function Form({ match, history }) {
             element="input"
             resource="administrators"
             name="firstname"
-            objectProperty="name"
+            objectProperty="firstname"
             required
             updateData={updateForm}
           />
@@ -126,7 +126,7 @@ function Form({ match, history }) {
             element="input"
             resource="administrators"
             name="lastname"
-            objectProperty="name"
+            objectProperty="lastname"
             required
             updateData={updateForm}
           />
@@ -142,9 +142,10 @@ function Form({ match, history }) {
           />
           <Fieldset
             update={id ? true : false}
-            currentValue={formData.pictureUrl}
+            currentValue={formData.password}
             element="input"
             resource="administrators"
+            inputType="password"
             name="password"
             objectProperty="password"
             required
