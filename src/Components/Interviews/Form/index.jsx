@@ -119,8 +119,12 @@ function Form({ match, history }) {
         closeModalFn={closeModalFn}
         titleModal={titleModal}
       />
-      <section>
-        {operation === 'create' ? <h2>Create Interview</h2> : <h2>Edit Interview</h2>}
+      <section className={styles.container}>
+        {operation === 'create' ? (
+          <h1 className={styles.mainTitle}>Create Interview</h1>
+        ) : (
+          <h1 className={styles.mainTitle}>Edit Interview</h1>
+        )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
@@ -163,7 +167,7 @@ function Form({ match, history }) {
               updateData={updateForm}
             />
           )}
-          <div className={styles.containerButton}>
+          <div className={styles.btnContainer}>
             <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
               SUBMIT INTERVIEW
             </button>
