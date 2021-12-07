@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
+import { Link } from 'react-router-dom';
+import Preloader from '../shared/Preloader';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
@@ -9,13 +11,16 @@ function Applications() {
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
+  const [isFetching, setIsFetching] = useState(true);
 
+  const url = process.env.REACT_APP_API;
   //Get app info from DB
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/applications`)
+    fetch(`${url}/applications`)
       .then((response) => response.json())
-      .then((response) => {
-        setApplications(response.applications);
+      .then((data) => {
+        setApplications(data);
+        setIsFetching(false);
       });
   }, []);
 
@@ -33,7 +38,7 @@ function Applications() {
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${process.env.REACT_APP_API}/applications/${selectedItem.id}`, {
+    fetch(`${url}/applications/${selectedItem.id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -54,28 +59,29 @@ function Applications() {
   const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+    <>
+      <Modal
+        showModal={showModal}
+        closeModalFn={closeModal}
+        acceptModalFn={acceptModal}
+        content={selectedItem}
+        type={typeModal}
+        titleModal={titleModal}
+      />
+      <section className={styles.container}>
         <h1>Applications</h1>
-        <List
-          data={applications}
-          header={tableHeader}
-          openModal={openModal}
-          acceptModal={acceptModal}
-        />
-        <a href="/applications/form" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>Add</span>
-        </a>
+        {isFetching ? (
+          <Preloader />
+        ) : (
+          <>
+            <List data={applications} header={tableHeader} openModal={openModal} />
+            <Link to="/applications/form" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>ADD APPLICATION</span>
+            </Link>
+          </>
+        )}
       </section>
-    </div>
+    </>
   );
 }
 
