@@ -116,7 +116,7 @@ function Form({ match, history }) {
             element="input"
             resource="administrators"
             name="firstname"
-            objectProperty="firstname"
+            objectProperty="firstName"
             required
             updateData={updateForm}
           />
@@ -126,7 +126,7 @@ function Form({ match, history }) {
             element="input"
             resource="administrators"
             name="lastname"
-            objectProperty="lastname"
+            objectProperty="lastName"
             required
             updateData={updateForm}
           />
