@@ -126,7 +126,7 @@ function Form({ match, history }) {
 
   return (
     <>
-      <section className={styles.main}>
+      <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.h1}>Create Candidate</h1>
         ) : (
