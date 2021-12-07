@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
-import Admins from '../Admins/List/index';
+import Admins from '../Admins/index';
 import Applications from '../Applications/index';
 import ApplicationsForm from '../Applications/Form';
 import Companies from '../Companies/List/index';
@@ -30,9 +30,9 @@ const Layout = () => {
       <Router>
         <Switch>
           <Route exact path="/home" component={Home} />
-          <Route exact path="/admins" component={Admins} />
-          <Route exact path="/admins/form" component={AdminsForm} />
-          <Route path="/admins/form/:id" component={AdminsForm} />
+          <Route exact path="/administrators" component={Admins} />
+          <Route exact path="/administrators/form" component={AdminsForm} />
+          <Route path="/administrators/form/:id" component={AdminsForm} />
           <Route exact path="/applications" component={Applications} />
           <Route exact path="/applications/form" component={ApplicationsForm} />
           <Route path="/applications/form/:id" component={ApplicationsForm} />

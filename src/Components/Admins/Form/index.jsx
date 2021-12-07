@@ -106,65 +106,67 @@ function Form({ match, history }) {
   };
 
   return (
-    <div className={styles.container}>
-      {!id ? <h1>Add admin</h1> : <h1>Edit admin</h1>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.firstName}
-          element="input"
-          resource="administrators"
-          name="firstname"
-          objectProperty="name"
-          required
-          updateData={updateForm}
+    <>
+      <section className={styles.container}>
+        {!id ? <h1>Add admin</h1> : <h1>Edit admin</h1>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.firstName}
+            element="input"
+            resource="administrators"
+            name="firstname"
+            objectProperty="name"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.lastName}
+            element="input"
+            resource="administrators"
+            name="lastname"
+            objectProperty="name"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.email}
+            element="input"
+            resource="administrators"
+            name="email"
+            objectProperty="email"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.pictureUrl}
+            element="input"
+            resource="administrators"
+            name="password"
+            objectProperty="password"
+            required
+            updateData={updateForm}
+          />
+          <button
+            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+            type="submit"
+            disabled={disableProperty}
+          >
+            Submit
+          </button>
+        </form>
+        <Modal
+          showModal={showModal}
+          type={modalType}
+          titleModal={modalTitle}
+          content={modalContent}
+          closeModalFn={closeModalFn}
         />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.lastName}
-          element="input"
-          resource="administrators"
-          name="lastname"
-          objectProperty="name"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.email}
-          element="input"
-          resource="administrators"
-          name="email"
-          objectProperty="email"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.pictureUrl}
-          element="input"
-          resource="administrators"
-          name="password"
-          objectProperty="password"
-          required
-          updateData={updateForm}
-        />
-        <button
-          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-          type="submit"
-          disabled={disableProperty}
-        >
-          Submit
-        </button>
-      </form>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        titleModal={modalTitle}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-      />
-    </div>
+      </section>
+    </>
   );
 }
 

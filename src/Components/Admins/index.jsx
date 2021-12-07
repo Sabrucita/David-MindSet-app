@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.module.css';
+import styles from './admins.modules.css';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
@@ -56,8 +56,8 @@ function Admins() {
   const tableHeader = ['First Name', 'Last Name', 'Email', 'Password', 'Actions'];
 
   return (
-    <div className={styles.container}>
-      <section className={styles.main}>
+    <>
+      <section className={styles.container}>
         <Modal
           showModal={showModal}
           closeModalFn={closeModal}
@@ -68,11 +68,11 @@ function Admins() {
         />
         <h1 className={styles.h1}>Admins</h1>
         <List data={admins} header={tableHeader} openModal={openModal} />
-        <Link to="/admins/form" className={styles.buttonAdd}>
+        <Link to="/administrators/form" className={styles.buttonAdd}>
           <span className={styles.buttonGreen}>ADD ADMIN</span>
         </Link>
       </section>
-    </div>
+    </>
   );
 }
 
