@@ -4,47 +4,37 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.list th {
-  background-color: rgba(129, 129, 129);
-  color: rgb(255, 255, 255);
-  text-align: center;
-}
-.list tr:nth-of-type(odd) {
-  background-color: rgba(4, 0, 255, 0.349);
-}
-
-.list tr:nth-of-type(even) {
-  background-color: rgba(231, 231, 231, 0.349);
-}
-
-.list tr:hover {
-  background-color: rgb(163, 163, 163);
-}
-
-.list table {
   width: 100%;
-  border-collapse: collapse;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.list td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  text-transform: capitalize;
+.container h1 {
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
 }
-.button {
+
+.buttonAdd {
+  display: inline-flex;
+  align-self: flex-end;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.buttonGreen {
   padding: 16px 40px;
-  margin: 15px 2px;
+  margin: 15px 0px;
   border: rgb(21, 139, 10);
   border-radius: 30px;
   background-color: rgb(21, 139, 10);
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 15px;
-  cursor: pointer;
 }
-.button:hover{
+
+.buttonGreen:hover {
   background-color: rgb(88, 88, 88);
 }
