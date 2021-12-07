@@ -48,11 +48,15 @@ function Form({ match, history }) {
         }
       })
         .then(async (res) => {
+          if (res.status === 201) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('create');
+            setModalTitle('Application Created');
+            return setModalContent(data.data);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('create');
-          setModalTitle('Application Created');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
         .catch((err) => {
           showErrorMsg(err);
@@ -66,11 +70,17 @@ function Form({ match, history }) {
         }
       })
         .then(async (res) => {
+          if (res.status === 200) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('create');
+            setModalTitle('Application Updated');
+            const formatData = data.data;
+            formatData.idCompany = formatData.idCompany._id;
+            return setModalContent(formatData);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('create');
-          setModalTitle('Application Updated');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
         .catch((err) => {
           showErrorMsg(err);
@@ -111,57 +121,7 @@ function Form({ match, history }) {
   };
 
   return (
-    <div className={styles.container}>
-      {!id ? <h1>Create Position</h1> : <h1>Edit Position</h1>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCompany}
-          element="select"
-          resource="companies"
-          name="company"
-          objectProperty="idCompany"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.startDate}
-          element="input"
-          name="startDate"
-          objectProperty="startDate"
-          inputType="date"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.endDate}
-          element="input"
-          name="endDate"
-          objectProperty="endDate"
-          inputType="date"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.jobDescription}
-          element="input"
-          name="jobDescription"
-          objectProperty="jobDescription"
-          inputType="text"
-          required
-          updateData={updateForm}
-        />
-        <button
-          className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-          type="submit"
-          disabled={disableProperty}
-        >
-          Submit
-        </button>
-      </form>
+    <>
       <Modal
         showModal={showModal}
         type={modalType}
@@ -169,7 +129,59 @@ function Form({ match, history }) {
         content={modalContent}
         closeModalFn={closeModalFn}
       />
-    </div>
+      <section className={styles.container}>
+        {!id ? <h1>Create Position</h1> : <h1>Edit Position</h1>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idCompany}
+            element="select"
+            resource="companies"
+            name="company"
+            objectProperty="idCompany"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.startDate}
+            element="input"
+            name="startDate"
+            objectProperty="startDate"
+            inputType="date"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.endDate}
+            element="input"
+            name="endDate"
+            objectProperty="endDate"
+            inputType="date"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.jobDescription}
+            element="input"
+            name="jobDescription"
+            objectProperty="jobDescription"
+            inputType="text"
+            required
+            updateData={updateForm}
+          />
+          <button
+            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+            type="submit"
+            disabled={disableProperty}
+          >
+            SUBMIT POSITION
+          </button>
+        </form>
+      </section>
+    </>
   );
 }
 

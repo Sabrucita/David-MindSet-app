@@ -1,13 +1,13 @@
 import ListItem from '../../shared/ListItem';
-import { capitalize } from '../../helpers';
+import { capitalize, formatDate } from '../../helpers';
 import styles from './list.module.css';
 
 function List({ data, header, openModal }) {
   const fillDataTable = (element) => {
     const dataTable = {
       company: element.idCompany ? capitalize(element.idCompany.name) : 'This company was deleted',
-      startDate: `${element.startDate?.substr(0, 10)} ${element.startDate?.substr(11, 5)}`,
-      endDate: `${element.endDate?.substr(0, 10)} ${element.endDate?.substr(11, 5)}`,
+      startDate: formatDate(element.startDate, false),
+      endDate: formatDate(element.endDate, false),
       jobDescription: element.jobDescription
     };
     return dataTable;
@@ -39,7 +39,7 @@ function List({ data, header, openModal }) {
         </tr>
       </thead>
       {data.length === 0 ? (
-        <p>There are no open positions.</p>
+        <p className={styles.loading}>There are no open positions.</p>
       ) : (
         <tbody>
           {data.map((element) => {
