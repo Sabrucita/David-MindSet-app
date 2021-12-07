@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.modules.css';
+import styles from './admins.module.css';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
