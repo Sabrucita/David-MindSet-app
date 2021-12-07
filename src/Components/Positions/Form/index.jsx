@@ -128,7 +128,11 @@ function Form({ match, history }) {
         closeModalFn={closeModalFn}
       />
       <section className={styles.container}>
-        {!id ? <h1>Create Position</h1> : <h1>Edit Position</h1>}
+        {!id ? (
+          <h1 className={styles.mainTitle}>Create Position</h1>
+        ) : (
+          <h1 className={styles.mainTitle}>Edit Position</h1>
+        )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
@@ -170,13 +174,15 @@ function Form({ match, history }) {
             required
             updateData={updateForm}
           />
-          <button
-            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-            type="submit"
-            disabled={disableProperty}
-          >
-            SUBMIT POSITION
-          </button>
+          <div className={styles.btnContainer}>
+            <button
+              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+              type="submit"
+              disabled={disableProperty}
+            >
+              SUBMIT POSITION
+            </button>
+          </div>
         </form>
       </section>
     </>
