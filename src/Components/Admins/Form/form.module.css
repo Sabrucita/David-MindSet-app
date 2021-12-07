@@ -1,20 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+
 .form {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   padding: 0px 40px 40px 40px;
-  margin: auto;
-}
-
-.buttonAdd {
-  display: inline-flex;
-  width: fit-content;
-  text-decoration: none;
 }
 
 .buttonGreen {
-  padding: 16px 40px;
-  margin: 15px 2px;
+  width: 30%;
+  padding: 15px 0;
+  margin: 40px 0 0;
   border: rgb(21, 139, 10);
   border-radius: 30px;
   background-color: rgb(21, 139, 10);
@@ -24,11 +24,13 @@
   cursor: pointer;
 }
 
-.buttonGreen:hover {
-  background-color: rgb(88, 88, 88);
-  color: #fff;
-  font-style: normal;
+.disabled {
+  border: rgb(121, 121, 121);
+  background-color: rgb(121, 121, 121);
+  color: rgba(0, 0, 0, 0.603);
+  cursor: not-allowed;
 }
+
 .form fieldset {
   width: 50%;
   padding: 10px 40px;
@@ -36,10 +38,12 @@
   border: none;
   box-sizing: border-box;
 }
+
 .form label {
   display: block;
   padding: 10px 5px;
 }
+
 .form input,
 .form select {
   width: 100%;
