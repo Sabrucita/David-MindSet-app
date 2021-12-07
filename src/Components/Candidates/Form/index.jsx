@@ -175,7 +175,7 @@ function Form({ match, history }) {
             objectProperty="password"
             required
             updateData={updateForm}
-            inputType="text"
+            inputType="password"
           />
           <Fieldset
             update={id ? true : false}

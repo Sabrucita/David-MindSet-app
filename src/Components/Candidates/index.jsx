@@ -55,17 +55,17 @@ function Candid() {
   };
 
   const tableHeader = [
-    'first name',
-    'last name',
-    'phone',
-    'email',
-    'country',
-    'province',
-    'city',
-    'postal code',
-    'address',
-    'birthday',
-    'actions'
+    'First Name',
+    'Last Name',
+    'Phone',
+    'Email',
+    'Country',
+    'Province',
+    'City',
+    'Postal Code',
+    'Address',
+    'Birthday',
+    'Actions'
   ];
 
   return (
