@@ -1,24 +1,38 @@
 .list {
-  width: 60%;
+  width: 100%;
   border-collapse: collapse;
-}
-.list tr:nth-of-type(odd) {
-  background-color: rgba(4, 0, 255, 0.349);
-}
-.list tr:nth-of-type(even) {
-  background-color: rgba(231, 231, 231, 0.349);
-}
-.list tr:hover {
-  background-color: rgb(163, 163, 163);
 }
 .list th {
   background-color: rgba(129, 129, 129);
   color: rgb(255, 255, 255);
   text-align: center;
 }
+
+.list tr:nth-of-type(odd) {
+  background-color: rgba(4, 0, 255, 0.349);
+}
+
+.list tr:nth-of-type(even) {
+  background-color: rgba(231, 231, 231, 0.349);
+}
+
+.list tr:hover {
+  background-color: rgb(163, 163, 163);
+}
+
+.list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
 .list td,
 .list th {
-  padding: 8px;
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
+  padding: 8px;
+}
+
+.loading {
+  font-size: 1.5em;
+  font-weight: bold;
 }
