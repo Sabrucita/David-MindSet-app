@@ -26,8 +26,8 @@ import AdminsForm from '../Admins/Form';
 const Layout = () => {
   return (
     <div className={styles.container}>
-      <Header />
       <Router>
+        <Header />
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/admins" component={Admins} />
@@ -61,8 +61,8 @@ const Layout = () => {
             <Redirect to="/home" />
           </Route>
         </Switch>
+        <Footer />
       </Router>
-      <Footer />
     </div>
   );
 };
