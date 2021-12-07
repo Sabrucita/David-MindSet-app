@@ -1,41 +1,45 @@
 import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
-import Modal from '../Modal';
+import Modal from '../../shared/Modal';
 import styles from './form.module.css';
-const url = process.env.REACT_APP_API;
 
-function Form() {
+function Form({ match, history }) {
   const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
+  const [disableProperty, setDisableProperty] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState();
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  let operation;
+  const url = process.env.REACT_APP_API;
+  const id = match.params.id;
 
-  if (id) operation = 'update';
-  else operation = 'create';
+  const resource = 'sessions';
 
   useEffect(() => {
-    if (operation === 'update') {
-      fetch(`${url}/sessions/${id}`)
+    if (id) {
+      fetch(`${url}/${resource}/${id}`)
         .then((res) => res.json())
         .then((data) => {
           const currentData = {
-            idCandidate: data.data.idCandidate._id,
-            idPsychologists: data.data.idPsychologists._id,
-            date: data.data.date
+            idCandidate: data.idCandidate?._id,
+            idPsychologist: data.idPsychologist?._id,
+            date: data.date
           };
           setFormData(currentData);
+          setDisableProperty(false);
+        })
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (operation === 'create') {
-      fetch(`${url}/sessions`, {
+    setDisableProperty(true);
+    if (!id) {
+      fetch(`${url}/${resource}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -43,17 +47,21 @@ function Form() {
         }
       })
         .then(async (res) => {
+          if (res.status === 201) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('create');
+            setModalTitle('Application Created');
+            return setModalContent(data.data);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('create');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     } else {
-      fetch(`${url}/sessions/${id}`, {
+      fetch(`${url}/${resource}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(formData),
         headers: {
@@ -61,14 +69,21 @@ function Form() {
         }
       })
         .then(async (res) => {
+          if (res.status === 200) {
+            const data = await res.json();
+            setShowModal(true);
+            setModalType('update');
+            setModalTitle('Application Updated');
+            const formatData = data.data;
+            formatData.idCandidate = formatData.idCandidate._id;
+            formatData.idPsychologist = formatData.idPsychologist._id;
+            return setModalContent(formatData);
+          }
           const data = await res.json();
-          setShowModal(true);
-          setModalType('update');
-          setModalContent(data.data);
+          showErrorMsg(data.data);
         })
-        .catch(() => {
-          setShowModal(true);
-          setModalType('error');
+        .catch((err) => {
+          showErrorMsg(err);
         });
     }
   };
@@ -77,56 +92,80 @@ function Form() {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
+    validateFields();
+  };
+
+  const validateFields = () => {
+    if (!formData.idCandidate) setDisableProperty(true);
+    else if (!formData.idPsychologist) setDisableProperty(true);
+    else if (!formData.date) setDisableProperty(true);
+    else setDisableProperty(false);
   };
 
   const closeModalFn = () => {
     setShowModal(false);
-    window.location.href = '/sessions';
+    history.push('/sessions');
+  };
+
+  const showErrorMsg = (data) => {
+    setModalType('error');
+    setModalTitle('Upsss an error has happened');
+    setModalContent(data);
+    setShowModal(true);
   };
 
   return (
-    <div>
-      {operation === 'create' ? <h2>Create Session</h2> : <h2>Edit Session</h2>}
-      <form className={styles.form} onSubmit={submitForm}>
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idCandidate}
-          element="select"
-          resource="candidates"
-          name="candidate"
-          objectProperty="idCandidate"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.idPsychologists}
-          element="select"
-          resource="psychologists"
-          name="psychologist"
-          objectProperty="idPsychologists"
-          required
-          updateData={updateForm}
-        />
-        <Fieldset
-          update={id ? true : false}
-          currentValue={formData.date ? formData.date.substr(0, 16) : ''}
-          element="input"
-          name="date"
-          objectProperty="date"
-          inputType="datetime-local"
-          required
-          updateData={updateForm}
-        />
-        <button type="submit">Submit</button>
-      </form>
+    <>
       <Modal
         showModal={showModal}
         type={modalType}
+        titleModal={modalTitle}
         content={modalContent}
         closeModalFn={closeModalFn}
       />
-    </div>
+      <section className={styles.container}>
+        {!id ? <h1>Create Session</h1> : <h1>Edit Session</h1>}
+        <form className={styles.form} onSubmit={submitForm}>
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idCandidate}
+            element="select"
+            resource="candidates"
+            name="candidate"
+            objectProperty="idCandidate"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.idPsychologist}
+            element="select"
+            resource="psychologists"
+            name="psychologist"
+            objectProperty="idPsychologist"
+            required
+            updateData={updateForm}
+          />
+          <Fieldset
+            update={id ? true : false}
+            currentValue={formData.date ? formData.date.substr(0, 16) : ''}
+            element="input"
+            name="date"
+            objectProperty="date"
+            inputType="datetime-local"
+            required
+            updateData={updateForm}
+          />
+          <button
+            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+            type="submit"
+            disabled={disableProperty}
+          >
+            SUBMIT SESSION
+          </button>
+        </form>
+      </section>
+    </>
   );
 }
 

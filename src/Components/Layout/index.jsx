@@ -5,7 +5,7 @@ import Footer from '../Footer/index';
 import Admins from '../Admins/List/index';
 import Applications from '../Applications/index';
 import ApplicationsForm from '../Applications/Form';
-import Companies from '../Companies/List/index';
+import Companies from '../Companies/index';
 import CompaniesForm from '../Companies/Form';
 import Interviews from '../Interviews/index';
 import InterviewsForm from '../Interviews/Form';
@@ -26,8 +26,8 @@ import AdminsForm from '../Admins/Form';
 const Layout = () => {
   return (
     <div className={styles.container}>
-      <Header />
       <Router>
+        <Header />
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/admins" component={Admins} />
@@ -61,8 +61,8 @@ const Layout = () => {
             <Redirect to="/home" />
           </Route>
         </Switch>
+        <Footer />
       </Router>
-      <Footer />
     </div>
   );
 };

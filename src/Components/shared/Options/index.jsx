@@ -4,7 +4,6 @@ const url = process.env.REACT_APP_API;
 
 function Options({ name, resource, update }) {
   const [options, setOptions] = useState([]);
-
   useEffect(() => {
     const getNames = async () => {
       try {
