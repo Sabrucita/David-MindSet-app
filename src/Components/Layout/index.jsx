@@ -5,7 +5,7 @@ import Footer from '../Footer/index';
 import Admins from '../Admins/List/index';
 import Applications from '../Applications/index';
 import ApplicationsForm from '../Applications/Form';
-import Companies from '../Companies/List/index';
+import Companies from '../Companies/index';
 import CompaniesForm from '../Companies/Form';
 import Interviews from '../Interviews/index';
 import InterviewsForm from '../Interviews/Form';
