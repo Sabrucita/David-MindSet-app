@@ -114,9 +114,9 @@ function Form({ match, history }) {
       />
       <section className={styles.container}>
         {operation === 'create' ? (
-          <h1 className={styles.h1}>Create Application</h1>
+          <h1 className={styles.mainTitle}>Create Application</h1>
         ) : (
-          <h1 className={styles.h1}>Edit Application</h1>
+          <h1 className={styles.mainTitle}>Edit Application</h1>
         )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
@@ -150,7 +150,7 @@ function Form({ match, history }) {
               updateData={updateForm}
             />
           )}
-          <div className={styles.containerButton}>
+          <div className={styles.btnContainer}>
             <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
               SUBMIT APPLICATION
             </button>
