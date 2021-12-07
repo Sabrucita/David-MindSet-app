@@ -1,16 +1,16 @@
 .preloader {
-    width: 70px;
-    height: 70px;
-    border: 10px solid #eee;
-    border-top: 10px solid #666;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  width: 70px;
+  height: 70px;
+  border: 10px solid #eee;
+  border-top: 10px solid #666;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
   }
+}

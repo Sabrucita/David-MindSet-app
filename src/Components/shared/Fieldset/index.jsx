@@ -17,7 +17,11 @@ function Fieldset({
   const [inputValue, setInputValue] = useState('');
 
   const changeInputValue = (e) => {
-    const value = e.target.value;
+    if (inputType === 'checkbox') {
+      setInputValue(!inputValue);
+      return updateData(objectProperty, !inputValue);
+    }
+    let value = e.target.value;
     setInputValue(value);
     updateData(objectProperty, value);
   };
@@ -50,6 +54,7 @@ function Fieldset({
           value={inputValue}
           required={required}
           onChange={changeInputValue}
+          checked={inputValue}
         ></input>
       );
       break;
