@@ -1,48 +1,62 @@
-import ListItem from '../ListItem';
+import ListItem from '../../shared/ListItem';
+import { capitalize, formatDate } from '../../helpers';
 import styles from './list.module.css';
 
-function List({ positions, modalContent, setShowModal, setModalType }) {
-  const updateItem = (id) => {
-    window.location.href = `./positions/form?id=${id}`;
+function List({ data, header, openModal }) {
+  const fillDataTable = (element) => {
+    const dataTable = {
+      company: element.idCompany ? capitalize(element.idCompany.name) : 'This company was deleted',
+      startDate: formatDate(element.startDate, false),
+      endDate: formatDate(element.endDate, false),
+      jobDescription: element.jobDescription
+    };
+    return dataTable;
   };
 
-  const openDeleteModal = (id) => {
-    modalContent(id);
-    setShowModal(true);
-    setModalType('delete');
+  const fillDataElement = (element) => {
+    const dataElement = {
+      id: element._id,
+      idCompany: element.idCompany ? element.idCompany._id : 'Deleted',
+      company: element.idCompany ? capitalize(element.idCompany.name) : 'Deleted',
+      startDate: element.startDate,
+      endDate: element.endDate,
+      jobDescription: element.jobDescription
+    };
+    return dataElement;
   };
 
-  const openViewModal = (id) => {
-    const position = positions.find((position) => position._id === id);
-    modalContent(position);
-    setShowModal(true);
-    setModalType('viewMore');
+  const isMissingData = (element) => {
+    return element.idCandidate === null || element.idOpenPosition === null;
   };
 
   return (
     <table className={styles.list}>
       <thead>
         <tr>
-          <th>Company</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Job Description</th>
-          <th>Action</th>
+          {header.map((element) => {
+            return <th key={element}>{element}</th>;
+          })}
         </tr>
       </thead>
-      <tbody>
-        {positions.map((position) => {
-          return (
-            <ListItem
-              key={position._id}
-              position={position}
-              updateItem={updateItem}
-              deleteItem={openDeleteModal}
-              viewItem={openViewModal}
-            />
-          );
-        })}
-      </tbody>
+      {data.length === 0 ? (
+        <p className={styles.loading}>There are no open positions.</p>
+      ) : (
+        <tbody>
+          {data.map((element) => {
+            return (
+              <ListItem
+                key={element._id}
+                id={element._id}
+                dataTable={fillDataTable(element)}
+                dataElement={fillDataElement(element)}
+                missingData={isMissingData(element)}
+                openModal={openModal}
+                resource="positions"
+              />
+            );
+          })}
+        </tbody>
+      )}
     </table>
   );
 }
