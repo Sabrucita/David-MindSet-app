@@ -50,9 +50,9 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          if (data.status === 201) {
-            setModalTitle('New admin added');
+          if (data.data) {
             setModalType('create');
+            setModalTitle('New admin added');
             return setModalContent(data.data);
           }
           msgError(data);
@@ -102,10 +102,10 @@ function Form({ match, history }) {
     history.push('/administrators');
   };
 
-  const msgError = (err) => {
+  const msgError = (data) => {
     setModalType('error');
     setModalTitle('Upsss an error has happened');
-    setModalContent(err);
+    setModalContent(data);
     setShowModal(false);
   };
 
