@@ -10,7 +10,6 @@
   display: flex;
   flex-direction: column;
   order: 2;
-  margin: 30px 0px 0px 30px;
   width: 75%;
 }
 
@@ -21,40 +20,59 @@
   font-size: 30px;
 }
 
-.formSubscription {
-  padding: 0px 40px 40px 40px;
-}
-.formSubscription li {
-  padding: 10px;
-}
-.containerForm {
+.form {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 40px 40px 40px;
+  margin: auto;
 }
-.column {
+
+.form fieldset {
   width: 50%;
-  padding: 0px 30px;
-  margin: 30px auto;
+  padding: 10px 40px;
+  margin: 0;
+  border: none;
+  box-sizing: border-box;
 }
-.column label {
+.form label {
   display: block;
   padding: 10px 5px;
 }
-.column input, select {
-  display: inline;
+.form input,
+.form select {
   width: 100%;
   padding: 10px 20px;
   border: 1px solid rgb(167, 167, 167);
   border-radius: 30px;
+  box-sizing: border-box;
 }
 
-.button {
-  display: flex;
-  justify-content: center;
+.form input[type="checkbox"]{
+  margin:0;
+}
+
+.containerButton{
   width: 100%;
+  text-align: center;
 }
 
-ul{
-  padding: 0;
-  list-style-type: none;
+.buttonGreen {
+  padding: 16px 40px;
+  margin: 15px 2px;
+  border: rgb(21, 139, 10);
+  border-radius: 30px;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.buttonGreen:hover {
+  background-color: rgb(88, 88, 88);
+  color: #fff;
+  font-style: normal;
 }
