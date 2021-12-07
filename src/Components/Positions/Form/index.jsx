@@ -75,9 +75,7 @@ function Form({ match, history }) {
             setShowModal(true);
             setModalType('create');
             setModalTitle('Application Updated');
-            const formatData = data.data;
-            formatData.idCompany = formatData.idCompany._id;
-            return setModalContent(formatData);
+            return setModalContent(data.data);
           }
           const data = await res.json();
           showErrorMsg(data.data);
