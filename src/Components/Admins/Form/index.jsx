@@ -31,7 +31,7 @@ function Form({ match, history }) {
           setDisableProperty(false);
         })
         .catch((err) => {
-          showErrorMsg(err);
+          msgError(err);
         });
     }
   }, []);
@@ -53,12 +53,12 @@ function Form({ match, history }) {
           if (data.status === 201) {
             setModalTitle('New admin added');
             setModalType('create');
-            return setModalContent(data.data); 
+            return setModalContent(data.data);
           }
-          msgError(data)
+          msgError(data);
         })
         .catch((err) => {
-          showErrorMsg(err);
+          msgError(err);
           setShowModal(true);
         });
     } else {
@@ -77,7 +77,7 @@ function Form({ match, history }) {
           setModalContent(data.data);
         })
         .catch((err) => {
-          showErrorMsg(err);
+          msgError(err);
         });
     }
   };
@@ -102,7 +102,7 @@ function Form({ match, history }) {
     history.push('/administrators');
   };
 
-  const showErrorMsg = (err) => {
+  const msgError = (err) => {
     setModalType('error');
     setModalTitle('Upsss an error has happened');
     setModalContent(err);
