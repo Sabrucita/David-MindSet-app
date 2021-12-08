@@ -157,13 +157,15 @@ function Form({ match, history }) {
             required
             updateData={updateForm}
           />
-          <button
-            className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-            type="submit"
-            disabled={disableProperty}
-          >
-            Submit
-          </button>
+          <div className={styles.btnContainer}>
+            <button
+              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
+              type="submit"
+              disabled={disableProperty}
+            >
+              Submit
+            </button>
+          </div>
         </form>
         <Modal
           showModal={showModal}
