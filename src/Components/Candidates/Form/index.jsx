@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
-const url = process.env.REACT_APP_API;
 
 function Form({ match, history }) {
   const [formData, setFormData] = useState({});
@@ -13,6 +12,7 @@ function Form({ match, history }) {
   const [titleModal, setTitleModal] = useState();
   const [disableProperty, setDisableProperty] = useState(false);
 
+  const url = process.env.REACT_APP_API;
   const id = match.params.id;
   let operation;
 
@@ -126,11 +126,18 @@ function Form({ match, history }) {
 
   return (
     <>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
       <section className={styles.container}>
         {operation === 'create' ? (
-          <h1 className={styles.h1}>Create Candidate</h1>
+          <h1 className={styles.mainTitle}>Create Candidate</h1>
         ) : (
-          <h1 className={styles.h1}>Edit Candidate</h1>
+          <h1 className={styles.mainTitle}>Edit Candidate</h1>
         )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
@@ -333,20 +340,13 @@ function Form({ match, history }) {
             updateData={updateForm}
             inputType="number"
           />
-          <div className={styles.containerButton}>
-            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
+          <div className={styles.btnContainer}>
+            <button className={styles.buttonGreen} Addtype="submit" disabled={disableProperty}>
               SUBMIT CANDIDATE
             </button>
           </div>
         </form>
       </section>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
     </>
   );
 }
