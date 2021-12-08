@@ -104,11 +104,18 @@ function Form({ match, history }) {
 
   return (
     <>
+      <Modal
+        showModal={showModal}
+        type={modalType}
+        content={modalContent}
+        closeModalFn={closeModalFn}
+        titleModal={titleModal}
+      />
       <section className={styles.container}>
         {operation === 'create' ? (
-          <h1 className={styles.h1}>Create Profile Type</h1>
+          <h1 className={styles.mainTitle}>Create Profile Type</h1>
         ) : (
-          <h1 className={styles.h1}>Edit Profile Type</h1>
+          <h1 className={styles.mainTitle}>Edit Profile Type</h1>
         )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
@@ -122,20 +129,13 @@ function Form({ match, history }) {
             updateData={updateForm}
             inputType="text"
           />
-          <div className={styles.containerButton}>
+          <div className={styles.btnContainer}>
             <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
               SUBMIT PROFILE-TYPE
             </button>
           </div>
         </form>
       </section>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
     </>
   );
 }
