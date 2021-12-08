@@ -106,7 +106,7 @@ function Form({ match, history }) {
     setModalType('error');
     setModalTitle('Upsss an error has happened');
     setModalContent(data);
-    setShowModal(false);
+    setShowModal(true);
   };
 
   return (
