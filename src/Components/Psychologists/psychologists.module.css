@@ -17,6 +17,14 @@
     margin: auto;
   }
   
+  .container h1 {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px rgb(191, 191, 191) solid;
+    font-size: 30px;
+  }
+  
   .buttonAdd {
     display: inline-flex;
     align-self: flex-end;

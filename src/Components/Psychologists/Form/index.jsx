@@ -120,7 +120,7 @@ function Form({ match, history }) {
   return (
     <>
       <section className={styles.container}>
-        {!id ? <h1>Add pyscho</h1> : <h1>Edit psycho</h1>}
+        {!id ? <h1>Add pyschologist</h1> : <h1>Edit psychogist</h1>}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
