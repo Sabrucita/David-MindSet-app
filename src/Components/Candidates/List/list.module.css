@@ -1,5 +1,6 @@
-.list{
+.list {
   width: 100%;
+  border-collapse: collapse;
 }
 .list th {
   background-color: rgba(129, 129, 129);

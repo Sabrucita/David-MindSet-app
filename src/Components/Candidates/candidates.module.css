@@ -8,22 +8,19 @@
   max-width: 1200px;
   margin: auto;
 }
-
-.container h1 {
+.mainTitle {
   width: 100%;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 2px rgb(191, 191, 191) solid;
   font-size: 30px;
 }
-
 .buttonAdd {
   display: inline-flex;
   align-self: flex-end;
   width: fit-content;
   text-decoration: none;
 }
-
 .buttonGreen {
   padding: 16px 40px;
   margin: 15px 0px;
@@ -34,7 +31,6 @@
   font-weight: bold;
   font-size: 15px;
 }
-
 .buttonGreen:hover {
   background-color: rgb(88, 88, 88);
 }

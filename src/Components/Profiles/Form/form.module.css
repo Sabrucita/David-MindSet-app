@@ -4,32 +4,45 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
-
-.main {
-  display: flex;
-  flex-direction: column;
-  order: 2;
-  width: 75%;
-}
-
-.main h1 {
+.mainTitle {
+  width: 100%;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 2px rgb(191, 191, 191) solid;
   font-size: 30px;
 }
-
 .form {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   padding: 0px 40px 40px 40px;
-  margin: auto;
 }
-
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.buttonGreen {
+  width: 30%;
+  padding: 15px 0;
+  margin: 40px 0 0;
+  border: rgb(21, 139, 10);
+  border-radius: 30px;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+}
+.disabled {
+  border: rgb(121, 121, 121);
+  background-color: rgb(121, 121, 121);
+  color: rgba(0, 0, 0, 0.603);
+  cursor: not-allowed;
+}
 .form fieldset {
   width: 50%;
   padding: 10px 40px;
@@ -48,31 +61,4 @@
   border: 1px solid rgb(167, 167, 167);
   border-radius: 30px;
   box-sizing: border-box;
-}
-
-.form input[type="checkbox"]{
-  margin:0;
-}
-
-.containerButton{
-  width: 100%;
-  text-align: center;
-}
-
-.buttonGreen {
-  padding: 16px 40px;
-  margin: 15px 2px;
-  border: rgb(21, 139, 10);
-  border-radius: 30px;
-  background-color: rgb(21, 139, 10);
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.buttonGreen:hover {
-  background-color: rgb(88, 88, 88);
-  color: #fff;
-  font-style: normal;
 }

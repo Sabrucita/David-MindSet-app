@@ -79,7 +79,7 @@ function Candid() {
         titleModal={titleModal}
       />
       <section className={styles.container}>
-        <h1 className={styles.h1}>Candidates</h1>
+        <h1 className={styles.mainTitle}>Candidates</h1>
         {isFetching ? (
           <Preloader />
         ) : (
