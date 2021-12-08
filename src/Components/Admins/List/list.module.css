@@ -1,29 +1,9 @@
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.addButton {
-  padding: 25px;
-  border-radius: 50px;
-  font-size: 20px;
+.list {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.button:hover {
-  background-color: rgb(181, 231, 179);
-  color: rgb(88, 88, 88);
-  font-style: italic;
-  border: 1px solid rgb(88, 88, 88);
-}
-
-.title {
-  background-color: rgb(124, 124, 124);
-  color: #fff;
-}
-
-.list tr {
+.list th {
   background-color: rgba(129, 129, 129);
   color: rgb(255, 255, 255);
   text-align: center;
@@ -47,18 +27,13 @@
 }
 
 .list td,
-th {
+.list th {
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
 }
 
-.action {
-  display: flex;
-  justify-content: center;
-}
-
-.action a:nth-of-type(3) {
-  background-color: rgb(248, 83, 83);
-  color: rgb(20, 20, 20);
+.loading {
+  font-size: 1.5em;
+  font-weight: bold;
 }

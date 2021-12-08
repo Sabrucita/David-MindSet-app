@@ -33,7 +33,7 @@ function Header() {
         </div>
         <ul className={styles.rutes}>
           <li>
-            <Link to="/admins">admins</Link>
+            <Link to="/administrators">admins</Link>
           </li>
           <li>
             <Link to="/applications">applications</Link>
