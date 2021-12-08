@@ -72,9 +72,12 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          setModalType('update');
-          setModalTitle('Admin Updated');
-          setModalContent(data.data);
+          if (data.data) {
+            setModalType('update');
+            setModalTitle('Admin Updated');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
         .catch((err) => {
           msgError(err);
@@ -99,7 +102,9 @@ function Form({ match, history }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    history.push('/administrators');
+    if (disableProperty) {
+      history.push('/administrators');
+    }
   };
 
   const msgError = (data) => {

@@ -74,12 +74,16 @@ function Form({ match, history }) {
         .then(async (res) => {
           const data = await res.json();
           setShowModal(true);
-          setModalType('update');
-          setModalTitle('Psychologist Updated');
-          setModalContent(data.data);
+          if (data.data) {
+            setModalType('update');
+            setModalTitle('Psychologist Updated');
+            return setModalContent(data.data);
+          }
+          msgError(data);
         })
         .catch((err) => {
           msgError(err);
+          setShowModal(true);
         });
     }
   };
