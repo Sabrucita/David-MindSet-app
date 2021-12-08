@@ -111,7 +111,7 @@ function Form({ match, history }) {
     setModalType('error');
     setModalTitle('Upsss an error has happened');
     setModalContent(data);
-    setShowModal(true);
+    setDisableProperty(false);
   };
 
   return (
