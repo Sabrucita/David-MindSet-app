@@ -105,7 +105,9 @@ function Form({ match, history }) {
 
   const closeModalFn = () => {
     setShowModal(false);
-    history.push('/psychologists');
+    if (disableProperty) {
+      history.push('/psychologists');
+    }
   };
 
   const msgError = (data) => {
