@@ -14,7 +14,7 @@ import PositionsForm from '../Positions/Form/index';
 import Candidates from '../Candidates/index';
 import CandidatesForm from '../Candidates/Form';
 import Profiles from '../Profiles/index';
-import Psychologists from '../Psychologists/List/index';
+import Psychologists from '../Psychologists/index';
 import ProfilesForm from '../Profiles/Form';
 import Sessions from '../Sessions/index';
 import SessionsForm from '../Sessions/Form/index';
