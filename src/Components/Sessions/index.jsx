@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getSessions } from '../../redux/sessions/thunks';
 import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
 
 function Sessions() {
-  const [sessions, setSessions] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const dispatch = useDispatch();
+  const sessions = useSelector((store) => store.sessions);
+
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
@@ -17,16 +20,8 @@ function Sessions() {
   const tableHeader = ['Candidate', 'Psychologist', 'Date', 'Action'];
 
   useEffect(() => {
-    fetch(`${url}/sessions`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSessions(data);
-        setIsFetching(false);
-      })
-      .catch((err) => {
-        showErrorMsg(err);
-      });
-  }, []);
+    dispatch(getSessions());
+  }, [dispatch]);
 
   const deleteItem = () => {
     fetch(`${url}/sessions/${selectedItem.id}`, {
@@ -36,7 +31,7 @@ function Sessions() {
         if (res.status === 200) {
           setShowModal(false);
           const sessionsUpdated = sessions.filter((session) => session._id !== selectedItem.id);
-          setSessions(sessionsUpdated);
+          //setSessions(sessionsUpdated);
         } else {
           throw new Error(`HTTP ${res.status}`);
         }
@@ -76,11 +71,11 @@ function Sessions() {
       />
       <section className={styles.container}>
         <h1 className={styles.mainTitle}>Sessions</h1>
-        {isFetching ? (
+        {sessions.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={sessions} header={tableHeader} openModal={openModal} />
+            <List data={sessions.list} header={tableHeader} openModal={openModal} />
             <Link to="/sessions/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD SESSION</span>
             </Link>
