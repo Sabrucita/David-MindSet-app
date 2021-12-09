@@ -4,25 +4,22 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getApplications } from '../../redux/applications/thunks';
+import { url } from '../../constants';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
-  const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
 
-  const url = process.env.REACT_APP_API;
-  //Get app info from DB
+  const dispatch = useDispatch();
+  const applications = useSelector((store) => store.applications);
+
   useEffect(() => {
-    fetch(`${url}/applications`)
-      .then((response) => response.json())
-      .then((data) => {
-        setApplications(data);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getApplications());
+  }, [dispatch]);
 
   //MODAL
   const closeModal = () => {
@@ -47,11 +44,11 @@ function Applications() {
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        setApplications(
-          applications.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
+        // setApplications(
+        applications.filter((app) => {
+          return app._id !== selectedItem.id;
+        });
+        // );
       })
       .catch((err) => console.log(err));
   };
@@ -70,11 +67,11 @@ function Applications() {
       />
       <section className={styles.container}>
         <h1>Applications</h1>
-        {isFetching ? (
+        {applications.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={applications} header={tableHeader} openModal={openModal} />
+            <List data={applications.list} header={tableHeader} openModal={openModal} />
             <Link to="/applications/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD APPLICATION</span>
             </Link>
