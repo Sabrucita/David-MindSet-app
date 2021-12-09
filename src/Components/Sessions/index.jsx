@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSessions } from '../../redux/sessions/thunks';
+import { getSessions, removeSession } from '../../redux/sessions/thunks';
 import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
@@ -16,7 +16,6 @@ function Sessions() {
   const [modalTitle, setModalTitle] = useState('');
   const [selectedItem, setSelectedItem] = useState('');
 
-  const url = process.env.REACT_APP_API;
   const tableHeader = ['Candidate', 'Psychologist', 'Date', 'Action'];
 
   useEffect(() => {
@@ -24,21 +23,8 @@ function Sessions() {
   }, [dispatch]);
 
   const deleteItem = () => {
-    fetch(`${url}/sessions/${selectedItem.id}`, {
-      method: 'DELETE'
-    })
-      .then(async (res) => {
-        if (res.status === 200) {
-          setShowModal(false);
-          const sessionsUpdated = sessions.filter((session) => session._id !== selectedItem.id);
-          //setSessions(sessionsUpdated);
-        } else {
-          throw new Error(`HTTP ${res.status}`);
-        }
-      })
-      .catch((err) => {
-        showErrorMsg(err);
-      });
+    dispatch(removeSession(selectedItem.id));
+    setShowModal(false);
   };
 
   const openModal = (item, type, title) => {
