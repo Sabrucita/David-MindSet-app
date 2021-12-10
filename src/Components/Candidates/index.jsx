@@ -22,6 +22,11 @@ function Candidates() {
     dispatch(getCandidates());
   }, [dispatch]);
 
+  const acceptModal = () => {
+    dispatch(deleteCandidates(selectedItem.id));
+    setShowModal(false);
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -31,23 +36,6 @@ function Candidates() {
     setTypeModal(type);
     setTitleModal(title);
     setShowModal(true);
-  };
-
-  const acceptModal = () => {
-    fetch(`${url}/candidates/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        candidates.filter((app) => {
-          return app._id !== selectedItem.id;
-        });
-      })
-      .catch((error) => console.log(error));
   };
 
   const tableHeader = [
