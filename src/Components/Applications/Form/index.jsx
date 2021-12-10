@@ -2,15 +2,21 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { createApplication, updateApplication } from '../../../redux/applications/thunks';
+import { hideModal } from '../../../redux/modal/actions';
+
 const url = process.env.REACT_APP_API;
 
 function Form({ match, history }) {
   const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState();
   const [disableProperty, setDisableProperty] = useState(false);
+
+  const dispatch = useDispatch();
+  const showModal = useSelector((store) => store.modal.show);
+  const modalType = useSelector((store) => store.modal.type);
+  const modalTitle = useSelector((store) => store.modal.title);
+  const modalContent = useSelector((store) => store.modal.content);
 
   const id = match.params.id;
   let operation;
@@ -37,56 +43,10 @@ function Form({ match, history }) {
     e.preventDefault();
     setDisableProperty(true);
     if (operation === 'create') {
-      fetch(`${url}/applications`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setTitleModal('Application Created');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(createApplication(formData));
     } else {
-      fetch(`${url}/applications/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setTitleModal('Application Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(updateApplication(id, formData));
     }
-  };
-
-  const msgError = (data) => {
-    setModalType('error');
-    setTitleModal('Upsss an error has happened');
-    setModalContent(data);
     setDisableProperty(false);
   };
 
@@ -97,8 +57,8 @@ function Form({ match, history }) {
   };
 
   const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
+    dispatch(hideModal());
+    if (modalType !== 'error') {
       history.push('/applications');
     }
   };
@@ -110,7 +70,7 @@ function Form({ match, history }) {
         type={modalType}
         content={modalContent}
         closeModalFn={closeModalFn}
-        titleModal={titleModal}
+        titleModal={modalTitle}
       />
       <section className={styles.container}>
         {operation === 'create' ? (
