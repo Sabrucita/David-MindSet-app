@@ -40,10 +40,9 @@ export const deleteApplication = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          console.log(data);
           dispatch(deleteApplicationFulfilled(data));
           //I used the create type to stop showing the accept button.
-          dispatch(showModal('create', 'Application Delete', { info: 'Loading...' }));
+          dispatch(showModal('create', 'Application Deleted', data.data));
         } else {
           throw new Error(`HTTP ${res.status}`);
         }
