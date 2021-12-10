@@ -1,98 +1,102 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateSelectedSession } from '../../../redux/sessions/actions';
+import {
+  createSession,
+  getSession,
+  getSessionsOptions,
+  updateSession
+} from '../../../redux/sessions/thunks';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
 function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  const options = useSelector((store) => store.sessions.options);
+  const formData = useSelector((store) => store.sessions.selectedElement);
+
   const [disableProperty, setDisableProperty] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [modalContent, setModalContent] = useState();
 
-  const url = process.env.REACT_APP_API;
   const id = match.params.id;
 
-  const resource = 'sessions';
+  useEffect(() => {
+    dispatch(getSessionsOptions('candidates'));
+    dispatch(getSessionsOptions('psychologists'));
+    if (id) {
+      dispatch(getSession(id));
+      //   .catch((err) => {
+      //     showErrorMsg(err);
+      //   });
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    if (id) {
-      fetch(`${url}/${resource}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            idCandidate: data.idCandidate?._id,
-            idPsychologist: data.idPsychologist?._id,
-            date: data.date
-          };
-          setFormData(currentData);
-          setDisableProperty(false);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
-    }
-  }, []);
+    validateFields();
+  }, [formData]);
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     setDisableProperty(true);
     if (!id) {
-      fetch(`${url}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          if (res.status === 201) {
-            const data = await res.json();
-            setShowModal(true);
-            setModalType('create');
-            setModalTitle('Application Created');
-            return setModalContent(data.data);
-          }
-          const data = await res.json();
-          showErrorMsg(data.data);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
+      dispatch(createSession(formData));
+      setShowModal(true);
+      setModalType('create');
+      setModalTitle('Application Created');
+
+      //   .then(async (res) => {
+      //     if (res.status === 201) {
+      //       const data = await res.json();
+      //       setShowModal(true);
+      //       setModalType('create');
+      //       setModalTitle('Application Created');
+      //       return setModalContent(data.data);
+      //     }
+      //     const data = await res.json();
+      //     showErrorMsg(data.data);
+      //   })
+      //   .catch((err) => {
+      //     showErrorMsg(err);
+      //   });
     } else {
-      fetch(`${url}/${resource}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          if (res.status === 200) {
-            const data = await res.json();
-            setShowModal(true);
-            setModalType('update');
-            setModalTitle('Application Updated');
-            const formatData = data.data;
-            formatData.idCandidate = formatData.idCandidate._id;
-            formatData.idPsychologist = formatData.idPsychologist._id;
-            return setModalContent(formatData);
-          }
-          const data = await res.json();
-          showErrorMsg(data.data);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
+      dispatch(updateSession(id, formData));
+      setShowModal(true);
+      setModalType('update');
+      setModalTitle('Application Updated');
+
+      // fetch(`${url}/${resource}/${id}`, {
+      //   method: 'PUT',
+      //   body: JSON.stringify(formData),
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // })
+      //   .then(async (res) => {
+      //     if (res.status === 200) {
+      //       const data = await res.json();
+      //       setShowModal(true);
+      //       setModalType('update');
+      //       setModalTitle('Application Updated');
+      //       const formatData = data.data;
+      //       formatData.idCandidate = formatData.idCandidate._id;
+      //       formatData.idPsychologist = formatData.idPsychologist._id;
+      //       return setModalContent(formatData);
+      //     }
+      //     const data = await res.json();
+      //     showErrorMsg(data.data);
+      //   })
+      //   .catch((err) => {
+      //     showErrorMsg(err);
+      //   });
     }
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
-    validateFields();
+    dispatch(updateSelectedSession(field, value));
   };
 
   const validateFields = () => {
@@ -134,21 +138,21 @@ function Form({ match, history }) {
             update={id ? true : false}
             currentValue={formData.idCandidate}
             element="select"
-            resource="candidates"
             name="candidate"
             objectProperty="idCandidate"
             required
             updateData={updateForm}
+            options={options.candidates}
           />
           <Fieldset
             update={id ? true : false}
             currentValue={formData.idPsychologist}
             element="select"
-            resource="psychologists"
             name="psychologist"
             objectProperty="idPsychologist"
             required
             updateData={updateForm}
+            options={options.psychologists}
           />
           <Fieldset
             update={id ? true : false}

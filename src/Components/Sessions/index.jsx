@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSessions, removeSession } from '../../redux/sessions/thunks';
+import { getSessions, deleteSession } from '../../redux/sessions/thunks';
 import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
@@ -23,7 +23,7 @@ function Sessions() {
   }, [dispatch]);
 
   const deleteItem = () => {
-    dispatch(removeSession(selectedItem.id));
+    dispatch(deleteSession(selectedItem.id));
     setShowModal(false);
   };
 
