@@ -1,4 +1,5 @@
 import { url } from '../../constants';
+import { showSuccessModal } from '../modal/actions';
 
 import {
   getSessionsFetching,
@@ -88,7 +89,8 @@ export const createSession = (session) => {
       .then(async (res) => {
         if (res.status === 201) {
           const data = await res.json();
-          return dispatch(createSessionFulfilled(data));
+          dispatch(createSessionFulfilled(data));
+          return dispatch(showSuccessModal('create', 'Application Created', data.data));
         }
         const data = await res.json();
         dispatch(createSessionRejected(data));
@@ -113,7 +115,8 @@ export const updateSession = (id, session) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          return dispatch(updateSessionFulfilled(data));
+          dispatch(updateSessionFulfilled(data));
+          return dispatch(showSuccessModal('update', 'Application Updated', data.data));
         }
         const data = await res.json();
         dispatch(updateSessionRejected(data));

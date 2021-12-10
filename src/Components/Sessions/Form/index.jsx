@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { hideModal, showSuccessModal } from '../../../redux/modal/actions';
 import { updateSelectedSession } from '../../../redux/sessions/actions';
 import {
   createSession,
@@ -44,9 +45,9 @@ function Form({ match, history }) {
     setDisableProperty(true);
     if (!id) {
       dispatch(createSession(formData));
-      setShowModal(true);
-      setModalType('create');
-      setModalTitle('Application Created');
+      // setShowModal(true);
+      // setModalType('create');
+      // setModalTitle('Application Created');
 
       //   .then(async (res) => {
       //     if (res.status === 201) {
@@ -64,9 +65,9 @@ function Form({ match, history }) {
       //   });
     } else {
       dispatch(updateSession(id, formData));
-      setShowModal(true);
-      setModalType('update');
-      setModalTitle('Application Updated');
+      // setShowModal(true);
+      // setModalType('update');
+      // setModalTitle('Application Updated');
 
       // fetch(`${url}/${resource}/${id}`, {
       //   method: 'PUT',
@@ -107,7 +108,8 @@ function Form({ match, history }) {
   };
 
   const closeModalFn = () => {
-    setShowModal(false);
+    dispatch(hideModal());
+    // setShowModal(false);
     history.push('/sessions');
   };
 

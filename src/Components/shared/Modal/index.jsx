@@ -1,6 +1,13 @@
+import { useSelector } from 'react-redux';
 import styles from './modal.module.css';
 
-function Modal({ showModal, type, content, acceptModalFn, closeModalFn, titleModal }) {
+function Modal({ acceptModalFn, closeModalFn }) {
+  // { showModal, type, content, acceptModalFn, closeModalFn, titleModal }
+  const showModal = useSelector((store) => store.modal.show);
+  const type = useSelector((store) => store.modal.type);
+  const titleModal = useSelector((store) => store.modal.title);
+  const content = useSelector((store) => store.modal.content);
+
   let dataContent = [];
 
   if (type === 'error') {

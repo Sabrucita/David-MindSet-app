@@ -6,6 +6,7 @@ import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
+import { hideModal, showDeleteModal } from '../../redux/modal/actions';
 
 function Sessions() {
   const dispatch = useDispatch();
@@ -24,18 +25,21 @@ function Sessions() {
 
   const deleteItem = () => {
     dispatch(deleteSession(selectedItem.id));
-    setShowModal(false);
+    dispatch(hideModal());
+    // setShowModal(false);
   };
 
   const openModal = (item, type, title) => {
     setSelectedItem(item);
-    setModalType(type);
-    setModalTitle(title);
-    setShowModal(true);
+    dispatch(showDeleteModal());
+    // setModalType(type);
+    // setModalTitle(title);
+    // setShowModal(true);
   };
 
   const closeModalFn = () => {
-    setShowModal(false);
+    dispatch(hideModal());
+    // setShowModal(false);
   };
 
   const showErrorMsg = (data) => {
@@ -48,10 +52,10 @@ function Sessions() {
   return (
     <>
       <Modal
-        showModal={showModal}
-        type={modalType}
-        titleModal={modalTitle}
-        content={selectedItem}
+        // showModal={showModal}
+        // type={modalType}
+        // titleModal={modalTitle}
+        // content={selectedItem}
         closeModalFn={closeModalFn}
         acceptModalFn={deleteItem}
       />
