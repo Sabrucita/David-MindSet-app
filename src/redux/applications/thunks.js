@@ -3,7 +3,10 @@ import { url } from '../../constants';
 import {
   getApplicationsFetching,
   getApplicationsFulfilled,
-  getApplicationsRejected
+  getApplicationsRejected,
+  deleteApplicationFetching,
+  deleteApplicationFulfilled,
+  deleteApplicationRejected
 } from './actions';
 
 export const getApplications = () => {
@@ -16,6 +19,26 @@ export const getApplications = () => {
       })
       .catch((err) => {
         dispatch(getApplicationsRejected(err));
+      });
+  };
+};
+
+export const deleteApplication = (id) => {
+  return (dispatch) => {
+    dispatch(deleteApplicationFetching());
+    fetch(`${url}/applications/${id}`, {
+      method: 'DELETE'
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(deleteApplicationFulfilled(data));
+        } else {
+          throw new Error(`HTTP ${res.status}`);
+        }
+      })
+      .catch((err) => {
+        dispatch(deleteApplicationRejected(err));
       });
   };
 };

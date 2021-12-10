@@ -5,8 +5,7 @@ import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApplications } from '../../redux/applications/thunks';
-import { url } from '../../constants';
+import { deleteApplication, getApplications } from '../../redux/applications/thunks';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
@@ -35,22 +34,9 @@ function Applications() {
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/applications/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        // setApplications(
-        applications.filter((app) => {
-          return app._id !== selectedItem.id;
-        });
-        // );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteApplication(selectedItem.id));
+    console.log(applications.isFetchingDelete);
+    closeModal();
   };
 
   const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
