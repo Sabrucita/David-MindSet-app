@@ -16,7 +16,6 @@ function Applications() {
   const showModalS = useSelector((store) => store.modal.show);
   const modalType = useSelector((store) => store.modal.type);
   const modalTitle = useSelector((store) => store.modal.title);
-  // const modalContent = useSelector((store) => store.modal.content);
 
   useEffect(() => {
     dispatch(getApplications());
@@ -35,7 +34,6 @@ function Applications() {
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
     dispatch(deleteApplication(selectedItem.id));
-    // closeModal();
   };
 
   const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
