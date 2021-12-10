@@ -2,6 +2,9 @@ import { url } from '../../constants';
 import { showModal } from '../modal/actions';
 
 import {
+  getApplicationFetching,
+  getApplicationFulfilled,
+  getApplicationRejected,
   getApplicationsFetching,
   getApplicationsFulfilled,
   getApplicationsRejected,
@@ -16,13 +19,34 @@ import {
   updateApplicationRejected
 } from './actions';
 
+//GET 1 APPLICATION
+export const getApplication = (id) => {
+  return (dispatch) => {
+    dispatch(getApplicationFetching());
+    fetch(`${url}/applications/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const currentData = {
+          idCandidate: data.idCandidate?._id,
+          idOpenPosition: data.idOpenPosition?._id,
+          status: data.status
+        };
+        dispatch(getApplicationFulfilled(currentData));
+      })
+      .catch((err) => {
+        dispatch(getApplicationRejected(err));
+      });
+  };
+};
+
+//GET ALL APPLICATIONS
 export const getApplications = () => {
   return (dispatch) => {
     dispatch(getApplicationsFetching());
     fetch(`${url}/applications`)
-      .then((data) => data.json())
-      .then((res) => {
-        dispatch(getApplicationsFulfilled(res));
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getApplicationsFulfilled(data));
       })
       .catch((err) => {
         dispatch(getApplicationsRejected(err));
@@ -30,6 +54,7 @@ export const getApplications = () => {
   };
 };
 
+//DELETE APPLICATION
 export const deleteApplication = (id) => {
   return (dispatch) => {
     dispatch(deleteApplicationFetching());
@@ -54,6 +79,7 @@ export const deleteApplication = (id) => {
   };
 };
 
+//CREATE APPLICATION
 export const createApplication = (obj) => {
   return (dispatch) => {
     dispatch(createApplicationFetching());
@@ -80,6 +106,7 @@ export const createApplication = (obj) => {
   };
 };
 
+//UPDATE APPLICATION
 export const updateApplication = (id, obj) => {
   return (dispatch) => {
     dispatch(updateApplicationFetching());

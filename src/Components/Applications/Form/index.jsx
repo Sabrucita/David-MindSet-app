@@ -3,13 +3,18 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { createApplication, updateApplication } from '../../../redux/applications/thunks';
+import {
+  createApplication,
+  updateApplication,
+  getApplication
+} from '../../../redux/applications/thunks';
+import {
+  updateSelectedApplication,
+  cleanSelectedElement
+} from '../../../redux/applications/actions';
 import { hideModal } from '../../../redux/modal/actions';
 
-const url = process.env.REACT_APP_API;
-
 function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
   const [disableProperty, setDisableProperty] = useState(false);
 
   const dispatch = useDispatch();
@@ -17,7 +22,7 @@ function Form({ match, history }) {
   const modalType = useSelector((store) => store.modal.type);
   const modalTitle = useSelector((store) => store.modal.title);
   const modalContent = useSelector((store) => store.modal.content);
-
+  const formData = useSelector((store) => store.applications.selectedElement);
   const id = match.params.id;
   let operation;
 
@@ -25,19 +30,12 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
+    //to fix problem when you enter in CreateForm after you edited another element.
+    dispatch(cleanSelectedElement());
     if (operation === 'update') {
-      fetch(`${url}/applications/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            idCandidate: data.idCandidate._id,
-            idOpenPosition: data.idOpenPosition._id,
-            status: data.status
-          };
-          setFormData(currentData);
-        });
+      dispatch(getApplication(id));
     }
-  }, []);
+  }, [dispatch]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -51,9 +49,7 @@ function Form({ match, history }) {
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
+    dispatch(updateSelectedApplication(field, value));
   };
 
   const closeModalFn = () => {

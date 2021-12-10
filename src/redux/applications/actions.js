@@ -1,4 +1,8 @@
 import {
+  GET_APPLICATION_FETCHING,
+  GET_APPLICATION_FULFILLED,
+  GET_APPLICATION_REJECTED,
+  UPDATE_SELECTED_APPLICATION,
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
@@ -10,10 +14,37 @@ import {
   CREATE_APPLICATION_REJECTED,
   UPDATE_APPLICATION_FETCHING,
   UPDATE_APPLICATION_FULFILLED,
-  UPDATE_APPLICATION_REJECTED
+  UPDATE_APPLICATION_REJECTED,
+  CLEAN_SELECTED_ELEMENT
 } from '../../constants';
 
-//GET APPLICATIONS
+//GET 1 APPLICATION
+export const getApplicationFetching = () => ({
+  type: GET_APPLICATION_FETCHING
+});
+
+export const getApplicationFulfilled = (payload) => ({
+  type: GET_APPLICATION_FULFILLED,
+  payload
+});
+
+export const getApplicationRejected = (payload) => ({
+  type: GET_APPLICATION_REJECTED,
+  payload
+});
+
+//UPDATE SELECTED APPLICATION
+export const updateSelectedApplication = (field, value) => {
+  return {
+    type: UPDATE_SELECTED_APPLICATION,
+    payload: { field, value }
+  };
+};
+export const cleanSelectedElement = () => ({
+  type: CLEAN_SELECTED_ELEMENT
+});
+
+//GET ALL APPLICATIONS
 export const getApplicationsFetching = () => ({
   type: GET_APPLICATIONS_FETCHING
 });

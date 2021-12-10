@@ -1,4 +1,9 @@
 import {
+  GET_APPLICATION_FETCHING,
+  GET_APPLICATION_FULFILLED,
+  GET_APPLICATION_REJECTED,
+  UPDATE_SELECTED_APPLICATION,
+  CLEAN_SELECTED_ELEMENT,
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
@@ -16,12 +21,46 @@ import {
 const initialState = {
   isFetching: false,
   list: [],
+  selectedElement: {},
+  options: { candidates: [], openPositions: [] },
   error: { error: false, msg: '' }
 };
 
 const applicationReducer = (state = initialState, action) => {
   switch (action.type) {
-    //GET
+    //GET 1
+    case GET_APPLICATION_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: { error: false, msg: '' }
+      };
+    case GET_APPLICATION_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: action.payload
+      };
+    case GET_APPLICATION_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload
+      };
+    //UPDATE 1
+    case UPDATE_SELECTED_APPLICATION: {
+      const newState = { ...state.selectedElement };
+      newState[action.payload.field] = action.payload.value;
+      return {
+        ...state,
+        selectedElement: newState
+      };
+    }
+    // CLEAN SELECTED ITEM
+    case CLEAN_SELECTED_ELEMENT:
+      return { ...state, selectedElement: '' };
+
+    //GET ALL
     case GET_APPLICATIONS_FETCHING:
       return {
         ...state,

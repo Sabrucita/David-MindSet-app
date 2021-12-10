@@ -4,12 +4,12 @@ const initialState = {
   show: false,
   type: '',
   title: '',
-  content: ''
+  content: {}
 };
 
 const modalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_MODAL:
+    case SHOW_MODAL: {
       return {
         ...state,
         show: true,
@@ -17,6 +17,7 @@ const modalReducer = (state = initialState, action) => {
         title: action.payload.title,
         content: action.payload.content
       };
+    }
     case HIDE_MODAL:
       return initialState;
     default:
