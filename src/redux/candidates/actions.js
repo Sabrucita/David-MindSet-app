@@ -13,7 +13,9 @@ import {
   UPDATE_CANDIDATES_REJECTED,
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
-  DELETE_CANDIDATES_REJECTED
+  DELETE_CANDIDATES_REJECTED,
+  UPDATE_SELECTED_APPLICATION,
+  CLEAN_SELECTED_ELEMENT
 } from '../../constants';
 
 //Get all Candidates
@@ -36,14 +38,25 @@ export const getCandidateByIdFetching = () => ({
   type: GET_CANDIDATE_BY_ID_FETCHING
 });
 
-export const getCandidateByIdFullfilled = (data) => ({
+export const getCandidateByIdFullfilled = (payload) => ({
   type: GET_CANDIDATE_BY_ID_FULLFILLED,
-  payload: data
+  payload
 });
 
-export const getCandidateByIdRejected = (error) => ({
+export const getCandidateByIdRejected = (payload) => ({
   type: GET_CANDIDATE_BY_ID_REJECTED,
-  payload: error
+  payload
+});
+
+//UPDATE SELECTED APPLICATION
+export const updateSelectedApplication = (field, value) => {
+  return {
+    type: UPDATE_SELECTED_APPLICATION,
+    payload: { field, value }
+  };
+};
+export const cleanSelectedElement = () => ({
+  type: CLEAN_SELECTED_ELEMENT
 });
 
 //Create Candidates
@@ -51,14 +64,14 @@ export const createCandidatesFetching = () => ({
   type: CREATE_CANDIDATES_FETCHING
 });
 
-export const createCandidatesFullfilled = (data) => ({
+export const createCandidatesFullfilled = (payload) => ({
   type: CREATE_CANDIDATES_FULLFILLED,
-  payload: data
+  payload
 });
 
-export const createCandidatesRejected = (error) => ({
+export const createCandidatesRejected = (payload) => ({
   type: CREATE_CANDIDATES_REJECTED,
-  payload: error
+  payload
 });
 
 //Update Candidates
@@ -66,14 +79,14 @@ export const updateCandidatesFetching = () => ({
   type: UPDATE_CANDIDATES_FETCHING
 });
 
-export const updateCandidatesFullfilled = (data) => ({
+export const updateCandidatesFullfilled = (payload) => ({
   type: UPDATE_CANDIDATES_FULLFILLED,
-  payload: data
+  payload
 });
 
-export const updateCandidatesRejected = (error) => ({
+export const updateCandidatesRejected = (payload) => ({
   type: UPDATE_CANDIDATES_REJECTED,
-  payload: error
+  payload
 });
 
 //Delete Candidates
