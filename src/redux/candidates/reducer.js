@@ -19,8 +19,7 @@ import {
 const initialState = {
   isFetching: false,
   list: [],
-  selectedItem: {},
-  error: ''
+  error: { error: false, msg: '' }
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,7 +42,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: { error: true, msg: action.payload }
       };
     }
     case GET_CANDIDATE_BY_ID_FETCHING: {
@@ -126,14 +125,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        list: state.list.filter((item) => item._id !== action.payload)
+        list: state.list.filter((element) => element._id !== action.payload)
       };
     }
     case DELETE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: { error: true, msg: action.payload }
       };
     }
     default: {

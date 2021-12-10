@@ -4,25 +4,23 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCandidates, deleteCandidates } from '../../redux/candidates/thunks';
+import store from '../../redux/store';
+import { url } from '../../constants';
 
-function Candid() {
+function Candidates() {
   const [showModal, setShowModal] = useState(false);
-  const [candidates, setCandidates] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [typeModal, setTypeModal] = useState();
   const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
 
-  const url = process.env.REACT_APP_API;
+  const dispatch = useDispatch();
+  const candidates = useSelector((store) => store.candidates);
 
   useEffect(() => {
-    fetch(`${url}/candidates`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCandidates(data);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getCandidates());
+  }, [dispatch]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -45,11 +43,9 @@ function Candid() {
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        setCandidates(
-          candidates.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
+        candidates.filter((app) => {
+          return app._id !== selectedItem.id;
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -80,11 +76,11 @@ function Candid() {
       />
       <section className={styles.container}>
         <h1 className={styles.mainTitle}>Candidates</h1>
-        {isFetching ? (
+        {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={candidates} header={tableHeader} openModal={openModal} />
+            <List data={candidates.list} header={tableHeader} openModal={openModal} />
             <Link to="/candidates/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}> ADD CANDIDATE</span>
             </Link>
@@ -94,4 +90,4 @@ function Candid() {
     </>
   );
 }
-export default Candid;
+export default Candidates;

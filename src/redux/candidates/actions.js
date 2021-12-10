@@ -21,14 +21,14 @@ export const getCandidatesFetching = () => ({
   type: GET_CANDIDATES_FETCHING
 });
 
-export const getCandidatesFullfilled = (data) => ({
+export const getCandidatesFullfilled = (payload) => ({
   type: GET_CANDIDATES_FULLFILLED,
-  payload: data
+  payload
 });
 
-export const getCandidatesRejected = (error) => ({
+export const getCandidatesRejected = (payload) => ({
   type: GET_CANDIDATES_REJECTED,
-  payload: error
+  payload
 });
 
 //Get Candidates By ID
@@ -81,12 +81,12 @@ export const deleteCandidatesFetching = () => ({
   type: DELETE_CANDIDATES_FETCHING
 });
 
-export const deleteCandidatesFullfilled = (data) => ({
+export const deleteCandidatesFullfilled = (payload) => ({
   type: DELETE_CANDIDATES_FULLFILLED,
-  payload: data
+  payload
 });
 
-export const deleteCandidatesRejected = (error) => ({
+export const deleteCandidatesRejected = (payload) => ({
   type: DELETE_CANDIDATES_REJECTED,
-  payload: error
+  payload
 });
