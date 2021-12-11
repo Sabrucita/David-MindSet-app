@@ -33,10 +33,9 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
+    dispatch(cleanSelectedElement());
     dispatch(getApplicationsOptions('candidates'));
     dispatch(getApplicationsOptions('open-positions'));
-    //to fix problem when you enter in CreateForm after you edited another element.
-    dispatch(cleanSelectedElement());
     if (operation === 'update') {
       dispatch(getApplication(id));
     }

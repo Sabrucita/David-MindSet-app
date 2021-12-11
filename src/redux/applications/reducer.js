@@ -62,7 +62,7 @@ const applicationReducer = (state = initialState, action) => {
     }
     // CLEAN SELECTED ITEM
     case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: '' };
+      return { ...state, selectedElement: {} };
     //GET ALL
     case GET_APPLICATIONS_FETCHING:
       return {
@@ -108,8 +108,8 @@ const applicationReducer = (state = initialState, action) => {
     case CREATE_APPLICATION_FULFILLED:
       return {
         ...state,
-        isFetching: false
-        //list: [...state.list, action.payload.data]
+        isFetching: false,
+        selectedElement: {}
       };
     case CREATE_APPLICATION_REJECTED:
       return {
@@ -126,8 +126,8 @@ const applicationReducer = (state = initialState, action) => {
     case UPDATE_APPLICATION_FULFILLED:
       return {
         ...state,
-        isFetching: false
-        //list: [...state.list, action.payload.data]
+        isFetching: false,
+        selectedElement: {}
       };
     case UPDATE_APPLICATION_REJECTED:
       return {
@@ -144,7 +144,6 @@ const applicationReducer = (state = initialState, action) => {
       };
     case GET_APPLICATIONS_OPTIONS_FULFILLED: {
       let newOptions;
-      console.log(action.resource);
       if (action.resource === 'open-positions') {
         newOptions = action.payload.map((element) => {
           return {

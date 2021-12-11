@@ -27,17 +27,22 @@ export const getApplication = (id) => {
   return (dispatch) => {
     dispatch(getApplicationFetching());
     fetch(`${url}/applications/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const currentData = {
-          idCandidate: data.idCandidate?._id,
-          idOpenPosition: data.idOpenPosition?._id,
-          status: data.status
-        };
-        dispatch(getApplicationFulfilled(currentData));
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          const currentData = {
+            idCandidate: data.idCandidate?._id,
+            idOpenPosition: data.idOpenPosition?._id,
+            status: data.status
+          };
+          return dispatch(getApplicationFulfilled(currentData));
+        }
+        const data = await res.json();
+        throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(getApplicationRejected(err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -47,12 +52,17 @@ export const getApplications = () => {
   return (dispatch) => {
     dispatch(getApplicationsFetching());
     fetch(`${url}/applications`)
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(getApplicationsFulfilled(data));
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          return dispatch(getApplicationsFulfilled(data));
+        }
+        const data = await res.json();
+        throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(getApplicationsRejected(err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -70,14 +80,14 @@ export const deleteApplication = (id) => {
           const data = await res.json();
           dispatch(deleteApplicationFulfilled(data));
           //I used the create type to stop showing the accept button.
-          dispatch(showModal('create', 'Application Deleted', data.data));
-        } else {
-          throw new Error(`HTTP ${res.status}`);
+          return dispatch(showModal('create', 'Application Deleted', data.data));
         }
+        const data = await res.json();
+        throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(deleteApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -100,11 +110,12 @@ export const createApplication = (obj) => {
           dispatch(createApplicationFulfilled(data));
           return dispatch(showModal('create', 'Application Created', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(createApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -127,11 +138,12 @@ export const updateApplication = (id, obj) => {
           dispatch(updateApplicationFulfilled(data));
           return dispatch(showModal('update', 'Application Updated', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(updateApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -147,12 +159,11 @@ export const getApplicationsOptions = (resource) => {
           return dispatch(getApplicationsOptionsFulfilled(resource, data));
         }
         const data = await res.json();
-        dispatch(getApplicationsOptionsRejected(data));
+        throw new Error(data.msg);
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getApplicationsOptionsRejected(error));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(getApplicationsOptionsRejected(err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
