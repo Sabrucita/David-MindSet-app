@@ -8,6 +8,9 @@ import {
   CREATE_ADMIN_FETCHING,
   CREATE_ADMIN_FULFILLED,
   CREATE_ADMIN_REJECTED,
+  UPDATE_ADMIN_FETCHING,
+  UPDATE_ADMIN_FULFILLED,
+  UPDATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED
@@ -75,6 +78,28 @@ export const createAdminFulfilled = (payload) => {
 export const createAdminRejected = (payload) => {
   return {
     type: CREATE_ADMIN_REJECTED,
+    payload
+  };
+};
+
+// Update admins
+
+export const updateAdminFetching = () => {
+  return {
+    type: UPDATE_ADMIN_FETCHING
+  };
+};
+
+export const updateAdminFulfilled = (payload) => {
+  return {
+    type: UPDATE_ADMIN_FULFILLED,
+    payload
+  };
+};
+
+export const updateAdminRejected = (payload) => {
+  return {
+    type: UPDATE_ADMIN_REJECTED,
     payload
   };
 };

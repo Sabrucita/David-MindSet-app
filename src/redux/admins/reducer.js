@@ -8,6 +8,9 @@ import {
   CREATE_ADMIN_FETCHING,
   CREATE_ADMIN_FULFILLED,
   CREATE_ADMIN_REJECTED,
+  UPDATE_ADMIN_FETCHING,
+  UPDATE_ADMIN_FULFILLED,
+  UPDATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED
@@ -76,6 +79,33 @@ const adminsReducer = (state = initialState, action) => {
         list: [...state.list, action.payload]
       };
     case CREATE_ADMIN_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: { error: true, msg: action.payload }
+      };
+    //Admins reducer: Update admin
+    case UPDATE_ADMIN_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: { error: false, msg: '' }
+      };
+    case UPDATE_ADMIN_FULFILLED:
+      return {
+        ...state,
+        isFetching: false
+        /*
+        list: state.list.map((item) => {
+          if (item._id === action.payload._id) {
+            return action.payload;
+          }
+          return item;
+        })
+      };
+      */
+      };
+    case UPDATE_ADMIN_REJECTED:
       return {
         ...state,
         isFetching: false,
