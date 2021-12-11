@@ -16,11 +16,11 @@ function Companies() {
   const showModalS = useSelector((store) => store.modal.show);
   const modalType = useSelector((store) => store.modal.type);
   const modalTitle = useSelector((store) => store.modal.title);
+  const modalContent = useSelector((store) => store.modal.content);
 
   //Get info from DB
   useEffect(() => {
     dispatch(getCompanies());
-    dispatch(deleteCompany());
   }, [dispatch]);
 
   //MODAL
@@ -47,7 +47,7 @@ function Companies() {
           showModal={showModalS}
           closeModalFn={closeModal}
           acceptModalFn={acceptModal}
-          content={selectedItem}
+          content={modalContent}
           type={modalType}
           titleModal={modalTitle}
         />

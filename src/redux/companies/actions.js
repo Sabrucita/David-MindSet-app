@@ -4,7 +4,18 @@ import {
   GET_COMPANIES_REJECTED,
   DELETE_COMPANY_FETCHING,
   DELETE_COMPANY_FULFILLED,
-  DELETE_COMPANY_REJECTED
+  DELETE_COMPANY_REJECTED,
+  CREATE_COMPANY_FETCHING,
+  CREATE_COMPANY_FULFILLED,
+  CREATE_COMPANY_REJECTED,
+  UPDATE_COMPANY_FETCHING,
+  UPDATE_COMPANY_FULFILLED,
+  UPDATE_COMPANY_REJECTED,
+  CLEAN_SELECTED_ELEMENT,
+  GET_COMPANY_FETCHING,
+  GET_COMPANY_FULFILLED,
+  GET_COMPANY_REJECTED,
+  UPDATE_SELECTED_COMPANY
 } from '../../constants';
 
 //GET COMPANIES
@@ -19,7 +30,6 @@ export const getCompaniesFulfilled = (payload) => ({
 });
 
 export const getCompaniesRejected = (payload) => ({
-  //por qué payload y no por ejemplo error
   type: GET_COMPANIES_REJECTED,
   payload
 });
@@ -38,4 +48,62 @@ export const deleteCompanyFulfilled = (payload) => ({
 export const deleteCompanyRejected = (payload) => ({
   type: DELETE_COMPANY_REJECTED,
   payload
+});
+
+//CREATE COMPANIES
+
+export const createCompanyFetching = () => ({
+  type: CREATE_COMPANY_FETCHING
+});
+
+export const createCompanyFulfilled = (payload) => ({
+  type: CREATE_COMPANY_FULFILLED,
+  payload
+});
+
+export const createCompanyRejected = (payload) => ({
+  type: CREATE_COMPANY_REJECTED,
+  payload
+});
+
+//UPDATE COMPANY
+
+export const updateCompanyFetching = () => ({
+  type: UPDATE_COMPANY_FETCHING
+});
+
+export const updateCompanyFulfilled = (payload) => ({
+  type: UPDATE_COMPANY_FULFILLED,
+  payload
+});
+
+export const updateCompanyRejected = (payload) => ({
+  type: UPDATE_COMPANY_REJECTED,
+  payload
+});
+
+//GET ONE COMPANY
+export const getCompanyFetching = () => ({
+  type: GET_COMPANY_FETCHING
+});
+
+export const getCompanyFulfilled = (payload) => ({
+  type: GET_COMPANY_FULFILLED,
+  payload
+});
+
+export const getCompanyRejected = (payload) => ({
+  type: GET_COMPANY_REJECTED,
+  payload
+});
+
+//UPDATE SELECTED COMPANY
+export const updateSelectedCompany = (field, value) => {
+  return {
+    type: UPDATE_SELECTED_COMPANY,
+    payload: { field, value }
+  };
+};
+export const cleanSelectedElement = () => ({
+  type: CLEAN_SELECTED_ELEMENT
 });

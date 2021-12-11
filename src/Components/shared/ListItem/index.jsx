@@ -15,10 +15,14 @@ function ListItem({ id, dataElement, dataTable, openModal, missingData, resource
 
   const deleteElement = () => {
     if (resource === 'companies') {
-      const title = `${fixCompaniesTitle(capitalize(resource))} Deleted`;
+      const title = `Are you sure that you want to delete this ${fixCompaniesTitle(
+        capitalize(resource)
+      )}?`;
       openModal(dataElement, 'delete', title);
     } else {
-      const title = `${removeLastChar(capitalize(resource))} Deleted`;
+      const title = `Are you sure that you want to delete this ${removeLastChar(
+        capitalize(resource)
+      )}?`;
       openModal(dataElement, 'delete', title);
     }
   };
