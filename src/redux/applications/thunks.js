@@ -16,7 +16,10 @@ import {
   createApplicationRejected,
   updateApplicationFetching,
   updateApplicationFulfilled,
-  updateApplicationRejected
+  updateApplicationRejected,
+  getApplicationsOptionsFetching,
+  getApplicationsOptionsFulfilled,
+  getApplicationsOptionsRejected
 } from './actions';
 
 //GET 1 APPLICATION
@@ -128,6 +131,27 @@ export const updateApplication = (id, obj) => {
       })
       .catch((err) => {
         dispatch(updateApplicationRejected(err));
+        dispatch(showModal('error', 'Upsss an error has happened', err));
+      });
+  };
+};
+
+//GET OPTIONS
+export const getApplicationsOptions = (resource) => {
+  return (dispatch) => {
+    dispatch(getApplicationsOptionsFetching());
+    fetch(`${url}/${resource}`)
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          return dispatch(getApplicationsOptionsFulfilled(resource, data));
+        }
+        const data = await res.json();
+        dispatch(getApplicationsOptionsRejected(data));
+      })
+      .catch((err) => {
+        const error = { error: true, msg: err };
+        dispatch(getApplicationsOptionsRejected(error));
         dispatch(showModal('error', 'Upsss an error has happened', err));
       });
   };

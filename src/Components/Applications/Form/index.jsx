@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   createApplication,
   updateApplication,
-  getApplication
+  getApplication,
+  getApplicationsOptions
 } from '../../../redux/applications/thunks';
 import {
   updateSelectedApplication,
@@ -23,6 +24,8 @@ function Form({ match, history }) {
   const modalTitle = useSelector((store) => store.modal.title);
   const modalContent = useSelector((store) => store.modal.content);
   const formData = useSelector((store) => store.applications.selectedElement);
+  const options = useSelector((store) => store.applications.options);
+
   const id = match.params.id;
   let operation;
 
@@ -30,6 +33,8 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
+    dispatch(getApplicationsOptions('candidates'));
+    dispatch(getApplicationsOptions('open-positions'));
     //to fix problem when you enter in CreateForm after you edited another element.
     dispatch(cleanSelectedElement());
     if (operation === 'update') {
@@ -79,11 +84,11 @@ function Form({ match, history }) {
             update={id ? true : false}
             currentValue={formData.idCandidate}
             element="select"
-            resource="candidates"
             name="candidate"
             objectProperty="idCandidate"
             required
             updateData={updateForm}
+            options={options.candidates}
           />
           <Fieldset
             update={id ? true : false}
@@ -94,6 +99,7 @@ function Form({ match, history }) {
             objectProperty="idOpenPosition"
             required
             updateData={updateForm}
+            options={options.openPositions}
           />
           {id && (
             <Fieldset

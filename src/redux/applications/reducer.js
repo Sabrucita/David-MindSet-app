@@ -1,3 +1,4 @@
+import { capitalize } from '../../Components/helpers';
 import {
   GET_APPLICATION_FETCHING,
   GET_APPLICATION_FULFILLED,
@@ -15,7 +16,10 @@ import {
   CREATE_APPLICATION_REJECTED,
   UPDATE_APPLICATION_FETCHING,
   UPDATE_APPLICATION_FULFILLED,
-  UPDATE_APPLICATION_REJECTED
+  UPDATE_APPLICATION_REJECTED,
+  GET_APPLICATIONS_OPTIONS_FETCHING,
+  GET_APPLICATIONS_OPTIONS_FULFILLED,
+  GET_APPLICATIONS_OPTIONS_REJECTED
 } from '../../constants';
 
 const initialState = {
@@ -59,7 +63,6 @@ const applicationReducer = (state = initialState, action) => {
     // CLEAN SELECTED ITEM
     case CLEAN_SELECTED_ELEMENT:
       return { ...state, selectedElement: '' };
-
     //GET ALL
     case GET_APPLICATIONS_FETCHING:
       return {
@@ -96,7 +99,6 @@ const applicationReducer = (state = initialState, action) => {
         isFetching: false,
         error: { error: true, msg: action.payload }
       };
-
     //CREATE
     case CREATE_APPLICATION_FETCHING:
       return {
@@ -132,6 +134,49 @@ const applicationReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error: { error: true, msg: action.payload }
+      };
+
+    // GET OPTIONS
+    case GET_APPLICATIONS_OPTIONS_FETCHING:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case GET_APPLICATIONS_OPTIONS_FULFILLED: {
+      let newOptions;
+      console.log(action.resource);
+      if (action.resource === 'open-positions') {
+        newOptions = action.payload.map((element) => {
+          return {
+            id: element._id,
+            name: `${capitalize(element.jobDescription)}`
+          };
+        });
+      } else {
+        newOptions = action.payload.map((element) => {
+          const value = `${element.firstName} ${element.lastName}`;
+          return {
+            id: element._id,
+            name: capitalize(value)
+          };
+        });
+      }
+      const options = { ...state.options };
+      // in order to avoid using a - in an object property
+      if (action.resource === 'open-positions') {
+        options['openPositions'] = newOptions;
+      } else {
+        options[action.resource] = newOptions;
+      }
+      return {
+        ...state,
+        options
+      };
+    }
+    case GET_APPLICATIONS_OPTIONS_REJECTED:
+      return {
+        ...state,
+        error: action.payload
       };
     default:
       return state;
