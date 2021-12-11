@@ -3,9 +3,9 @@ import {
   getCandidatesFetching,
   getCandidatesFullfilled,
   getCandidatesRejected,
-  //   getCandidateByIdFetching,
-  //   getCandidateByIdFullfilled,
-  //   getCandidateByIdRejected,
+  getCandidateByIdFetching,
+  getCandidateByIdFullfilled,
+  getCandidateByIdRejected,
   //   createCandidatesFetching,
   //   createCandidatesFullfilled,
   //   createCandidatesRejected,
@@ -17,6 +17,7 @@ import {
   deleteCandidatesRejected
 } from './actions';
 
+//GET ALL THE CANDIDATES
 export const getCandidates = () => {
   return (dispatch) => {
     dispatch(getCandidatesFetching());
@@ -31,6 +32,43 @@ export const getCandidates = () => {
   };
 };
 
+//GET A CANDIDATE BY ID
+export const getCandidateById = (id) => {
+  return (dispatch) => {
+    dispatch(getCandidateByIdFetching());
+    fetch(`${url}/candidates/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const currentData = {
+          idCandidate: data._id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          phone: data.phone,
+          city: data.city,
+          province: data.province,
+          country: data.country,
+          postalCode: data.postalCode,
+          birthday: data.birthday,
+          hobbies: data.hobbies,
+          mainSkills: data.mainSkills,
+          profileTypes: data.profileTypes,
+          isOpenToWork: data.isOpenToWork,
+          education: data.education,
+          experiences: data.experiences,
+          courses: data.courses,
+          address: { street: data.address.street, number: data.address.number }
+        };
+        dispatch(getCandidateByIdFullfilled(currentData));
+      })
+      .catch((err) => {
+        dispatch(getCandidateByIdRejected(err));
+      });
+  };
+};
+
+//DELETE CANDIDATE BY ID
 export const deleteCandidates = (id) => {
   return (dispatch) => {
     dispatch(deleteCandidatesFetching());

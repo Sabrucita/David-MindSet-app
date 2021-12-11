@@ -13,12 +13,15 @@ import {
   UPDATE_CANDIDATES_REJECTED,
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
-  DELETE_CANDIDATES_REJECTED
+  DELETE_CANDIDATES_REJECTED,
+  UPDATE_SELECTED_APPLICATION,
+  CLEAN_SELECTED_ELEMENT
 } from '../../constants';
 
 const initialState = {
   isFetching: false,
   list: [],
+  selectedElement: {},
   error: { error: false, msg: '' }
 };
 
@@ -88,6 +91,16 @@ const reducer = (state = initialState, action) => {
         error: action.payload
       };
     }
+    case UPDATE_SELECTED_APPLICATION: {
+      const newState = { ...state.selectedElement };
+      newState[action.payload.field] = action.payload.value;
+      return {
+        ...state,
+        selectedElement: newState
+      };
+    }
+    case CLEAN_SELECTED_ELEMENT:
+      return { ...state, selectedElement: '' };
     case UPDATE_CANDIDATES_FETCHING: {
       return {
         ...state,
