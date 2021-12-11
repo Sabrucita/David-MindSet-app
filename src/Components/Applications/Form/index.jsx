@@ -9,10 +9,7 @@ import {
   getApplication,
   getApplicationsOptions
 } from '../../../redux/applications/thunks';
-import {
-  updateSelectedApplication,
-  cleanSelectedElement
-} from '../../../redux/applications/actions';
+import { updateSelectedApplication } from '../../../redux/applications/actions';
 import { hideModal } from '../../../redux/modal/actions';
 
 function Form({ match, history }) {
@@ -33,7 +30,6 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     dispatch(getApplicationsOptions('candidates'));
     dispatch(getApplicationsOptions('open-positions'));
     if (operation === 'update') {

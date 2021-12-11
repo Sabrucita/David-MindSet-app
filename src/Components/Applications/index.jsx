@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteApplication, getApplications } from '../../redux/applications/thunks';
+import { cleanSelectedElement } from '../../redux/applications/actions';
 import { hideModal, showModal } from '../../redux/modal/actions';
 
 function Applications() {
@@ -20,6 +21,7 @@ function Applications() {
 
   useEffect(() => {
     dispatch(getApplications());
+    dispatch(cleanSelectedElement());
   }, [dispatch]);
 
   //MODAL
