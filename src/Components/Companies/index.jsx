@@ -12,12 +12,7 @@ import { cleanSelectedElement } from '../../redux/companies/actions';
 function Companies() {
   const dispatch = useDispatch();
   const companies = useSelector((store) => store.companies);
-
   const [selectedItem, setSelectedItem] = useState();
-  const showModalS = useSelector((store) => store.modal.show);
-  const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
 
   //Get info from DB
   useEffect(() => {
@@ -45,14 +40,7 @@ function Companies() {
   return (
     <>
       <section className={styles.container}>
-        <Modal
-          showModal={showModalS}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={modalContent}
-          type={modalType}
-          titleModal={modalTitle}
-        />
+        <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
         <h1 className={styles.h1}>Companies</h1>
         {companies.isFetching ? (
           <Preloader />

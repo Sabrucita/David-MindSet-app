@@ -9,10 +9,7 @@ import { hideModal } from '../../../redux/modal/actions';
 
 function Form({ match, history }) {
   const dispatch = useDispatch();
-  const showModal = useSelector((store) => store.modal.show);
   const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
   const formData = useSelector((store) => store.companies.selectedElement);
   const [disableProperty, setDisableProperty] = useState(false);
 
@@ -196,13 +193,7 @@ function Form({ match, history }) {
           </div>
         </form>
       </section>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={modalTitle}
-      />
+      <Modal closeModalFn={closeModalFn} />
     </>
   );
 }
