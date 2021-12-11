@@ -1,59 +1,39 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
+import { deleteAdmin, getAdmins } from '../../redux/admins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
+import { hideModal, showModal } from '../../redux/modal/actions';
 
 function Admins() {
-  const [showModal, setShowModal] = useState(false);
-  const [admins, setAdmins] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
+  // Make the dispatcher capable of dispatching Redux actions
+  const dispatch = useDispatch();
+  const admins = useSelector((store) => store.admins);
+  const displayModal = useSelector((store) => store.modal.show);
+  const modalType = useSelector((store) => store.modal.type);
+  const modalTitle = useSelector((store) => store.modal.title);
 
-  const url = process.env.REACT_APP_API;
-  //Get app info from DB
   useEffect(() => {
-    fetch(`${url}/administrators`)
-      .then((response) => response.json())
-      .then((response) => {
-        setAdmins(response);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getAdmins());
+  }, [dispatch]);
 
   //MODAL
   const closeModal = () => {
-    setShowModal(false);
+    dispatch(hideModal());
   };
 
   const openModal = (item, type, title) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal(type, title, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/administrators/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setAdmins(
-          admins.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteAdmin(selectedItem.id));
   };
 
   const tableHeader = ['First Name', 'Last Name', 'Email', 'Password', 'Actions'];
@@ -62,15 +42,15 @@ function Admins() {
     <>
       <section className={styles.container}>
         <Modal
-          showModal={showModal}
+          showModal={displayModal}
           closeModalFn={closeModal}
           acceptModalFn={acceptModal}
           content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
+          type={modalType}
+          titleModal={modalTitle}
         />
         <h1 className={styles.h1}>Admins</h1>
-        {isFetching ? (
+        {admins.isFetching ? (
           <Preloader />
         ) : (
           <>
