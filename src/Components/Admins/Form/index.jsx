@@ -2,22 +2,31 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAdmin, updateAdmin } from '../../../redux/applications/thunks';
+import { hideModal } from '../../../redux/modal/actions';
 
 function Form({ match, history }) {
   const [formData, setFormData] = useState({});
   const [disableProperty, setDisableProperty] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContent, setModalContent] = useState();
+
+  const dispatch = useDispatch();
+  const showModal = useSelector((store) => store.modal.show);
+  const modalType = useSelector((store) => store.modal.type);
+  const modalTitle = useSelector((store) => store.modal.title);
+  const modalContent = useSelector((store) => store.modal.content);
 
   const url = process.env.REACT_APP_API;
   const id = match.params.id;
+  let operation;
 
   const resource = 'administrators';
 
+  if (id) operation = 'update';
+  else operation = 'create';
+
   useEffect(() => {
-    if (id) {
+    if (operation === 'update') {
       fetch(`${url}/${resource}/${id}`)
         .then((res) => res.json())
         .then((data) => {
@@ -28,10 +37,6 @@ function Form({ match, history }) {
             password: data.password
           };
           setFormData(currentData);
-          setDisableProperty(false);
-        })
-        .catch((err) => {
-          msgError(err);
         });
     }
   }, []);
@@ -39,79 +44,25 @@ function Form({ match, history }) {
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    if (!id) {
-      fetch(`${url}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setModalTitle('New admin added');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+    if (operation === 'create') {
+      dispatch(createAdmin(formData));
     } else {
-      fetch(`${url}/${resource}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setModalTitle('Admin Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-        });
+      dispatch(updateAdmin(id, formData));
     }
+    setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
     const newState = formData;
     newState[field] = value;
     setFormData(newState);
-    validateFields();
-  };
-
-  const validateFields = () => {
-    if (!formData.firstName) setDisableProperty(true);
-    else if (!formData.lastName) setDisableProperty(true);
-    else if (!formData.email) setDisableProperty(true);
-    else if (!formData.password) setDisableProperty(true);
-    else setDisableProperty(false);
   };
 
   const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
-      history.push('/administrators');
+    dispatch(hideModal());
+    if (modalType !== 'error') {
+      history.push('/adminsitrators');
     }
-  };
-
-  const msgError = (data) => {
-    setModalType('error');
-    setModalTitle('Upsss an error has happened');
-    setModalContent(data);
-    setDisableProperty(false);
   };
 
   return (
