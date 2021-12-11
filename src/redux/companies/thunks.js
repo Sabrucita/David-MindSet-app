@@ -133,13 +133,26 @@ export const createCompany = (company) => {
 
 //UPDATE COMPANY
 
-export const updateCompany = (id, obj) => {
+export const updateCompany = (id, company) => {
   return (dispatch) => {
     dispatch(updateCompanyFetching());
     dispatch(showModal('fetching', 'Updating Company', { info: 'Loading...' }));
     fetch(`${url}/companies/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(obj),
+      body: JSON.stringify({
+        name: company.name,
+        address: company.address,
+        city: company.city,
+        province: company.province,
+        country: company.country,
+        zipCode: parseInt(company.zipCode),
+        phone: parseInt(company.phone),
+        email: company.email,
+        pictureUrl: company.pictureUrl,
+        contactFullName: company.contactFullName,
+        contactPhone: parseInt(company.contactPhone),
+        isActive: company.isActive
+      }),
       headers: {
         'Content-Type': 'application/json'
       }
