@@ -1,5 +1,5 @@
 import { url } from '../../constants';
-import { showSuccessModal } from '../modal/actions';
+import { showModal, updateModal } from '../modal/actions';
 
 import {
   getSessionsFetching,
@@ -90,7 +90,7 @@ export const createSession = (session) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createSessionFulfilled(data));
-          return dispatch(showSuccessModal('create', 'Application Created', data.data));
+          return dispatch(showModal('sessions', 'create', data.data));
         }
         const data = await res.json();
         dispatch(createSessionRejected(data));
@@ -116,7 +116,7 @@ export const updateSession = (id, session) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateSessionFulfilled(data));
-          return dispatch(showSuccessModal('update', 'Application Updated', data.data));
+          return dispatch(showModal('sessions', 'update', data.data));
         }
         const data = await res.json();
         dispatch(updateSessionRejected(data));
@@ -131,6 +131,7 @@ export const updateSession = (id, session) => {
 export const deleteSession = (id) => {
   return (dispatch) => {
     dispatch(deleteSessionFetching());
+    dispatch(updateModal('deleting'));
     fetch(`${url}/sessions/${id}`, {
       method: 'DELETE'
     })
@@ -138,13 +139,17 @@ export const deleteSession = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteSessionFulfilled(data));
-        } else {
-          throw new Error(`HTTP ${res.status}`);
+          return dispatch(updateModal('deleted', data.data));
         }
+        const data = await res.json();
+        dispatch(updateSessionRejected(data));
+        dispatch(updateModal('error', data));
       })
       .catch((err) => {
         const error = { error: true, msg: err };
+        console.log(err);
         dispatch(deleteSessionRejected(error));
+        dispatch(updateModal('error', 'There was a problem deleting this session'));
       });
   };
 };

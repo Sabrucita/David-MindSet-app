@@ -1,16 +1,63 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { hideModal } from '../../../redux/modal/actions';
+import { capitalize, removeLastChar } from '../../helpers';
 import styles from './modal.module.css';
 
-function Modal({ acceptModalFn, closeModalFn }) {
-  // { showModal, type, content, acceptModalFn, closeModalFn, titleModal }
-  const showModal = useSelector((store) => store.modal.show);
+function Modal({ acceptModalFn, history }) {
+  const dispatch = useDispatch();
+  const show = useSelector((store) => store.modal.show);
+  const resource = useSelector((store) => store.modal.resource);
   const type = useSelector((store) => store.modal.type);
-  const titleModal = useSelector((store) => store.modal.title);
   const content = useSelector((store) => store.modal.content);
+  const [title, setTitle] = useState(' ');
 
-  let dataContent = [];
+  let dataContent = [],
+    modalContent;
+
+  useEffect(() => {
+    switch (type) {
+      case 'create':
+        setTitle(`${removeLastChar(capitalize(resource))} created!`);
+        break;
+      case 'update':
+        setTitle(`${removeLastChar(capitalize(resource))} updated!`);
+        break;
+      case 'delete':
+        setTitle(
+          `Are you sure that you want to delete this ${removeLastChar(capitalize(resource))}?`
+        );
+        break;
+      case 'deleting':
+        setTitle(`Deleting...`);
+        break;
+      case 'deleted':
+        setTitle(`${removeLastChar(capitalize(resource))} deleted!`);
+        break;
+      case 'viewMore':
+        setTitle(`${removeLastChar(capitalize(resource))} information:`);
+        break;
+      case 'error':
+        setTitle(`Ups an error has happened...`);
+        break;
+    }
+  }, [type]);
+
+  useEffect(() => {
+    return () => {
+      console.log('cleanup');
+      dispatch(hideModal());
+    };
+  }, []);
+
+  const closeModalFn = () => {
+    dispatch(hideModal());
+    history.push(`/${resource}`);
+  };
 
   if (type === 'error') {
+    modalContent = content;
     for (const property in content) {
       dataContent.push(content[property]);
     }
@@ -18,17 +65,20 @@ function Modal({ acceptModalFn, closeModalFn }) {
     for (const property in content) {
       dataContent.push(`${property} : ${content[property]} `);
     }
+    modalContent = (
+      <ul>
+        {dataContent.map((element) => {
+          return <li key={element.id}>{element}</li>;
+        })}
+      </ul>
+    );
   }
 
   return (
-    <div className={`${styles.container} ${!showModal ? styles.hidden : ''}`}>
+    <div className={`${styles.container} ${!show ? styles.hidden : ''}`}>
       <div className={styles.modal}>
-        <h2>{titleModal}</h2>
-        <ul>
-          {dataContent.map((element) => {
-            return <li key={element.id}>{element}</li>;
-          })}
-        </ul>
+        <h2>{title}</h2>
+        {modalContent}
         <div className={styles.buttonModal}>
           {type === 'delete' && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
@@ -40,7 +90,7 @@ function Modal({ acceptModalFn, closeModalFn }) {
               CANCEL
             </button>
           )}
-          {(type === 'create' || type === 'update' || type === 'viewMore' || type === 'error') && (
+          {type !== 'delete' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>
@@ -51,4 +101,4 @@ function Modal({ acceptModalFn, closeModalFn }) {
   );
 }
 
-export default Modal;
+export default withRouter(Modal);

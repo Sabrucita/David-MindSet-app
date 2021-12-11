@@ -1,31 +1,20 @@
-import {
-  SHOW_MODAL_SUCCESS,
-  SHOW_MODAL_DELETE,
-  SHOW_MODAL_ERROR,
-  HIDE_MODAL
-} from '../../constants';
+import { SHOW_MODAL, HIDE_MODAL, UPDATE_MODAL } from '../../constants';
 
-export const showSuccessModal = (type, title, content) => {
+export const showModal = (resource, type, content) => {
   return {
-    type: SHOW_MODAL_SUCCESS,
+    type: SHOW_MODAL,
     payload: {
+      resource,
       type,
-      title,
       content
     }
   };
 };
-export const showDeleteModal = () => {
+export const updateModal = (type, content) => {
   return {
-    type: SHOW_MODAL_DELETE
-  };
-};
-export const showErrorModal = (type, title, content) => {
-  return {
-    type: SHOW_MODAL_ERROR,
+    type: UPDATE_MODAL,
     payload: {
       type,
-      title,
       content
     }
   };

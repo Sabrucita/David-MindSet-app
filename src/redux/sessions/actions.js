@@ -17,7 +17,8 @@ import {
   UPDATE_SESSION_REJECTED,
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
-  DELETE_SESSION_REJECTED
+  DELETE_SESSION_REJECTED,
+  SESSIONS_CLEANUP
 } from '../../constants';
 
 // GET SESSIONS
@@ -140,5 +141,12 @@ export const deleteSessionRejected = (payload) => {
   return {
     type: DELETE_SESSION_REJECTED,
     payload
+  };
+};
+
+// CLEANUP
+export const sessionsCleanup = () => {
+  return {
+    type: SESSIONS_CLEANUP
   };
 };

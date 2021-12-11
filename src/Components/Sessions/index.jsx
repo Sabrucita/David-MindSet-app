@@ -6,66 +6,49 @@ import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
-import { hideModal, showDeleteModal } from '../../redux/modal/actions';
+import { hideModal, showModal } from '../../redux/modal/actions';
+import { sessionsCleanup } from '../../redux/sessions/actions';
 
 function Sessions() {
   const dispatch = useDispatch();
   const sessions = useSelector((store) => store.sessions);
+  const modal = useSelector((state) => state.modal.show);
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
   const [selectedItem, setSelectedItem] = useState('');
-
-  const tableHeader = ['Candidate', 'Psychologist', 'Date', 'Action'];
 
   useEffect(() => {
     dispatch(getSessions());
   }, [dispatch]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(sessionsCleanup());
+    };
+  }, []);
+
   const deleteItem = () => {
     dispatch(deleteSession(selectedItem.id));
-    dispatch(hideModal());
-    // setShowModal(false);
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showDeleteModal());
-    // setModalType(type);
-    // setModalTitle(title);
-    // setShowModal(true);
+    dispatch(showModal('sessions', type));
   };
 
-  const closeModalFn = () => {
+  const closeModal = () => {
     dispatch(hideModal());
-    // setShowModal(false);
-  };
-
-  const showErrorMsg = (data) => {
-    setModalType('error');
-    setModalTitle('Upsss an error has happened');
-    setSelectedItem(data);
-    setShowModal(true);
   };
 
   return (
     <>
-      <Modal
-        // showModal={showModal}
-        // type={modalType}
-        // titleModal={modalTitle}
-        // content={selectedItem}
-        closeModalFn={closeModalFn}
-        acceptModalFn={deleteItem}
-      />
+      {modal && <Modal closeModalFn={closeModal} acceptModalFn={deleteItem} />}
       <section className={styles.container}>
         <h1 className={styles.mainTitle}>Sessions</h1>
         {sessions.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={sessions.list} header={tableHeader} openModal={openModal} />
+            <List data={sessions.list} openModal={openModal} />
             <Link to="/sessions/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD SESSION</span>
             </Link>

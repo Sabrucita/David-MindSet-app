@@ -18,7 +18,8 @@ import {
   UPDATE_SESSION_REJECTED,
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
-  DELETE_SESSION_REJECTED
+  DELETE_SESSION_REJECTED,
+  SESSIONS_CLEANUP
 } from '../../constants';
 
 const initialState = {
@@ -81,6 +82,15 @@ const sessionsReducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
+
+    // SESSIONS CLEANUP
+    case SESSIONS_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: { error: false, msg: '' }
+      };
 
     // GET OPTIONS
     case GET_SESSIONS_OPTIONS_FETCHING:

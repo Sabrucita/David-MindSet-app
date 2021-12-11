@@ -6,9 +6,10 @@ export const capitalize = (str) => {
   return words.join(' ');
 };
 
-export const removeLastChar = (str) => str.substr(0, str.length - 1);
-
-export const fixCompaniesTitle = (str) => str.substr(0, str.length - 3) + 'y';
+export const removeLastChar = (str) => {
+  if (str === 'companies') return 'company';
+  return str.substr(0, str.length - 1);
+};
 
 export const formatDate = (element, fullDate = true) => {
   let dateLong = new Date(element);

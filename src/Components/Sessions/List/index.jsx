@@ -2,7 +2,9 @@ import ListItem from '../../shared/ListItem';
 import { capitalize, formatDate } from '../../helpers';
 import styles from './list.module.css';
 
-function List({ data, header, openModal }) {
+function List({ data, openModal }) {
+  const header = ['Candidate', 'Psychologist', 'Date', 'Action'];
+
   const fillDataTable = (element) => {
     const dataTable = {
       candidate: element.idCandidate
