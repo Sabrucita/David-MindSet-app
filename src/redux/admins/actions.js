@@ -13,7 +13,9 @@ import {
   UPDATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
-  DELETE_ADMIN_REJECTED
+  DELETE_ADMIN_REJECTED,
+  UPDATE_SELECTED_ADMIN,
+  CLEAN_SELECTED_ELEMENT
 } from '../../constants';
 
 //Get all admins
@@ -125,3 +127,16 @@ export const deleteAdminRejected = (payload) => {
     payload
   };
 };
+
+//Update selected admin
+export const updateSelectedAdmin = (field, value) => {
+  return {
+    type: UPDATE_SELECTED_ADMIN,
+    payload: { field, value }
+  };
+};
+
+//Clean selected element
+export const cleanSelectedElement = () => ({
+  type: CLEAN_SELECTED_ELEMENT
+});

@@ -3,43 +3,28 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAdmin, updateAdmin } from '../../../redux/applications/thunks';
+import { createAdmin, updateAdmin, getAdmin } from '../../../redux/admins/thunks';
+import { updateSelectedAdmin, cleanSelectedElement } from '../../../redux/admins/actions';
 import { hideModal } from '../../../redux/modal/actions';
 
 function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [disableProperty, setDisableProperty] = useState(true);
-
   const dispatch = useDispatch();
-  const showModal = useSelector((store) => store.modal.show);
   const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
+  const formData = useSelector((store) => store.admins.selectedElement);
+  const [disableProperty, setDisableProperty] = useState(false);
 
-  const url = process.env.REACT_APP_API;
   const id = match.params.id;
   let operation;
-
-  const resource = 'administrators';
 
   if (id) operation = 'update';
   else operation = 'create';
 
   useEffect(() => {
+    dispatch(cleanSelectedElement());
     if (operation === 'update') {
-      fetch(`${url}/${resource}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password
-          };
-          setFormData(currentData);
-        });
+      dispatch(getAdmin(id));
     }
-  }, []);
+  }, [dispatch]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -53,22 +38,24 @@ function Form({ match, history }) {
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
+    dispatch(updateSelectedAdmin(field, value));
   };
 
   const closeModalFn = () => {
     dispatch(hideModal());
     if (modalType !== 'error') {
-      history.push('/adminsitrators');
+      history.push('/administrators');
     }
   };
 
   return (
     <>
       <section className={styles.container}>
-        {!id ? <h1>Add admin</h1> : <h1>Edit admin</h1>}
+        {operation === 'create' ? (
+          <h1 className={styles.mainTitle}>Add new admin</h1>
+        ) : (
+          <h1 className={styles.mainTitle}>Edit admin</h1>
+        )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
@@ -113,22 +100,16 @@ function Form({ match, history }) {
           />
           <div className={styles.btnContainer}>
             <button
-              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-              type="submit"
+              className={(styles.buttonAdd, styles.buttonGreen)}
               disabled={disableProperty}
+              Addtype="submit"
             >
-              Submit
+              SUBMIT ADMINISTRATOR
             </button>
           </div>
         </form>
-        <Modal
-          showModal={showModal}
-          type={modalType}
-          titleModal={modalTitle}
-          content={modalContent}
-          closeModalFn={closeModalFn}
-        />
       </section>
+      <Modal closeModalFn={closeModalFn} />
     </>
   );
 }

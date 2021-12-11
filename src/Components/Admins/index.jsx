@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import { deleteAdmin, getAdmins } from '../../redux/admins/thunks';
-import { useSelector, useDispatch } from 'react-redux';
 import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
+import { deleteAdmin, getAdmins } from '../../redux/admins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
 import { hideModal, showModal } from '../../redux/modal/actions';
+import { cleanSelectedElement } from '../../redux/admins/actions';
 
 function Admins() {
-  const [selectedItem, setSelectedItem] = useState();
-  // Make the dispatcher capable of dispatching Redux actions
   const dispatch = useDispatch();
   const admins = useSelector((store) => store.admins);
-  const displayModal = useSelector((store) => store.modal.show);
-  const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
+  const [selectedItem, setSelectedItem] = useState();
 
+  //Get info from DB
   useEffect(() => {
+    dispatch(cleanSelectedElement());
     dispatch(getAdmins());
   }, [dispatch]);
 
@@ -41,22 +40,15 @@ function Admins() {
   return (
     <>
       <section className={styles.container}>
-        <Modal
-          showModal={displayModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={modalType}
-          titleModal={modalTitle}
-        />
-        <h1 className={styles.h1}>Admins</h1>
+        <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
+        <h1 className={styles.h1}>Administrators</h1>
         {admins.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={admins} header={tableHeader} openModal={openModal} />
+            <List data={admins.list} header={tableHeader} openModal={openModal} />
             <Link to="/administrators/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>ADD ADMIN</span>
+              <span className={styles.buttonGreen}>ADD ADMINISTRATORS</span>
             </Link>
           </>
         )}

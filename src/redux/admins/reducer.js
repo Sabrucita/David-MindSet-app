@@ -13,7 +13,9 @@ import {
   UPDATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
-  DELETE_ADMIN_REJECTED
+  DELETE_ADMIN_REJECTED,
+  UPDATE_SELECTED_ADMIN,
+  CLEAN_SELECTED_ELEMENT
 } from '../../constants';
 
 const initialState = {
@@ -26,12 +28,11 @@ const initialState = {
 
 const adminsReducer = (state = initialState, action) => {
   switch (action.type) {
-    //Admins reducer: Get all admins part
+    //Get all admins
     case GET_ADMINS_FETCHING:
       return {
         ...state,
-        isFetching: true,
-        error: { error: false, msg: '' }
+        isFetching: true
       };
     case GET_ADMINS_FULFILLED:
       return {
@@ -45,13 +46,12 @@ const adminsReducer = (state = initialState, action) => {
         isFetching: false,
         error: { error: true, msg: action.payload }
       };
-    //Admins reducer: Get admins by ID part
+    //Get only one admin (by ID)
     case GET_ADMIN_FETCHING:
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' },
-        selectedElement: initialState.selectedItem
+        error: { error: false, msg: '' }
       };
     case GET_ADMIN_FULFILLED:
       return {
@@ -63,20 +63,18 @@ const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: action.payload
       };
-    //Admins reducer: Create admin
+    //Add a new admin
     case CREATE_ADMIN_FETCHING:
       return {
         ...state,
-        isFetching: true,
-        error: { error: false, msg: '' }
+        isFetching: true
       };
     case CREATE_ADMIN_FULFILLED:
       return {
         ...state,
-        isFetching: false,
-        list: [...state.list, action.payload]
+        isFetching: false
       };
     case CREATE_ADMIN_REJECTED:
       return {
@@ -84,26 +82,16 @@ const adminsReducer = (state = initialState, action) => {
         isFetching: false,
         error: { error: true, msg: action.payload }
       };
-    //Admins reducer: Update admin
+    //Update an admin
     case UPDATE_ADMIN_FETCHING:
       return {
         ...state,
-        isFetching: true,
-        error: { error: false, msg: '' }
+        isFetching: true
       };
     case UPDATE_ADMIN_FULFILLED:
       return {
         ...state,
         isFetching: false
-        /*
-        list: state.list.map((item) => {
-          if (item._id === action.payload._id) {
-            return action.payload;
-          }
-          return item;
-        })
-      };
-      */
       };
     case UPDATE_ADMIN_REJECTED:
       return {
@@ -111,7 +99,7 @@ const adminsReducer = (state = initialState, action) => {
         isFetching: false,
         error: { error: true, msg: action.payload }
       };
-    //Admins reducer: Delete admin
+    //Delete one admin
     case DELETE_ADMIN_FETCHING:
       return {
         ...state,
@@ -129,6 +117,18 @@ const adminsReducer = (state = initialState, action) => {
         isFetching: false,
         error: { error: true, msg: action.payload }
       };
+    //Update selected admin
+    case UPDATE_SELECTED_ADMIN: {
+      const newState = { ...state.selectedElement };
+      newState[action.payload.field] = action.payload.value;
+      return {
+        ...state,
+        selectedElement: newState
+      };
+    }
+    // Clean selected element
+    case CLEAN_SELECTED_ELEMENT:
+      return { ...state, selectedElement: '' };
     //Default
     default:
       return state;
