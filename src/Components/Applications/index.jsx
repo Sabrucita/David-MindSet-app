@@ -14,10 +14,6 @@ function Applications() {
 
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.applications);
-  const showModalS = useSelector((store) => store.modal.show);
-  const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
 
   useEffect(() => {
     dispatch(getApplications());
@@ -43,14 +39,7 @@ function Applications() {
 
   return (
     <>
-      <Modal
-        showModal={showModalS}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={modalContent}
-        type={modalType}
-        titleModal={modalTitle}
-      />
+      <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
       <section className={styles.container}>
         <h1>Applications</h1>
         {applications.isFetching ? (

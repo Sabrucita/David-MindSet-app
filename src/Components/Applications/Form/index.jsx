@@ -16,10 +16,7 @@ function Form({ match, history }) {
   const [disableProperty, setDisableProperty] = useState(false);
 
   const dispatch = useDispatch();
-  const showModal = useSelector((store) => store.modal.show);
   const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
   const formData = useSelector((store) => store.applications.selectedElement);
   const options = useSelector((store) => store.applications.options);
 
@@ -61,13 +58,7 @@ function Form({ match, history }) {
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={modalTitle}
-      />
+      <Modal closeModalFn={closeModalFn} />
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Application</h1>
