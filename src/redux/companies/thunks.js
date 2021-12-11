@@ -55,7 +55,7 @@ export const deleteCompany = (id) => {
       })
       .catch((err) => {
         dispatch(deleteCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -119,16 +119,14 @@ export const createCompany = (company) => {
       .then(async (res) => {
         if (res.status === 201) {
           const data = await res.json();
-          console.log(data);
           dispatch(createCompanyFulfilled(data));
           return dispatch(showModal('create', 'Company Created', data.data));
         }
         throw new Error(`HTTP ${res.status}`);
       })
       .catch((err) => {
-        console.log(err);
         dispatch(createCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
@@ -156,7 +154,7 @@ export const updateCompany = (id, obj) => {
       })
       .catch((err) => {
         dispatch(updateCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', err));
+        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
       });
   };
 };
