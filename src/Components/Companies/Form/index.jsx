@@ -31,6 +31,7 @@ function Form({ match, history }) {
 
   const submitForm = (e) => {
     e.preventDefault();
+    dispatch(cleanSelectedElement());
     setDisableProperty(true);
     if (operation === 'create') {
       dispatch(createCompany(formData));

@@ -92,13 +92,26 @@ export const getCompany = (id) => {
 
 //CREATE COMPANY
 
-export const createCompany = (obj) => {
+export const createCompany = (company) => {
   return (dispatch) => {
     dispatch(createCompanyFetching());
     dispatch(showModal('fetching', 'Creating Company', { info: 'Loading...' }));
     fetch(`${url}/companies`, {
       method: 'POST',
-      body: JSON.stringify(obj),
+      body: JSON.stringify({
+        name: company.name,
+        address: company.address,
+        city: company.city,
+        province: company.province,
+        country: company.country,
+        zipCode: parseInt(company.zipCode),
+        phone: parseInt(company.phone),
+        email: company.email,
+        pictureUrl: company.pictureUrl,
+        contactFullName: company.contactFullName,
+        contactPhone: parseInt(company.contactPhone),
+        isActive: company.isActive
+      }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -106,12 +119,14 @@ export const createCompany = (obj) => {
       .then(async (res) => {
         if (res.status === 201) {
           const data = await res.json();
+          console.log(data);
           dispatch(createCompanyFulfilled(data));
           return dispatch(showModal('create', 'Company Created', data.data));
         }
         throw new Error(`HTTP ${res.status}`);
       })
       .catch((err) => {
+        console.log(err);
         dispatch(createCompanyRejected(err));
         dispatch(showModal('error', 'Upsss an error has happened', err));
       });
