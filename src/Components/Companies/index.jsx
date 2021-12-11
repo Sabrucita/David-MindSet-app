@@ -7,6 +7,7 @@ import Preloader from '../shared/Preloader/index';
 import { deleteCompany, getCompanies } from '../../redux/companies/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideModal, showModal } from '../../redux/modal/actions';
+import { cleanSelectedElement } from '../../redux/companies/actions';
 
 function Companies() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Companies() {
 
   //Get info from DB
   useEffect(() => {
+    dispatch(cleanSelectedElement());
     dispatch(getCompanies());
   }, [dispatch]);
 
