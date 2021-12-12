@@ -1,5 +1,5 @@
 import { url } from '../../constants';
-import { showModal } from '../modal/actions';
+import { showModal, updateModal } from '../modal/actions';
 
 import {
   getApplicationFetching,
@@ -42,7 +42,7 @@ export const getApplication = (id) => {
       })
       .catch((err) => {
         dispatch(getApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('applications', 'error', err.message));
       });
   };
 };
@@ -62,7 +62,7 @@ export const getApplications = () => {
       })
       .catch((err) => {
         dispatch(getApplicationsRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('applications', 'error', err.message));
       });
   };
 };
@@ -71,7 +71,7 @@ export const getApplications = () => {
 export const deleteApplication = (id) => {
   return (dispatch) => {
     dispatch(deleteApplicationFetching());
-    dispatch(showModal('fetching', 'Deleting Application', { info: 'Loading...' }));
+    dispatch(updateModal('fetching', { info: 'Loading...' }));
     fetch(`${url}/applications/${id}`, {
       method: 'DELETE'
     })
@@ -79,15 +79,14 @@ export const deleteApplication = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteApplicationFulfilled(data));
-          //I used the create type to stop showing the accept button.
-          return dispatch(showModal('create', 'Application Deleted', data.data));
+          return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();
         throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(deleteApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -96,7 +95,7 @@ export const deleteApplication = (id) => {
 export const createApplication = (obj) => {
   return (dispatch) => {
     dispatch(createApplicationFetching());
-    dispatch(showModal('fetching', 'Creating Application', { info: 'Loading...' }));
+    dispatch(showModal('applications', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/applications`, {
       method: 'POST',
       body: JSON.stringify(obj),
@@ -108,14 +107,14 @@ export const createApplication = (obj) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createApplicationFulfilled(data));
-          return dispatch(showModal('create', 'Application Created', data.data));
+          return dispatch(updateModal('created', data.data));
         }
         const data = await res.json();
         throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(createApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -124,7 +123,7 @@ export const createApplication = (obj) => {
 export const updateApplication = (id, obj) => {
   return (dispatch) => {
     dispatch(updateApplicationFetching());
-    dispatch(showModal('fetching', 'Updating Application', { info: 'Loading...' }));
+    dispatch(showModal('applications', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/applications/${id}`, {
       method: 'PUT',
       body: JSON.stringify(obj),
@@ -136,14 +135,14 @@ export const updateApplication = (id, obj) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateApplicationFulfilled(data));
-          return dispatch(showModal('update', 'Application Updated', data.data));
+          return dispatch(updateModal('updated', data.data));
         }
         const data = await res.json();
         throw new Error(data.msg);
       })
       .catch((err) => {
         dispatch(updateApplicationRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -163,7 +162,7 @@ export const getApplicationsOptions = (resource) => {
       })
       .catch((err) => {
         dispatch(getApplicationsOptionsRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('applications', 'error', err.message));
       });
   };
 };

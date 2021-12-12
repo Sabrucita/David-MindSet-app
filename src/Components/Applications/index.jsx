@@ -6,28 +6,34 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteApplication, getApplications } from '../../redux/applications/thunks';
-import { cleanSelectedElement } from '../../redux/applications/actions';
 import { hideModal, showModal } from '../../redux/modal/actions';
+import { applicationsCleanUp } from '../../redux/applications/actions';
 
 function Applications() {
   const [selectedItem, setSelectedItem] = useState();
 
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.applications);
+  const modal = useSelector((state) => state.modal.show);
 
   useEffect(() => {
     dispatch(getApplications());
-    dispatch(cleanSelectedElement());
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(applicationsCleanUp());
+    };
+  }, []);
 
   //MODAL
   const closeModal = () => {
     dispatch(hideModal());
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal(type, title, item));
+    dispatch(showModal('applications', type, item));
   };
 
   //MODAL CONFIRM DELETE
@@ -39,7 +45,7 @@ function Applications() {
 
   return (
     <>
-      <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
+      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1>Applications</h1>
         {applications.isFetching ? (

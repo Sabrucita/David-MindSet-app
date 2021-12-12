@@ -9,14 +9,15 @@ import {
   getApplication,
   getApplicationsOptions
 } from '../../../redux/applications/thunks';
-import { updateSelectedApplication } from '../../../redux/applications/actions';
-import { hideModal } from '../../../redux/modal/actions';
+import {
+  updateSelectedApplication,
+  applicationsCleanUp
+} from '../../../redux/applications/actions';
 
-function Form({ match, history }) {
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
 
   const dispatch = useDispatch();
-  const modalType = useSelector((store) => store.modal.type);
   const formData = useSelector((store) => store.applications.selectedElement);
   const options = useSelector((store) => store.applications.options);
 
@@ -34,6 +35,12 @@ function Form({ match, history }) {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(applicationsCleanUp());
+    };
+  }, []);
+
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
@@ -49,16 +56,9 @@ function Form({ match, history }) {
     dispatch(updateSelectedApplication(field, value));
   };
 
-  const closeModalFn = () => {
-    dispatch(hideModal());
-    if (modalType !== 'error') {
-      history.push('/applications');
-    }
-  };
-
   return (
     <>
-      <Modal closeModalFn={closeModalFn} />
+      <Modal />
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Application</h1>

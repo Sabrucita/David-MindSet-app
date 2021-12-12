@@ -4,7 +4,7 @@ import {
   GET_APPLICATION_FULFILLED,
   GET_APPLICATION_REJECTED,
   UPDATE_SELECTED_APPLICATION,
-  CLEAN_SELECTED_ELEMENT,
+  APPLICATIONS_CLEANUP,
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
@@ -60,9 +60,14 @@ const applicationReducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
-    // CLEAN SELECTED ITEM
-    case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: {} };
+    // CLEAN UP
+    case APPLICATIONS_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: { error: false, msg: '' }
+      };
     //GET ALL
     case GET_APPLICATIONS_FETCHING:
       return {

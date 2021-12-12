@@ -15,7 +15,7 @@ import {
   UPDATE_APPLICATION_FETCHING,
   UPDATE_APPLICATION_FULFILLED,
   UPDATE_APPLICATION_REJECTED,
-  CLEAN_SELECTED_ELEMENT,
+  APPLICATIONS_CLEANUP,
   GET_APPLICATIONS_OPTIONS_FETCHING,
   GET_APPLICATIONS_OPTIONS_FULFILLED,
   GET_APPLICATIONS_OPTIONS_REJECTED
@@ -43,8 +43,8 @@ export const updateSelectedApplication = (field, value) => {
     payload: { field, value }
   };
 };
-export const cleanSelectedElement = () => ({
-  type: CLEAN_SELECTED_ELEMENT
+export const applicationsCleanUp = () => ({
+  type: APPLICATIONS_CLEANUP
 });
 
 //GET ALL APPLICATIONS
