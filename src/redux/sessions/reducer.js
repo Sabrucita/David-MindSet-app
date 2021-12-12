@@ -27,7 +27,7 @@ const initialState = {
   list: [],
   selectedElement: {},
   options: { candidates: [], psychologists: [] },
-  error: { error: false, msg: '' }
+  error: false
 };
 
 const sessionsReducer = (state = initialState, action) => {
@@ -38,7 +38,7 @@ const sessionsReducer = (state = initialState, action) => {
         ...state,
         isFetching: true,
         selectedElement: {},
-        error: { error: false, msg: '' }
+        error: false
       };
     case GET_SESSIONS_FULFILLED:
       return {
@@ -50,7 +50,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
 
     // GET SESSION
@@ -58,7 +58,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case GET_SESSION_FULFILLED:
       return {
@@ -70,7 +70,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
 
     // UPDATE SELECTED SESSION
@@ -89,7 +89,7 @@ const sessionsReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         selectedElement: {},
-        error: { error: false, msg: '' }
+        error: false
       };
 
     // GET OPTIONS
@@ -116,7 +116,7 @@ const sessionsReducer = (state = initialState, action) => {
     case GET_SESSIONS_OPTIONS_REJECTED:
       return {
         ...state,
-        error: action.payload
+        error: true
       };
 
     // CREATE SESSIONS
@@ -124,7 +124,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case CREATE_SESSION_FULFILLED:
       return {
@@ -136,7 +136,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
 
     // UPDATE SESSIONS
@@ -144,7 +144,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case UPDATE_SESSION_FULFILLED:
       return {
@@ -156,7 +156,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
 
     // DELETE SESSION
@@ -164,7 +164,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case DELETE_SESSION_FULFILLED:
       return {
@@ -176,7 +176,7 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
     default:
       return state;

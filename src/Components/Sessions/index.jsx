@@ -12,7 +12,7 @@ import { sessionsCleanup } from '../../redux/sessions/actions';
 function Sessions() {
   const dispatch = useDispatch();
   const sessions = useSelector((store) => store.sessions);
-  const modal = useSelector((state) => state.modal.show);
+  const modal = useSelector((store) => store.modal.show);
 
   const [selectedItem, setSelectedItem] = useState('');
 
@@ -32,16 +32,12 @@ function Sessions() {
 
   const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal('sessions', type));
-  };
-
-  const closeModal = () => {
-    dispatch(hideModal());
+    dispatch(showModal('sessions', type, item));
   };
 
   return (
     <>
-      {modal && <Modal closeModalFn={closeModal} acceptModalFn={deleteItem} />}
+      {modal && <Modal acceptModalFn={deleteItem} />}
       <section className={styles.container}>
         <h1 className={styles.mainTitle}>Sessions</h1>
         {sessions.isFetching ? (

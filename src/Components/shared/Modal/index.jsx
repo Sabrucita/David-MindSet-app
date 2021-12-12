@@ -7,11 +7,10 @@ import styles from './modal.module.css';
 
 function Modal({ acceptModalFn, history }) {
   const dispatch = useDispatch();
-  const show = useSelector((store) => store.modal.show);
   const resource = useSelector((store) => store.modal.resource);
   const type = useSelector((store) => store.modal.type);
   const content = useSelector((store) => store.modal.content);
-  const [title, setTitle] = useState(' ');
+  const [title, setTitle] = useState('');
 
   let dataContent = [],
     modalContent;
@@ -29,8 +28,8 @@ function Modal({ acceptModalFn, history }) {
           `Are you sure that you want to delete this ${removeLastChar(capitalize(resource))}?`
         );
         break;
-      case 'deleting':
-        setTitle(`Deleting...`);
+      case 'fetching':
+        setTitle(`Please wait...`);
         break;
       case 'deleted':
         setTitle(`${removeLastChar(capitalize(resource))} deleted!`);
@@ -53,7 +52,9 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    history.push(`/${resource}`);
+    if (type === 'create' || type === 'update') {
+      history.push(`/${resource}`);
+    }
   };
 
   if (type === 'error') {
@@ -75,7 +76,7 @@ function Modal({ acceptModalFn, history }) {
   }
 
   return (
-    <div className={`${styles.container} ${!show ? styles.hidden : ''}`}>
+    <div className={styles.container}>
       <div className={styles.modal}>
         <h2>{title}</h2>
         {modalContent}
@@ -90,7 +91,7 @@ function Modal({ acceptModalFn, history }) {
               CANCEL
             </button>
           )}
-          {type !== 'delete' && (
+          {type !== 'delete' && type !== 'fetching' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>

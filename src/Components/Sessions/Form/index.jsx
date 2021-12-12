@@ -15,6 +15,7 @@ function Form({ match }) {
   const dispatch = useDispatch();
   const options = useSelector((store) => store.sessions.options);
   const formData = useSelector((store) => store.sessions.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
   const [disableProperty, setDisableProperty] = useState(true);
 
@@ -61,7 +62,7 @@ function Form({ match }) {
 
   return (
     <>
-      <Modal />
+      {modal && <Modal />}
       <section className={styles.container}>
         {!id ? (
           <h1 className={styles.mainTitle}>Create Session</h1>

@@ -33,10 +33,9 @@ export const getSessionsFulfilled = (payload) => {
     payload
   };
 };
-export const getSessionsRejected = (payload) => {
+export const getSessionsRejected = () => {
   return {
-    type: GET_SESSIONS_REJECTED,
-    payload
+    type: GET_SESSIONS_REJECTED
   };
 };
 
@@ -52,10 +51,9 @@ export const getSessionFulfilled = (payload) => {
     payload
   };
 };
-export const getSessionRejected = (payload) => {
+export const getSessionRejected = () => {
   return {
-    type: GET_SESSION_REJECTED,
-    payload
+    type: GET_SESSION_REJECTED
   };
 };
 
@@ -80,10 +78,9 @@ export const getSessionsOptionsFulfilled = (resource, payload) => {
     payload
   };
 };
-export const getSessionsOptionsRejected = (payload) => {
+export const getSessionsOptionsRejected = () => {
   return {
-    type: GET_SESSIONS_OPTIONS_REJECTED,
-    payload
+    type: GET_SESSIONS_OPTIONS_REJECTED
   };
 };
 
@@ -99,10 +96,9 @@ export const createSessionFulfilled = (payload) => {
     payload
   };
 };
-export const createSessionRejected = (payload) => {
+export const createSessionRejected = () => {
   return {
-    type: CREATE_SESSION_REJECTED,
-    payload
+    type: CREATE_SESSION_REJECTED
   };
 };
 
@@ -118,10 +114,9 @@ export const updateSessionFulfilled = (payload) => {
     payload
   };
 };
-export const updateSessionRejected = (payload) => {
+export const updateSessionRejected = () => {
   return {
-    type: UPDATE_SESSION_REJECTED,
-    payload
+    type: UPDATE_SESSION_REJECTED
   };
 };
 
@@ -137,10 +132,9 @@ export const deleteSessionFulfilled = (payload) => {
     payload
   };
 };
-export const deleteSessionRejected = (payload) => {
+export const deleteSessionRejected = () => {
   return {
-    type: DELETE_SESSION_REJECTED,
-    payload
+    type: DELETE_SESSION_REJECTED
   };
 };
 
