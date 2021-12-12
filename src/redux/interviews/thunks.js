@@ -80,8 +80,8 @@ export const deleteInterview = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteInterviewFulfilled(data));
-          data.data.idCompany = data.data.idCompany.name;
-          data.data.idCandidate = `${data.data.idCandidate.firstName} ${data.data.idCandidate.lastName}`;
+          data.data.idCompany = data.data.idCompany._id;
+          data.data.idCandidate = data.data.idCandidate._id;
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();
@@ -97,7 +97,7 @@ export const deleteInterview = (id) => {
 //CREATE INTERVIEW
 export const createInterview = (obj) => {
   return (dispatch) => {
-    // obj.status = true;
+    obj.status = true;
     dispatch(createInterviewFetching());
     dispatch(showModal('interviews', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/interviews`, {
@@ -139,6 +139,8 @@ export const updateInterview = (id, obj) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateInterviewFulfilled(data));
+          data.data.idCompany = data.data.idCompany._id;
+          data.data.idCandidate = data.data.idCandidate._id;
           return dispatch(updateModal('update', data.data));
         }
         const data = await res.json();

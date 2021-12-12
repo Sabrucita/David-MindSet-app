@@ -17,6 +17,7 @@ function Form({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.interviews.selectedElement);
   const options = useSelector((store) => store.interviews.options);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -55,7 +56,7 @@ function Form({ match }) {
 
   return (
     <>
-      <Modal />
+      {modal && <Modal />}
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Interview</h1>

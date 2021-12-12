@@ -45,7 +45,6 @@ function Modal({ acceptModalFn, history }) {
 
   useEffect(() => {
     return () => {
-      console.log('cleanup');
       dispatch(hideModal());
     };
   }, []);
