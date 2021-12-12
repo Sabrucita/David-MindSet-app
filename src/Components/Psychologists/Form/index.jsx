@@ -2,125 +2,67 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPsychologist,
+  updatePsychologist,
+  getPsychologist
+} from '../../../redux/psychologists/thunks';
+import {
+  updateSelectedPsychologist,
+  cleanSelectedElement
+} from '../../../redux/psychologists/actions';
+import { hideModal } from '../../../redux/modal/actions';
 
 function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [disableProperty, setDisableProperty] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContent, setModalContent] = useState();
+  const dispatch = useDispatch();
+  const modalType = useSelector((store) => store.modal.type);
+  const formData = useSelector((store) => store.psychologists.selectedElement);
+  const [disableProperty, setDisableProperty] = useState(false);
 
-  const url = process.env.REACT_APP_API;
   const id = match.params.id;
+  let operation;
 
-  const resource = 'psychologists';
+  if (id) operation = 'update';
+  else operation = 'create';
 
   useEffect(() => {
-    if (id) {
-      fetch(`${url}/${resource}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password,
-            pictureURL: data.pictureURL,
-            turns: data.turns
-          };
-          setFormData(currentData);
-          setDisableProperty(false);
-        })
-        .catch((err) => {
-          msgError(err);
-        });
+    dispatch(cleanSelectedElement());
+    if (operation === 'update') {
+      dispatch(getPsychologist(id));
     }
-  }, []);
+  }, [dispatch]);
 
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    if (!id) {
-      fetch(`${url}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setModalTitle('New psychologist added');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+    if (operation === 'create') {
+      dispatch(createPsychologist(formData));
     } else {
-      fetch(`${url}/${resource}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setModalTitle('Psychologist Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(updatePsychologist(id, formData));
     }
+    setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
-    validateFields();
-  };
-
-  const validateFields = () => {
-    if (!formData.firstName) setDisableProperty(true);
-    else if (!formData.lastName) setDisableProperty(true);
-    else if (!formData.email) setDisableProperty(true);
-    else if (!formData.password) setDisableProperty(true);
-    else setDisableProperty(false);
+    dispatch(updateSelectedPsychologist(field, value));
   };
 
   const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
+    dispatch(hideModal());
+    if (modalType !== 'error') {
       history.push('/psychologists');
     }
-  };
-
-  const msgError = (data) => {
-    setModalType('error');
-    setModalTitle('Upsss an error has happened');
-    setModalContent(data);
-    setDisableProperty(false);
   };
 
   return (
     <>
       <section className={styles.container}>
-        {!id ? <h1>Add pyschologist</h1> : <h1>Edit psychogist</h1>}
+        {operation === 'create' ? (
+          <h1 className={styles.mainTitle}>Add new psychologist</h1>
+        ) : (
+          <h1 className={styles.mainTitle}>Edit psychologist</h1>
+        )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
@@ -165,22 +107,16 @@ function Form({ match, history }) {
           />
           <div className={styles.btnContainer}>
             <button
-              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-              type="submit"
+              className={(styles.buttonAdd, styles.buttonGreen)}
               disabled={disableProperty}
+              Addtype="submit"
             >
-              Submit
+              SUBMIT PSYCHOLOGIST
             </button>
           </div>
         </form>
-        <Modal
-          showModal={showModal}
-          type={modalType}
-          titleModal={modalTitle}
-          content={modalContent}
-          closeModalFn={closeModalFn}
-        />
       </section>
+      <Modal closeModalFn={closeModalFn} />
     </>
   );
 }
