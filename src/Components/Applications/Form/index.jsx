@@ -20,6 +20,7 @@ function Form({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.applications.selectedElement);
   const options = useSelector((store) => store.applications.options);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -58,7 +59,7 @@ function Form({ match }) {
 
   return (
     <>
-      <Modal />
+      {modal && <Modal />}
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Application</h1>

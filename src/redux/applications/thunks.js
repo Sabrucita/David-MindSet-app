@@ -41,7 +41,7 @@ export const getApplication = (id) => {
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(getApplicationRejected(err));
+        dispatch(getApplicationRejected());
         dispatch(showModal('applications', 'error', err.message));
       });
   };
@@ -61,7 +61,7 @@ export const getApplications = () => {
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(getApplicationsRejected(err));
+        dispatch(getApplicationsRejected());
         dispatch(showModal('applications', 'error', err.message));
       });
   };
@@ -85,7 +85,7 @@ export const deleteApplication = (id) => {
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(deleteApplicationRejected(err));
+        dispatch(deleteApplicationRejected());
         dispatch(updateModal('error', err.message));
       });
   };
@@ -107,13 +107,13 @@ export const createApplication = (obj) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createApplicationFulfilled(data));
-          return dispatch(updateModal('created', data.data));
+          return dispatch(updateModal('create', data.data));
         }
         const data = await res.json();
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(createApplicationRejected(err));
+        dispatch(createApplicationRejected());
         dispatch(updateModal('error', err.message));
       });
   };
@@ -135,13 +135,13 @@ export const updateApplication = (id, obj) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateApplicationFulfilled(data));
-          return dispatch(updateModal('updated', data.data));
+          return dispatch(updateModal('update', data.data));
         }
         const data = await res.json();
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(updateApplicationRejected(err));
+        dispatch(updateApplicationRejected());
         dispatch(updateModal('error', err.message));
       });
   };
@@ -161,7 +161,7 @@ export const getApplicationsOptions = (resource) => {
         throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(getApplicationsOptionsRejected(err));
+        dispatch(getApplicationsOptionsRejected());
         dispatch(showModal('applications', 'error', err.message));
       });
   };

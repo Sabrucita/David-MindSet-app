@@ -27,7 +27,7 @@ const initialState = {
   list: [],
   selectedElement: {},
   options: { candidates: [], openPositions: [] },
-  error: { error: false, msg: '' }
+  error: false
 };
 
 const applicationReducer = (state = initialState, action) => {
@@ -37,7 +37,7 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case GET_APPLICATION_FULFILLED:
       return {
@@ -49,7 +49,7 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
     //UPDATE 1
     case UPDATE_SELECTED_APPLICATION: {
@@ -66,13 +66,14 @@ const applicationReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         selectedElement: {},
-        error: { error: false, msg: '' }
+        error: false
       };
     //GET ALL
     case GET_APPLICATIONS_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case GET_APPLICATIONS_FULFILLED:
       return {
@@ -84,13 +85,14 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //DELETE
     case DELETE_APPLICATION_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case DELETE_APPLICATION_FULFILLED:
       return {
@@ -102,13 +104,14 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //CREATE
     case CREATE_APPLICATION_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case CREATE_APPLICATION_FULFILLED:
       return {
@@ -120,13 +123,14 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //UPDATE
     case UPDATE_APPLICATION_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case UPDATE_APPLICATION_FULFILLED:
       return {
@@ -138,14 +142,15 @@ const applicationReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
 
     // GET OPTIONS
     case GET_APPLICATIONS_OPTIONS_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case GET_APPLICATIONS_OPTIONS_FULFILLED: {
       let newOptions;
@@ -180,7 +185,7 @@ const applicationReducer = (state = initialState, action) => {
     case GET_APPLICATIONS_OPTIONS_REJECTED:
       return {
         ...state,
-        error: action.payload
+        error: true
       };
     default:
       return state;

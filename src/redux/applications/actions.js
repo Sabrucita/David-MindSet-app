@@ -31,9 +31,8 @@ export const getApplicationFulfilled = (payload) => ({
   payload
 });
 
-export const getApplicationRejected = (payload) => ({
-  type: GET_APPLICATION_REJECTED,
-  payload
+export const getApplicationRejected = () => ({
+  type: GET_APPLICATION_REJECTED
 });
 
 //UPDATE SELECTED APPLICATION
@@ -57,9 +56,8 @@ export const getApplicationsFulfilled = (payload) => ({
   payload
 });
 
-export const getApplicationsRejected = (payload) => ({
-  type: GET_APPLICATIONS_REJECTED,
-  payload
+export const getApplicationsRejected = () => ({
+  type: GET_APPLICATIONS_REJECTED
 });
 
 //DELETE APPLICATION
@@ -72,9 +70,8 @@ export const deleteApplicationFulfilled = (payload) => ({
   payload
 });
 
-export const deleteApplicationRejected = (payload) => ({
-  type: DELETE_APPLICATION_REJECTED,
-  payload
+export const deleteApplicationRejected = () => ({
+  type: DELETE_APPLICATION_REJECTED
 });
 
 //CREATE APPLICATION
@@ -87,9 +84,8 @@ export const createApplicationFulfilled = (payload) => ({
   payload
 });
 
-export const createApplicationRejected = (payload) => ({
-  type: CREATE_APPLICATION_REJECTED,
-  payload
+export const createApplicationRejected = () => ({
+  type: CREATE_APPLICATION_REJECTED
 });
 
 //UPDATE APPLICATION
@@ -102,9 +98,8 @@ export const updateApplicationFulfilled = (payload) => ({
   payload
 });
 
-export const updateApplicationRejected = (payload) => ({
-  type: UPDATE_APPLICATION_REJECTED,
-  payload
+export const updateApplicationRejected = () => ({
+  type: UPDATE_APPLICATION_REJECTED
 });
 
 // GET OPTIONS
@@ -120,9 +115,8 @@ export const getApplicationsOptionsFulfilled = (resource, payload) => {
     payload
   };
 };
-export const getApplicationsOptionsRejected = (payload) => {
+export const getApplicationsOptionsRejected = () => {
   return {
-    type: GET_APPLICATIONS_OPTIONS_REJECTED,
-    payload
+    type: GET_APPLICATIONS_OPTIONS_REJECTED
   };
 };

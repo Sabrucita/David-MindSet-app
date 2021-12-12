@@ -7,11 +7,10 @@ import styles from './modal.module.css';
 
 function Modal({ acceptModalFn, history }) {
   const dispatch = useDispatch();
-  const show = useSelector((store) => store.modal.show);
   const resource = useSelector((store) => store.modal.resource);
   const type = useSelector((store) => store.modal.type);
   const content = useSelector((store) => store.modal.content);
-  const [title, setTitle] = useState(' ');
+  const [title, setTitle] = useState('');
 
   let dataContent = [],
     modalContent;
@@ -35,12 +34,6 @@ function Modal({ acceptModalFn, history }) {
       case 'deleted':
         setTitle(`${removeLastChar(capitalize(resource))} deleted!`);
         break;
-      case 'updated':
-        setTitle(`${removeLastChar(capitalize(resource))} updated!`);
-        break;
-      case 'created':
-        setTitle(`${removeLastChar(capitalize(resource))} created!`);
-        break;
       case 'viewMore':
         setTitle(`${removeLastChar(capitalize(resource))} information:`);
         break;
@@ -58,7 +51,9 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    history.push(`/${resource}`);
+    if (type === 'create' || type === 'update') {
+      history.push(`/${resource}`);
+    }
   };
 
   if (type === 'error') {
@@ -80,7 +75,7 @@ function Modal({ acceptModalFn, history }) {
   }
 
   return (
-    <div className={`${styles.container} ${!show ? styles.hidden : ''}`}>
+    <div className={styles.container}>
       <div className={styles.modal}>
         <h2>{title}</h2>
         {modalContent}

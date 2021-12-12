@@ -2,7 +2,6 @@ import styles from './listItem.module.css';
 import { Link } from 'react-router-dom';
 import { capitalize } from '../../helpers';
 import { removeLastChar } from '../../helpers';
-import { fixCompaniesTitle } from '../../helpers';
 
 function ListItem({ id, dataElement, dataTable, openModal, missingData, resource }) {
   const getDataContent = (data) => {
@@ -14,27 +13,11 @@ function ListItem({ id, dataElement, dataTable, openModal, missingData, resource
   };
 
   const deleteElement = () => {
-    if (resource === 'companies') {
-      const title = `Are you sure that you want to delete this ${fixCompaniesTitle(
-        capitalize(resource)
-      )}?`;
-      openModal(dataElement, 'delete', title);
-    } else {
-      const title = `Are you sure that you want to delete this ${removeLastChar(
-        capitalize(resource)
-      )}?`;
-      openModal(dataElement, 'delete', title);
-    }
+    openModal(dataElement, 'delete');
   };
 
   const viewElement = () => {
-    if (resource === 'companies') {
-      const title = `${fixCompaniesTitle(capitalize(resource))} Information: `;
-      openModal(dataElement, 'viewMore', title);
-    } else {
-      const title = `${removeLastChar(capitalize(resource))} Information: `;
-      openModal(dataElement, 'viewMore', title);
-    }
+    openModal(dataElement, 'viewMore');
   };
 
   return (
