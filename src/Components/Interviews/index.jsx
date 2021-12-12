@@ -4,79 +4,57 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteInterview, getInterviews } from '../../redux/interviews/thunks';
+import { hideModal, showModal } from '../../redux/modal/actions';
+import { interviewsCleanUp } from '../../redux/interviews/actions';
 
 function Interviews() {
-  const [showModal, setShowModal] = useState(false);
-  const [interviews, setInterviews] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
 
-  const url = process.env.REACT_APP_API;
-  //Get app info from DB
+  const dispatch = useDispatch();
+  const interviews = useSelector((store) => store.interviews);
+  const modal = useSelector((state) => state.modal.show);
+
   useEffect(() => {
-    fetch(`${url}/interviews`)
-      .then((response) => response.json())
-      .then((data) => {
-        setInterviews(data);
-        setIsFetching(false);
-      });
+    dispatch(getInterviews());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(interviewsCleanUp());
+    };
   }, []);
 
   //MODAL
   const closeModal = () => {
-    setShowModal(false);
+    dispatch(hideModal());
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('interviews', type, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/interviews/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setInterviews(
-          interviews.filter((element) => {
-            return element._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteInterview(selectedItem.id));
   };
 
   const tableHeader = ['Company	', 'Candidate	', 'Date', 'Status', 'Action'];
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={selectedItem}
-        type={typeModal}
-        titleModal={titleModal}
-      />
+      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1>Interviews</h1>
-        {isFetching ? (
+        {interviews.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={interviews} header={tableHeader} openModal={openModal} />
+            <List data={interviews.list} header={tableHeader} openModal={openModal} />
             <Link to="/interviews/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>ADD APPLICATION</span>
+              <span className={styles.buttonGreen}>ADD INTERVIEW</span>
             </Link>
           </>
         )}
