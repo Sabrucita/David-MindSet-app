@@ -58,7 +58,7 @@ function Modal({ acceptModalFn, history }) {
   };
 
   if (type === 'error') {
-    modalContent = content;
+    modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);
     }
