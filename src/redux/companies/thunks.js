@@ -73,7 +73,7 @@ export const getCompanies = () => {
 export const deleteCompany = (id) => {
   return (dispatch) => {
     dispatch(deleteCompanyFetching());
-    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('companies', 'fetching'));
     fetch(`${url}/companies/${id}`, {
       method: 'DELETE'
     })
@@ -99,7 +99,7 @@ export const deleteCompany = (id) => {
 export const createCompany = (company) => {
   return (dispatch) => {
     dispatch(createCompanyFetching());
-    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('companies', 'fetching'));
     fetch(`${url}/companies`, {
       method: 'POST',
       body: JSON.stringify({
@@ -142,7 +142,7 @@ export const createCompany = (company) => {
 export const updateCompany = (id, company) => {
   return (dispatch) => {
     dispatch(updateCompanyFetching());
-    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('companies', 'fetching'));
     fetch(`${url}/companies/${id}`, {
       method: 'PUT',
       body: JSON.stringify({

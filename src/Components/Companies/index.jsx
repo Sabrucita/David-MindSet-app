@@ -27,9 +27,6 @@ function Companies() {
   }, [dispatch]);
 
   //MODAL
-  const closeModal = () => {
-    dispatch(hideModal());
-  };
 
   const openModal = (item, type) => {
     setSelectedItem(item);
@@ -46,7 +43,7 @@ function Companies() {
   return (
     <>
       <section className={styles.container}>
-        {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Companies</h1>
         {companies.isFetching ? (
           <Preloader />
