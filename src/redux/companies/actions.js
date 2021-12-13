@@ -29,9 +29,8 @@ export const getCompaniesFulfilled = (payload) => ({
   payload
 });
 
-export const getCompaniesRejected = (payload) => ({
-  type: GET_COMPANIES_REJECTED,
-  payload
+export const getCompaniesRejected = () => ({
+  type: GET_COMPANIES_REJECTED
 });
 
 //DELETE COMPANY
@@ -45,9 +44,8 @@ export const deleteCompanyFulfilled = (payload) => ({
   payload
 });
 
-export const deleteCompanyRejected = (payload) => ({
-  type: DELETE_COMPANY_REJECTED,
-  payload
+export const deleteCompanyRejected = () => ({
+  type: DELETE_COMPANY_REJECTED
 });
 
 //CREATE COMPANIES
@@ -61,9 +59,8 @@ export const createCompanyFulfilled = (payload) => ({
   payload
 });
 
-export const createCompanyRejected = (payload) => ({
-  type: CREATE_COMPANY_REJECTED,
-  payload
+export const createCompanyRejected = () => ({
+  type: CREATE_COMPANY_REJECTED
 });
 
 //UPDATE COMPANY
@@ -77,9 +74,8 @@ export const updateCompanyFulfilled = (payload) => ({
   payload
 });
 
-export const updateCompanyRejected = (payload) => ({
-  type: UPDATE_COMPANY_REJECTED,
-  payload
+export const updateCompanyRejected = () => ({
+  type: UPDATE_COMPANY_REJECTED
 });
 
 //GET ONE COMPANY
@@ -92,9 +88,8 @@ export const getCompanyFulfilled = (payload) => ({
   payload
 });
 
-export const getCompanyRejected = (payload) => ({
-  type: GET_COMPANY_REJECTED,
-  payload
+export const getCompanyRejected = () => ({
+  type: GET_COMPANY_REJECTED
 });
 
 //UPDATE SELECTED COMPANY

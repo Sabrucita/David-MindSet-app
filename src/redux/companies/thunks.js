@@ -46,8 +46,7 @@ export const getCompany = (id) => {
         }
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getCompanyRejected(error));
+        dispatch(getCompanyRejected(err));
       });
   };
 };
@@ -62,8 +61,7 @@ export const getCompanies = () => {
         dispatch(getCompaniesFulfilled(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getCompaniesRejected(error));
+        dispatch(getCompaniesRejected(err));
       });
   };
 };
@@ -87,8 +85,7 @@ export const deleteCompany = (id) => {
         dispatch(updateCompanyRejected(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err.message };
-        dispatch(deleteCompanyRejected(error));
+        dispatch(deleteCompanyRejected(err));
         dispatch(showModal('companies', 'error', err.message));
       });
   };
@@ -128,10 +125,10 @@ export const createCompany = (company) => {
         }
         const data = await res.json();
         dispatch(createCompanyRejected(data));
+        dispatch(showModal('companies', 'error', data.message));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(createCompanyRejected(error));
+        dispatch(createCompanyRejected(err));
         dispatch(showModal('companies', 'error', err.message));
       });
   };
@@ -171,10 +168,10 @@ export const updateCompany = (id, company) => {
         }
         const data = await res.json();
         dispatch(updateCompanyRejected(data));
+        dispatch(showModal('companies', 'error', data.message));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(updateCompanyRejected(error));
+        dispatch(updateCompanyRejected(err));
         dispatch(showModal('companies', 'error', err.message));
       });
   };
