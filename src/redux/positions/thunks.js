@@ -31,7 +31,7 @@ export const getPositions = () => {
       })
       .catch((err) => {
         dispatch(getPositionsRejected());
-        dispatch(updateModal('error', err.message));
+        dispatch(showModal('positions', 'error', err.message));
       });
   };
 };
@@ -52,7 +52,7 @@ export const getPosition = (id) => {
       })
       .catch((err) => {
         dispatch(getPositionRejected());
-        dispatch(updateModal('error', err.message));
+        dispatch(showModal('positions', 'error', err.message));
       });
   };
 };

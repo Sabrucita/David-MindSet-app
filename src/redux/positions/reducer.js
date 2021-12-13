@@ -26,7 +26,12 @@ import {
 const initialState = {
   isFetching: false,
   list: [],
-  selectedElement: {},
+  selectedElement: {
+    idCompany: '',
+    startDate: '',
+    endDate: '',
+    jobDescription: ''
+  },
   options: { companies: [] },
   error: false
 };
@@ -95,7 +100,12 @@ const positionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        selectedElement: {},
+        selectedElement: {
+          idCompany: '',
+          startDate: '',
+          endDate: '',
+          jobDescription: ''
+        },
         error: false
       };
 
