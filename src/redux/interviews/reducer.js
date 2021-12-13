@@ -1,58 +1,58 @@
 import { capitalize } from '../../Components/helpers';
 import {
-  GET_APPLICATION_FETCHING,
-  GET_APPLICATION_FULFILLED,
-  GET_APPLICATION_REJECTED,
-  UPDATE_SELECTED_APPLICATION,
-  APPLICATIONS_CLEANUP,
-  GET_APPLICATIONS_FETCHING,
-  GET_APPLICATIONS_FULFILLED,
-  GET_APPLICATIONS_REJECTED,
-  DELETE_APPLICATION_FETCHING,
-  DELETE_APPLICATION_FULFILLED,
-  DELETE_APPLICATION_REJECTED,
-  CREATE_APPLICATION_FETCHING,
-  CREATE_APPLICATION_FULFILLED,
-  CREATE_APPLICATION_REJECTED,
-  UPDATE_APPLICATION_FETCHING,
-  UPDATE_APPLICATION_FULFILLED,
-  UPDATE_APPLICATION_REJECTED,
-  GET_APPLICATIONS_OPTIONS_FETCHING,
-  GET_APPLICATIONS_OPTIONS_FULFILLED,
-  GET_APPLICATIONS_OPTIONS_REJECTED
+  GET_INTERVIEW_FETCHING,
+  GET_INTERVIEW_FULFILLED,
+  GET_INTERVIEW_REJECTED,
+  UPDATE_SELECTED_INTERVIEW,
+  GET_INTERVIEWS_FETCHING,
+  GET_INTERVIEWS_FULFILLED,
+  GET_INTERVIEWS_REJECTED,
+  DELETE_INTERVIEW_FETCHING,
+  DELETE_INTERVIEW_FULFILLED,
+  DELETE_INTERVIEW_REJECTED,
+  CREATE_INTERVIEW_FETCHING,
+  CREATE_INTERVIEW_FULFILLED,
+  CREATE_INTERVIEW_REJECTED,
+  UPDATE_INTERVIEW_FETCHING,
+  UPDATE_INTERVIEW_FULFILLED,
+  UPDATE_INTERVIEW_REJECTED,
+  INTERVIEWS_CLEANUP,
+  GET_INTERVIEWS_OPTIONS_FETCHING,
+  GET_INTERVIEWS_OPTIONS_FULFILLED,
+  GET_INTERVIEWS_OPTIONS_REJECTED
 } from '../../constants';
 
 const initialState = {
   isFetching: false,
   list: [],
   selectedElement: {},
-  options: { candidates: [], openPositions: [] },
+  options: { candidates: [], companies: [] },
   error: false
 };
 
-const applicationReducer = (state = initialState, action) => {
+const interviewReducer = (state = initialState, action) => {
   switch (action.type) {
     //GET 1
-    case GET_APPLICATION_FETCHING:
+    case GET_INTERVIEW_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case GET_APPLICATION_FULFILLED:
+    case GET_INTERVIEW_FULFILLED:
       return {
         ...state,
         isFetching: false,
         selectedElement: action.payload
       };
-    case GET_APPLICATION_REJECTED:
+    case GET_INTERVIEW_REJECTED:
       return {
         ...state,
         isFetching: false,
         error: true
       };
     //UPDATE 1
-    case UPDATE_SELECTED_APPLICATION: {
+    case UPDATE_SELECTED_INTERVIEW: {
       const newState = { ...state.selectedElement };
       newState[action.payload.field] = action.payload.value;
       return {
@@ -61,7 +61,7 @@ const applicationReducer = (state = initialState, action) => {
       };
     }
     // CLEAN UP
-    case APPLICATIONS_CLEANUP:
+    case INTERVIEWS_CLEANUP:
       return {
         ...state,
         isFetching: false,
@@ -69,76 +69,76 @@ const applicationReducer = (state = initialState, action) => {
         error: false
       };
     //GET ALL
-    case GET_APPLICATIONS_FETCHING:
+    case GET_INTERVIEWS_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case GET_APPLICATIONS_FULFILLED:
+    case GET_INTERVIEWS_FULFILLED:
       return {
         ...state,
         isFetching: false,
         list: action.payload
       };
-    case GET_APPLICATIONS_REJECTED:
+    case GET_INTERVIEWS_REJECTED:
       return {
         ...state,
         isFetching: false,
         error: true
       };
     //DELETE
-    case DELETE_APPLICATION_FETCHING:
+    case DELETE_INTERVIEW_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case DELETE_APPLICATION_FULFILLED:
+    case DELETE_INTERVIEW_FULFILLED:
       return {
         ...state,
         isFetching: false,
         list: state.list.filter((element) => element._id !== action.payload.data._id)
       };
-    case DELETE_APPLICATION_REJECTED:
+    case DELETE_INTERVIEW_REJECTED:
       return {
         ...state,
         isFetching: false,
         error: true
       };
     //CREATE
-    case CREATE_APPLICATION_FETCHING:
+    case CREATE_INTERVIEW_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case CREATE_APPLICATION_FULFILLED:
+    case CREATE_INTERVIEW_FULFILLED:
       return {
         ...state,
         isFetching: false,
         selectedElement: {}
       };
-    case CREATE_APPLICATION_REJECTED:
+    case CREATE_INTERVIEW_REJECTED:
       return {
         ...state,
         isFetching: false,
         error: true
       };
     //UPDATE
-    case UPDATE_APPLICATION_FETCHING:
+    case UPDATE_INTERVIEW_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case UPDATE_APPLICATION_FULFILLED:
+    case UPDATE_INTERVIEW_FULFILLED:
       return {
         ...state,
         isFetching: false,
         selectedElement: {}
       };
-    case UPDATE_APPLICATION_REJECTED:
+    case UPDATE_INTERVIEW_REJECTED:
       return {
         ...state,
         isFetching: false,
@@ -146,19 +146,19 @@ const applicationReducer = (state = initialState, action) => {
       };
 
     // GET OPTIONS
-    case GET_APPLICATIONS_OPTIONS_FETCHING:
+    case GET_INTERVIEWS_OPTIONS_FETCHING:
       return {
         ...state,
         isFetching: true,
         error: false
       };
-    case GET_APPLICATIONS_OPTIONS_FULFILLED: {
+    case GET_INTERVIEWS_OPTIONS_FULFILLED: {
       let newOptions;
-      if (action.resource === 'open-positions') {
+      if (action.resource === 'companies') {
         newOptions = action.payload.map((element) => {
           return {
             id: element._id,
-            name: `${capitalize(element.jobDescription)}`
+            name: `${capitalize(element.name)}`
           };
         });
       } else {
@@ -171,18 +171,13 @@ const applicationReducer = (state = initialState, action) => {
         });
       }
       const options = { ...state.options };
-      // in order to avoid using a - in an object property
-      if (action.resource === 'open-positions') {
-        options['openPositions'] = newOptions;
-      } else {
-        options[action.resource] = newOptions;
-      }
+      options[action.resource] = newOptions;
       return {
         ...state,
         options
       };
     }
-    case GET_APPLICATIONS_OPTIONS_REJECTED:
+    case GET_INTERVIEWS_OPTIONS_REJECTED:
       return {
         ...state,
         error: true
@@ -192,4 +187,4 @@ const applicationReducer = (state = initialState, action) => {
   }
 };
 
-export default applicationReducer;
+export default interviewReducer;
