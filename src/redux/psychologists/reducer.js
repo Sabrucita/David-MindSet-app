@@ -15,24 +15,24 @@ import {
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
   UPDATE_SELECTED_PSYCHOLOGIST,
-  CLEAN_SELECTED_ELEMENT
+  PSYCHOLOGISTS_CLEANUP
 } from '../../constants';
 
 const initialState = {
   isFetching: false,
-  isFetchingDelete: false,
   list: [],
-  selectedElement: {},
-  error: { error: false, msg: '' }
+  error: false,
+  selectedElement: {}
 };
 
 const psychologistsReducer = (state = initialState, action) => {
   switch (action.type) {
-    //Get all psychologists
+    //GET ALL PSYCHOLOGISTS
     case GET_PSYCHOLOGISTS_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case GET_PSYCHOLOGISTS_FULFILLED:
       return {
@@ -44,66 +44,14 @@ const psychologistsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
-    //Get only one psychologist (by ID)
-    case GET_PSYCHOLOGIST_FETCHING:
-      return {
-        ...state,
-        isFetching: true,
-        error: { error: false, msg: '' }
-      };
-    case GET_PSYCHOLOGIST_FULFILLED:
-      return {
-        ...state,
-        isFetching: false,
-        selectedElement: action.payload
-      };
-    case GET_PSYCHOLOGIST_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.payload
-      };
-    //Add a new psychologist
-    case CREATE_PSYCHOLOGIST_FETCHING:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case CREATE_PSYCHOLOGIST_FULFILLED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case CREATE_PSYCHOLOGIST_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: { error: true, msg: action.payload }
-      };
-    //Update an psychologist
-    case UPDATE_PSYCHOLOGIST_FETCHING:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case UPDATE_PSYCHOLOGIST_FULFILLED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case UPDATE_PSYCHOLOGIST_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: { error: true, msg: action.payload }
-      };
-    //Delete one psychologist
+    //DELETE PSYCHOLOGIST
     case DELETE_PSYCHOLOGIST_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case DELETE_PSYCHOLOGIST_FULFILLED:
       return {
@@ -115,9 +63,47 @@ const psychologistsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
-    //Update selected psychologist
+    //ADD NEW PSYCHOLOGIST
+    case CREATE_PSYCHOLOGIST_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case CREATE_PSYCHOLOGIST_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {}
+      };
+    case CREATE_PSYCHOLOGIST_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
+    //GET ONE PSYCHOLOGIST (BY ID)
+    case GET_PSYCHOLOGIST_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case GET_PSYCHOLOGIST_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: action.payload
+      };
+    case GET_PSYCHOLOGIST_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
+    //UPDATE A PSYCHOLOGIST
     case UPDATE_SELECTED_PSYCHOLOGIST: {
       const newState = { ...state.selectedElement };
       newState[action.payload.field] = action.payload.value;
@@ -126,10 +112,33 @@ const psychologistsReducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
-    // Clean selected element
-    case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: '' };
-    //Default
+    // COMPANIES CLEANUP
+    case PSYCHOLOGISTS_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: false
+      };
+    //UPDATE
+    case UPDATE_PSYCHOLOGIST_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case UPDATE_PSYCHOLOGIST_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {}
+      };
+    case UPDATE_PSYCHOLOGIST_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
     default:
       return state;
   }

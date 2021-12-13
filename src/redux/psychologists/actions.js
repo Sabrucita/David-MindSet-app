@@ -15,7 +15,7 @@ import {
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
   UPDATE_SELECTED_PSYCHOLOGIST,
-  CLEAN_SELECTED_ELEMENT
+  PSYCHOLOGISTS_CLEANUP
 } from '../../constants';
 
 //Get all psychologists
@@ -33,10 +33,9 @@ export const getPsychologistsFulfilled = (payload) => {
   };
 };
 
-export const getPsychologistsRejected = (payload) => {
+export const getPsychologistsRejected = () => {
   return {
-    type: GET_PSYCHOLOGISTS_REJECTED,
-    payload
+    type: GET_PSYCHOLOGISTS_REJECTED
   };
 };
 
@@ -55,10 +54,9 @@ export const getPsychologistFulfilled = (payload) => {
   };
 };
 
-export const getPsychologistRejected = (payload) => {
+export const getPsychologistRejected = () => {
   return {
-    type: GET_PSYCHOLOGIST_REJECTED,
-    payload
+    type: GET_PSYCHOLOGIST_REJECTED
   };
 };
 
@@ -77,10 +75,9 @@ export const createPsychologistFulfilled = (payload) => {
   };
 };
 
-export const createPsychologistRejected = (payload) => {
+export const createPsychologistRejected = () => {
   return {
-    type: CREATE_PSYCHOLOGIST_REJECTED,
-    payload
+    type: CREATE_PSYCHOLOGIST_REJECTED
   };
 };
 
@@ -99,10 +96,9 @@ export const updatePsychologistFulfilled = (payload) => {
   };
 };
 
-export const updatePsychologistRejected = (payload) => {
+export const updatePsychologistRejected = () => {
   return {
-    type: UPDATE_PSYCHOLOGIST_REJECTED,
-    payload
+    type: UPDATE_PSYCHOLOGIST_REJECTED
   };
 };
 
@@ -121,10 +117,9 @@ export const deletePsychologistFulfilled = (payload) => {
   };
 };
 
-export const deletePsychologistRejected = (payload) => {
+export const deletePsychologistRejected = () => {
   return {
-    type: DELETE_PSYCHOLOGIST_REJECTED,
-    payload
+    type: DELETE_PSYCHOLOGIST_REJECTED
   };
 };
 
@@ -136,7 +131,7 @@ export const updateSelectedPsychologist = (field, value) => {
   };
 };
 
-//Clean selected element
-export const cleanSelectedElement = () => ({
-  type: CLEAN_SELECTED_ELEMENT
+//Clean up
+export const psychologistsCleanUp = () => ({
+  type: PSYCHOLOGISTS_CLEANUP
 });

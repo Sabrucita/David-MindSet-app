@@ -6,28 +6,30 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
 import { deletePsychologist, getPsychologists } from '../../redux/psychologists/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { hideModal, showModal } from '../../redux/modal/actions';
-import { cleanSelectedElement } from '../../redux/psychologists/actions';
+import { showModal } from '../../redux/modal/actions';
+import { psychologistsCleanUp } from '../../redux/psychologists/actions';
 
 function Psychologists() {
+  const [selectedItem, setSelectedItem] = useState();
   const dispatch = useDispatch();
   const psychologists = useSelector((store) => store.psychologists);
-  const [selectedItem, setSelectedItem] = useState();
+  const modal = useSelector((state) => state.modal.show);
 
-  //Get info from DB
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     dispatch(getPsychologists());
   }, [dispatch]);
 
-  //MODAL
-  const closeModal = () => {
-    dispatch(hideModal());
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(psychologistsCleanUp());
+    };
+  }, [dispatch]);
 
-  const openModal = (item, type, title) => {
+  //MODAL
+
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal(type, title, item));
+    dispatch(showModal('psychologists', type, item));
   };
 
   //MODAL CONFIRM DELETE
@@ -40,7 +42,7 @@ function Psychologists() {
   return (
     <>
       <section className={styles.container}>
-        <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Psychologists</h1>
         {psychologists.isFetching ? (
           <Preloader />

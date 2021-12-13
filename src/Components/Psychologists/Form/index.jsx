@@ -4,21 +4,20 @@ import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getPsychologist,
   createPsychologist,
-  updatePsychologist,
-  getPsychologist
+  updatePsychologist
 } from '../../../redux/psychologists/thunks';
 import {
   updateSelectedPsychologist,
-  cleanSelectedElement
+  psychologistsCleanUp
 } from '../../../redux/psychologists/actions';
-import { hideModal } from '../../../redux/modal/actions';
 
-function Form({ match, history }) {
-  const dispatch = useDispatch();
-  const modalType = useSelector((store) => store.modal.type);
-  const formData = useSelector((store) => store.psychologists.selectedElement);
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
+  const dispatch = useDispatch();
+  const formData = useSelector((store) => store.psychologists.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -27,11 +26,16 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     if (operation === 'update') {
       dispatch(getPsychologist(id));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(psychologistsCleanUp());
+    };
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -46,13 +50,6 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     dispatch(updateSelectedPsychologist(field, value));
-  };
-
-  const closeModalFn = () => {
-    dispatch(hideModal());
-    if (modalType !== 'error') {
-      history.push('/psychologists');
-    }
   };
 
   return (
@@ -111,12 +108,12 @@ function Form({ match, history }) {
               disabled={disableProperty}
               Addtype="submit"
             >
-              SUBMIT PSYCHOLOGIST
+              SUBMIT COMPANY
             </button>
           </div>
         </form>
       </section>
-      <Modal closeModalFn={closeModalFn} />
+      {modal && <Modal />}
     </>
   );
 }
