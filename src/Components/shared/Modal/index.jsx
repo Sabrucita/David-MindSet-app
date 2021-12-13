@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { hideModal } from '../../../redux/modal/actions';
 import { capitalize, removeLastChar } from '../../helpers';
+import Preloader from '../Preloader';
 import styles from './modal.module.css';
 
 function Modal({ acceptModalFn, history }) {
@@ -57,7 +58,7 @@ function Modal({ acceptModalFn, history }) {
   };
 
   if (type === 'error') {
-    modalContent = content;
+    modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);
     }
@@ -79,6 +80,11 @@ function Modal({ acceptModalFn, history }) {
       <div className={styles.modal}>
         <h2>{title}</h2>
         {modalContent}
+        {type === 'fetching' && (
+          <div className={styles.center}>
+            <Preloader />
+          </div>
+        )}
         <div className={styles.buttonModal}>
           {type === 'delete' && (
             <button className={styles.modalOk} onClick={acceptModalFn}>

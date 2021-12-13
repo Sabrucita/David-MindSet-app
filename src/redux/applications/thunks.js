@@ -71,7 +71,7 @@ export const getApplications = () => {
 export const deleteApplication = (id) => {
   return (dispatch) => {
     dispatch(deleteApplicationFetching());
-    dispatch(updateModal('fetching', { info: 'Loading...' }));
+    dispatch(updateModal('fetching'));
     fetch(`${url}/applications/${id}`, {
       method: 'DELETE'
     })
@@ -95,7 +95,7 @@ export const deleteApplication = (id) => {
 export const createApplication = (obj) => {
   return (dispatch) => {
     dispatch(createApplicationFetching());
-    dispatch(showModal('applications', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('applications', 'fetching'));
     fetch(`${url}/applications`, {
       method: 'POST',
       body: JSON.stringify(obj),
@@ -123,7 +123,7 @@ export const createApplication = (obj) => {
 export const updateApplication = (id, obj) => {
   return (dispatch) => {
     dispatch(updateApplicationFetching());
-    dispatch(showModal('applications', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('applications', 'fetching'));
     fetch(`${url}/applications/${id}`, {
       method: 'PUT',
       body: JSON.stringify(obj),

@@ -26,11 +26,6 @@ function Applications() {
     };
   }, []);
 
-  //MODAL
-  const closeModal = () => {
-    dispatch(hideModal());
-  };
-
   const openModal = (item, type) => {
     setSelectedItem(item);
     dispatch(showModal('applications', type, item));
@@ -45,7 +40,7 @@ function Applications() {
 
   return (
     <>
-      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
+      {modal && <Modal acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1>Applications</h1>
         {applications.isFetching ? (
