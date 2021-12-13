@@ -1,8 +1,15 @@
-import ListItem from '../../shared/ListItem';
+import { useDispatch } from 'react-redux';
 import { capitalize, formatDate } from '../../helpers';
+import { showModal } from '../../../redux/modal/actions';
+import { getSelectedSession } from '../../../redux/sessions/actions';
+import ListItem from '../../shared/ListItem';
 import styles from './list.module.css';
 
-function List({ data, header, openModal }) {
+function List({ data }) {
+  const dispatch = useDispatch();
+
+  const header = ['Candidate', 'Psychologist', 'Date', 'Action'];
+
   const fillDataTable = (element) => {
     const dataTable = {
       candidate: element.idCandidate
@@ -42,35 +49,41 @@ function List({ data, header, openModal }) {
     return element.idCandidate === null || element.idOpenPosition === null;
   };
 
+  const openModal = (item, type) => {
+    dispatch(getSelectedSession(item));
+    dispatch(showModal('sessions', type, item));
+  };
+
   return (
-    <table className={styles.list}>
-      <thead>
-        <tr>
-          {header.map((element) => {
-            return <th key={element}>{element}</th>;
-          })}
-        </tr>
-      </thead>
-      {data.length === 0 ? (
-        <p className={styles.loading}>There are no sessions.</p>
-      ) : (
-        <tbody>
-          {data.map((element) => {
-            return (
-              <ListItem
-                key={element._id}
-                id={element._id}
-                dataTable={fillDataTable(element)}
-                dataElement={fillDataElement(element)}
-                missingData={isMissingData(element)}
-                openModal={openModal}
-                resource="sessions"
-              />
-            );
-          })}
-        </tbody>
-      )}
-    </table>
+    <>
+      <table className={styles.list}>
+        <thead>
+          <tr>
+            {header.map((element) => {
+              return <th key={element}>{element}</th>;
+            })}
+          </tr>
+        </thead>
+        {data.length !== 0 && (
+          <tbody>
+            {data.map((element) => {
+              return (
+                <ListItem
+                  key={element._id}
+                  id={element._id}
+                  dataTable={fillDataTable(element)}
+                  dataElement={fillDataElement(element)}
+                  missingData={isMissingData(element)}
+                  openModal={openModal}
+                  resource="sessions"
+                />
+              );
+            })}
+          </tbody>
+        )}
+      </table>
+      {data.length === 0 && <p className={styles.loading}>There are no sessions.</p>}
+    </>
   );
 }
 
