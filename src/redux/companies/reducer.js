@@ -15,14 +15,13 @@ import {
   GET_COMPANY_FULFILLED,
   GET_COMPANY_REJECTED,
   UPDATE_SELECTED_COMPANY,
-  CLEAN_SELECTED_ELEMENT
+  COMPANIES_CLEANUP
 } from '../../constants';
 
 const initialState = {
   isFetching: false,
-  isFetchingDelete: false,
   list: [],
-  error: { error: false, msg: '' },
+  error: false,
   selectedElement: {}
 };
 
@@ -32,7 +31,8 @@ const companiesReducer = (state = initialState, action) => {
     case GET_COMPANIES_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case GET_COMPANIES_FULFILLED:
       return {
@@ -44,13 +44,14 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //DELETE COMPANY
     case DELETE_COMPANY_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case DELETE_COMPANY_FULFILLED:
       return {
@@ -62,31 +63,33 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //CREATE A COMPANY
     case CREATE_COMPANY_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case CREATE_COMPANY_FULFILLED:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        selectedElement: {}
       };
     case CREATE_COMPANY_REJECTED:
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     //GET ONE COMPANY
     case GET_COMPANY_FETCHING:
       return {
         ...state,
         isFetching: true,
-        error: { error: false, msg: '' }
+        error: false
       };
     case GET_COMPANY_FULFILLED:
       return {
@@ -98,7 +101,7 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
     //UPDATE A COMPANY
     case UPDATE_SELECTED_COMPANY: {
@@ -109,25 +112,32 @@ const companiesReducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
-    // CLEAN SELECTED ITEM
-    case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: '' };
+    // COMPANIES CLEANUP
+    case COMPANIES_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: false
+      };
     //UPDATE
     case UPDATE_COMPANY_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case UPDATE_COMPANY_FULFILLED:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        selectedElement: {}
       };
     case UPDATE_COMPANY_REJECTED:
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     default:
       return state;

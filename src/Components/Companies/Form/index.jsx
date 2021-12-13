@@ -4,14 +4,14 @@ import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCompany, updateCompany, getCompany } from '../../../redux/companies/thunks';
-import { updateSelectedCompany, cleanSelectedElement } from '../../../redux/companies/actions';
-import { hideModal } from '../../../redux/modal/actions';
+import { updateSelectedCompany, companiesCleanup } from '../../../redux/companies/actions';
 
-function Form({ match, history }) {
-  const dispatch = useDispatch();
-  const modalType = useSelector((store) => store.modal.type);
-  const formData = useSelector((store) => store.companies.selectedElement);
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
+
+  const dispatch = useDispatch();
+  const formData = useSelector((store) => store.companies.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -20,11 +20,16 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     if (operation === 'update') {
       dispatch(getCompany(id));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(companiesCleanup());
+    };
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -39,13 +44,6 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     dispatch(updateSelectedCompany(field, value));
-  };
-
-  const closeModalFn = () => {
-    dispatch(hideModal());
-    if (modalType !== 'error') {
-      history.push('/companies');
-    }
   };
 
   return (
@@ -193,7 +191,7 @@ function Form({ match, history }) {
           </div>
         </form>
       </section>
-      <Modal closeModalFn={closeModalFn} />
+      {modal && <Modal />}
     </>
   );
 }

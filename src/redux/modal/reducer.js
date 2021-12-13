@@ -1,9 +1,9 @@
-import { SHOW_MODAL, HIDE_MODAL } from '../../constants';
+import { SHOW_MODAL, HIDE_MODAL, UPDATE_MODAL } from '../../constants';
 
 const initialState = {
   show: false,
+  resource: '',
   type: '',
-  title: '',
   content: ''
 };
 
@@ -13,8 +13,14 @@ const modalReducer = (state = initialState, action) => {
       return {
         ...state,
         show: true,
+        resource: action.payload.resource,
         type: action.payload.type,
-        title: action.payload.title,
+        content: action.payload.content
+      };
+    case UPDATE_MODAL:
+      return {
+        ...state,
+        type: action.payload.type,
         content: action.payload.content
       };
     case HIDE_MODAL:

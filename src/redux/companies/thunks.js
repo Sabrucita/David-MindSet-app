@@ -1,5 +1,5 @@
 import { url } from '../../constants/index';
-import { showModal } from '../modal/actions';
+import { showModal, updateModal } from '../modal/actions';
 
 import {
   getCompaniesFetching,
@@ -19,18 +19,51 @@ import {
   updateCompanyRejected
 } from './actions';
 
-//GET COMPANIES
+//GET ONE COMPAY
 
+export const getCompany = (id) => {
+  return (dispatch) => {
+    dispatch(getCompanyFetching());
+    fetch(`${url}/companies/${id}`)
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          const currentData = {
+            name: data.name,
+            address: data.address,
+            city: data.city,
+            province: data.province,
+            country: data.country,
+            zipCode: parseInt(data.zipCode),
+            phone: parseInt(data.phone),
+            email: data.email,
+            pictureUrl: data.pictureUrl,
+            contactFullName: data.contactFullName,
+            contactPhone: parseInt(data.contactPhone),
+            isActive: data.isActive
+          };
+          return dispatch(getCompanyFulfilled(currentData));
+        }
+      })
+      .catch((err) => {
+        const error = { error: true, msg: err };
+        dispatch(getCompanyRejected(error));
+      });
+  };
+};
+
+//GET COMPANIES
 export const getCompanies = () => {
   return (dispatch) => {
     dispatch(getCompaniesFetching());
     fetch(`${url}/companies`)
-      .then((data) => data.json())
-      .then((response) => {
-        dispatch(getCompaniesFulfilled(response));
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getCompaniesFulfilled(data));
       })
       .catch((err) => {
-        dispatch(getCompaniesRejected(err));
+        const error = { error: true, msg: err };
+        dispatch(getCompaniesRejected(error));
       });
   };
 };
@@ -40,7 +73,7 @@ export const getCompanies = () => {
 export const deleteCompany = (id) => {
   return (dispatch) => {
     dispatch(deleteCompanyFetching());
-    dispatch(showModal('fetching', 'Deleting Company', { info: 'Loading...' }));
+    dispatch(updateModal('deleting'));
     fetch(`${url}/companies/${id}`, {
       method: 'DELETE'
     })
@@ -48,44 +81,16 @@ export const deleteCompany = (id) => {
         if (response.status === 200) {
           const data = await response.json();
           dispatch(deleteCompanyFulfilled(data));
-          dispatch(showModal('create', 'Company Deleted', data.data));
-        } else {
-          throw new Error(`HTTP ${response.msg}`);
+          return dispatch(updateModal('deleted', data.data));
         }
+        const data = await response.json();
+        dispatch(updateCompanyRejected(data));
+        dispatch(updateModal('error', data));
       })
       .catch((err) => {
-        dispatch(deleteCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
-      });
-  };
-};
-
-//GET ONE COMPAY
-
-export const getCompany = (id) => {
-  return (dispatch) => {
-    dispatch(getCompanyFetching());
-    fetch(`${url}/companies/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const currentData = {
-          name: data.name,
-          address: data.address,
-          city: data.city,
-          province: data.province,
-          country: data.country,
-          zipCode: parseInt(data.zipCode),
-          phone: parseInt(data.phone),
-          email: data.email,
-          pictureUrl: data.pictureUrl,
-          contactFullName: data.contactFullName,
-          contactPhone: parseInt(data.contactPhone),
-          isActive: data.isActive
-        };
-        dispatch(getCompanyFulfilled(currentData));
-      })
-      .catch((err) => {
-        dispatch(getCompanyRejected(err));
+        const error = { error: true, msg: err.message };
+        dispatch(deleteCompanyRejected(error));
+        dispatch(showModal('companies', 'error', err.message));
       });
   };
 };
@@ -95,7 +100,6 @@ export const getCompany = (id) => {
 export const createCompany = (company) => {
   return (dispatch) => {
     dispatch(createCompanyFetching());
-    dispatch(showModal('fetching', 'Creating Company', { info: 'Loading...' }));
     fetch(`${url}/companies`, {
       method: 'POST',
       body: JSON.stringify({
@@ -120,13 +124,16 @@ export const createCompany = (company) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createCompanyFulfilled(data));
-          return dispatch(showModal('create', 'Company Created', data.data));
+          return dispatch(showModal('companies', 'create', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        dispatch(createCompanyRejected(data));
       })
       .catch((err) => {
-        dispatch(createCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        console.log('hola');
+        const error = { error: true, msg: err };
+        dispatch(createCompanyRejected(error));
+        dispatch(showModal('companies', 'error', err.message));
       });
   };
 };
@@ -136,7 +143,6 @@ export const createCompany = (company) => {
 export const updateCompany = (id, company) => {
   return (dispatch) => {
     dispatch(updateCompanyFetching());
-    dispatch(showModal('fetching', 'Updating Company', { info: 'Loading...' }));
     fetch(`${url}/companies/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -161,13 +167,15 @@ export const updateCompany = (id, company) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateCompanyFulfilled(data));
-          return dispatch(showModal('update', 'Company Updated', data.data));
+          return dispatch(showModal('companies', 'update', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        dispatch(updateCompanyRejected(data));
       })
       .catch((err) => {
-        dispatch(updateCompanyRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        const error = { error: true, msg: err };
+        dispatch(updateCompanyRejected(error));
+        dispatch(showModal('companies', 'error', err.message));
       });
   };
 };

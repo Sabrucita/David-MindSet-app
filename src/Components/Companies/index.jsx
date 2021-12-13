@@ -7,17 +7,23 @@ import Preloader from '../shared/Preloader/index';
 import { deleteCompany, getCompanies } from '../../redux/companies/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideModal, showModal } from '../../redux/modal/actions';
-import { cleanSelectedElement } from '../../redux/companies/actions';
+import { companiesCleanup } from '../../redux/companies/actions';
 
 function Companies() {
-  const dispatch = useDispatch();
-  const companies = useSelector((store) => store.companies);
   const [selectedItem, setSelectedItem] = useState();
 
-  //Get info from DB
+  const dispatch = useDispatch();
+  const companies = useSelector((store) => store.companies);
+  const modal = useSelector((state) => state.modal.show);
+
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     dispatch(getCompanies());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(companiesCleanup());
+    };
   }, [dispatch]);
 
   //MODAL
@@ -25,9 +31,9 @@ function Companies() {
     dispatch(hideModal());
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal(type, title, item));
+    dispatch(showModal('companies', type, item));
   };
 
   //MODAL CONFIRM DELETE
@@ -40,7 +46,7 @@ function Companies() {
   return (
     <>
       <section className={styles.container}>
-        <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
+        {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Companies</h1>
         {companies.isFetching ? (
           <Preloader />

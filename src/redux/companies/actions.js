@@ -11,11 +11,11 @@ import {
   UPDATE_COMPANY_FETCHING,
   UPDATE_COMPANY_FULFILLED,
   UPDATE_COMPANY_REJECTED,
-  CLEAN_SELECTED_ELEMENT,
   GET_COMPANY_FETCHING,
   GET_COMPANY_FULFILLED,
   GET_COMPANY_REJECTED,
-  UPDATE_SELECTED_COMPANY
+  UPDATE_SELECTED_COMPANY,
+  COMPANIES_CLEANUP
 } from '../../constants';
 
 //GET COMPANIES
@@ -104,6 +104,10 @@ export const updateSelectedCompany = (field, value) => {
     payload: { field, value }
   };
 };
-export const cleanSelectedElement = () => ({
-  type: CLEAN_SELECTED_ELEMENT
-});
+
+// CLEANUP
+export const companiesCleanup = () => {
+  return {
+    type: COMPANIES_CLEANUP
+  };
+};
