@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
   application: applicationReducer,
-  profile: profileReducer,
+  profiles: profileReducer,
   modal: modalReducer
 });
 

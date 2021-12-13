@@ -25,7 +25,7 @@ const initialState = {
   selectedElement: {}
 };
 
-const profilesReducer = (state = initialState, action) => {
+const profilesReducers = (state = initialState, action) => {
   switch (action.type) {
     //GET PROFILES
     case GET_PROFILES_FETCHING:
@@ -144,4 +144,4 @@ const profilesReducer = (state = initialState, action) => {
   }
 };
 
-export default profilesReducer;
+export default profilesReducers;
