@@ -33,10 +33,9 @@ export const getAdminsFulfilled = (payload) => {
   };
 };
 
-export const getAdminsRejected = (payload) => {
+export const getAdminsRejected = () => {
   return {
-    type: GET_ADMINS_REJECTED,
-    payload
+    type: GET_ADMINS_REJECTED
   };
 };
 
@@ -55,10 +54,9 @@ export const getAdminFulfilled = (payload) => {
   };
 };
 
-export const getAdminRejected = (payload) => {
+export const getAdminRejected = () => {
   return {
-    type: GET_ADMIN_REJECTED,
-    payload
+    type: GET_ADMIN_REJECTED
   };
 };
 
@@ -77,10 +75,9 @@ export const createAdminFulfilled = (payload) => {
   };
 };
 
-export const createAdminRejected = (payload) => {
+export const createAdminRejected = () => {
   return {
-    type: CREATE_ADMIN_REJECTED,
-    payload
+    type: CREATE_ADMIN_REJECTED
   };
 };
 
@@ -99,10 +96,9 @@ export const updateAdminFulfilled = (payload) => {
   };
 };
 
-export const updateAdminRejected = (payload) => {
+export const updateAdminRejected = () => {
   return {
-    type: UPDATE_ADMIN_REJECTED,
-    payload
+    type: UPDATE_ADMIN_REJECTED
   };
 };
 
@@ -121,10 +117,9 @@ export const deleteAdminFulfilled = (payload) => {
   };
 };
 
-export const deleteAdminRejected = (payload) => {
+export const deleteAdminRejected = () => {
   return {
-    type: DELETE_ADMIN_REJECTED,
-    payload
+    type: DELETE_ADMIN_REJECTED
   };
 };
 
