@@ -1,7 +1,5 @@
 import styles from './listItem.module.css';
 import { Link } from 'react-router-dom';
-import { capitalize } from '../../helpers';
-import { removeLastChar } from '../../helpers';
 
 function ListItem({ id, dataElement, dataTable, openModal, missingData, resource }) {
   const getDataContent = (data) => {
