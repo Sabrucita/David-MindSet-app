@@ -58,3 +58,7 @@
 .buttonModal button:hover {
   background-color: rgb(88, 88, 88);
 }
+.center {
+  display: flex;
+  justify-content: center;
+}

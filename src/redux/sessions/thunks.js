@@ -1,6 +1,5 @@
 import { url } from '../../constants';
 import { showModal, updateModal } from '../modal/actions';
-
 import {
   getSessionsFetching,
   getSessionsFulfilled,
@@ -31,8 +30,8 @@ export const getSessions = () => {
         dispatch(getSessionsFulfilled(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getSessionsRejected(error));
+        dispatch(getSessionsRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -51,8 +50,8 @@ export const getSession = (id) => {
         dispatch(getSessionFulfilled(currentData));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getSessionRejected(error));
+        dispatch(getSessionRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -68,10 +67,11 @@ export const getSessionsOptions = (resource) => {
         }
         const data = await res.json();
         dispatch(getSessionsOptionsRejected(data));
+        dispatch(updateModal('error', data.msg));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getSessionsOptionsRejected(error));
+        dispatch(getSessionsOptionsRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -79,6 +79,7 @@ export const getSessionsOptions = (resource) => {
 export const createSession = (session) => {
   return (dispatch) => {
     dispatch(createSessionFetching());
+    dispatch(showModal('sessions', 'fetching'));
     fetch(`${url}/sessions`, {
       method: 'POST',
       body: JSON.stringify(session),
@@ -90,14 +91,15 @@ export const createSession = (session) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createSessionFulfilled(data));
-          return dispatch(showModal('sessions', 'create', data.data));
+          return dispatch(updateModal('create', data.data));
         }
         const data = await res.json();
         dispatch(createSessionRejected(data));
+        dispatch(updateModal('error', data.msg));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(createSessionRejected(error));
+        dispatch(createSessionRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -105,6 +107,7 @@ export const createSession = (session) => {
 export const updateSession = (id, session) => {
   return (dispatch) => {
     dispatch(updateSessionFetching());
+    dispatch(showModal('sessions', 'fetching'));
     fetch(`${url}/sessions/${id}`, {
       method: 'PUT',
       body: JSON.stringify(session),
@@ -115,15 +118,18 @@ export const updateSession = (id, session) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
+          data.data.idCandidate = data.data.idCandidate._id;
+          data.data.idPsychologist = data.data.idPsychologist._id;
           dispatch(updateSessionFulfilled(data));
-          return dispatch(showModal('sessions', 'update', data.data));
+          return dispatch(updateModal('update', data.data));
         }
         const data = await res.json();
         dispatch(updateSessionRejected(data));
+        dispatch(updateModal('error', data.msg));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(updateSessionRejected(error));
+        dispatch(updateSessionRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
@@ -131,7 +137,7 @@ export const updateSession = (id, session) => {
 export const deleteSession = (id) => {
   return (dispatch) => {
     dispatch(deleteSessionFetching());
-    dispatch(updateModal('deleting'));
+    dispatch(updateModal('fetching'));
     fetch(`${url}/sessions/${id}`, {
       method: 'DELETE'
     })
@@ -143,13 +149,11 @@ export const deleteSession = (id) => {
         }
         const data = await res.json();
         dispatch(updateSessionRejected(data));
-        dispatch(updateModal('error', data));
+        dispatch(updateModal('error', data.msg));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        console.log(err);
-        dispatch(deleteSessionRejected(error));
-        dispatch(updateModal('error', 'There was a problem deleting this session'));
+        dispatch(deleteSessionRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };

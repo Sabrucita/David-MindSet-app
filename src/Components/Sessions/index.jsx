@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSessions, deleteSession } from '../../redux/sessions/thunks';
@@ -6,15 +6,12 @@ import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
-import { hideModal, showModal } from '../../redux/modal/actions';
 import { sessionsCleanup } from '../../redux/sessions/actions';
 
 function Sessions() {
   const dispatch = useDispatch();
   const sessions = useSelector((store) => store.sessions);
   const modal = useSelector((store) => store.modal.show);
-
-  const [selectedItem, setSelectedItem] = useState('');
 
   useEffect(() => {
     dispatch(getSessions());
@@ -27,12 +24,7 @@ function Sessions() {
   }, []);
 
   const deleteItem = () => {
-    dispatch(deleteSession(selectedItem.id));
-  };
-
-  const openModal = (item, type) => {
-    setSelectedItem(item);
-    dispatch(showModal('sessions', type, item));
+    dispatch(deleteSession(sessions.selectedElement.id));
   };
 
   return (
@@ -44,7 +36,7 @@ function Sessions() {
           <Preloader />
         ) : (
           <>
-            <List data={sessions.list} openModal={openModal} />
+            <List data={sessions.list} />
             <Link to="/sessions/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD SESSION</span>
             </Link>

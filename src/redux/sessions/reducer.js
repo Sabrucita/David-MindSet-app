@@ -19,7 +19,8 @@ import {
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
   DELETE_SESSION_REJECTED,
-  SESSIONS_CLEANUP
+  SESSIONS_CLEANUP,
+  GET_SELECTED_SESSION
 } from '../../constants';
 
 const initialState = {
@@ -73,7 +74,13 @@ const sessionsReducer = (state = initialState, action) => {
         error: true
       };
 
-    // UPDATE SELECTED SESSION
+    // SELECTED SESSION
+    case GET_SELECTED_SESSION: {
+      return {
+        ...state,
+        selectedElement: action.payload
+      };
+    }
     case UPDATE_SELECTED_SESSION: {
       const newState = { ...state.selectedElement };
       newState[action.payload.field] = action.payload.value;
@@ -130,7 +137,6 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false
-        //list: [...state.list, action.payload.data]
       };
     case CREATE_SESSION_REJECTED:
       return {
@@ -150,7 +156,6 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false
-        //list: [...state.list, action.payload.data]
       };
     case UPDATE_SESSION_REJECTED:
       return {
@@ -163,19 +168,16 @@ const sessionsReducer = (state = initialState, action) => {
     case DELETE_SESSION_FETCHING:
       return {
         ...state,
-        isFetching: true,
         error: false
       };
     case DELETE_SESSION_FULFILLED:
       return {
         ...state,
-        isFetching: false,
         list: state.list.filter((session) => session._id !== action.payload.data._id)
       };
     case DELETE_SESSION_REJECTED:
       return {
         ...state,
-        isFetching: false,
         error: true
       };
     default:

@@ -18,7 +18,8 @@ import {
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
   DELETE_SESSION_REJECTED,
-  SESSIONS_CLEANUP
+  SESSIONS_CLEANUP,
+  GET_SELECTED_SESSION
 } from '../../constants';
 
 // GET SESSIONS
@@ -57,7 +58,13 @@ export const getSessionRejected = () => {
   };
 };
 
-// UPDATE SELECTED SESSION
+// SELECTED SESSION
+export const getSelectedSession = (payload) => {
+  return {
+    type: GET_SELECTED_SESSION,
+    payload
+  };
+};
 export const updateSelectedSession = (field, value) => {
   return {
     type: UPDATE_SELECTED_SESSION,

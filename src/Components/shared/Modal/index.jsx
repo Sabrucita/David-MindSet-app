@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { hideModal } from '../../../redux/modal/actions';
 import { capitalize, removeLastChar } from '../../helpers';
+import Preloader from '../Preloader';
 import styles from './modal.module.css';
 
 function Modal({ acceptModalFn, history }) {
@@ -45,7 +46,6 @@ function Modal({ acceptModalFn, history }) {
 
   useEffect(() => {
     return () => {
-      console.log('cleanup');
       dispatch(hideModal());
     };
   }, []);
@@ -80,6 +80,11 @@ function Modal({ acceptModalFn, history }) {
       <div className={styles.modal}>
         <h2>{title}</h2>
         {modalContent}
+        {type === 'fetching' && (
+          <div className={styles.center}>
+            <Preloader />
+          </div>
+        )}
         <div className={styles.buttonModal}>
           {type === 'delete' && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
