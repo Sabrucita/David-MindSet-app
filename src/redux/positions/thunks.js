@@ -24,7 +24,7 @@ import {
 export const getPositions = () => {
   return (dispatch) => {
     dispatch(getPositionsFetching());
-    fetch(`${url}/positions`)
+    fetch(`${url}/open-positions`)
       .then((res) => res.json())
       .then((data) => {
         dispatch(getPositionsFulfilled(data));
@@ -39,7 +39,7 @@ export const getPositions = () => {
 export const getPosition = (id) => {
   return (dispatch) => {
     dispatch(getPositionFetching());
-    fetch(`${url}/positions/${id}`)
+    fetch(`${url}/open-positions/${id}`)
       .then((res) => res.json())
       .then((data) => {
         const currentData = {
@@ -81,7 +81,7 @@ export const createPosition = (session) => {
   return (dispatch) => {
     dispatch(createPositionFetching());
     dispatch(showModal('positions', 'fetching'));
-    fetch(`${url}/positions`, {
+    fetch(`${url}/open-positions`, {
       method: 'POST',
       body: JSON.stringify(session),
       headers: {
@@ -109,7 +109,7 @@ export const updatePosition = (id, session) => {
   return (dispatch) => {
     dispatch(updatePositionFetching());
     dispatch(showModal('positions', 'fetching'));
-    fetch(`${url}/positions/${id}`, {
+    fetch(`${url}/open-positions/${id}`, {
       method: 'PUT',
       body: JSON.stringify(session),
       headers: {
@@ -137,7 +137,7 @@ export const deletePosition = (id) => {
   return (dispatch) => {
     dispatch(deletePositionFetching());
     dispatch(updateModal('fetching'));
-    fetch(`${url}/positions/${id}`, {
+    fetch(`${url}/open-positions/${id}`, {
       method: 'DELETE'
     })
       .then(async (res) => {
