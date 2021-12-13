@@ -28,8 +28,7 @@ export const getCandidates = () => {
         dispatch(getCandidatesFullfilled(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getCandidatesRejected(error));
+        dispatch(getCandidatesRejected(err));
       });
   };
 };
@@ -67,8 +66,7 @@ export const getCandidateById = (id) => {
         }
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(getCandidateByIdRejected(error));
+        dispatch(getCandidateByIdRejected(err));
       });
   };
 };
@@ -85,14 +83,13 @@ export const deleteCandidates = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteCandidatesFullfilled(data));
-          return dispatch(updateModal('deleted', data.data));
+          return dispatch(updateModal('deleted'));
         }
         const data = await res.json();
         dispatch(deleteCandidatesRejected(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err.message };
-        dispatch(deleteCandidatesRejected(error));
+        dispatch(deleteCandidatesRejected(err));
         dispatch(showModal('candidates', 'Upsss an error has happened', err.message));
       });
   };
@@ -123,7 +120,7 @@ export const createCandidates = (candidate) => {
         education: candidate.education,
         experiences: candidate.experiences,
         courses: candidate.courses,
-        address: `${candidate.address.street} ${candidate.address.number}`
+        address: { street: `${candidate.address.street}`, number: `${candidate.address.number}` }
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -140,8 +137,7 @@ export const createCandidates = (candidate) => {
         dispatch(showModal('candidates', 'error', data.message));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(createCandidatesRejected(error));
+        dispatch(createCandidatesRejected(err));
         dispatch(showModal('candidates', 'error', err.message));
       });
   };
@@ -172,7 +168,7 @@ export const updateCandidates = (id, candidate) => {
         education: candidate.education,
         experiences: candidate.experiences,
         courses: candidate.courses,
-        address: `${candidate.address.street} ${candidate.address.number}`
+        address: { street: `${candidate.address.street}`, number: `${candidate.address.number}` }
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -188,8 +184,7 @@ export const updateCandidates = (id, candidate) => {
         dispatch(updateCandidatesRejected(data));
       })
       .catch((err) => {
-        const error = { error: true, msg: err };
-        dispatch(updateCandidatesRejected(error));
+        dispatch(updateCandidatesRejected(err));
         dispatch(showModal('error', err.message));
       });
   };
