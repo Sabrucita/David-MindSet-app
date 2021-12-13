@@ -73,7 +73,7 @@ export const getCompanies = () => {
 export const deleteCompany = (id) => {
   return (dispatch) => {
     dispatch(deleteCompanyFetching());
-    dispatch(updateModal('deleting'));
+    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/companies/${id}`, {
       method: 'DELETE'
     })
@@ -85,7 +85,6 @@ export const deleteCompany = (id) => {
         }
         const data = await response.json();
         dispatch(updateCompanyRejected(data));
-        dispatch(updateModal('error', data));
       })
       .catch((err) => {
         const error = { error: true, msg: err.message };
@@ -100,6 +99,7 @@ export const deleteCompany = (id) => {
 export const createCompany = (company) => {
   return (dispatch) => {
     dispatch(createCompanyFetching());
+    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/companies`, {
       method: 'POST',
       body: JSON.stringify({
@@ -130,7 +130,6 @@ export const createCompany = (company) => {
         dispatch(createCompanyRejected(data));
       })
       .catch((err) => {
-        console.log('hola');
         const error = { error: true, msg: err };
         dispatch(createCompanyRejected(error));
         dispatch(showModal('companies', 'error', err.message));
@@ -143,6 +142,7 @@ export const createCompany = (company) => {
 export const updateCompany = (id, company) => {
   return (dispatch) => {
     dispatch(updateCompanyFetching());
+    dispatch(showModal('companies', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/companies/${id}`, {
       method: 'PUT',
       body: JSON.stringify({

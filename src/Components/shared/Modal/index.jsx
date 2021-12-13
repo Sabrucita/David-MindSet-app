@@ -29,8 +29,8 @@ function Modal({ acceptModalFn, history }) {
           `Are you sure that you want to delete this ${removeLastChar(capitalize(resource))}?`
         );
         break;
-      case 'deleting':
-        setTitle(`Deleting...`);
+      case 'fetching':
+        setTitle(`Please wait...`);
         break;
       case 'deleted':
         setTitle(`${removeLastChar(capitalize(resource))} deleted!`);
@@ -91,7 +91,7 @@ function Modal({ acceptModalFn, history }) {
               CANCEL
             </button>
           )}
-          {type !== 'delete' && type !== 'deleting' && (
+          {type !== 'delete' && type !== 'fetching' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>
