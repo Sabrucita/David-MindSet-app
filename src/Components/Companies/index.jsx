@@ -4,56 +4,38 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
+import { deleteCompany, getCompanies } from '../../redux/companies/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { showModal } from '../../redux/modal/actions';
+import { companiesCleanup } from '../../redux/companies/actions';
 
 function Companies() {
-  const [showModal, setShowModal] = useState(false);
-  const [companies, setCompanies] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
 
-  const url = process.env.REACT_APP_API;
-  //Get info from DB
+  const dispatch = useDispatch();
+  const companies = useSelector((store) => store.companies);
+  const modal = useSelector((state) => state.modal.show);
+
   useEffect(() => {
-    fetch(`${url}/companies`)
-      .then((response) => response.json())
-      .then((response) => {
-        setCompanies(response);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getCompanies());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(companiesCleanup());
+    };
+  }, [dispatch]);
 
   //MODAL
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('companies', type, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/companies/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setCompanies(
-          companies.filter((company) => {
-            return company._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteCompany(selectedItem.id));
   };
 
   const tableHeader = ['Name', 'Address', 'City', 'Phone', 'Email', 'Actions'];
@@ -61,20 +43,13 @@ function Companies() {
   return (
     <>
       <section className={styles.container}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Companies</h1>
-        {isFetching ? (
+        {companies.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={companies} header={tableHeader} openModal={openModal} />
+            <List data={companies.list} header={tableHeader} openModal={openModal} />
             <Link to="/companies/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD COMPANY</span>
             </Link>
