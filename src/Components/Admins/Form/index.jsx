@@ -2,122 +2,57 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmin, createAdmin, updateAdmin } from '../../../redux/admins/thunks';
+import { updateSelectedAdmin, adminsCleanUp } from '../../../redux/admins/actions';
 
-function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [disableProperty, setDisableProperty] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContent, setModalContent] = useState();
+function Form({ match }) {
+  const [disableProperty, setDisableProperty] = useState(false);
+  const dispatch = useDispatch();
+  const formData = useSelector((store) => store.admins.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
-  const url = process.env.REACT_APP_API;
   const id = match.params.id;
+  let operation;
 
-  const resource = 'administrators';
+  if (id) operation = 'update';
+  else operation = 'create';
 
   useEffect(() => {
-    if (id) {
-      fetch(`${url}/${resource}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password
-          };
-          setFormData(currentData);
-          setDisableProperty(false);
-        })
-        .catch((err) => {
-          msgError(err);
-        });
+    if (operation === 'update') {
+      dispatch(getAdmin(id));
     }
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(adminsCleanUp());
+    };
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
-    if (!id) {
-      fetch(`${url}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setModalTitle('New admin added');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+    if (operation === 'create') {
+      dispatch(createAdmin(formData));
     } else {
-      fetch(`${url}/${resource}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setModalTitle('Admin Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-        });
+      dispatch(updateAdmin(id, formData));
     }
+    setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
-    validateFields();
-  };
-
-  const validateFields = () => {
-    if (!formData.firstName) setDisableProperty(true);
-    else if (!formData.lastName) setDisableProperty(true);
-    else if (!formData.email) setDisableProperty(true);
-    else if (!formData.password) setDisableProperty(true);
-    else setDisableProperty(false);
-  };
-
-  const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
-      history.push('/administrators');
-    }
-  };
-
-  const msgError = (data) => {
-    setModalType('error');
-    setModalTitle('Upsss an error has happened');
-    setModalContent(data);
-    setDisableProperty(false);
+    dispatch(updateSelectedAdmin(field, value));
   };
 
   return (
     <>
       <section className={styles.container}>
-        {!id ? <h1>Add admin</h1> : <h1>Edit admin</h1>}
+        {operation === 'create' ? (
+          <h1 className={styles.mainTitle}>Add new admin</h1>
+        ) : (
+          <h1 className={styles.mainTitle}>Edit admin</h1>
+        )}
         <form className={styles.form} onSubmit={submitForm}>
           <Fieldset
             update={id ? true : false}
@@ -162,22 +97,16 @@ function Form({ match, history }) {
           />
           <div className={styles.btnContainer}>
             <button
-              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-              type="submit"
+              className={(styles.buttonAdd, styles.buttonGreen)}
               disabled={disableProperty}
+              Addtype="submit"
             >
-              Submit
+              SUBMIT ADMINISTRATOR
             </button>
           </div>
         </form>
-        <Modal
-          showModal={showModal}
-          type={modalType}
-          titleModal={modalTitle}
-          content={modalContent}
-          closeModalFn={closeModalFn}
-        />
       </section>
+      {modal && <Modal />}
     </>
   );
 }
