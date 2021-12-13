@@ -7,13 +7,13 @@ function Fieldset({
   update,
   currentValue,
   element,
-  resource,
   name,
   displayedName,
   objectProperty,
   inputType,
   required,
-  updateData
+  updateData,
+  options
 }) {
   const [inputValue, setInputValue] = useState('');
 
@@ -42,7 +42,7 @@ function Fieldset({
           required={required}
           onChange={changeInputValue}
         >
-          <Options name={name} resource={resource} update={update} />
+          <Options name={name} update={update} options={options} />
         </select>
       );
       break;
