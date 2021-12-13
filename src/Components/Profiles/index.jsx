@@ -15,8 +15,6 @@ function Profiles() {
   const profiles = useSelector((store) => store.profiles);
   const modal = useSelector((state) => state.modal.show);
 
-  const url = process.env.REACT_APP_API;
-
   useEffect(() => {
     dispatch(getProfiles());
   }, [dispatch]);
