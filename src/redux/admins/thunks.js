@@ -1,5 +1,5 @@
 import { url } from '../../constants';
-import { showModal } from '../modal/actions';
+import { showModal, updateModal } from '../modal/actions';
 
 import {
   getAdminsFetching,
@@ -19,40 +19,41 @@ import {
   deleteAdminRejected
 } from './actions';
 
-//Get all admins
-
-export const getAdmins = () => {
-  return (dispatch) => {
-    dispatch(getAdminsFetching());
-    fetch(`${url}/administrators`)
-      .then((data) => data.json())
-      .then((response) => {
-        dispatch(getAdminsFulfilled(response));
-      })
-      .catch((err) => {
-        dispatch(getAdminsRejected(err));
-      });
-  };
-};
-
-//Get one administrator
+//Get one admin (by ID)
 
 export const getAdmin = (id) => {
   return (dispatch) => {
     dispatch(getAdminFetching());
     fetch(`${url}/administrators/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const currentData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password
-        };
-        dispatch(getAdminFulfilled(currentData));
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          const currentData = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password
+          };
+          return dispatch(getAdminFulfilled(currentData));
+        }
       })
       .catch((err) => {
         dispatch(getAdminRejected(err));
+      });
+  };
+};
+
+//Get all admins
+export const getAdmins = () => {
+  return (dispatch) => {
+    dispatch(getAdminsFetching());
+    fetch(`${url}/administrators`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getAdminsFulfilled(data));
+      })
+      .catch((err) => {
+        dispatch(getAdminsRejected(err));
       });
   };
 };
@@ -62,7 +63,7 @@ export const getAdmin = (id) => {
 export const deleteAdmin = (id) => {
   return (dispatch) => {
     dispatch(deleteAdminFetching());
-    dispatch(showModal('fetching', 'Deleting Admin', { info: 'Loading...' }));
+    dispatch(showModal('administrators', 'fetching'));
     fetch(`${url}/administrators/${id}`, {
       method: 'DELETE'
     })
@@ -70,24 +71,24 @@ export const deleteAdmin = (id) => {
         if (response.status === 200) {
           const data = await response.json();
           dispatch(deleteAdminFulfilled(data));
-          dispatch(showModal('create', 'Admin Deleted', data.data));
-        } else {
-          throw new Error(`HTTP ${response.msg}`);
+          return dispatch(updateModal('deleted', data.data));
         }
+        const data = await response.json();
+        dispatch(updateAdminRejected(data));
       })
       .catch((err) => {
         dispatch(deleteAdminRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('administrators', 'error', err.message));
       });
   };
 };
 
-//add a new admin
+//Add new psychologist
 
 export const createAdmin = (admin) => {
   return (dispatch) => {
     dispatch(createAdminFetching());
-    dispatch(showModal('fetching', 'Adding new admin', { info: 'Loading...' }));
+    dispatch(showModal('administrators', 'fetching'));
     fetch(`${url}/administrators`, {
       method: 'POST',
       body: JSON.stringify({
@@ -104,23 +105,25 @@ export const createAdmin = (admin) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createAdminFulfilled(data));
-          return dispatch(showModal('create', 'New admin added', data.data));
+          return dispatch(showModal('administrators', 'create', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        dispatch(createAdminRejected(data));
+        dispatch(showModal('administrators', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(createAdminRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('administrators', 'error', err.message));
       });
   };
 };
 
-//Update an admin
+//Update psychologist
 
 export const updateAdmin = (id, admin) => {
   return (dispatch) => {
     dispatch(updateAdminFetching());
-    dispatch(showModal('fetching', 'Updating admin', { info: 'Loading...' }));
+    dispatch(showModal('administrators', 'fetching'));
     fetch(`${url}/administrators/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -137,13 +140,15 @@ export const updateAdmin = (id, admin) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateAdminFulfilled(data));
-          return dispatch(showModal('update', 'Admin Updated', data.data));
+          return dispatch(showModal('administrators', 'update', data.data));
         }
-        throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        dispatch(updateAdminRejected(data));
+        dispatch(showModal('administrators', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(updateAdminRejected(err));
-        dispatch(showModal('error', 'Upsss an error has happened', { info: err.message }));
+        dispatch(showModal('administrators', 'error', err.message));
       });
   };
 };

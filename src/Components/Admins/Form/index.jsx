@@ -3,15 +3,14 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAdmin, updateAdmin, getAdmin } from '../../../redux/admins/thunks';
-import { updateSelectedAdmin, cleanSelectedElement } from '../../../redux/admins/actions';
-import { hideModal } from '../../../redux/modal/actions';
+import { getAdmin, createAdmin, updateAdmin } from '../../../redux/admins/thunks';
+import { updateSelectedAdmin, adminsCleanUp } from '../../../redux/admins/actions';
 
-function Form({ match, history }) {
-  const dispatch = useDispatch();
-  const modalType = useSelector((store) => store.modal.type);
-  const formData = useSelector((store) => store.admins.selectedElement);
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
+  const dispatch = useDispatch();
+  const formData = useSelector((store) => store.admins.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -20,11 +19,16 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     if (operation === 'update') {
       dispatch(getAdmin(id));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(adminsCleanUp());
+    };
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -39,13 +43,6 @@ function Form({ match, history }) {
 
   const updateForm = (field, value) => {
     dispatch(updateSelectedAdmin(field, value));
-  };
-
-  const closeModalFn = () => {
-    dispatch(hideModal());
-    if (modalType !== 'error') {
-      history.push('/administrators');
-    }
   };
 
   return (
@@ -109,7 +106,7 @@ function Form({ match, history }) {
           </div>
         </form>
       </section>
-      <Modal closeModalFn={closeModalFn} />
+      {modal && <Modal />}
     </>
   );
 }

@@ -15,7 +15,7 @@ import {
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
   UPDATE_SELECTED_ADMIN,
-  CLEAN_SELECTED_ELEMENT
+  ADMINS_CLEANUP
 } from '../../constants';
 
 //Get all admins
@@ -137,6 +137,6 @@ export const updateSelectedAdmin = (field, value) => {
 };
 
 //Clean selected element
-export const cleanSelectedElement = () => ({
-  type: CLEAN_SELECTED_ELEMENT
+export const adminsCleanUp = () => ({
+  type: ADMINS_CLEANUP
 });

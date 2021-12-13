@@ -6,28 +6,30 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
 import { deleteAdmin, getAdmins } from '../../redux/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { hideModal, showModal } from '../../redux/modal/actions';
-import { cleanSelectedElement } from '../../redux/admins/actions';
+import { showModal } from '../../redux/modal/actions';
+import { adminsCleanUp } from '../../redux/admins/actions';
 
 function Admins() {
+  const [selectedItem, setSelectedItem] = useState();
   const dispatch = useDispatch();
   const admins = useSelector((store) => store.admins);
-  const [selectedItem, setSelectedItem] = useState();
+  const modal = useSelector((state) => state.modal.show);
 
-  //Get info from DB
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     dispatch(getAdmins());
   }, [dispatch]);
 
-  //MODAL
-  const closeModal = () => {
-    dispatch(hideModal());
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(adminsCleanUp());
+    };
+  }, [dispatch]);
 
-  const openModal = (item, type, title) => {
+  //MODAL
+
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal(type, title, item));
+    dispatch(showModal('admins', type, item));
   };
 
   //MODAL CONFIRM DELETE
@@ -40,7 +42,7 @@ function Admins() {
   return (
     <>
       <section className={styles.container}>
-        <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Administrators</h1>
         {admins.isFetching ? (
           <Preloader />
@@ -48,7 +50,7 @@ function Admins() {
           <>
             <List data={admins.list} header={tableHeader} openModal={openModal} />
             <Link to="/administrators/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>ADD ADMINISTRATORS</span>
+              <span className={styles.buttonGreen}>ADD ADMINISTRATOR</span>
             </Link>
           </>
         )}

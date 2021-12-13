@@ -15,24 +15,24 @@ import {
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
   UPDATE_SELECTED_ADMIN,
-  CLEAN_SELECTED_ELEMENT
+  ADMINS_CLEANUP
 } from '../../constants';
 
 const initialState = {
   isFetching: false,
-  isFetchingDelete: false,
   list: [],
-  selectedElement: {},
-  error: { error: false, msg: '' }
+  error: false,
+  selectedElement: {}
 };
 
 const adminsReducer = (state = initialState, action) => {
   switch (action.type) {
-    //Get all admins
+    //GET ALL ADMINS
     case GET_ADMINS_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case GET_ADMINS_FULFILLED:
       return {
@@ -44,66 +44,14 @@ const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
-    //Get only one admin (by ID)
-    case GET_ADMIN_FETCHING:
-      return {
-        ...state,
-        isFetching: true,
-        error: { error: false, msg: '' }
-      };
-    case GET_ADMIN_FULFILLED:
-      return {
-        ...state,
-        isFetching: false,
-        selectedElement: action.payload
-      };
-    case GET_ADMIN_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.payload
-      };
-    //Add a new admin
-    case CREATE_ADMIN_FETCHING:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case CREATE_ADMIN_FULFILLED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case CREATE_ADMIN_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: { error: true, msg: action.payload }
-      };
-    //Update an admin
-    case UPDATE_ADMIN_FETCHING:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case UPDATE_ADMIN_FULFILLED:
-      return {
-        ...state,
-        isFetching: false
-      };
-    case UPDATE_ADMIN_REJECTED:
-      return {
-        ...state,
-        isFetching: false,
-        error: { error: true, msg: action.payload }
-      };
-    //Delete one admin
+    //DELETE ADMIN
     case DELETE_ADMIN_FETCHING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: false
       };
     case DELETE_ADMIN_FULFILLED:
       return {
@@ -115,9 +63,47 @@ const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
-    //Update selected admin
+    //ADD NEW ADMIN
+    case CREATE_ADMIN_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case CREATE_ADMIN_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {}
+      };
+    case CREATE_ADMIN_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
+    //GET ONE ADMIN (BY ID)
+    case GET_ADMIN_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case GET_ADMIN_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: action.payload
+      };
+    case GET_ADMIN_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
+    //UPDATE A ADMIN
     case UPDATE_SELECTED_ADMIN: {
       const newState = { ...state.selectedElement };
       newState[action.payload.field] = action.payload.value;
@@ -126,10 +112,33 @@ const adminsReducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
-    // Clean selected element
-    case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: '' };
-    //Default
+    // ADMINS CLEANUP
+    case ADMINS_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: false
+      };
+    //UPDATE ADMIN
+    case UPDATE_ADMIN_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case UPDATE_ADMIN_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {}
+      };
+    case UPDATE_ADMIN_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
     default:
       return state;
   }
