@@ -1,16 +1,24 @@
-import { SHOW_MODAL, HIDE_MODAL } from '../../constants';
+import { SHOW_MODAL, HIDE_MODAL, UPDATE_MODAL } from '../../constants';
 
-export const showModal = (type, title, content) => {
+export const showModal = (resource, type, content) => {
   return {
     type: SHOW_MODAL,
     payload: {
+      resource,
       type,
-      title,
       content
     }
   };
 };
-
+export const updateModal = (type, content) => {
+  return {
+    type: UPDATE_MODAL,
+    payload: {
+      type,
+      content
+    }
+  };
+};
 export const hideModal = () => {
   return {
     type: HIDE_MODAL
