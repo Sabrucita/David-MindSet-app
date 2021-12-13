@@ -98,30 +98,14 @@ export const deleteCandidates = (id) => {
 //CREATE CANDIDATE
 export const createCandidates = (candidate) => {
   return (dispatch) => {
+    candidate.address = { street: candidate.street, number: candidate.number };
+    delete candidate.street;
+    delete candidate.number;
     dispatch(createCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates`, {
       method: 'POST',
-      body: JSON.stringify({
-        firstName: candidate.firstName,
-        lastName: candidate.lastName,
-        email: candidate.email,
-        password: candidate.password,
-        phone: candidate.phone,
-        city: candidate.city,
-        province: candidate.province,
-        country: candidate.country,
-        postalCode: candidate.postalCode,
-        birthday: candidate.birthday,
-        hobbies: candidate.hobbies,
-        mainSkills: candidate.mainSkills,
-        profileTypes: candidate.profileTypes,
-        isOpenToWork: candidate.isOpenToWork,
-        education: candidate.education,
-        experiences: candidate.experiences,
-        courses: candidate.courses,
-        address: { street: `${candidate.address.street}`, number: `${candidate.address.number}` }
-      }),
+      body: JSON.stringify(candidate),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -130,11 +114,12 @@ export const createCandidates = (candidate) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createCandidatesFullfilled(data));
+          data.data.address = `${candidate.address.street} ${candidate.address.number}`;
           return dispatch(showModal('candidates', 'create', data.data));
         }
         const data = await res.json();
         dispatch(createCandidatesRejected(data));
-        dispatch(showModal('candidates', 'error', data.message));
+        dispatch(showModal('candidates', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(createCandidatesRejected(err));
@@ -150,26 +135,7 @@ export const updateCandidates = (id, candidate) => {
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({
-        firstName: candidate.firstName,
-        lastName: candidate.lastName,
-        email: candidate.email,
-        password: candidate.password,
-        phone: candidate.phone,
-        city: candidate.city,
-        province: candidate.province,
-        country: candidate.country,
-        postalCode: candidate.postalCode,
-        birthday: candidate.birthday,
-        hobbies: candidate.hobbies,
-        mainSkills: candidate.mainSkills,
-        profileTypes: candidate.profileTypes,
-        isOpenToWork: candidate.isOpenToWork,
-        education: candidate.education,
-        experiences: candidate.experiences,
-        courses: candidate.courses,
-        address: { street: `${candidate.address.street}`, number: `${candidate.address.number}` }
-      }),
+      body: JSON.stringify(candidate),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -178,14 +144,16 @@ export const updateCandidates = (id, candidate) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateCandidatesFullfilled(data));
+          data.data.address = `${candidate.address.street} ${candidate.address.number}`;
           return dispatch(showModal('candidates', 'update', data.data));
         }
         const data = await res.json();
         dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('candidates', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(updateCandidatesRejected(err));
-        dispatch(showModal('error', err.message));
+        dispatch(showModal('candidates', 'error', err.message));
       });
   };
 };
