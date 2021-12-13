@@ -26,7 +26,11 @@ import {
 const initialState = {
   isFetching: false,
   list: [],
-  selectedElement: {},
+  selectedElement: {
+    idCandidate: '',
+    idPsychologist: '',
+    date: ''
+  },
   options: { candidates: [], psychologists: [] },
   error: false
 };
@@ -95,7 +99,11 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        selectedElement: {},
+        selectedElement: {
+          idCandidate: '',
+          idPsychologist: '',
+          date: ''
+        },
         error: false
       };
 
