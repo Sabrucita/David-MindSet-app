@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
-import ListItem from '../../shared/ListItem';
 import { capitalize, formatDate } from '../../helpers';
 import { showModal } from '../../../redux/modal/actions';
-import styles from './list.module.css';
 import { getSelectedSession } from '../../../redux/sessions/actions';
+import ListItem from '../../shared/ListItem';
+import styles from './list.module.css';
 
 function List({ data }) {
   const dispatch = useDispatch();

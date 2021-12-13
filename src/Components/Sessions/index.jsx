@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSessions, deleteSession } from '../../redux/sessions/thunks';
+import { sessionsCleanup } from '../../redux/sessions/actions';
 import List from './List';
 import Modal from '../shared/Modal';
 import Preloader from '../shared/Preloader';
 import styles from './sessions.module.css';
-import { sessionsCleanup } from '../../redux/sessions/actions';
 
 function Sessions() {
   const dispatch = useDispatch();
