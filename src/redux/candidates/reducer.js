@@ -14,8 +14,8 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
-  UPDATE_SELECTED_APPLICATION,
-  CLEAN_SELECTED_ELEMENT
+  UPDATE_SELECTED_CANDIDATE,
+  CANDIDATES_CLEANUP
 } from '../../constants';
 
 const initialState = {
@@ -27,11 +27,12 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    //GET ALL CANDIDATES
     case GET_CANDIDATES_FETCHING: {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error
+        error: false
       };
     }
     case GET_CANDIDATES_FULLFILLED: {
@@ -45,15 +46,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     }
+    //GET CANDIDATE BY ID
     case GET_CANDIDATE_BY_ID_FETCHING: {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error,
-        selectedItem: initialState.selectedItem
+        error: false
       };
     }
     case GET_CANDIDATE_BY_ID_FULLFILLED: {
@@ -67,31 +68,33 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
     }
+    // CREATE A CANDIDATE
     case CREATE_CANDIDATES_FETCHING: {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error
+        error: false
       };
     }
     case CREATE_CANDIDATES_FULLFILLED: {
       return {
         ...state,
         isFetching: false,
-        list: [...state.list, action.payload]
+        selectedElement: {}
       };
     }
     case CREATE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: true
       };
     }
-    case UPDATE_SELECTED_APPLICATION: {
+    //UPDATE ONE
+    case UPDATE_SELECTED_CANDIDATE: {
       const newState = { ...state.selectedElement };
       newState[action.payload.field] = action.payload.value;
       return {
@@ -99,53 +102,51 @@ const reducer = (state = initialState, action) => {
         selectedElement: newState
       };
     }
-    case CLEAN_SELECTED_ELEMENT:
-      return { ...state, selectedElement: '' };
+    //CLEAN UP
+    case CANDIDATES_CLEANUP:
+      return { ...state, isFetching: false, selectedElement: {}, error: false };
+    //UPDATE CANDIDATES
     case UPDATE_CANDIDATES_FETCHING: {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error
+        error: false
       };
     }
     case UPDATE_CANDIDATES_FULLFILLED: {
       return {
         ...state,
         isFetching: false,
-        list: state.list.map((item) => {
-          if (item.id === action.payload._id) {
-            return action.payload;
-          }
-          return item;
-        })
+        selectedElement: {}
       };
     }
     case UPDATE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        eeror: action.payload
+        eeror: true
       };
     }
+    //DELETE CANDIDATE
     case DELETE_CANDIDATES_FETCHING: {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error
+        error: false
       };
     }
     case DELETE_CANDIDATES_FULLFILLED: {
       return {
         ...state,
         isFetching: false,
-        list: state.list.filter((element) => element._id !== action.payload)
+        list: state.list.filter((element) => element._id !== action.payload.data._id)
       };
     }
     case DELETE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        error: { error: true, msg: action.payload }
+        error: true
       };
     }
     default: {

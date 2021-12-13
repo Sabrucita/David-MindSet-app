@@ -14,8 +14,8 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
-  UPDATE_SELECTED_APPLICATION,
-  CLEAN_SELECTED_ELEMENT
+  UPDATE_SELECTED_CANDIDATE,
+  CANDIDATES_CLEANUP
 } from '../../constants';
 
 //Get all Candidates
@@ -28,9 +28,8 @@ export const getCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const getCandidatesRejected = (payload) => ({
-  type: GET_CANDIDATES_REJECTED,
-  payload
+export const getCandidatesRejected = () => ({
+  type: GET_CANDIDATES_REJECTED
 });
 
 //Get Candidates By ID
@@ -43,20 +42,19 @@ export const getCandidateByIdFullfilled = (payload) => ({
   payload
 });
 
-export const getCandidateByIdRejected = (payload) => ({
-  type: GET_CANDIDATE_BY_ID_REJECTED,
-  payload
+export const getCandidateByIdRejected = () => ({
+  type: GET_CANDIDATE_BY_ID_REJECTED
 });
 
-//UPDATE SELECTED APPLICATION
-export const updateSelectedApplication = (field, value) => {
+//UPDATE SELECTED CANDIDATE
+export const updateSelectedCandidate = (field, value) => {
   return {
-    type: UPDATE_SELECTED_APPLICATION,
+    type: UPDATE_SELECTED_CANDIDATE,
     payload: { field, value }
   };
 };
-export const cleanSelectedElement = () => ({
-  type: CLEAN_SELECTED_ELEMENT
+export const candidatesCleanUp = () => ({
+  type: CANDIDATES_CLEANUP
 });
 
 //Create Candidates
@@ -69,9 +67,8 @@ export const createCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const createCandidatesRejected = (payload) => ({
-  type: CREATE_CANDIDATES_REJECTED,
-  payload
+export const createCandidatesRejected = () => ({
+  type: CREATE_CANDIDATES_REJECTED
 });
 
 //Update Candidates
@@ -84,9 +81,8 @@ export const updateCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const updateCandidatesRejected = (payload) => ({
-  type: UPDATE_CANDIDATES_REJECTED,
-  payload
+export const updateCandidatesRejected = () => ({
+  type: UPDATE_CANDIDATES_REJECTED
 });
 
 //Delete Candidates
@@ -99,7 +95,6 @@ export const deleteCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const deleteCandidatesRejected = (payload) => ({
-  type: DELETE_CANDIDATES_REJECTED,
-  payload
+export const deleteCandidatesRejected = () => ({
+  type: DELETE_CANDIDATES_REJECTED
 });

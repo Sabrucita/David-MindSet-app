@@ -6,36 +6,38 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCandidates, deleteCandidates } from '../../redux/candidates/thunks';
-import store from '../../redux/store';
-import { url } from '../../constants';
+import { hideModal, showModal } from '../../redux/modal/actions';
+import { candidatesCleanUp } from '../../redux/candidates/actions';
 
 function Candidates() {
-  const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-
   const dispatch = useDispatch();
   const candidates = useSelector((store) => store.candidates);
+  const modal = useSelector((state) => state.modal.show);
 
   useEffect(() => {
     dispatch(getCandidates());
   }, [dispatch]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(candidatesCleanUp());
+    };
+  }, []);
+
+  //MODAL DELETE
   const acceptModal = () => {
     dispatch(deleteCandidates(selectedItem.id));
-    setShowModal(false);
   };
 
+  //MODAL
   const closeModal = () => {
-    setShowModal(false);
+    dispatch(hideModal());
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('candidates', type, item));
   };
 
   const tableHeader = [
@@ -54,14 +56,7 @@ function Candidates() {
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={selectedItem}
-        type={typeModal}
-        titleModal={titleModal}
-      />
+      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1 className={styles.mainTitle}>Candidates</h1>
         {candidates.isFetching ? (
