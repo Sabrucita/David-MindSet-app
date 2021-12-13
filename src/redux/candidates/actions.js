@@ -28,8 +28,9 @@ export const getCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const getCandidatesRejected = () => ({
-  type: GET_CANDIDATES_REJECTED
+export const getCandidatesRejected = (payload) => ({
+  type: GET_CANDIDATES_REJECTED,
+  payload
 });
 
 //Get Candidates By ID
@@ -42,11 +43,11 @@ export const getCandidateByIdFullfilled = (payload) => ({
   payload
 });
 
-export const getCandidateByIdRejected = () => ({
-  type: GET_CANDIDATE_BY_ID_REJECTED
+export const getCandidateByIdRejected = (payload) => ({
+  type: GET_CANDIDATE_BY_ID_REJECTED,
+  payload
 });
 
-//UPDATE SELECTED CANDIDATE
 export const updateSelectedCandidate = (field, value) => {
   return {
     type: UPDATE_SELECTED_CANDIDATE,
@@ -67,8 +68,9 @@ export const createCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const createCandidatesRejected = () => ({
-  type: CREATE_CANDIDATES_REJECTED
+export const createCandidatesRejected = (payload) => ({
+  type: CREATE_CANDIDATES_REJECTED,
+  payload
 });
 
 //Update Candidates
@@ -81,8 +83,9 @@ export const updateCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const updateCandidatesRejected = () => ({
-  type: UPDATE_CANDIDATES_REJECTED
+export const updateCandidatesRejected = (payload) => ({
+  type: UPDATE_CANDIDATES_REJECTED,
+  payload
 });
 
 //Delete Candidates
@@ -95,6 +98,7 @@ export const deleteCandidatesFullfilled = (payload) => ({
   payload
 });
 
-export const deleteCandidatesRejected = () => ({
-  type: DELETE_CANDIDATES_REJECTED
+export const deleteCandidatesRejected = (payload) => ({
+  type: DELETE_CANDIDATES_REJECTED,
+  payload
 });

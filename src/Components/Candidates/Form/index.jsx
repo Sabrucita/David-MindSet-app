@@ -1,12 +1,11 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  createCandidate,
-  updateCandidate,
+  createCandidates,
+  updateCandidates,
   getCandidateById
 } from '../../../redux/candidates/thunks';
 import { updateSelectedCandidate, candidatesCleanUp } from '../../../redux/candidates/actions';
@@ -23,6 +22,7 @@ function Form({ match }) {
   else operation = 'create';
 
   useEffect(() => {
+    dispatch(candidatesCleanUp());
     if (operation === 'update') {
       dispatch(getCandidateById(id));
     }
@@ -38,9 +38,9 @@ function Form({ match }) {
     e.preventDefault();
     setDisableProperty(true);
     if (operation === 'create') {
-      dispatch(createCandidate(formData));
+      dispatch(createCandidates(formData));
     } else {
-      dispatch(updateCandidate(id, formData));
+      dispatch(updateCandidates(id, formData));
     }
     setDisableProperty(false);
   };
@@ -51,7 +51,6 @@ function Form({ match }) {
 
   return (
     <>
-      {modal && <Modal />}
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Candidate</h1>
@@ -266,6 +265,7 @@ function Form({ match }) {
           </div>
         </form>
       </section>
+      {modal && <Modal />}
     </>
   );
 }

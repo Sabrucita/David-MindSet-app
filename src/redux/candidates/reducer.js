@@ -20,6 +20,7 @@ import {
 
 const initialState = {
   isFetching: false,
+  isFetchingDelete: false,
   list: [],
   selectedElement: {},
   error: { error: false, msg: '' }
@@ -31,8 +32,7 @@ const reducer = (state = initialState, action) => {
     case GET_CANDIDATES_FETCHING: {
       return {
         ...state,
-        isFetching: true,
-        error: false
+        isFetching: true
       };
     }
     case GET_CANDIDATES_FULLFILLED: {
@@ -46,7 +46,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: true
+        error: { error: true, msg: action.payload }
       };
     }
     //GET CANDIDATE BY ID
@@ -54,43 +54,41 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: false
+        error: { error: false, msg: '' }
       };
     }
     case GET_CANDIDATE_BY_ID_FULLFILLED: {
       return {
         ...state,
         isFetching: false,
-        selectedItem: action.payload
+        selectedElement: action.payload
       };
     }
     case GET_CANDIDATE_BY_ID_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        error: true
+        error: action.payload
       };
     }
     // CREATE A CANDIDATE
     case CREATE_CANDIDATES_FETCHING: {
       return {
         ...state,
-        isFetching: true,
-        error: false
+        isFetching: true
       };
     }
     case CREATE_CANDIDATES_FULLFILLED: {
       return {
         ...state,
-        isFetching: false,
-        selectedElement: {}
+        isFetching: false
       };
     }
     case CREATE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        error: true
+        error: { error: true, msg: action.payload }
       };
     }
     //UPDATE ONE
@@ -104,35 +102,32 @@ const reducer = (state = initialState, action) => {
     }
     //CLEAN UP
     case CANDIDATES_CLEANUP:
-      return { ...state, isFetching: false, selectedElement: {}, error: false };
+      return { ...state, selectedElement: '' };
     //UPDATE CANDIDATES
     case UPDATE_CANDIDATES_FETCHING: {
       return {
         ...state,
-        isFetching: true,
-        error: false
+        isFetching: true
       };
     }
     case UPDATE_CANDIDATES_FULLFILLED: {
       return {
         ...state,
-        isFetching: false,
-        selectedElement: {}
+        isFetching: false
       };
     }
     case UPDATE_CANDIDATES_REJECTED: {
       return {
         ...state,
         isFetching: false,
-        eeror: true
+        error: { error: true, msg: action.payload }
       };
     }
     //DELETE CANDIDATE
     case DELETE_CANDIDATES_FETCHING: {
       return {
         ...state,
-        isFetching: true,
-        error: false
+        isFetching: true
       };
     }
     case DELETE_CANDIDATES_FULLFILLED: {
@@ -146,7 +141,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: true
+        error: { error: true, msg: action.payload }
       };
     }
     default: {

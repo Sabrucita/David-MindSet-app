@@ -23,17 +23,13 @@ export const getCandidates = () => {
   return (dispatch) => {
     dispatch(getCandidatesFetching());
     fetch(`${url}/candidates`)
-      .then(async (res) => {
-        if (res.status === 200) {
-          const data = await res.json();
-          return dispatch(getCandidatesFullfilled(data));
-        }
-        const data = await res.json();
-        throw new Error(data.msg);
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getCandidatesFullfilled(data));
       })
       .catch((err) => {
-        dispatch(getCandidatesRejected());
-        dispatch(showModal('applications', 'error', err.message));
+        const error = { error: true, msg: err };
+        dispatch(getCandidatesRejected(error));
       });
   };
 };
@@ -69,12 +65,10 @@ export const getCandidateById = (id) => {
           };
           return dispatch(getCandidateByIdFullfilled(currentData));
         }
-        const data = await res.json();
-        throw new Error(data.msg);
       })
       .catch((err) => {
-        dispatch(getCandidateByIdRejected());
-        dispatch(showModal('candidates', 'error', err.message));
+        const error = { error: true, msg: err };
+        dispatch(getCandidateByIdRejected(error));
       });
   };
 };
@@ -83,7 +77,7 @@ export const getCandidateById = (id) => {
 export const deleteCandidates = (id) => {
   return (dispatch) => {
     dispatch(deleteCandidatesFetching());
-    dispatch(updateModal('fetching', { info: 'Loading...' }));
+    dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/Candidates/${id}`, {
       method: 'DELETE'
     })
@@ -94,23 +88,43 @@ export const deleteCandidates = (id) => {
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();
-        throw new Error(data.msg);
+        dispatch(updateCandidatesRejected(data));
       })
       .catch((err) => {
-        dispatch(deleteCandidatesRejected());
-        dispatch(updateModal('error', err.message));
+        const error = { error: true, msg: err.message };
+        dispatch(deleteCandidatesRejected(error));
+        dispatch(showModal('candidates', 'Upsss an error has happened', err.message));
       });
   };
 };
 
 //CREATE CANDIDATE
-export const createCandidates = (obj) => {
+export const createCandidates = (candidate) => {
   return (dispatch) => {
     dispatch(createCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates`, {
       method: 'POST',
-      body: JSON.stringify(obj),
+      body: JSON.stringify({
+        firstName: candidate.firstName,
+        lastName: candidate.lastName,
+        email: candidate.email,
+        password: candidate.password,
+        phone: candidate.phone,
+        city: candidate.city,
+        province: candidate.province,
+        country: candidate.country,
+        postalCode: candidate.postalCode,
+        birthday: candidate.birthday,
+        hobbies: candidate.hobbies,
+        mainSkills: candidate.mainSkills,
+        profileTypes: candidate.profileTypes,
+        isOpenToWork: candidate.isOpenToWork,
+        education: candidate.education,
+        experiences: candidate.experiences,
+        courses: candidate.courses,
+        address: { street: candidate.address.street, number: candidate.address.number }
+      }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -119,26 +133,46 @@ export const createCandidates = (obj) => {
         if (res.status === 201) {
           const data = await res.json();
           dispatch(createCandidatesFullfilled(data));
-          return dispatch(updateModal('create', data.data));
+          return dispatch(showModal('candidates', 'create', data.data));
         }
         const data = await res.json();
-        throw new Error(data.msg);
+        dispatch(createCandidatesRejected(data));
       })
       .catch((err) => {
-        dispatch(createCandidatesRejected());
-        dispatch(updateModal('error', err.message));
+        const error = { error: true, msg: err };
+        dispatch(createCandidatesRejected(error));
+        dispatch(showModal('candidates', 'error', err.message));
       });
   };
 };
 
 //UPDATE CANDIDATES
-export const updateCandidates = (id, obj) => {
+export const updateCandidates = (id, candidate) => {
   return (dispatch) => {
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(obj),
+      body: JSON.stringify({
+        firstName: candidate.firstName,
+        lastName: candidate.lastName,
+        email: candidate.email,
+        password: candidate.password,
+        phone: candidate.phone,
+        city: candidate.city,
+        province: candidate.province,
+        country: candidate.country,
+        postalCode: candidate.postalCode,
+        birthday: candidate.birthday,
+        hobbies: candidate.hobbies,
+        mainSkills: candidate.mainSkills,
+        profileTypes: candidate.profileTypes,
+        isOpenToWork: candidate.isOpenToWork,
+        education: candidate.education,
+        experiences: candidate.experiences,
+        courses: candidate.courses,
+        address: { street: candidate.address.street, number: candidate.address.number }
+      }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -147,14 +181,15 @@ export const updateCandidates = (id, obj) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(updateCandidatesFullfilled(data));
-          return dispatch(updateModal('update', data.data));
+          return dispatch(showModal('candidates', 'update', data.data));
         }
         const data = await res.json();
-        throw new Error(data.msg);
+        dispatch(updateCandidatesRejected(data));
       })
       .catch((err) => {
-        dispatch(updateCandidatesRejected());
-        dispatch(updateModal('error', err.message));
+        const error = { error: true, msg: err };
+        dispatch(updateCandidatesRejected(error));
+        dispatch(showModal('error', err.message));
       });
   };
 };

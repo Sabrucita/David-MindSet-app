@@ -12,47 +12,44 @@ function List({ header, data, openModal }) {
             })}
           </tr>
         </thead>
-        {data.length === 0 ? (
-          <p className={styles.loading}>There are no applications</p>
-        ) : (
-          <tbody>
-            {data.map((element) => {
-              return (
-                <ListItem
-                  key={element._id}
-                  id={element._id}
-                  dataTable={{
-                    firstName: element.firstName,
-                    lastName: element.lastName,
-                    phone: element.phone,
-                    email: element.email,
-                    country: element.country,
-                    province: element.province,
-                    city: element.city,
-                    postalCode: element.postalCode,
-                    address: `${element.address.street} ${element.address.number}`,
-                    birthday: element.birthday
-                  }}
-                  dataElement={{
-                    id: element._id,
-                    firstname: element.firstName,
-                    lastname: element.lastName,
-                    phone: element.phone,
-                    email: element.email,
-                    country: element.country,
-                    province: element.province,
-                    city: element.city,
-                    postalCode: element.postalCode,
-                    address: `${element.address.street} ${element.address.number}`,
-                    birthday: element.birthday
-                  }}
-                  openModal={openModal}
-                  resource="candidates"
-                />
-              );
-            })}
-          </tbody>
-        )}
+        <tbody>
+          {data.map((element) => {
+            return (
+              <ListItem
+                key={element._id}
+                id={element._id}
+                dataTable={{
+                  firstName: element.firstName,
+                  lastName: element.lastName,
+                  phone: element.phone,
+                  email: element.email,
+                  country: element.country,
+                  province: element.province,
+                  city: element.city,
+                  postalCode: element.postalCode,
+                  address: `${element.address.street} ${element.address.number}`,
+                  birthday: element.birthday
+                }}
+                dataElement={{
+                  id: element._id,
+                  firstname: element.firstName,
+                  lastname: element.lastName,
+                  phone: element.phone,
+                  email: element.email,
+                  country: element.country,
+                  province: element.province,
+                  city: element.city,
+                  postalCode: element.postalCode,
+                  address: `${element.address.street} ${element.address.number}`,
+                  birthday: element.birthday
+                }}
+                openModal={openModal}
+                missingData={element._id === null || element._id === null}
+                resource="candidates"
+              />
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

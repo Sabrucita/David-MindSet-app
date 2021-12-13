@@ -23,12 +23,7 @@ function Candidates() {
     return () => {
       dispatch(candidatesCleanUp());
     };
-  }, []);
-
-  //MODAL DELETE
-  const acceptModal = () => {
-    dispatch(deleteCandidates(selectedItem.id));
-  };
+  }, [dispatch]);
 
   //MODAL
   const closeModal = () => {
@@ -38,6 +33,11 @@ function Candidates() {
   const openModal = (item, type) => {
     setSelectedItem(item);
     dispatch(showModal('candidates', type, item));
+  };
+
+  //MODAL DELETE
+  const acceptModal = () => {
+    dispatch(deleteCandidates(selectedItem.id));
   };
 
   const tableHeader = [
@@ -56,8 +56,8 @@ function Candidates() {
 
   return (
     <>
-      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
       <section className={styles.container}>
+        {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
         <h1 className={styles.mainTitle}>Candidates</h1>
         {candidates.isFetching ? (
           <Preloader />
