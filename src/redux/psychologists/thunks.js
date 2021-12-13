@@ -63,7 +63,7 @@ export const getPsychologists = () => {
 export const deletePsychologist = (id) => {
   return (dispatch) => {
     dispatch(deletePsychologistFetching());
-    dispatch(showModal('psychologist', 'fetching'));
+    dispatch(showModal('psychologists', 'fetching'));
     fetch(`${url}/psychologists/${id}`, {
       method: 'DELETE'
     })
@@ -109,7 +109,7 @@ export const createPsychologist = (psychologist) => {
         }
         const data = await res.json();
         dispatch(createPsychologistRejected(data));
-        dispatch(showModal('psychologists', 'error', data.message));
+        dispatch(showModal('psychologists', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(createPsychologistRejected(err));
@@ -118,7 +118,7 @@ export const createPsychologist = (psychologist) => {
   };
 };
 
-//UPDATE COMPANY
+//Update psychologist
 
 export const updatePsychologist = (id, psychologist) => {
   return (dispatch) => {
@@ -144,7 +144,7 @@ export const updatePsychologist = (id, psychologist) => {
         }
         const data = await res.json();
         dispatch(updatePsychologistRejected(data));
-        dispatch(showModal('psychologists', 'error', data.message));
+        dispatch(showModal('psychologists', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(updatePsychologistRejected(err));
