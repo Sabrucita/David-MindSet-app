@@ -7,7 +7,7 @@ export const capitalize = (str) => {
 };
 
 export const removeLastChar = (str) => {
-  if (str === 'Companies') return 'Company';
+  if (str.toLowerCase() === 'companies') return `${str.substr(0, str.length - 3)}y`;
   return str.substr(0, str.length - 1);
 };
 
