@@ -1,96 +1,56 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { positionsCleanup, updateSelectedPosition } from '../../../redux/positions/actions';
+import {
+  createPosition,
+  getPosition,
+  getPositionsOptions,
+  updatePosition
+} from '../../../redux/positions/thunks';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
-function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [disableProperty, setDisableProperty] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContent, setModalContent] = useState();
+function Form({ match }) {
+  const dispatch = useDispatch();
 
-  const url = process.env.REACT_APP_API;
+  const options = useSelector((store) => store.positions.options);
+  const formData = useSelector((store) => store.positions.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
+
+  const [disableProperty, setDisableProperty] = useState(true);
+
   const id = match.params.id;
 
-  const resource = 'open-positions';
+  useEffect(() => {
+    dispatch(getPositionsOptions('companies'));
+    if (id) {
+      dispatch(getPosition(id));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    if (id) {
-      fetch(`${url}/${resource}/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            idCompany: data.idCompany._id,
-            startDate: data.startDate?.substr(0, 10),
-            endDate: data.endDate?.substr(0, 10),
-            jobDescription: data.jobDescription
-          };
-          setFormData(currentData);
-          setDisableProperty(false);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
-    }
+    validateFields();
+  }, [formData]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(positionsCleanup());
+    };
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
     if (!id) {
-      fetch(`${url}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          if (res.status === 201) {
-            const data = await res.json();
-            setShowModal(true);
-            setModalType('create');
-            setModalTitle('Application Created');
-            return setModalContent(data.data);
-          }
-          const data = await res.json();
-          showErrorMsg(data.data);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
+      dispatch(createPosition(formData));
     } else {
-      fetch(`${url}/${resource}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          if (res.status === 200) {
-            const data = await res.json();
-            setShowModal(true);
-            setModalType('create');
-            setModalTitle('Application Updated');
-            return setModalContent(data.data);
-          }
-          const data = await res.json();
-          showErrorMsg(data.data);
-        })
-        .catch((err) => {
-          showErrorMsg(err);
-        });
+      dispatch(updatePosition(id, formData));
     }
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
-    validateFields();
+    dispatch(updateSelectedPosition(field, value));
   };
 
   const validateFields = () => {
@@ -106,27 +66,9 @@ function Form({ match, history }) {
     else setDisableProperty(false);
   };
 
-  const closeModalFn = () => {
-    setShowModal(false);
-    history.push('/positions');
-  };
-
-  const showErrorMsg = (data) => {
-    setModalType('error');
-    setModalTitle('Upsss an error has happened');
-    setModalContent(data);
-    setShowModal(true);
-  };
-
   return (
     <>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        titleModal={modalTitle}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-      />
+      {modal && <Modal />}
       <section className={styles.container}>
         {!id ? (
           <h1 className={styles.mainTitle}>Create Position</h1>
@@ -138,11 +80,11 @@ function Form({ match, history }) {
             update={id ? true : false}
             currentValue={formData.idCompany}
             element="select"
-            resource="companies"
             name="company"
             objectProperty="idCompany"
             required
             updateData={updateForm}
+            options={options.companies}
           />
           <Fieldset
             update={id ? true : false}
