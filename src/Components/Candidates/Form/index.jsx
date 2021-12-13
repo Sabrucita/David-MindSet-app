@@ -4,17 +4,17 @@ import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCandidate, updateCandidate, getCandidateById } from '../../../redux/candidates/thunks';
-import { updateSelectedCandidate, cleanSelectedElement } from '../../../redux/candidates/actions';
-import { hideModal } from '../../../redux/modal/action';
+import {
+  createCandidate,
+  updateCandidate,
+  getCandidateById
+} from '../../../redux/candidates/thunks';
+import { updateSelectedCandidate, candidatesCleanUp } from '../../../redux/candidates/actions';
 
-function Form({ match, history }) {
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
   const dispatch = useDispatch();
-  const showModal = useSelector((store) => store.modal.show);
-  const modalType = useSelector((store) => store.modal.type);
-  const modalTitle = useSelector((store) => store.modal.title);
-  const modalContent = useSelector((store) => store.modal.content);
+  const modal = useSelector((store) => store.modal.show);
   const formData = useSelector((store) => store.candidates.selectedElement);
   const id = match.params.id;
   let operation;
@@ -23,11 +23,16 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
-    dispatch(cleanSelectedElement());
     if (operation === 'update') {
       dispatch(getCandidateById(id));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(candidatesCleanUp());
+    };
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -40,33 +45,13 @@ function Form({ match, history }) {
     setDisableProperty(false);
   };
 
-  // const msgError = (data) => {
-  //   setModalType('error');
-  //   setTitleModal('Upsss an error has happened');
-  //   setModalContent(data);
-  //   setDisableProperty(false);
-  // };
-
   const updateForm = (field, value) => {
     dispatch(updateSelectedCandidate(field, value));
   };
 
-  const closeModalFn = () => {
-    dispatch(hideModal());
-    if (modalType !== 'error') {
-      history.push('/candidates');
-    }
-  };
-
   return (
     <>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={modalTitle}
-      />
+      {modal && <Modal />}
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Candidate</h1>
