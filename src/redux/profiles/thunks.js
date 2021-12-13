@@ -16,9 +16,7 @@ import {
   updateProfilesRejected,
   getProfileFetching,
   getProfileFulfilled,
-  getProfileRejected,
-  updateSelectedProfile,
-  profilesCleanup
+  getProfileRejected
 } from './actions';
 
 //GET ONE PROFILE
