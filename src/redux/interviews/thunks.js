@@ -72,7 +72,7 @@ export const getInterviews = () => {
 export const deleteInterview = (id) => {
   return (dispatch) => {
     dispatch(deleteInterviewFetching());
-    dispatch(updateModal('fetching', { info: 'Loading...' }));
+    dispatch(updateModal('fetching'));
     fetch(`${url}/interviews/${id}`, {
       method: 'DELETE'
     })
@@ -99,7 +99,7 @@ export const createInterview = (obj) => {
   return (dispatch) => {
     obj.status = true;
     dispatch(createInterviewFetching());
-    dispatch(showModal('interviews', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('interviews', 'fetching'));
     fetch(`${url}/interviews`, {
       method: 'POST',
       body: JSON.stringify(obj),
@@ -127,7 +127,7 @@ export const createInterview = (obj) => {
 export const updateInterview = (id, obj) => {
   return (dispatch) => {
     dispatch(updateInterviewFetching());
-    dispatch(showModal('interviews', 'fetching', { info: 'Loading...' }));
+    dispatch(showModal('interviews', 'fetching'));
     fetch(`${url}/interviews/${id}`, {
       method: 'PUT',
       body: JSON.stringify(obj),

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteInterview, getInterviews } from '../../redux/interviews/thunks';
-import { hideModal, showModal } from '../../redux/modal/actions';
+import { showModal } from '../../redux/modal/actions';
 import { interviewsCleanUp } from '../../redux/interviews/actions';
 
 function Interviews() {
@@ -26,11 +26,6 @@ function Interviews() {
     };
   }, []);
 
-  //MODAL
-  const closeModal = () => {
-    dispatch(hideModal());
-  };
-
   const openModal = (item, type) => {
     setSelectedItem(item);
     dispatch(showModal('interviews', type, item));
@@ -45,7 +40,7 @@ function Interviews() {
 
   return (
     <>
-      {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
+      {modal && <Modal acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1>Interviews</h1>
         {interviews.isFetching ? (
