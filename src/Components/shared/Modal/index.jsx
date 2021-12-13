@@ -8,11 +8,10 @@ import styles from './modal.module.css';
 
 function Modal({ acceptModalFn, history }) {
   const dispatch = useDispatch();
-  const show = useSelector((store) => store.modal.show);
   const resource = useSelector((store) => store.modal.resource);
   const type = useSelector((store) => store.modal.type);
   const content = useSelector((store) => store.modal.content);
-  const [title, setTitle] = useState(' ');
+  const [title, setTitle] = useState('');
 
   let dataContent = [],
     modalContent;
@@ -77,7 +76,7 @@ function Modal({ acceptModalFn, history }) {
   }
 
   return (
-    <div className={`${styles.container} ${!show ? styles.hidden : ''}`}>
+    <div className={styles.container}>
       <div className={styles.modal}>
         <h2>{title}</h2>
         {modalContent}

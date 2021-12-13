@@ -16,9 +16,6 @@
   justify-content: flex-end;
   margin: 5px;
 }
-.modalHide {
-  display: none;
-}
 .modal {
   background-color: #ffffff;
   margin: 30% auto;
@@ -60,9 +57,6 @@
 }
 .buttonModal button:hover {
   background-color: rgb(88, 88, 88);
-}
-.hidden {
-  display: none;
 }
 .center {
   display: flex;
