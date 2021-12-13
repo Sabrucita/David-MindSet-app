@@ -1,7 +1,7 @@
 import styles from './list.module.css';
 import ListItem from '../../shared/ListItem';
 
-function List({ data, header, openModal }) {
+function List({ header, data, openModal }) {
   return (
     <div className={styles.list}>
       <table>

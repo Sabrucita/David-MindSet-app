@@ -4,77 +4,50 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteApplication, getApplications } from '../../redux/applications/thunks';
+import { hideModal, showModal } from '../../redux/modal/actions';
+import { applicationsCleanUp } from '../../redux/applications/actions';
 
 function Applications() {
-  const [showModal, setShowModal] = useState(false);
-  const [applications, setApplications] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
 
-  const url = process.env.REACT_APP_API;
-  //Get app info from DB
+  const dispatch = useDispatch();
+  const applications = useSelector((store) => store.applications);
+  const modal = useSelector((state) => state.modal.show);
+
   useEffect(() => {
-    fetch(`${url}/applications`)
-      .then((response) => response.json())
-      .then((data) => {
-        setApplications(data);
-        setIsFetching(false);
-      });
+    dispatch(getApplications());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(applicationsCleanUp());
+    };
   }, []);
 
-  //MODAL
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('applications', type, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/applications/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setApplications(
-          applications.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteApplication(selectedItem.id));
   };
 
   const tableHeader = ['Candidate', 'Open Position', 'Status', 'Action'];
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={selectedItem}
-        type={typeModal}
-        titleModal={titleModal}
-      />
+      {modal && <Modal acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1>Applications</h1>
-        {isFetching ? (
+        {applications.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={applications} header={tableHeader} openModal={openModal} />
+            <List data={applications.list} header={tableHeader} openModal={openModal} />
             <Link to="/applications/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD APPLICATION</span>
             </Link>
