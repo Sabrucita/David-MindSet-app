@@ -88,7 +88,7 @@ export const deleteCandidates = (id) => {
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();
-        dispatch(updateCandidatesRejected(data));
+        dispatch(deleteCandidatesRejected(data));
       })
       .catch((err) => {
         const error = { error: true, msg: err.message };
@@ -123,7 +123,7 @@ export const createCandidates = (candidate) => {
         education: candidate.education,
         experiences: candidate.experiences,
         courses: candidate.courses,
-        address: { street: candidate.address.street, number: candidate.address.number }
+        address: `${candidate.address.street} ${candidate.address.number}`
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -137,6 +137,7 @@ export const createCandidates = (candidate) => {
         }
         const data = await res.json();
         dispatch(createCandidatesRejected(data));
+        dispatch(showModal('candidates', 'error', data.message));
       })
       .catch((err) => {
         const error = { error: true, msg: err };
@@ -171,7 +172,7 @@ export const updateCandidates = (id, candidate) => {
         education: candidate.education,
         experiences: candidate.experiences,
         courses: candidate.courses,
-        address: { street: candidate.address.street, number: candidate.address.number }
+        address: `${candidate.address.street} ${candidate.address.number}`
       }),
       headers: {
         'Content-Type': 'application/json'
