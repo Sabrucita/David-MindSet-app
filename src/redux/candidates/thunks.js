@@ -52,7 +52,7 @@ export const getCandidateById = (id) => {
             province: data.province,
             country: data.country,
             postalCode: data.postalCode,
-            birthday: data.birthday,
+            birthday: data.birthday?.substr(0, 10),
             hobbies: data.hobbies,
             mainSkills: data.mainSkills,
             profileTypes: data.profileTypes,
@@ -131,6 +131,9 @@ export const createCandidates = (candidate) => {
 //UPDATE CANDIDATES
 export const updateCandidates = (id, candidate) => {
   return (dispatch) => {
+    // candidate.address = { street: candidate.street, number: candidate.number };
+    // delete candidate.street;
+    // delete candidate.number;
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${id}`, {

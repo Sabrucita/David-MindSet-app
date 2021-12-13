@@ -8,7 +8,6 @@ import modalReducer from './modal/reducer';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
-  application: applicationReducer,
   candidates: candidatesReducer,
   applications: applicationReducer,
   positions: positionsReducer,
