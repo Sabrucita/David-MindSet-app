@@ -108,7 +108,7 @@ function Form({ match }) {
               disabled={disableProperty}
               Addtype="submit"
             >
-              SUBMIT COMPANY
+              SUBMIT PSYCHOLOGIST
             </button>
           </div>
         </form>
