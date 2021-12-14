@@ -4,54 +4,40 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCandidates, deleteCandidates } from '../../redux/candidates/thunks';
+import { hideModal, showModal } from '../../redux/modal/actions';
+import { candidatesCleanUp } from '../../redux/candidates/actions';
 
-function Candid() {
-  const [showModal, setShowModal] = useState(false);
-  const [candidates, setCandidates] = useState([]);
+function Candidates() {
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
-
-  const url = process.env.REACT_APP_API;
+  const dispatch = useDispatch();
+  const candidates = useSelector((store) => store.candidates);
+  const modal = useSelector((state) => state.modal.show);
 
   useEffect(() => {
-    fetch(`${url}/candidates`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCandidates(data);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getCandidates());
+  }, [dispatch]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(candidatesCleanUp());
+    };
+  }, [dispatch]);
+
+  //MODAL
   const closeModal = () => {
-    setShowModal(false);
+    dispatch(hideModal());
   };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('candidates', type, item));
   };
 
+  //MODAL DELETE
   const acceptModal = () => {
-    fetch(`${url}/candidates/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setCandidates(
-          candidates.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((error) => console.log(error));
+    dispatch(deleteCandidates(selectedItem.id));
   };
 
   const tableHeader = [
@@ -70,21 +56,14 @@ function Candid() {
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={selectedItem}
-        type={typeModal}
-        titleModal={titleModal}
-      />
       <section className={styles.container}>
+        {modal && <Modal closeModalFn={closeModal} acceptModalFn={acceptModal} />}
         <h1 className={styles.mainTitle}>Candidates</h1>
-        {isFetching ? (
+        {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={candidates} header={tableHeader} openModal={openModal} />
+            <List data={candidates.list} header={tableHeader} openModal={openModal} />
             <Link to="/candidates/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}> ADD CANDIDATE</span>
             </Link>
@@ -94,4 +73,4 @@ function Candid() {
     </>
   );
 }
-export default Candid;
+export default Candidates;

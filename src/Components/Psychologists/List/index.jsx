@@ -1,63 +1,45 @@
-import ListItem from '../../shared/ListItem';
-import { capitalize } from '../../helpers';
 import styles from './list.module.css';
+import ListItem from '../../shared/ListItem';
 
-function List({ data, header, openModal }) {
-  const fillDataTable = (element) => {
-    const dataTable = {
-      firstName: element.firstName,
-      lastName: element.lastName,
-      email: element.email,
-      password: element.password
-    };
-    return dataTable;
-  };
-
-  const fillDataElement = (element) => {
-    const dataElement = {
-      id: element._id,
-      firstName: element.firstName,
-      lastName: element.lastName,
-      email: element.email,
-      password: element.password
-    };
-    return dataElement;
-  };
-
-  const isMissingData = (element) => {
-    return element.id === null || element.id === null;
-  };
-
+function List({ header, data, openModal }) {
   return (
-    <table className={styles.list}>
-      <thead>
-        <tr>
-          {header.map((element) => {
-            return <th key={element}>{element}</th>;
-          })}
-        </tr>
-      </thead>
-      {data.length === 0 ? (
-        <p>There are no psychologists.</p>
-      ) : (
+    <div className={styles.list}>
+      <table>
+        <thead>
+          <tr>
+            {header.map((element) => {
+              return <th key={element}>{element}</th>;
+            })}
+          </tr>
+        </thead>
         <tbody>
           {data.map((element) => {
             return (
               <ListItem
                 key={element._id}
                 id={element._id}
-                dataTable={fillDataTable(element)}
-                dataElement={fillDataElement(element)}
-                missingData={isMissingData(element)}
+                dataTable={{
+                  firstName: element.firstName,
+                  lastName: element.lastName,
+                  email: element.email,
+                  password: element.password
+                }}
+                dataElement={{
+                  id: element._id,
+                  firstName: element.firstName,
+                  lastName: element.lastName,
+                  email: element.email,
+                  password: element.password
+                }}
                 openModal={openModal}
+                missingData={element._id === null || element._id === null}
                 resource="psychologists"
               />
             );
           })}
         </tbody>
-      )}
-    </table>
+      </table>
+    </div>
   );
 }
-
 export default List;

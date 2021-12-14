@@ -4,56 +4,37 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader/index';
+import { deletePsychologist, getPsychologists } from '../../redux/psychologists/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { showModal } from '../../redux/modal/actions';
+import { psychologistsCleanUp } from '../../redux/psychologists/actions';
 
 function Psychologists() {
-  const [showModal, setShowModal] = useState(false);
-  const [psychologists, setPsychologists] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
+  const dispatch = useDispatch();
+  const psychologists = useSelector((store) => store.psychologists);
+  const modal = useSelector((state) => state.modal.show);
 
-  const url = process.env.REACT_APP_API;
-  //Get app info from DB
   useEffect(() => {
-    fetch(`${url}/psychologists`)
-      .then((response) => response.json())
-      .then((response) => {
-        setPsychologists(response);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getPsychologists());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(psychologistsCleanUp());
+    };
+  }, [dispatch]);
 
   //MODAL
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
-  const openModal = (item, type, title) => {
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('psychologists', type, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/psychologists/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setPsychologists(
-          psychologists.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deletePsychologist(selectedItem.id));
   };
 
   const tableHeader = ['First Name', 'Last Name', 'Email', 'Password', 'Actions'];
@@ -61,20 +42,13 @@ function Psychologists() {
   return (
     <>
       <section className={styles.container}>
-        <Modal
-          showModal={showModal}
-          closeModalFn={closeModal}
-          acceptModalFn={acceptModal}
-          content={selectedItem}
-          type={typeModal}
-          titleModal={titleModal}
-        />
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Psychologists</h1>
-        {isFetching ? (
+        {psychologists.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={psychologists} header={tableHeader} openModal={openModal} />
+            <List data={psychologists.list} header={tableHeader} openModal={openModal} />
             <Link to="/psychologists/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD PSYCHOLOGIST</span>
             </Link>
