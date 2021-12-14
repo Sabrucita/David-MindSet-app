@@ -98,9 +98,6 @@ export const deleteCandidates = (id) => {
 //CREATE CANDIDATE
 export const createCandidates = (candidate) => {
   return (dispatch) => {
-    candidate.address = { street: candidate.street, number: candidate.number };
-    delete candidate.street;
-    delete candidate.number;
     dispatch(createCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates`, {
@@ -131,9 +128,6 @@ export const createCandidates = (candidate) => {
 //UPDATE CANDIDATES
 export const updateCandidates = (id, candidate) => {
   return (dispatch) => {
-    // candidate.address = { street: candidate.street, number: candidate.number };
-    // delete candidate.street;
-    // delete candidate.number;
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${id}`, {

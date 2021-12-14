@@ -93,8 +93,12 @@ const reducer = (state = initialState, action) => {
     }
     //UPDATE ONE
     case UPDATE_SELECTED_CANDIDATE: {
+      console.log(state.selectedElement);
       const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
+      if (action.payload.field === 'number' || action.payload.field === 'street') {
+        if (!newState.address) newState.address = {};
+        newState.address[action.payload.field] = action.payload.value;
+      } else newState[action.payload.field] = action.payload.value;
       return {
         ...state,
         selectedElement: newState
