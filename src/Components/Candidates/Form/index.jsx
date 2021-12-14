@@ -1,18 +1,20 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createCandidates,
+  updateCandidates,
+  getCandidateById
+} from '../../../redux/candidates/thunks';
+import { updateSelectedCandidate, candidatesCleanUp } from '../../../redux/candidates/actions';
 
-function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState();
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
-
-  const url = process.env.REACT_APP_API;
+  const dispatch = useDispatch();
+  const modal = useSelector((store) => store.modal.show);
+  const formData = useSelector((store) => store.candidates.selectedElement);
   const id = match.params.id;
   let operation;
 
@@ -20,119 +22,35 @@ function Form({ match, history }) {
   else operation = 'create';
 
   useEffect(() => {
+    dispatch(candidatesCleanUp());
     if (operation === 'update') {
-      fetch(`${url}/candidates/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            idCandidate: data._id,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password,
-            phone: data.phone,
-            city: data.city,
-            province: data.province,
-            country: data.country,
-            postalCode: data.postalCode,
-            birthday: data.birthday,
-            hobbies: data.hobbies,
-            mainSkills: data.mainSkills,
-            profileTypes: data.profileTypes,
-            isOpenToWork: data.isOpenToWork,
-            education: data.education,
-            experiences: data.experiences,
-            courses: data.courses,
-            address: { street: data.address.street, number: data.address.number }
-          };
-          setFormData(currentData);
-        });
+      dispatch(getCandidateById(id));
     }
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(candidatesCleanUp());
+    };
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
     if (operation === 'create') {
-      fetch(`${url}/candidates`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setTitleModal('Candidate Created');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(createCandidates(formData));
     } else {
-      fetch(`${url}/candidates/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setTitleModal('Candidate Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(updateCandidates(id, formData));
     }
-  };
-  const msgError = (data) => {
-    setModalType('error');
-    setTitleModal('Upsss an error has happened');
-    setModalContent(data);
     setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    if (field === 'number' || field === 'street') {
-      if (!newState.address) newState.address = {};
-      newState.address[field] = value;
-      return setFormData(newState);
-    }
-    newState[field] = value;
-    setFormData(newState);
-  };
-
-  const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
-      history.push('/candidates');
-    }
+    dispatch(updateSelectedCandidate(field, value));
   };
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Candidate</h1>
@@ -347,6 +265,7 @@ function Form({ match, history }) {
           </div>
         </form>
       </section>
+      {modal && <Modal />}
     </>
   );
 }
