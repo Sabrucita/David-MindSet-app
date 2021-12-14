@@ -4,75 +4,50 @@ import List from './List';
 import Modal from '../shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
+import { deleteProfiles, getProfiles } from '../../redux/profiles/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { showModal } from '../../redux/modal/actions';
+import { profilesCleanup } from '../../redux/profiles/actions';
 
 function Profiles() {
-  const [showModal, setShowModal] = useState(false);
-  const [profiles, setProfiles] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [typeModal, setTypeModal] = useState();
-  const [titleModal, setTitleModal] = useState();
-  const [isFetching, setIsFetching] = useState(true);
-
-  const url = process.env.REACT_APP_API;
+  const dispatch = useDispatch();
+  const profiles = useSelector((store) => store.profiles);
+  const modal = useSelector((state) => state.modal.show);
 
   useEffect(() => {
-    fetch(`${url}/profile-types`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProfiles(data);
-        setIsFetching(false);
-      });
-  }, []);
+    dispatch(getProfiles());
+  }, [dispatch]);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(profilesCleanup());
+    };
+  }, [dispatch]);
 
-  const openModal = (item, type, title) => {
+  //MODAL
+  const openModal = (item, type) => {
     setSelectedItem(item);
-    setTypeModal(type);
-    setTitleModal(title);
-    setShowModal(true);
+    dispatch(showModal('profiles', type, item));
   };
 
+  //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    fetch(`${url}/profile-types/${selectedItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        setProfiles(
-          profiles.filter((app) => {
-            return app._id !== selectedItem.id;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteProfiles(selectedItem.id));
   };
 
   const tableHeader = ['Name Profile', 'Action'];
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        closeModalFn={closeModal}
-        acceptModalFn={acceptModal}
-        content={selectedItem}
-        type={typeModal}
-        titleModal={titleModal}
-      />
       <section className={styles.container}>
+        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.h1}>Profile Types</h1>
-        {isFetching ? (
+        {profiles.isFetching ? (
           <Preloader />
         ) : (
           <>
-            <List data={profiles} header={tableHeader} openModal={openModal} />
+            <List data={profiles.list} header={tableHeader} openModal={openModal} />
             <Link to="/profiles/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD PROFILE</span>
             </Link>

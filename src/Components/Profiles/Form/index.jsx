@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
-const url = process.env.REACT_APP_API;
+import { useDispatch, useSelector } from 'react-redux';
+import { createProfiles, updateProfiles, getProfile } from '../../../redux/profiles/thunks';
+import { updateSelectedProfile, profilesCleanup } from '../../../redux/profiles/actions';
 
-function Form({ match, history }) {
-  const [formData, setFormData] = useState({});
-  const [modalContent, setModalContent] = useState();
-  const [modalType, setModalType] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState();
+function Form({ match }) {
   const [disableProperty, setDisableProperty] = useState(false);
+  const dispatch = useDispatch();
+  const formData = useSelector((store) => store.profiles.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
   let operation;
@@ -20,97 +20,33 @@ function Form({ match, history }) {
 
   useEffect(() => {
     if (operation === 'update') {
-      fetch(`${url}/profile-types/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const currentData = {
-            idProfile: data._id,
-            name: data.name
-          };
-          setFormData(currentData);
-        });
+      dispatch(getProfile(id));
     }
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(profilesCleanup());
+    };
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
     setDisableProperty(true);
     if (operation === 'create') {
-      fetch(`${url}/profile-types`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('create');
-            setTitleModal('Profile Type Created');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(createProfiles(formData));
     } else {
-      fetch(`${url}/profile-types/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          setShowModal(true);
-          if (data.data) {
-            setModalType('update');
-            setTitleModal('Profile Type Updated');
-            return setModalContent(data.data);
-          }
-          msgError(data);
-        })
-        .catch((err) => {
-          msgError(err);
-          setShowModal(true);
-        });
+      dispatch(updateProfiles(id, formData));
     }
-  };
-
-  const msgError = (data) => {
-    setModalType('error');
-    setTitleModal('Upsss an error has happened');
-    setModalContent(data);
     setDisableProperty(false);
   };
 
   const updateForm = (field, value) => {
-    const newState = formData;
-    newState[field] = value;
-    setFormData(newState);
-  };
-
-  const closeModalFn = () => {
-    setShowModal(false);
-    if (disableProperty) {
-      history.push('/profiles');
-    }
+    dispatch(updateSelectedProfile(field, value));
   };
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        type={modalType}
-        content={modalContent}
-        closeModalFn={closeModalFn}
-        titleModal={titleModal}
-      />
       <section className={styles.container}>
         {operation === 'create' ? (
           <h1 className={styles.mainTitle}>Create Profile Type</h1>
@@ -136,6 +72,7 @@ function Form({ match, history }) {
           </div>
         </form>
       </section>
+      {modal && <Modal />}
     </>
   );
 }

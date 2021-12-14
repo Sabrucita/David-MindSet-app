@@ -12,29 +12,26 @@ function List({ header, data, openModal }) {
             })}
           </tr>
         </thead>
-        {data.length === 0 ? (
-          <p className={styles.loading}>There are no Profiles</p>
-        ) : (
-          <tbody>
-            {data.map((element) => {
-              return (
-                <ListItem
-                  key={element._id}
-                  id={element._id}
-                  dataTable={{
-                    nameProfile: element.name
-                  }}
-                  dataElement={{
-                    id: element._id,
-                    name: element.name
-                  }}
-                  openModal={openModal}
-                  resource="profiles"
-                />
-              );
-            })}
-          </tbody>
-        )}
+        <tbody>
+          {data.map((element) => {
+            return (
+              <ListItem
+                key={element._id}
+                id={element._id}
+                dataTable={{
+                  nameProfile: element.name
+                }}
+                dataElement={{
+                  id: element._id,
+                  name: element.name
+                }}
+                openModal={openModal}
+                missingData={element._id === null || element._id === null}
+                resource="profiles"
+              />
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
