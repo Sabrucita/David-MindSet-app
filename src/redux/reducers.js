@@ -1,4 +1,5 @@
 import applicationReducer from './applications/reducer';
+import psychologistsReducer from './psychologists/reducer';
 import candidatesReducer from './candidates/reducer';
 import adminsReducer from './admins/reducer';
 import positionsReducer from './positions/reducer';
@@ -9,6 +10,7 @@ import modalReducer from './modal/reducer';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
+  psychologists: psychologistsReducer,
   candidates: candidatesReducer,
   admins: adminsReducer,
   applications: applicationReducer,
