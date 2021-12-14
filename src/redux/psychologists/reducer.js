@@ -130,8 +130,7 @@ const psychologistsReducer = (state = initialState, action) => {
     case UPDATE_PSYCHOLOGIST_FULFILLED:
       return {
         ...state,
-        isFetching: false,
-        selectedElement: {}
+        isFetching: false
       };
     case UPDATE_PSYCHOLOGIST_REJECTED:
       return {

@@ -88,7 +88,7 @@ export const deletePsychologist = (id) => {
 export const createPsychologist = (psychologist) => {
   return (dispatch) => {
     dispatch(createPsychologistFetching());
-    dispatch(showModal('psychologist', 'fetching'));
+    dispatch(showModal('psychologists', 'fetching'));
     fetch(`${url}/psychologists`, {
       method: 'POST',
       body: JSON.stringify({
