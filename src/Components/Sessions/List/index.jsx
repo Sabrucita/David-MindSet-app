@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { capitalize, formatDate } from '../../helpers';
+import { capitalize, formatDate } from '../../../helpers';
 import { showModal } from '../../../redux/modal/actions';
 import { getSelectedSession } from '../../../redux/sessions/actions';
 import ListItem from '../../shared/ListItem';
