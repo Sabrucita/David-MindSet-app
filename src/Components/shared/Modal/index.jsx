@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { hideModal } from '../../../redux/modal/actions';
-import { capitalize, removeLastChar } from '../../helpers';
+import { capitalize, removeLastChar } from '../../../helpers';
 import Preloader from '../Preloader';
 import styles from './modal.module.css';
 

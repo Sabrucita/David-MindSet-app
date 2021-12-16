@@ -1,6 +1,6 @@
 import styles from './list.module.css';
 import ListItem from '../../shared/ListItem';
-import { formatDate } from '../../helpers';
+import { formatDate } from '../../../helpers';
 
 function List({ header, data, openModal }) {
   return (
