@@ -28,6 +28,7 @@ export const getCompany = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
+          console.log(data);
           const currentData = {
             name: data.name,
             address: data.address,
@@ -137,6 +138,7 @@ export const createCompany = (company) => {
 //UPDATE COMPANY
 
 export const updateCompany = (id, company) => {
+  console.log(company);
   return (dispatch) => {
     dispatch(updateCompanyFetching());
     dispatch(showModal('companies', 'fetching'));
