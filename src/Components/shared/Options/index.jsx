@@ -11,7 +11,7 @@ function Options({ name, update, options }) {
       {options.map((option) => {
         return (
           <option key={option.id} value={option.id}>
-            {option.name}
+            {option.id}
           </option>
         );
       })}

@@ -33,7 +33,7 @@ export const getInterview = (id) => {
           const currentData = {
             idCandidate: data.idCandidate?._id,
             idCompany: data.idCompany?._id,
-            date: data.date,
+            date: data.date.substr(0, 16),
             status: data.status
           };
           return dispatch(getInterviewFulfilled(currentData));
