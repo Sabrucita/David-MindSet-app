@@ -1,4 +1,4 @@
-import { capitalize } from '../../Components/helpers';
+import { capitalize } from '../../helpers';
 import {
   GET_SESSIONS_FETCHING,
   GET_SESSIONS_FULFILLED,
