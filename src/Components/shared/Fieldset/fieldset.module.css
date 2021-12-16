@@ -17,3 +17,10 @@
   border-radius: 30px;
   box-sizing: border-box;
 }
+.fieldset .inputError{
+  border-color: red;
+}
+.messageError {
+  margin-left: 20px;
+  color: red;
+}

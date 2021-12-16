@@ -11,13 +11,13 @@ import {
 } from '../../../redux/interviews/thunks';
 import { interviewsCleanUp } from '../../../redux/interviews/actions';
 import { Form, Field } from 'react-final-form';
+import { pastDatesValidation } from '../../../validations';
 
 function InterviewsForm({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.interviews.selectedElement);
   const options = useSelector((store) => store.interviews.options);
   const modal = useSelector((store) => store.modal.show);
-  // const error = useSelector((store) => store.admins.error);
 
   const id = match.params.id;
   let operation;
@@ -47,6 +47,22 @@ function InterviewsForm({ match }) {
     }
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    if (!formValues.idCandidate) {
+      errors.idCandidate = 'Candidate is required';
+    }
+    if (!formValues.idCompany) {
+      errors.idCompany = 'Company is required';
+    }
+    if (!formValues.date) {
+      errors.date = 'Date is required';
+    } else {
+      errors.date = pastDatesValidation(formValues.date);
+    }
+    return errors;
+  };
+
   return (
     <>
       {modal && <Modal />}
@@ -59,6 +75,7 @@ function InterviewsForm({ match }) {
         <Form
           onSubmit={submitForm}
           initialValues={formData}
+          validate={validate}
           render={(formProps) => (
             <form className={styles.form} onSubmit={formProps.handleSubmit}>
               <Field
@@ -67,6 +84,7 @@ function InterviewsForm({ match }) {
                 element="select"
                 options={options.candidates}
                 component={Fieldset}
+                update={id ? true : false}
               />
               <Field
                 name="idCompany"
@@ -74,6 +92,7 @@ function InterviewsForm({ match }) {
                 element="select"
                 options={options.companies}
                 component={Fieldset}
+                update={id ? true : false}
               />
               <Field
                 name="date"
@@ -94,7 +113,7 @@ function InterviewsForm({ match }) {
               <div className={styles.btnContainer}>
                 <button
                   className={styles.buttonGreen}
-                  disabled={formProps.submitting || formProps.pristine}
+                  disabled={formProps.submitting}
                   type="submit"
                 >
                   SUBMIT INTERVIEW
