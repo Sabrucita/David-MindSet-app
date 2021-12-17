@@ -23,3 +23,23 @@ export function validateText(formValues, field) {
   }
   return error;
 }
+
+export function validatePhone(formValues, field) {
+  let error = {};
+  if (!formValues[field]) {
+    error = `${field} is required, write your number without 0 and 15`;
+  } else if (formValues[field].length > 10) {
+    error = `${field} can't be more than 10 numbers, write your number without 0 and 15`;
+  } else {
+    return undefined;
+  }
+  return error;
+}
+
+export function emailValidationFn(errors, formValues) {
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
+  const emailValidation = formValues.email.search(emailRegex);
+  if (emailValidation != 0) {
+    errors.email = 'Please enter a valid email address';
+  }
+}

@@ -6,7 +6,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCompany, updateCompany, getCompany } from '../../../redux/companies/thunks';
 import { companiesCleanup } from '../../../redux/companies/actions';
-import { validateText } from '../../../validations';
+import { validateText, emailValidationFn, validatePhone } from '../../../validations';
 
 function CompaniesForm({ match }) {
   const dispatch = useDispatch();
@@ -49,6 +49,26 @@ function CompaniesForm({ match }) {
         errors[field] = error;
       }
     });
+    if (!formValues.email) {
+      errors.email = 'Email is required';
+    } else {
+      emailValidationFn(errors, formValues);
+    }
+
+    const phoneList = ['phone', 'contactPhone'];
+    //crear obj nombre y el displayedName para que no quede re croto en ese array
+    phoneList.forEach((field) => {
+      const error = validatePhone(formValues, field);
+      if (error != undefined) {
+        errors[field] = error;
+      }
+    });
+
+    if (!formValues.zipCode) {
+      errors.zipCode = 'Zip Code is required';
+    } else if (formValues.zipCode >= 10000) {
+      errors.zipCode = 'Zip Code must be less than 10000';
+    }
     return errors;
   };
 
