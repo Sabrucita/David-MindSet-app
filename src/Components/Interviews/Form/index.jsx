@@ -41,22 +41,21 @@ function InterviewsForm({ match }) {
 
   const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createInterview(formValues));
-    } else {
-      dispatch(updateInterview(id, formValues));
+      return dispatch(createInterview(formValues));
     }
+    dispatch(updateInterview(id, formValues));
   };
 
   const validate = (formValues) => {
     const errors = {};
     if (!formValues.idCandidate) {
-      errors.idCandidate = 'Candidate is required';
+      errors.idCandidate = 'Candidate is required.';
     }
     if (!formValues.idCompany) {
-      errors.idCompany = 'Company is required';
+      errors.idCompany = 'Company is required.';
     }
     if (!formValues.date) {
-      errors.date = 'Date is required';
+      errors.date = 'Date is required.';
     } else {
       errors.date = pastDatesValidation(formValues.date);
     }
@@ -76,6 +75,9 @@ function InterviewsForm({ match }) {
           onSubmit={submitForm}
           initialValues={formData}
           validate={validate}
+          subscription={{
+            submitting: true
+          }}
           render={(formProps) => (
             <form className={styles.form} onSubmit={formProps.handleSubmit}>
               <Field
