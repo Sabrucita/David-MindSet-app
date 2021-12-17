@@ -6,6 +6,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCompany, updateCompany, getCompany } from '../../../redux/companies/thunks';
 import { companiesCleanup } from '../../../redux/companies/actions';
+import { validateText } from '../../../validations';
 
 function CompaniesForm({ match }) {
   const dispatch = useDispatch();
@@ -38,6 +39,19 @@ function CompaniesForm({ match }) {
     }
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    const fieldList = ['name', 'address', 'city', 'province', 'country', 'contactFullName'];
+    //crear obj nombre y el displayedName para que no quede re croto en ese array
+    fieldList.forEach((field) => {
+      const error = validateText(formValues, field);
+      if (error != undefined) {
+        errors[field] = error;
+      }
+    });
+    return errors;
+  };
+
   return (
     <>
       <section className={styles.container}>
@@ -49,95 +63,96 @@ function CompaniesForm({ match }) {
         <Form
           onSubmit={submitForm}
           initialValues={formData}
+          validate={validate}
           render={(formProps) => (
             <form className={styles.form} onSubmit={formProps.handleSubmit}>
               <Field
                 element="input"
+                type="text"
                 name="name"
                 label="Full Name"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="address"
                 label="Address"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="city"
                 label="City"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="province"
                 label="Province"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="country"
                 label="Country"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="number"
                 name="zipCode"
                 label="Zip Code"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="number"
                 name="phone"
                 label="Phone Number"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="email"
                 name="email"
                 label="Email"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="pictureUrl"
                 label="Picture Url"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="text"
                 name="contactFullName"
                 label="Contact Full Name"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <Field
                 element="input"
+                type="number"
                 name="contactPhone"
                 label="Contact Phone"
                 component={Fieldset}
                 update={id ? true : false}
-                disabled={formProps.submitting}
               />
               <div className={styles.btnContainer}>
                 <button

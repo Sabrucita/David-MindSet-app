@@ -9,3 +9,17 @@ export const pastDatesValidation = (date) => {
   }
   return undefined;
 };
+
+export function validateText(formValues, field) {
+  let error = {};
+  if (!formValues[field]) {
+    error = `${field} is required`;
+  } else if (formValues[field].length > 40) {
+    error = `${field} must be less than 40 characters`;
+  } else if (formValues[field].length < 2) {
+    error = `${field} must be more than 2 characters`;
+  } else {
+    return undefined;
+  }
+  return error;
+}
