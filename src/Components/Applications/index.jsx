@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Preloader from '../shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteApplication, getApplications } from '../../redux/applications/thunks';
-import { hideModal, showModal } from '../../redux/modal/actions';
+import { showModal } from '../../redux/modal/actions';
 import { applicationsCleanUp } from '../../redux/applications/actions';
 
 function Applications() {

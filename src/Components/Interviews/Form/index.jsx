@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
@@ -9,11 +9,11 @@ import {
   getInterview,
   getInterviewsOptions
 } from '../../../redux/interviews/thunks';
-import { updateSelectedInterview, interviewsCleanUp } from '../../../redux/interviews/actions';
+import { interviewsCleanUp } from '../../../redux/interviews/actions';
+import { Form, Field } from 'react-final-form';
+import { pastDatesValidation, validateText } from '../../../validations';
 
-function Form({ match }) {
-  const [disableProperty, setDisableProperty] = useState(false);
-
+function InterviewsForm({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.interviews.selectedElement);
   const options = useSelector((store) => store.interviews.options);
@@ -39,19 +39,19 @@ function Form({ match }) {
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
+  const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createInterview(formData));
-    } else {
-      dispatch(updateInterview(id, formData));
+      return dispatch(createInterview(formValues));
     }
-    setDisableProperty(false);
+    dispatch(updateInterview(id, formValues));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedInterview(field, value));
+  const validate = (formValues) => {
+    const errors = {};
+    errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
+    errors.idCompany = validateText(formValues.idCompany, 'Company');
+    errors.date = pastDatesValidation(formValues.date);
+    return errors;
   };
 
   return (
@@ -63,57 +63,60 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Interview</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idCandidate}
-            element="select"
-            name="candidate"
-            objectProperty="idCandidate"
-            required
-            updateData={updateForm}
-            options={options.candidates}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idCompany}
-            element="select"
-            name="company"
-            objectProperty="idCompany"
-            required
-            updateData={updateForm}
-            options={options.companies}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.date ? formData.date.substr(0, 16) : ''}
-            element="input"
-            inputType="datetime-local"
-            name="date"
-            objectProperty="date"
-            required
-            updateData={updateForm}
-          />
-          {id && (
-            <Fieldset
-              update={id ? true : false}
-              currentValue={formData.status ? true : false}
-              element="input"
-              inputType="checkbox"
-              name="status"
-              objectProperty="status"
-              updateData={updateForm}
-            />
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          subscription={{
+            submitting: true
+          }}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field
+                name="idCandidate"
+                label="Candidate"
+                element="select"
+                options={options.candidates}
+                component={Fieldset}
+              />
+              <Field
+                name="idCompany"
+                label="Company"
+                element="select"
+                options={options.companies}
+                component={Fieldset}
+              />
+              <Field
+                name="date"
+                label="Date"
+                element="input"
+                type="datetime-local"
+                component={Fieldset}
+              />
+              {id && (
+                <Field
+                  name="status"
+                  label="Status"
+                  element="input"
+                  type="checkbox"
+                  component={Fieldset}
+                />
+              )}
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT INTERVIEW
+                </button>
+              </div>
+            </form>
           )}
-          <div className={styles.btnContainer}>
-            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
-              SUBMIT INTERVIEW
-            </button>
-          </div>
-        </form>
+        />
       </section>
     </>
   );
 }
 
-export default Form;
+export default InterviewsForm;

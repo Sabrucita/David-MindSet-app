@@ -3,7 +3,6 @@ import {
   GET_APPLICATION_FETCHING,
   GET_APPLICATION_FULFILLED,
   GET_APPLICATION_REJECTED,
-  UPDATE_SELECTED_APPLICATION,
   APPLICATIONS_CLEANUP,
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
@@ -51,15 +50,6 @@ const applicationReducer = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE 1
-    case UPDATE_SELECTED_APPLICATION: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // CLEAN UP
     case APPLICATIONS_CLEANUP:
       return {

@@ -14,7 +14,6 @@ import {
   GET_PROFILE_FETCHING,
   GET_PROFILE_FULFILLED,
   GET_PROFILE_REJECTED,
-  UPDATE_SELECTED_PROFILE,
   PROFILES_CLEANUP
 } from '../../constants';
 
@@ -93,17 +92,7 @@ export const getProfileRejected = () => ({
   type: GET_PROFILE_REJECTED
 });
 
-//UPDATE SELECTED PROFILE
-
-export const updateSelectedProfile = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_PROFILE,
-    payload: { field, value }
-  };
-};
-
 // CLEANUP
-
 export const profilesCleanup = () => {
   return {
     type: PROFILES_CLEANUP
