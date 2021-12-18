@@ -14,7 +14,6 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
-  UPDATE_SELECTED_CANDIDATE,
   CANDIDATES_CLEANUP
 } from '../../constants';
 
@@ -91,19 +90,7 @@ const reducer = (state = initialState, action) => {
         error: { error: true, msg: action.payload }
       };
     }
-    //UPDATE ONE
-    case UPDATE_SELECTED_CANDIDATE: {
-      console.log(state.selectedElement);
-      const newState = { ...state.selectedElement };
-      if (action.payload.field === 'number' || action.payload.field === 'street') {
-        if (!newState.address) newState.address = {};
-        newState.address[action.payload.field] = action.payload.value;
-      } else newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
+
     //CLEAN UP
     case CANDIDATES_CLEANUP:
       return { ...state, selectedElement: '' };

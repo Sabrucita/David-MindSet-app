@@ -1,5 +1,6 @@
 import ListItem from '../../shared/ListItem';
 import styles from './list.module.css';
+import { formatDate } from '../../../helpers';
 
 function List({ header, data, openModal }) {
   return (
@@ -19,16 +20,15 @@ function List({ header, data, openModal }) {
                 key={element._id}
                 id={element._id}
                 dataTable={{
-                  firstName: element.firstName,
-                  lastName: element.lastName,
+                  name: `${element.firstName} ${element.lastName}`,
                   phone: element.phone,
                   email: element.email,
                   country: element.country,
                   province: element.province,
                   city: element.city,
-                  postalCode: element.postalCode,
                   address: `${element.address.street} ${element.address.number}`,
-                  birthday: element.birthday
+                  birthday: formatDate(element.birthday, false),
+                  openToWork: element.isOpenToWork ? 'YES' : 'NO'
                 }}
                 dataElement={{
                   id: element._id,
@@ -41,7 +41,8 @@ function List({ header, data, openModal }) {
                   city: element.city,
                   postalCode: element.postalCode,
                   address: `${element.address.street} ${element.address.number}`,
-                  birthday: element.birthday
+                  birthday: formatDate(element.birthday, false),
+                  openToWork: element.isOpenToWork
                 }}
                 openModal={openModal}
                 missingData={element._id === null || element._id === null}
