@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
@@ -8,13 +8,21 @@ import {
   updateCandidates,
   getCandidateById
 } from '../../../redux/candidates/thunks';
-import { updateSelectedCandidate, candidatesCleanUp } from '../../../redux/candidates/actions';
+import { candidatesCleanUp } from '../../../redux/candidates/actions';
+import { Form, Field } from 'react-final-form';
+import {
+  validateText,
+  validatePhone,
+  validateEmail,
+  birthdayValidation,
+  validateZipCode
+} from '../../../validations';
 
-function Form({ match }) {
-  const [disableProperty, setDisableProperty] = useState(false);
+function CandidatesForm({ match }) {
   const dispatch = useDispatch();
-  const modal = useSelector((store) => store.modal.show);
   const formData = useSelector((store) => store.candidates.selectedElement);
+  const modal = useSelector((store) => store.modal.show);
+
   const id = match.params.id;
   let operation;
 
@@ -34,19 +42,31 @@ function Form({ match }) {
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
+  const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createCandidates(formData));
-    } else {
-      dispatch(updateCandidates(id, formData));
+      return dispatch(createCandidates(formValues));
     }
-    setDisableProperty(false);
+    dispatch(updateCandidates(id, formValues));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedCandidate(field, value));
+  const validate = (formValues) => {
+    const errors = {};
+    errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
+    errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
+    errors.phone = validatePhone(formValues.phone, 'Phone Number');
+    errors.email = validateEmail(formValues.email);
+    errors.password = validateText(formValues.password, 'Password', 8, 16);
+    errors.city = validateText(formValues.city, 'City', 2, 40);
+    errors.province = validateText(formValues.province, 'Province', 2, 40);
+    errors.country = validateText(formValues.country, 'Country', 2, 40);
+    errors.postalCode = validateZipCode(formValues.postalCode);
+    errors.birthday = birthdayValidation(formValues.birthday);
+    errors.address = {
+      street: validateText(formValues.address?.street, 'Street', 2),
+      number: validateText(formValues.address?.number, 'Number')
+    };
+
+    return errors;
   };
 
   return (
@@ -57,217 +77,173 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Candidate</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.firstName}
-            element="input"
-            name="firstName"
-            displayedName="First Name"
-            objectProperty="firstName"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.lastName}
-            element="input"
-            name="lastName"
-            displayedName="Last Name"
-            objectProperty="lastName"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.email}
-            element="input"
-            name="email"
-            displayedName="E-Mail"
-            objectProperty="email"
-            required
-            updateData={updateForm}
-            inputType="email"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.password}
-            element="input"
-            name="password"
-            displayedName="PassWord"
-            objectProperty="password"
-            required
-            updateData={updateForm}
-            inputType="password"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.phone}
-            element="input"
-            name="phone"
-            displayedName="Phone Number"
-            objectProperty="phone"
-            required
-            updateData={updateForm}
-            inputType="number"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.city}
-            element="input"
-            name="city"
-            displayedName="City"
-            objectProperty="city"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.province}
-            element="input"
-            name="province"
-            displayedName="Province"
-            objectProperty="province"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.country}
-            element="input"
-            name="country"
-            displayedName="Country"
-            objectProperty="country"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.postalCode}
-            element="input"
-            name="postalCode"
-            displayedName="Postal Code"
-            objectProperty="postalCode"
-            required
-            updateData={updateForm}
-            inputType="number"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.birthday}
-            element="input"
-            name="birthday"
-            displayedName="Birthday"
-            objectProperty="birthday"
-            required
-            updateData={updateForm}
-            inputType="date"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.hobbies}
-            element="input"
-            name="hobbies"
-            displayedName="Hobbies"
-            objectProperty="hobbies"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.mainSkills}
-            element="input"
-            name="mainSkills"
-            displayedName="Main Skills"
-            objectProperty="mainSkills"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.profileTypes}
-            element="input"
-            name="profileTypes"
-            displayedName="Profile Types"
-            objectProperty="profileTypes"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.isOpenToWork}
-            element="input"
-            name="isOpenToWork"
-            displayedName="is Open To Work?"
-            objectProperty="isOpenToWork"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.education}
-            element="input"
-            name="education"
-            displayedName="Education"
-            objectProperty="education"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.experiences}
-            element="input"
-            name="experiences"
-            displayedName="Experiences"
-            objectProperty="experiences"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.courses}
-            element="input"
-            name="courses"
-            displayedName="Courses"
-            objectProperty="courses"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.address?.street}
-            element="input"
-            name="addressStreet"
-            displayedName="Address Street"
-            objectProperty="street"
-            updateData={updateForm}
-            inputType="text"
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.address?.number}
-            element="input"
-            name="addressNumber"
-            displayedName="Address number"
-            objectProperty="number"
-            updateData={updateForm}
-            inputType="number"
-          />
-          <div className={styles.btnContainer}>
-            <button className={styles.buttonGreen} Addtype="submit" disabled={disableProperty}>
-              SUBMIT CANDIDATE
-            </button>
-          </div>
-        </form>
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          subscription={{
+            submitting: true
+          }}
+          render={(formProps) => (
+            <form className={styles.form} onSubmit={formProps.handleSubmit}>
+              <Field
+                name="firstName"
+                label="First Name"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="lastName"
+                label="Last Name"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="email"
+                label="Email"
+                element="input"
+                type="email"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="password"
+                label="Password"
+                element="input"
+                type="password"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="phone"
+                label="Phone Number"
+                element="input"
+                type="number"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="city"
+                label="City"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="province"
+                label="Province"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="country"
+                label="Country"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="postalCode"
+                label="Zip Code"
+                element="input"
+                type="number"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="birthday"
+                label="Birthday"
+                element="input"
+                type="date"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="hobbies"
+                label="Hobbies"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="mainSkills"
+                label="Main Skilss"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="profileTypes"
+                label="Profile Types"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="education"
+                label="Education"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="experiences"
+                label="Experiences"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="courses"
+                label="Courses"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="address.street"
+                label="Address Street"
+                element="input"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              <Field
+                name="address.number"
+                label="Address Number"
+                element="input"
+                type="number"
+                component={Fieldset}
+                update={id ? true : false}
+              />
+              {id && (
+                <Field
+                  name="isOpenToWork"
+                  label="Open to Work?"
+                  element="input"
+                  type="checkbox"
+                  component={Fieldset}
+                  update={id ? true : false}
+                />
+              )}
+              <div className={styles.btnContainer}>
+                <button
+                  className={styles.buttonGreen}
+                  disabled={formProps.submitting}
+                  type="submit"
+                >
+                  SUBMIT CANDIDATE
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
       {modal && <Modal />}
     </>
   );
 }
 
-export default Form;
+export default CandidatesForm;

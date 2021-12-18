@@ -41,16 +41,15 @@ function Candidates() {
   };
 
   const tableHeader = [
-    'First Name',
-    'Last Name',
+    'Name',
     'Phone',
     'Email',
     'Country',
     'Province',
     'City',
-    'Postal Code',
     'Address',
     'Birthday',
+    'Open to work?',
     'Actions'
   ];
 
