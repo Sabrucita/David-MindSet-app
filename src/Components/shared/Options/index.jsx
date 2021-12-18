@@ -1,13 +1,9 @@
-function Options({ label, update, options }) {
+function Options({ label, options }) {
   return (
     <>
-      {!update ? (
-        <option value="" disabled hidden>
-          Select a {label}
-        </option>
-      ) : (
-        <option value="" disabled hidden></option>
-      )}
+      <option value="" disabled hidden>
+        Select a {label}
+      </option>
       {options.map((option) => {
         return (
           <option key={option.id} value={option.id}>

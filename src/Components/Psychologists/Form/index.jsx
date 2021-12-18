@@ -66,36 +66,26 @@ function PsychologistsForm({ match }) {
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
               <Field
-                element="input"
-                type="text"
                 name="firstName"
                 label="First Name"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
                 element="input"
                 type="text"
+                component={Fieldset}
+              />
+              <Field
                 name="lastName"
                 label="Last Name"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
                 element="input"
-                type="email"
-                name="email"
-                label="Email"
+                type="text"
                 component={Fieldset}
-                update={id ? true : false}
               />
+              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
               <Field
-                element="input"
-                type="password"
                 name="password"
                 label="Password"
+                element="input"
+                type="password"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <div className={styles.btnContainer}>
                 <button

@@ -1,19 +1,20 @@
 import Options from '../Options';
 import styles from './fieldset.module.css';
 
-function Fieldset(props) {
-  const hasError = props.meta.touched && props.meta.error;
+function Fieldset({ meta, input, element, label, options }) {
+  const hasError = meta.touched && meta.error;
   let field;
-  switch (props.element) {
+
+  switch (element) {
     case 'select':
       field = (
-        <select {...props.input} className={hasError && styles.inputError}>
-          <Options label={props.label} options={props.options} update={props.update} />
+        <select {...input} id={input.name} className={hasError && styles.inputError}>
+          <Options label={label} options={options} />
         </select>
       );
       break;
     case 'input':
-      field = <input {...props.input} className={hasError && styles.inputError}></input>;
+      field = <input {...input} id={input.name} className={hasError && styles.inputError}></input>;
       break;
     default:
       break;
@@ -21,9 +22,9 @@ function Fieldset(props) {
 
   return (
     <fieldset className={styles.fieldset}>
-      <label>{props.label}</label>
+      <label htmlFor={input.name}>{label}</label>
       {field}
-      <div className={styles.messageError}>{props.meta.touched && props.meta.error}</div>
+      <div className={styles.messageError}>{meta.touched && meta.error}</div>
     </fieldset>
   );
 }
