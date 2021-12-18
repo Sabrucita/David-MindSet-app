@@ -38,45 +38,7 @@ function AdminsForm({ match }) {
       dispatch(updateAdmin(id, formValues));
     }
   };
-  /*
-  const validate = (formValues) => {
-    const errors = {};
-    const fieldList = ['firstName', 'lastName'];
-    //crear obj nombre y el displayedName para que no quede re croto en ese array
-    fieldList.forEach((field) => {
-      const error = validateText(formValues, field);
-      if (error != undefined) {
-        errors[field] = error;
-      }
-    });
-    return errors;
-  };
-  
-  const validate = (formValues) => {
-    const errors = {};
-    const fieldList = ['firstName', 'lastName'];
-    //crear obj nombre y el displayedName para que no quede re croto en ese array
-    fieldList.forEach((field) => {
-      const error = validateText(formValues, field);
-      if (error != undefined) {
-        errors[field] = error;
-      }
-    });
-    if (!formValues.email) {
-      errors.email = 'Email is required';
-    } else {
-      emailValidationFn(errors, formValues);
-    }
-    if (!formValues.password) {
-      errors.password = 'Password is required';
-    } else if (formValues.password.lenght > 16) {
-      errors.password = 'Password must be less than 16';
-    } else if (formValues.password.length < 8) {
-      errors.password = 'Password must be more than 8 characters';
-      return errors;
-    }
-  };
-  */
+
   const validate = (formValues) => {
     const errors = {};
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
