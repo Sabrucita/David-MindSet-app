@@ -61,13 +61,7 @@ function ProfilesFormForm({ match }) {
           }}
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
-              <Field
-                name="name"
-                label="Profile Type Name"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field name="name" label="Profile Type Name" element="input" component={Fieldset} />
               <div className={styles.btnContainer}>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
