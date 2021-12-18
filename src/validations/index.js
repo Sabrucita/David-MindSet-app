@@ -24,11 +24,11 @@ export function validateText(value, field, min, max) {
   return error;
 }
 
-export function validatePhone(formValues, field) {
-  let error = {};
-  if (!formValues[field]) {
+export function validatePhone(value, field) {
+  let error;
+  if (!value) {
     error = `${field} is required, write your number without 0 and 15`;
-  } else if (formValues[field].length > 10) {
+  } else if (value.length > 10) {
     error = `${field} can't be more than 10 numbers, write your number without 0 and 15`;
   } else {
     return undefined;

@@ -72,13 +72,14 @@ function CompaniesForm({ match }) {
       emailValidationFn(errors, formValues);
     }
 
-    const phoneList = ['phone', 'contactPhone'];
-    phoneList.forEach((field) => {
-      const error = validatePhone(formValues, field);
-      if (error != undefined) {
-        errors[field] = error;
-      }
-    });
+    if (!formValues.phone) {
+      errors.phone = 'Phone is required.';
+    }
+    if (!formValues.contactPhone) {
+      errors.contactPhone = 'Contact Phone is required.';
+    }
+    errors.phone = validatePhone(formValues.phone, 'Phone');
+    errors.contactPhone = validatePhone(formValues.contactPhone, 'Contact Phone');
 
     if (!formValues.zipCode) {
       errors.zipCode = 'Zip Code is required';
