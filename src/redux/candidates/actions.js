@@ -14,7 +14,6 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
-  UPDATE_SELECTED_CANDIDATE,
   CANDIDATES_CLEANUP
 } from '../../constants';
 
@@ -46,12 +45,6 @@ export const getCandidateByIdRejected = () => ({
   type: GET_CANDIDATE_BY_ID_REJECTED
 });
 
-export const updateSelectedCandidate = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_CANDIDATE,
-    payload: { field, value }
-  };
-};
 export const candidatesCleanUp = () => ({
   type: CANDIDATES_CLEANUP
 });
