@@ -1,9 +1,9 @@
-function Options({ name, update, options }) {
+function Options({ label, update, options }) {
   return (
     <>
       {!update ? (
         <option value="" disabled hidden>
-          Select a {name}
+          Select a {label}
         </option>
       ) : (
         <option value="" disabled hidden></option>

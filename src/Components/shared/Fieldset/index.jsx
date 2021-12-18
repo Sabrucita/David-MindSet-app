@@ -1,63 +1,19 @@
-import { useState, useEffect } from 'react';
 import Options from '../Options';
-import { capitalize } from '../../../helpers';
 import styles from './fieldset.module.css';
 
-function Fieldset({
-  update,
-  currentValue,
-  element,
-  name,
-  displayedName,
-  objectProperty,
-  inputType,
-  required,
-  updateData,
-  options
-}) {
-  const [inputValue, setInputValue] = useState('');
-
-  const changeInputValue = (e) => {
-    if (inputType === 'checkbox') {
-      setInputValue(!inputValue);
-      return updateData(objectProperty, !inputValue);
-    }
-    let value = e.target.value;
-    setInputValue(value);
-    updateData(objectProperty, value);
-  };
-
-  useEffect(() => {
-    setInputValue(currentValue);
-  }, [currentValue]);
-
+function Fieldset(props) {
+  const hasError = props.meta.touched && props.meta.error;
   let field;
-  switch (element) {
+  switch (props.element) {
     case 'select':
       field = (
-        <select
-          name={name}
-          id={name}
-          value={inputValue}
-          required={required}
-          onChange={changeInputValue}
-        >
-          <Options name={name} update={update} options={options} />
+        <select {...props.input} className={hasError && styles.inputError}>
+          <Options label={props.label} options={props.options} update={props.update} />
         </select>
       );
       break;
     case 'input':
-      field = (
-        <input
-          type={inputType}
-          name={name}
-          id={name}
-          value={inputValue}
-          required={required}
-          onChange={changeInputValue}
-          checked={inputValue}
-        ></input>
-      );
+      field = <input {...props.input} className={hasError && styles.inputError}></input>;
       break;
     default:
       break;
@@ -65,8 +21,9 @@ function Fieldset({
 
   return (
     <fieldset className={styles.fieldset}>
-      <label htmlFor={name}>{capitalize(displayedName || name)}</label>
+      <label>{props.label}</label>
       {field}
+      <div className={styles.messageError}>{props.meta.touched && props.meta.error}</div>
     </fieldset>
   );
 }
