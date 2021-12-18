@@ -93,15 +93,14 @@ function CompaniesForm({ match }) {
           onSubmit={submitForm}
           initialValues={formData}
           validate={validate}
-          render={(formProps) => (
-            <form className={styles.form} onSubmit={formProps.handleSubmit}>
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
               <Field
                 element="input"
                 type="text"
                 name="name"
                 label="Full Name"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -109,23 +108,14 @@ function CompaniesForm({ match }) {
                 name="address"
                 label="Address"
                 component={Fieldset}
-                update={id ? true : false}
               />
-              <Field
-                element="input"
-                type="text"
-                name="city"
-                label="City"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field element="input" type="text" name="city" label="City" component={Fieldset} />
               <Field
                 element="input"
                 type="text"
                 name="province"
                 label="Province"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -133,7 +123,6 @@ function CompaniesForm({ match }) {
                 name="country"
                 label="Country"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -141,7 +130,6 @@ function CompaniesForm({ match }) {
                 name="zipCode"
                 label="Zip Code"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -149,23 +137,14 @@ function CompaniesForm({ match }) {
                 name="phone"
                 label="Phone Number"
                 component={Fieldset}
-                update={id ? true : false}
               />
-              <Field
-                element="input"
-                type="email"
-                name="email"
-                label="Email"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field element="input" type="email" name="email" label="Email" component={Fieldset} />
               <Field
                 element="input"
                 type="text"
                 name="pictureUrl"
                 label="Picture Url"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -173,7 +152,6 @@ function CompaniesForm({ match }) {
                 name="contactFullName"
                 label="Contact Full Name"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 element="input"
@@ -181,13 +159,12 @@ function CompaniesForm({ match }) {
                 name="contactPhone"
                 label="Contact Phone"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <div className={styles.btnContainer}>
                 <button
-                  className={(styles.buttonAdd, styles.buttonGreen)}
-                  disabled={formProps.submitting}
-                  Addtype="submit"
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
                 >
                   SUBMIT COMPANY
                 </button>

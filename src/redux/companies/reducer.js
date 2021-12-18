@@ -14,7 +14,6 @@ import {
   GET_COMPANY_FETCHING,
   GET_COMPANY_FULFILLED,
   GET_COMPANY_REJECTED,
-  UPDATE_SELECTED_COMPANY,
   COMPANIES_CLEANUP
 } from '../../constants';
 
@@ -103,15 +102,6 @@ const companiesReducer = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE A COMPANY
-    case UPDATE_SELECTED_COMPANY: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // COMPANIES CLEANUP
     case COMPANIES_CLEANUP:
       return {

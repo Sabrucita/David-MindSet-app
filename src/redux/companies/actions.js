@@ -14,7 +14,6 @@ import {
   GET_COMPANY_FETCHING,
   GET_COMPANY_FULFILLED,
   GET_COMPANY_REJECTED,
-  UPDATE_SELECTED_COMPANY,
   COMPANIES_CLEANUP
 } from '../../constants';
 
@@ -91,14 +90,6 @@ export const getCompanyFulfilled = (payload) => ({
 export const getCompanyRejected = () => ({
   type: GET_COMPANY_REJECTED
 });
-
-//UPDATE SELECTED COMPANY
-export const updateSelectedCompany = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_COMPANY,
-    payload: { field, value }
-  };
-};
 
 // CLEANUP
 export const companiesCleanup = () => {
