@@ -6,7 +6,6 @@ import {
   GET_POSITION_FETCHING,
   GET_POSITION_FULFILLED,
   GET_POSITION_REJECTED,
-  UPDATE_SELECTED_POSITION,
   GET_POSITIONS_OPTIONS_FETCHING,
   GET_POSITIONS_OPTIONS_FULFILLED,
   GET_POSITIONS_OPTIONS_REJECTED,
@@ -84,14 +83,6 @@ const positionsReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedElement: action.payload
-      };
-    }
-    case UPDATE_SELECTED_POSITION: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
       };
     }
 

@@ -6,7 +6,6 @@ import {
   GET_SESSION_FETCHING,
   GET_SESSION_FULFILLED,
   GET_SESSION_REJECTED,
-  UPDATE_SELECTED_SESSION,
   GET_SESSIONS_OPTIONS_FETCHING,
   GET_SESSIONS_OPTIONS_FULFILLED,
   GET_SESSIONS_OPTIONS_REJECTED,
@@ -83,14 +82,6 @@ const sessionsReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedElement: action.payload
-      };
-    }
-    case UPDATE_SELECTED_SESSION: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
       };
     }
 

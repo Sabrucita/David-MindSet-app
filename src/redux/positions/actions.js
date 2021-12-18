@@ -5,7 +5,6 @@ import {
   GET_POSITION_FETCHING,
   GET_POSITION_FULFILLED,
   GET_POSITION_REJECTED,
-  UPDATE_SELECTED_POSITION,
   GET_POSITIONS_OPTIONS_FETCHING,
   GET_POSITIONS_OPTIONS_FULFILLED,
   GET_POSITIONS_OPTIONS_REJECTED,
@@ -63,12 +62,6 @@ export const getSelectedPosition = (payload) => {
   return {
     type: GET_SELECTED_POSITION,
     payload
-  };
-};
-export const updateSelectedPosition = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_POSITION,
-    payload: { field, value }
   };
 };
 

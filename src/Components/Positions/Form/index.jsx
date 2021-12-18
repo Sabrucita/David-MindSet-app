@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { positionsCleanup, updateSelectedPosition } from '../../../redux/positions/actions';
+import { Form, Field } from 'react-final-form';
+import { positionsCleanup } from '../../../redux/positions/actions';
+import { laterDateValidation, pastDatesValidation, validateText } from '../../../validations';
 import {
   createPosition,
   getPosition,
@@ -11,14 +13,11 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
-function Form({ match }) {
+function PositionsForm({ match }) {
   const dispatch = useDispatch();
-
   const options = useSelector((store) => store.positions.options);
   const formData = useSelector((store) => store.positions.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-
-  const [disableProperty, setDisableProperty] = useState(true);
 
   const id = match.params.id;
 
@@ -30,40 +29,23 @@ function Form({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    validateFields();
-  }, [formData]);
-
-  useEffect(() => {
     return () => {
       dispatch(positionsCleanup());
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
-    if (!id) {
-      dispatch(createPosition(formData));
-    } else {
-      dispatch(updatePosition(id, formData));
-    }
+  const submitForm = (formData) => {
+    if (id) return dispatch(updatePosition(id, formData));
+    dispatch(createPosition(formData));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedPosition(field, value));
-  };
-
-  const validateFields = () => {
-    if (!formData.idCompany) setDisableProperty(true);
-    else if (!formData.startDate) setDisableProperty(true);
-    else if (!formData.endDate) setDisableProperty(true);
-    else if (
-      !formData.jobDescription ||
-      formData.jobDescription.length < 10 ||
-      formData.jobDescription.length > 500
-    )
-      setDisableProperty(true);
-    else setDisableProperty(false);
+  const validate = (formValues) => {
+    const errors = {};
+    errors.idCompany = validateText(formValues.idCompany, 'Company');
+    errors.startDate = pastDatesValidation(formValues.startDate);
+    errors.endDate = laterDateValidation(formValues.startDate, formValues.endDate);
+    errors.jobDescription = validateText(formValues.jobDescription, 'Job description', 10, 500);
+    return errors;
   };
 
   return (
@@ -75,60 +57,55 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Position</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idCompany}
-            element="select"
-            name="company"
-            objectProperty="idCompany"
-            required
-            updateData={updateForm}
-            options={options.companies}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.startDate}
-            element="input"
-            name="startDate"
-            objectProperty="startDate"
-            inputType="date"
-            required
-            updateData={updateForm}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.endDate}
-            element="input"
-            name="endDate"
-            objectProperty="endDate"
-            inputType="date"
-            required
-            updateData={updateForm}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.jobDescription}
-            element="input"
-            name="jobDescription"
-            objectProperty="jobDescription"
-            inputType="text"
-            required
-            updateData={updateForm}
-          />
-          <div className={styles.btnContainer}>
-            <button
-              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-              type="submit"
-              disabled={disableProperty}
-            >
-              SUBMIT POSITION
-            </button>
-          </div>
-        </form>
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field
+                name="idCompany"
+                label="Company"
+                element="select"
+                options={options.companies}
+                component={Fieldset}
+              />
+              <Field
+                name="startDate"
+                label="Start Date"
+                element="input"
+                type="date"
+                component={Fieldset}
+              />
+              <Field
+                name="endDate"
+                label="End Date"
+                element="input"
+                type="date"
+                component={Fieldset}
+              />
+              <Field
+                name="jobDescription"
+                label="Job Description"
+                element="input"
+                type="text"
+                component={Fieldset}
+              />
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT SESSION
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
     </>
   );
 }
 
-export default Form;
+export default PositionsForm;
