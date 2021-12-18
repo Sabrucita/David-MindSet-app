@@ -144,8 +144,8 @@ export const deleteSession = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          data.data.idCandidate = data.data.idCandidate._id;
-          data.data.idPsychologist = data.data.idPsychologist._id;
+          data.data.idCandidate = data.data.idCandidate?._id;
+          data.data.idPsychologist = data.data.idPsychologist?._id;
           dispatch(deleteSessionFulfilled(data));
           return dispatch(updateModal('deleted', data.data));
         }
