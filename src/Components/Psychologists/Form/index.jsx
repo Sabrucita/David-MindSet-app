@@ -10,7 +10,7 @@ import {
   getPsychologist
 } from '../../../redux/psychologists/thunks';
 import { psychologistsCleanUp } from '../../../redux/psychologists/actions';
-import { validateText, emailValidationFn } from '../../../validations';
+import { validateText, validateEmail } from '../../../validations';
 
 function PsychologistsForm({ match }) {
   const dispatch = useDispatch();
@@ -48,11 +48,7 @@ function PsychologistsForm({ match }) {
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
     errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
     errors.password = validateText(formValues.password, 'Password', 8, 16);
-    if (!formValues.email) {
-      errors.email = 'Email is required';
-    } else {
-      emailValidationFn(errors, formValues);
-    }
+    errors.email = validateEmail(formValues.email);
     return errors;
   };
   return (
