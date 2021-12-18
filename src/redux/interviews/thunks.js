@@ -33,7 +33,7 @@ export const getInterview = (id) => {
           const currentData = {
             idCandidate: data.idCandidate?._id,
             idCompany: data.idCompany?._id,
-            date: data.date,
+            date: data.date.substr(0, 16),
             status: data.status
           };
           return dispatch(getInterviewFulfilled(currentData));
@@ -80,8 +80,8 @@ export const deleteInterview = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteInterviewFulfilled(data));
-          data.data.idCompany = data.data.idCompany._id;
-          data.data.idCandidate = data.data.idCandidate._id;
+          data.data.idCompany = data.data.idCompany?._id;
+          data.data.idCandidate = data.data.idCandidate?._id;
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();

@@ -2,7 +2,6 @@ import {
   GET_APPLICATION_FETCHING,
   GET_APPLICATION_FULFILLED,
   GET_APPLICATION_REJECTED,
-  UPDATE_SELECTED_APPLICATION,
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
@@ -35,13 +34,7 @@ export const getApplicationRejected = () => ({
   type: GET_APPLICATION_REJECTED
 });
 
-//UPDATE SELECTED APPLICATION
-export const updateSelectedApplication = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_APPLICATION,
-    payload: { field, value }
-  };
-};
+//CLEAN APPLICATION
 export const applicationsCleanUp = () => ({
   type: APPLICATIONS_CLEANUP
 });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
@@ -9,14 +9,11 @@ import {
   getApplication,
   getApplicationsOptions
 } from '../../../redux/applications/thunks';
-import {
-  updateSelectedApplication,
-  applicationsCleanUp
-} from '../../../redux/applications/actions';
+import { applicationsCleanUp } from '../../../redux/applications/actions';
+import { Form, Field } from 'react-final-form';
+import { validateText } from '../../../validations';
 
-function Form({ match }) {
-  const [disableProperty, setDisableProperty] = useState(false);
-
+function ApplicationsForm({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.applications.selectedElement);
   const options = useSelector((store) => store.applications.options);
@@ -42,19 +39,18 @@ function Form({ match }) {
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
+  const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createApplication(formData));
-    } else {
-      dispatch(updateApplication(id, formData));
+      return dispatch(createApplication(formValues));
     }
-    setDisableProperty(false);
+    dispatch(updateApplication(id, formValues));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedApplication(field, value));
+  const validate = (formValues) => {
+    const errors = {};
+    errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
+    errors.idOpenPosition = validateText(formValues.idOpenPosition, 'Open Position');
+    return errors;
   };
 
   return (
@@ -66,48 +62,53 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Application</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idCandidate}
-            element="select"
-            name="candidate"
-            objectProperty="idCandidate"
-            required
-            updateData={updateForm}
-            options={options.candidates}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idOpenPosition}
-            element="select"
-            resource="open-positions"
-            name="open-position"
-            objectProperty="idOpenPosition"
-            required
-            updateData={updateForm}
-            options={options.openPositions}
-          />
-          {id && (
-            <Fieldset
-              update={id ? true : false}
-              currentValue={formData.status ? true : false}
-              element="input"
-              inputType="checkbox"
-              name="status"
-              objectProperty="status"
-              updateData={updateForm}
-            />
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          subscription={{
+            submitting: true
+          }}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field
+                name="idCandidate"
+                label="Candidate"
+                element="select"
+                options={options.candidates}
+                component={Fieldset}
+              />
+              <Field
+                name="idOpenPosition"
+                label="Open Position"
+                element="select"
+                options={options.openPositions}
+                component={Fieldset}
+              />
+              {id && (
+                <Field
+                  name="status"
+                  label="Status"
+                  element="input"
+                  type="checkbox"
+                  component={Fieldset}
+                />
+              )}
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT APPLICATION
+                </button>
+              </div>
+            </form>
           )}
-          <div className={styles.btnContainer}>
-            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
-              SUBMIT APPLICATION
-            </button>
-          </div>
-        </form>
+        />
       </section>
     </>
   );
 }
 
-export default Form;
+export default ApplicationsForm;

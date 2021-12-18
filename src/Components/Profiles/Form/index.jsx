@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import styles from './form.module.css';
 import Modal from '../../shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProfiles, updateProfiles, getProfile } from '../../../redux/profiles/thunks';
-import { updateSelectedProfile, profilesCleanup } from '../../../redux/profiles/actions';
+import { profilesCleanup } from '../../../redux/profiles/actions';
+import { Form, Field } from 'react-final-form';
+import { validateText } from '../../../validations';
 
-function Form({ match }) {
-  const [disableProperty, setDisableProperty] = useState(false);
+function ProfilesFormForm({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.profiles.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -30,19 +31,17 @@ function Form({ match }) {
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
+  const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createProfiles(formData));
-    } else {
-      dispatch(updateProfiles(id, formData));
+      return dispatch(createProfiles(formValues));
     }
-    setDisableProperty(false);
+    dispatch(updateProfiles(id, formValues));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedProfile(field, value));
+  const validate = (formValues) => {
+    const errors = {};
+    errors.name = validateText(formValues.name, 'Profile Type Name', 2);
+    return errors;
   };
 
   return (
@@ -53,28 +52,32 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Profile Type</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.name}
-            element="input"
-            name="name"
-            displayedName="Profile Type Name"
-            objectProperty="name"
-            required
-            updateData={updateForm}
-            inputType="text"
-          />
-          <div className={styles.btnContainer}>
-            <button className={styles.buttonGreen} disabled={disableProperty} Addtype="submit">
-              SUBMIT PROFILE-TYPE
-            </button>
-          </div>
-        </form>
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          subscription={{
+            submitting: true
+          }}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field name="name" label="Profile Type Name" element="input" component={Fieldset} />
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT PROFILE-TYPE
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
       {modal && <Modal />}
     </>
   );
 }
 
-export default Form;
+export default ProfilesFormForm;

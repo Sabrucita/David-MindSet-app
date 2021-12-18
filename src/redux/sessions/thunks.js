@@ -45,7 +45,7 @@ export const getSession = (id) => {
         const currentData = {
           idCandidate: data.idCandidate?._id,
           idPsychologist: data.idPsychologist?._id,
-          date: data.date
+          date: data.date.substr(0, 16)
         };
         dispatch(getSessionFulfilled(currentData));
       })
@@ -144,8 +144,8 @@ export const deleteSession = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          data.data.idCandidate = data.data.idCandidate._id;
-          data.data.idPsychologist = data.data.idPsychologist._id;
+          data.data.idCandidate = data.data.idCandidate?._id;
+          data.data.idPsychologist = data.data.idPsychologist?._id;
           dispatch(deleteSessionFulfilled(data));
           return dispatch(updateModal('deleted', data.data));
         }
