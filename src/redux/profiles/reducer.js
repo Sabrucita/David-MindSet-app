@@ -14,7 +14,6 @@ import {
   GET_PROFILE_FETCHING,
   GET_PROFILE_FULFILLED,
   GET_PROFILE_REJECTED,
-  UPDATE_SELECTED_PROFILE,
   PROFILES_CLEANUP
 } from '../../constants';
 
@@ -122,15 +121,6 @@ const profilesReducers = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE A PROFILE
-    case UPDATE_SELECTED_PROFILE: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // PROFILES CLEANUP
     case PROFILES_CLEANUP:
       return {

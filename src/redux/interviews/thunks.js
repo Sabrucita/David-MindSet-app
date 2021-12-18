@@ -80,8 +80,8 @@ export const deleteInterview = (id) => {
         if (res.status === 200) {
           const data = await res.json();
           dispatch(deleteInterviewFulfilled(data));
-          data.data.idCompany = data.data.idCompany._id;
-          data.data.idCandidate = data.data.idCandidate._id;
+          data.data.idCompany = data.data.idCompany?._id;
+          data.data.idCandidate = data.data.idCandidate?._id;
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await res.json();

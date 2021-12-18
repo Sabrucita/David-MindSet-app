@@ -70,8 +70,8 @@ function InterviewsForm({ match }) {
           subscription={{
             submitting: true
           }}
-          render={(formProps) => (
-            <form className={styles.form} onSubmit={formProps.handleSubmit}>
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
               <Field
                 name="idCandidate"
                 label="Candidate"
@@ -104,9 +104,9 @@ function InterviewsForm({ match }) {
               )}
               <div className={styles.btnContainer}>
                 <button
-                  className={styles.buttonGreen}
-                  disabled={formProps.submitting}
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"
+                  disabled={submitting || pristine}
                 >
                   SUBMIT INTERVIEW
                 </button>
