@@ -78,8 +78,6 @@ export const deleteApplication = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          data.data.idCandidate = data.data.idCandidate?._id;
-          data.data.idOpenPosition = data.data.idOpenPosition?._id;
           dispatch(deleteApplicationFulfilled(data));
           return dispatch(updateModal('deleted', data.data));
         }
