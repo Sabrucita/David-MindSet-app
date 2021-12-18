@@ -5,7 +5,6 @@ import {
   GET_SESSION_FETCHING,
   GET_SESSION_FULFILLED,
   GET_SESSION_REJECTED,
-  UPDATE_SELECTED_SESSION,
   GET_SESSIONS_OPTIONS_FETCHING,
   GET_SESSIONS_OPTIONS_FULFILLED,
   GET_SESSIONS_OPTIONS_REJECTED,
@@ -58,17 +57,11 @@ export const getSessionRejected = () => {
   };
 };
 
-// SELECTED SESSION
+// GET SELECTED SESSION
 export const getSelectedSession = (payload) => {
   return {
     type: GET_SELECTED_SESSION,
     payload
-  };
-};
-export const updateSelectedSession = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_SESSION,
-    payload: { field, value }
   };
 };
 

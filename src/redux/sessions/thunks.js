@@ -45,7 +45,7 @@ export const getSession = (id) => {
         const currentData = {
           idCandidate: data.idCandidate?._id,
           idPsychologist: data.idPsychologist?._id,
-          date: data.date
+          date: data.date.substr(0, 16)
         };
         dispatch(getSessionFulfilled(currentData));
       })

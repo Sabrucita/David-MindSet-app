@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { sessionsCleanup, updateSelectedSession } from '../../../redux/sessions/actions';
+import { Form, Field } from 'react-final-form';
+import { sessionsCleanup } from '../../../redux/sessions/actions';
+import { pastDatesValidation, validateText } from '../../../validations';
 import {
   createSession,
   getSession,
@@ -11,13 +13,11 @@ import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
 
-function Form({ match }) {
+function SessionsForm({ match }) {
   const dispatch = useDispatch();
   const options = useSelector((store) => store.sessions.options);
   const formData = useSelector((store) => store.sessions.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-
-  const [disableProperty, setDisableProperty] = useState(true);
 
   const id = match.params.id;
 
@@ -30,34 +30,22 @@ function Form({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    validateFields();
-  }, [formData]);
-
-  useEffect(() => {
     return () => {
       dispatch(sessionsCleanup());
     };
   }, []);
 
-  const submitForm = async (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
-    if (!id) {
-      dispatch(createSession(formData));
-    } else {
-      dispatch(updateSession(id, formData));
-    }
+  const submitForm = async (formData) => {
+    if (id) return dispatch(updateSession(id, formData));
+    dispatch(createSession(formData));
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedSession(field, value));
-  };
-
-  const validateFields = () => {
-    if (!formData.idCandidate) setDisableProperty(true);
-    else if (!formData.idPsychologist) setDisableProperty(true);
-    else if (!formData.date) setDisableProperty(true);
-    else setDisableProperty(false);
+  const validate = (formValues) => {
+    const errors = {};
+    errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
+    errors.idPsychologist = validateText(formValues.idPsychologist, 'Psychologist');
+    errors.date = pastDatesValidation(formValues.date);
+    return errors;
   };
 
   return (
@@ -69,50 +57,48 @@ function Form({ match }) {
         ) : (
           <h1 className={styles.mainTitle}>Edit Session</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idCandidate}
-            element="select"
-            name="candidate"
-            objectProperty="idCandidate"
-            required
-            updateData={updateForm}
-            options={options.candidates}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.idPsychologist}
-            element="select"
-            name="psychologist"
-            objectProperty="idPsychologist"
-            required
-            updateData={updateForm}
-            options={options.psychologists}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.date ? formData.date.substr(0, 16) : ''}
-            element="input"
-            name="date"
-            objectProperty="date"
-            inputType="datetime-local"
-            required
-            updateData={updateForm}
-          />
-          <div className={styles.btnContainer}>
-            <button
-              className={`${styles.buttonGreen} ${disableProperty && styles.disabled}`}
-              type="submit"
-              disabled={disableProperty}
-            >
-              SUBMIT SESSION
-            </button>
-          </div>
-        </form>
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field
+                name="idCandidate"
+                label="Candidate"
+                element="select"
+                options={options.candidates}
+                component={Fieldset}
+              />
+              <Field
+                name="idPsychologist"
+                label="Psychologist"
+                element="select"
+                options={options.psychologists}
+                component={Fieldset}
+              />
+              <Field
+                name="date"
+                label="Date"
+                element="input"
+                type="datetime-local"
+                component={Fieldset}
+              />
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT SESSION
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
     </>
   );
 }
 
-export default Form;
+export default SessionsForm;
