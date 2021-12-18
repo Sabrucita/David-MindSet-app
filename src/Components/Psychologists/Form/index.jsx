@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react';
 import Fieldset from '../../shared/Fieldset';
 import Modal from '../../shared/Modal';
 import styles from './form.module.css';
+import { useEffect } from 'react';
+import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getPsychologist,
   createPsychologist,
-  updatePsychologist
+  updatePsychologist,
+  getPsychologist
 } from '../../../redux/psychologists/thunks';
-import {
-  updateSelectedPsychologist,
-  psychologistsCleanUp
-} from '../../../redux/psychologists/actions';
+import { psychologistsCleanUp } from '../../../redux/psychologists/actions';
+import { validateText, validateEmail } from '../../../validations';
 
-function Form({ match }) {
-  const [disableProperty, setDisableProperty] = useState(false);
+function PsychologistsForm({ match }) {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.psychologists.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -37,85 +35,74 @@ function Form({ match }) {
     };
   }, []);
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setDisableProperty(true);
+  const submitForm = (formValues) => {
     if (operation === 'create') {
-      dispatch(createPsychologist(formData));
+      dispatch(createPsychologist(formValues));
     } else {
-      dispatch(updatePsychologist(id, formData));
+      dispatch(updatePsychologist(id, formValues));
     }
-    setDisableProperty(false);
   };
 
-  const updateForm = (field, value) => {
-    dispatch(updateSelectedPsychologist(field, value));
+  const validate = (formValues) => {
+    const errors = {};
+    errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
+    errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
+    errors.password = validateText(formValues.password, 'Password', 8, 16);
+    errors.email = validateEmail(formValues.email);
+    return errors;
   };
-
   return (
     <>
       <section className={styles.container}>
         {operation === 'create' ? (
-          <h1 className={styles.mainTitle}>Add new psychologist</h1>
+          <h1 className={styles.mainTitle}>Add psychologist</h1>
         ) : (
           <h1 className={styles.mainTitle}>Edit psychologist</h1>
         )}
-        <form className={styles.form} onSubmit={submitForm}>
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.firstName}
-            element="input"
-            resource="pyschologists"
-            name="firstname"
-            objectProperty="firstName"
-            required
-            updateData={updateForm}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.lastName}
-            element="input"
-            resource="psychologists"
-            name="lastname"
-            objectProperty="lastName"
-            required
-            updateData={updateForm}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.email}
-            element="input"
-            resource="psychologists"
-            name="email"
-            objectProperty="email"
-            required
-            updateData={updateForm}
-          />
-          <Fieldset
-            update={id ? true : false}
-            currentValue={formData.password}
-            element="input"
-            resource="psychologists"
-            inputType="password"
-            name="password"
-            objectProperty="password"
-            required
-            updateData={updateForm}
-          />
-          <div className={styles.btnContainer}>
-            <button
-              className={(styles.buttonAdd, styles.buttonGreen)}
-              disabled={disableProperty}
-              Addtype="submit"
-            >
-              SUBMIT PSYCHOLOGIST
-            </button>
-          </div>
-        </form>
+        <Form
+          onSubmit={submitForm}
+          initialValues={formData}
+          validate={validate}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <Field
+                name="firstName"
+                label="First Name"
+                element="input"
+                type="text"
+                component={Fieldset}
+              />
+              <Field
+                name="lastName"
+                label="Last Name"
+                element="input"
+                type="text"
+                component={Fieldset}
+              />
+              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
+              <Field
+                name="password"
+                label="Password"
+                element="input"
+                type="password"
+                component={Fieldset}
+              />
+              <div className={styles.btnContainer}>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT PSYCHOLOGIST
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
       {modal && <Modal />}
     </>
   );
 }
 
-export default Form;
+export default PsychologistsForm;

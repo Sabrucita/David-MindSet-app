@@ -14,7 +14,6 @@ import {
   DELETE_PSYCHOLOGIST_FETCHING,
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
-  UPDATE_SELECTED_PSYCHOLOGIST,
   PSYCHOLOGISTS_CLEANUP
 } from '../../constants';
 
@@ -120,14 +119,6 @@ export const deletePsychologistFulfilled = (payload) => {
 export const deletePsychologistRejected = () => {
   return {
     type: DELETE_PSYCHOLOGIST_REJECTED
-  };
-};
-
-//Update selected psychologist
-export const updateSelectedPsychologist = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_PSYCHOLOGIST,
-    payload: { field, value }
   };
 };
 

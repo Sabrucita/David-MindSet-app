@@ -14,7 +14,6 @@ import {
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
-  UPDATE_SELECTED_ADMIN,
   ADMINS_CLEANUP
 } from '../../constants';
 
@@ -120,14 +119,6 @@ export const deleteAdminFulfilled = (payload) => {
 export const deleteAdminRejected = () => {
   return {
     type: DELETE_ADMIN_REJECTED
-  };
-};
-
-//Update selected admin
-export const updateSelectedAdmin = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_ADMIN,
-    payload: { field, value }
   };
 };
 
