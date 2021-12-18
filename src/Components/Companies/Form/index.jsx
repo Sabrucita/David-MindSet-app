@@ -41,14 +41,31 @@ function CompaniesForm({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    const fieldList = ['name', 'address', 'city', 'province', 'country', 'contactFullName'];
-    //crear obj nombre y el displayedName para que no quede re croto en ese array
-    fieldList.forEach((field) => {
-      const error = validateText(formValues, field);
-      if (error != undefined) {
-        errors[field] = error;
-      }
-    });
+    if (!formValues.name) {
+      errors.name = 'Name is required.';
+    }
+    if (!formValues.address) {
+      errors.address = 'Address is required.';
+    }
+    if (!formValues.city) {
+      errors.city = 'City is required.';
+    }
+    if (!formValues.province) {
+      errors.province = 'Province is required.';
+    }
+    if (!formValues.country) {
+      errors.country = 'Country is required.';
+    }
+    if (!formValues.contactFullName) {
+      errors.contactFullName = 'Contact Full Name is required.';
+    }
+    errors.name = validateText(formValues.name, 'Name', 2, 40);
+    errors.address = validateText(formValues.address, 'Address', 2, 40);
+    errors.city = validateText(formValues.city, 'City', 2, 40);
+    errors.province = validateText(formValues.province, 'Province', 2, 40);
+    errors.country = validateText(formValues.country, 'Country', 2, 40);
+    errors.contactFullName = validateText(formValues.contactFullName, 'Contact Full Name', 2, 40);
+
     if (!formValues.email) {
       errors.email = 'Email is required';
     } else {
@@ -56,7 +73,6 @@ function CompaniesForm({ match }) {
     }
 
     const phoneList = ['phone', 'contactPhone'];
-    //crear obj nombre y el displayedName para que no quede re croto en ese array
     phoneList.forEach((field) => {
       const error = validatePhone(formValues, field);
       if (error != undefined) {
