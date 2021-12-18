@@ -6,7 +6,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCompany, updateCompany, getCompany } from '../../../redux/companies/thunks';
 import { companiesCleanup } from '../../../redux/companies/actions';
-import { validateText, validateEmail, validatePhone } from '../../../validations';
+import { validateText, validateEmail, validatePhone, validateZipCode } from '../../../validations';
 
 function CompaniesForm({ match }) {
   const dispatch = useDispatch();
@@ -77,11 +77,7 @@ function CompaniesForm({ match }) {
     errors.phone = validatePhone(formValues.phone, 'Phone');
     errors.contactPhone = validatePhone(formValues.contactPhone, 'Contact Phone');
 
-    if (!formValues.zipCode) {
-      errors.zipCode = 'Zip Code is required';
-    } else if (formValues.zipCode >= 10000) {
-      errors.zipCode = 'Zip Code must be less than 10000';
-    }
+    errors.zipCode = validateZipCode(formValues.zipCode);
     return errors;
   };
 

@@ -32,3 +32,10 @@ export function validateEmail(value) {
   if (!value) return 'Email is required';
   if (value.search(emailRegex) != 0) return 'Please enter a valid email address';
 }
+
+export function validateZipCode(value) {
+  if (!value) return `Zip Code is required`;
+  if (value >= 10000) {
+    return `Zip Code must be less than 10000`;
+  }
+}
