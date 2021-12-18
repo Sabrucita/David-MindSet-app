@@ -14,7 +14,6 @@ import {
   DELETE_PSYCHOLOGIST_FETCHING,
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
-  UPDATE_SELECTED_PSYCHOLOGIST,
   PSYCHOLOGISTS_CLEANUP
 } from '../../constants';
 
@@ -103,15 +102,6 @@ const psychologistsReducer = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE A PSYCHOLOGIST
-    case UPDATE_SELECTED_PSYCHOLOGIST: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // COMPANIES CLEANUP
     case PSYCHOLOGISTS_CLEANUP:
       return {

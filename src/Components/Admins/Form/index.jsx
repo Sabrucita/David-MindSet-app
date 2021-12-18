@@ -59,9 +59,8 @@ function AdminsForm({ match }) {
           onSubmit={submitForm}
           initialValues={formData}
           validate={validate}
-          //validatePass={validatePass}
-          render={(formProps) => (
-            <form className={styles.form} onSubmit={formProps.handleSubmit}>
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
               <Field
                 element="input"
                 type="text"
@@ -96,9 +95,9 @@ function AdminsForm({ match }) {
               />
               <div className={styles.btnContainer}>
                 <button
-                  className={(styles.buttonAdd, styles.buttonGreen)}
-                  disabled={formProps.submitting}
-                  Addtype="submit"
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
                 >
                   SUBMIT ADMINISTRATOR
                 </button>

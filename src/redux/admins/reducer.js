@@ -14,7 +14,6 @@ import {
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
-  UPDATE_SELECTED_ADMIN,
   ADMINS_CLEANUP
 } from '../../constants';
 
@@ -103,15 +102,6 @@ const adminsReducer = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE A ADMIN
-    case UPDATE_SELECTED_ADMIN: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // ADMINS CLEANUP
     case ADMINS_CLEANUP:
       return {
