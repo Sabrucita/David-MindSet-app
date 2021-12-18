@@ -86,35 +86,15 @@ function CandidatesForm({ match }) {
           }}
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
-              <Field
-                name="firstName"
-                label="First Name"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="lastName"
-                label="Last Name"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="email"
-                label="Email"
-                element="input"
-                type="email"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field name="firstName" label="First Name" element="input" component={Fieldset} />
+              <Field name="lastName" label="Last Name" element="input" component={Fieldset} />
+              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
               <Field
                 name="password"
                 label="Password"
                 element="input"
                 type="password"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="phone"
@@ -122,36 +102,16 @@ function CandidatesForm({ match }) {
                 element="input"
                 type="number"
                 component={Fieldset}
-                update={id ? true : false}
               />
-              <Field
-                name="city"
-                label="City"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="province"
-                label="Province"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="country"
-                label="Country"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field name="city" label="City" element="input" component={Fieldset} />
+              <Field name="province" label="Province" element="input" component={Fieldset} />
+              <Field name="country" label="Country" element="input" component={Fieldset} />
               <Field
                 name="postalCode"
                 label="Zip Code"
                 element="input"
                 type="number"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="birthday"
@@ -159,56 +119,23 @@ function CandidatesForm({ match }) {
                 element="input"
                 type="date"
                 component={Fieldset}
-                update={id ? true : false}
               />
-              <Field
-                name="hobbies"
-                label="Hobbies"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="mainSkills"
-                label="Main Skilss"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field name="hobbies" label="Hobbies" element="input" component={Fieldset} />
+              <Field name="mainSkills" label="Main Skilss" element="input" component={Fieldset} />
               <Field
                 name="profileTypes"
                 label="Profile Types"
                 element="input"
                 component={Fieldset}
-                update={id ? true : false}
               />
-              <Field
-                name="education"
-                label="Education"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="experiences"
-                label="Experiences"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
-              <Field
-                name="courses"
-                label="Courses"
-                element="input"
-                component={Fieldset}
-                update={id ? true : false}
-              />
+              <Field name="education" label="Education" element="input" component={Fieldset} />
+              <Field name="experiences" label="Experiences" element="input" component={Fieldset} />
+              <Field name="courses" label="Courses" element="input" component={Fieldset} />
               <Field
                 name="address.street"
                 label="Address Street"
                 element="input"
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="address.number"
@@ -216,7 +143,6 @@ function CandidatesForm({ match }) {
                 element="input"
                 type="number"
                 component={Fieldset}
-                update={id ? true : false}
               />
               {id && (
                 <Field
@@ -225,7 +151,6 @@ function CandidatesForm({ match }) {
                   element="input"
                   type="checkbox"
                   component={Fieldset}
-                  update={id ? true : false}
                 />
               )}
               <div className={styles.btnContainer}>
