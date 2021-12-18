@@ -8,6 +8,13 @@ export const pastDatesValidation = (date) => {
   if (date < today) return `Date must be later than today's date`;
 };
 
+export const laterDateValidation = (startDate, endDate) => {
+  if (!startDate) return pastDatesValidation(endDate);
+  startDate = new Date(startDate);
+  endDate = new Date(endDate);
+  if (endDate < startDate) return `End date must be later than start date`;
+};
+
 export const validateText = (value, field, min, max) => {
   if (!value) return `${field} is required`;
   if (min && value.length < min) return `${field} must be more than ${min} characters`;

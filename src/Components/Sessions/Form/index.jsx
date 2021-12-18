@@ -35,7 +35,7 @@ function SessionsForm({ match }) {
     };
   }, []);
 
-  const submitForm = async (formData) => {
+  const submitForm = (formData) => {
     if (id) return dispatch(updateSession(id, formData));
     dispatch(createSession(formData));
   };
