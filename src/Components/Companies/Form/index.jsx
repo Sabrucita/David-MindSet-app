@@ -6,7 +6,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCompany, updateCompany, getCompany } from '../../../redux/companies/thunks';
 import { companiesCleanup } from '../../../redux/companies/actions';
-import { validateText, emailValidationFn, validatePhone } from '../../../validations';
+import { validateText, validateEmail, validatePhone } from '../../../validations';
 
 function CompaniesForm({ match }) {
   const dispatch = useDispatch();
@@ -66,11 +66,7 @@ function CompaniesForm({ match }) {
     errors.country = validateText(formValues.country, 'Country', 2, 40);
     errors.contactFullName = validateText(formValues.contactFullName, 'Contact Full Name', 2, 40);
 
-    if (!formValues.email) {
-      errors.email = 'Email is required';
-    } else {
-      emailValidationFn(errors, formValues);
-    }
+    errors.email = validateEmail(formValues.email);
 
     if (!formValues.phone) {
       errors.phone = 'Phone is required.';
