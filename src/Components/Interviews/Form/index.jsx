@@ -11,7 +11,7 @@ import {
 } from '../../../redux/interviews/thunks';
 import { interviewsCleanUp } from '../../../redux/interviews/actions';
 import { Form, Field } from 'react-final-form';
-import { pastDatesValidation } from '../../../validations';
+import { pastDatesValidation, validateText } from '../../../validations';
 
 function InterviewsForm({ match }) {
   const dispatch = useDispatch();
@@ -48,15 +48,10 @@ function InterviewsForm({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.idCandidate) {
-      errors.idCandidate = 'Candidate is required.';
-    }
-    if (!formValues.idCompany) {
-      errors.idCompany = 'Company is required.';
-    }
-    if (!formValues.date) {
-      errors.date = 'Date is required.';
-    } else {
+    errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
+    errors.idCompany = validateText(formValues.idCompany, 'Company');
+    errors.date = validateText(formValues.date, 'Date');
+    if (formValues.date) {
       errors.date = pastDatesValidation(formValues.date);
     }
     return errors;

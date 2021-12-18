@@ -9,3 +9,17 @@ export const pastDatesValidation = (date) => {
   }
   return undefined;
 };
+
+export function validateText(value, field, min, max) {
+  let error = {};
+  if (!value) {
+    error = `${field} is required`;
+  } else if (max && value.length > max) {
+    error = `${field} must be less than ${max} characters`;
+  } else if (min && value.length < min) {
+    error = `${field} must be more than ${min} characters`;
+  } else {
+    return undefined;
+  }
+  return error;
+}

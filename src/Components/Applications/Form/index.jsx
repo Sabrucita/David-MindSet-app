@@ -11,6 +11,7 @@ import {
 } from '../../../redux/applications/thunks';
 import { applicationsCleanUp } from '../../../redux/applications/actions';
 import { Form, Field } from 'react-final-form';
+import { validateText } from '../../../validations';
 
 function ApplicationsForm({ match }) {
   const dispatch = useDispatch();
@@ -47,12 +48,9 @@ function ApplicationsForm({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.idCandidate) {
-      errors.idCandidate = 'Candidate is required.';
-    }
-    if (!formValues.idOpenPosition) {
-      errors.idCompany = 'Open-Position is required.';
-    }
+    errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
+    errors.idOpenPosition = validateText(formValues.idOpenPosition, 'Open Position');
+    return errors;
   };
 
   return (

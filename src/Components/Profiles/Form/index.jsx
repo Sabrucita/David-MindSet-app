@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createProfiles, updateProfiles, getProfile } from '../../../redux/profiles/thunks';
 import { profilesCleanup } from '../../../redux/profiles/actions';
 import { Form, Field } from 'react-final-form';
+import { validateText } from '../../../validations';
 
 function ProfilesFormForm({ match }) {
   const dispatch = useDispatch();
@@ -39,13 +40,10 @@ function ProfilesFormForm({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.name) {
-      errors.name = 'Profile Type Name is required.';
-    } else if (formValues.name.length < 3) {
-      errors.name = 'Profile Type Name must be longer than 3 characters.';
-    }
+    errors.name = validateText(formValues.name, 'Profile Type Name', 2);
     return errors;
   };
+
   return (
     <>
       <section className={styles.container}>
