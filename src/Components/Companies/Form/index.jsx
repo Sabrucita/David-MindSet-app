@@ -41,42 +41,15 @@ function CompaniesForm({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.name) {
-      errors.name = 'Name is required.';
-    }
-    if (!formValues.address) {
-      errors.address = 'Address is required.';
-    }
-    if (!formValues.city) {
-      errors.city = 'City is required.';
-    }
-    if (!formValues.province) {
-      errors.province = 'Province is required.';
-    }
-    if (!formValues.country) {
-      errors.country = 'Country is required.';
-    }
-    if (!formValues.contactFullName) {
-      errors.contactFullName = 'Contact Full Name is required.';
-    }
     errors.name = validateText(formValues.name, 'Name', 2, 40);
     errors.address = validateText(formValues.address, 'Address', 2, 40);
     errors.city = validateText(formValues.city, 'City', 2, 40);
     errors.province = validateText(formValues.province, 'Province', 2, 40);
     errors.country = validateText(formValues.country, 'Country', 2, 40);
     errors.contactFullName = validateText(formValues.contactFullName, 'Contact Full Name', 2, 40);
-
     errors.email = validateEmail(formValues.email);
-
-    if (!formValues.phone) {
-      errors.phone = 'Phone is required.';
-    }
-    if (!formValues.contactPhone) {
-      errors.contactPhone = 'Contact Phone is required.';
-    }
     errors.phone = validatePhone(formValues.phone, 'Phone');
     errors.contactPhone = validatePhone(formValues.contactPhone, 'Contact Phone');
-
     errors.zipCode = validateZipCode(formValues.zipCode);
     return errors;
   };
