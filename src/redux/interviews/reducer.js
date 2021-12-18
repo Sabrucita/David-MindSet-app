@@ -3,7 +3,6 @@ import {
   GET_INTERVIEW_FETCHING,
   GET_INTERVIEW_FULFILLED,
   GET_INTERVIEW_REJECTED,
-  UPDATE_SELECTED_INTERVIEW,
   GET_INTERVIEWS_FETCHING,
   GET_INTERVIEWS_FULFILLED,
   GET_INTERVIEWS_REJECTED,
@@ -51,15 +50,6 @@ const interviewReducer = (state = initialState, action) => {
         isFetching: false,
         error: true
       };
-    //UPDATE 1
-    case UPDATE_SELECTED_INTERVIEW: {
-      const newState = { ...state.selectedElement };
-      newState[action.payload.field] = action.payload.value;
-      return {
-        ...state,
-        selectedElement: newState
-      };
-    }
     // CLEAN UP
     case INTERVIEWS_CLEANUP:
       return {

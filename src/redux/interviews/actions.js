@@ -2,7 +2,6 @@ import {
   GET_INTERVIEW_FETCHING,
   GET_INTERVIEW_FULFILLED,
   GET_INTERVIEW_REJECTED,
-  UPDATE_SELECTED_INTERVIEW,
   GET_INTERVIEWS_FETCHING,
   GET_INTERVIEWS_FULFILLED,
   GET_INTERVIEWS_REJECTED,
@@ -35,13 +34,7 @@ export const getInterviewRejected = () => ({
   type: GET_INTERVIEW_REJECTED
 });
 
-//UPDATE SELECTED INTERVIEW
-export const updateSelectedInterview = (field, value) => {
-  return {
-    type: UPDATE_SELECTED_INTERVIEW,
-    payload: { field, value }
-  };
-};
+//CLEAN INTERVIEW
 export const interviewsCleanUp = () => ({
   type: INTERVIEWS_CLEANUP
 });
