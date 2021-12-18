@@ -77,7 +77,6 @@ function ApplicationsForm({ match }) {
                 element="select"
                 options={options.candidates}
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="idOpenPosition"
@@ -85,7 +84,6 @@ function ApplicationsForm({ match }) {
                 element="select"
                 options={options.openPositions}
                 component={Fieldset}
-                update={id ? true : false}
               />
               {id && (
                 <Field

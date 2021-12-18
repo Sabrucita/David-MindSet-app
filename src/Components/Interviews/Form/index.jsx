@@ -50,10 +50,7 @@ function InterviewsForm({ match }) {
     const errors = {};
     errors.idCandidate = validateText(formValues.idCandidate, 'Candidate');
     errors.idCompany = validateText(formValues.idCompany, 'Company');
-    errors.date = validateText(formValues.date, 'Date');
-    if (formValues.date) {
-      errors.date = pastDatesValidation(formValues.date);
-    }
+    errors.date = pastDatesValidation(formValues.date);
     return errors;
   };
 
@@ -81,7 +78,6 @@ function InterviewsForm({ match }) {
                 element="select"
                 options={options.candidates}
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="idCompany"
@@ -89,7 +85,6 @@ function InterviewsForm({ match }) {
                 element="select"
                 options={options.companies}
                 component={Fieldset}
-                update={id ? true : false}
               />
               <Field
                 name="date"
