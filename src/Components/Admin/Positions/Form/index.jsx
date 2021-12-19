@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
-import { positionsCleanup } from 'redux/positions/actions';
+import { positionsCleanup } from 'redux/admin/positions/actions';
 import { laterDateValidation, pastDatesValidation, validateText } from 'validations';
 import {
   createPosition,
   getPosition,
   getPositionsOptions,
   updatePosition
-} from 'redux/positions/thunks';
+} from 'redux/admin/positions/thunks';
 import Fieldset from 'Components/shared/Fieldset';
 import Modal from 'Components/shared/Modal';
 import styles from './form.module.css';

@@ -5,9 +5,9 @@ import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCandidates, deleteCandidates } from 'redux/candidates/thunks';
+import { getCandidates, deleteCandidates } from 'redux/admin/candidates/thunks';
 import { hideModal, showModal } from 'redux/modal/actions';
-import { candidatesCleanUp } from 'redux/candidates/actions';
+import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 
 function Candidates() {
   const [selectedItem, setSelectedItem] = useState();

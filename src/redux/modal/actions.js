@@ -1,4 +1,4 @@
-import { SHOW_MODAL, HIDE_MODAL, UPDATE_MODAL } from '../../constants';
+import { SHOW_MODAL, HIDE_MODAL, UPDATE_MODAL } from 'constants/index';
 
 export const showModal = (resource, type, content) => {
   return {

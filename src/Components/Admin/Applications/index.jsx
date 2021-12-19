@@ -5,9 +5,9 @@ import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteApplication, getApplications } from 'redux/applications/thunks';
+import { deleteApplication, getApplications } from 'redux/admin/applications/thunks';
 import { showModal } from 'redux/modal/actions';
-import { applicationsCleanUp } from 'redux/applications/actions';
+import { applicationsCleanUp } from 'redux/admin/applications/actions';
 
 function Applications() {
   const [selectedItem, setSelectedItem] = useState();

@@ -4,8 +4,8 @@ import styles from './form.module.css';
 import { useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAdmin, updateAdmin, getAdmin } from 'redux/admins/thunks';
-import { adminsCleanUp } from 'redux/admins/actions';
+import { createAdmin, updateAdmin, getAdmin } from 'redux/admin/admins/thunks';
+import { adminsCleanUp } from 'redux/admin/admins/actions';
 import { validateText, validateEmail } from 'validations';
 
 function AdminsForm({ match }) {

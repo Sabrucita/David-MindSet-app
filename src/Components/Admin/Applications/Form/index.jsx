@@ -8,8 +8,8 @@ import {
   updateApplication,
   getApplication,
   getApplicationsOptions
-} from 'redux/applications/thunks';
-import { applicationsCleanUp } from 'redux/applications/actions';
+} from 'redux/admin/applications/thunks';
+import { applicationsCleanUp } from 'redux/admin/applications/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText } from 'validations';
 

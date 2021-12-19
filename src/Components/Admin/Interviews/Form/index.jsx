@@ -8,8 +8,8 @@ import {
   updateInterview,
   getInterview,
   getInterviewsOptions
-} from 'redux/interviews/thunks';
-import { interviewsCleanUp } from 'redux/interviews/actions';
+} from 'redux/admin/interviews/thunks';
+import { interviewsCleanUp } from 'redux/admin/interviews/actions';
 import { Form, Field } from 'react-final-form';
 import { pastDatesValidation, validateText } from 'validations';
 

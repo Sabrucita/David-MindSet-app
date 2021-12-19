@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
-import { sessionsCleanup } from 'redux/sessions/actions';
+import { sessionsCleanup } from 'redux/admin/sessions/actions';
 import { pastDatesValidation, validateText } from 'validations';
 import {
   createSession,
   getSession,
   getSessionsOptions,
   updateSession
-} from 'redux/sessions/thunks';
+} from 'redux/admin/sessions/thunks';
 import Fieldset from 'Components/shared/Fieldset';
 import Modal from 'Components/shared/Modal';
 import styles from './form.module.css';
