@@ -1,6 +1,7 @@
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Layout';
 import Home from 'Components/Home';
+import PersonalInformation from 'Components/Candidate/Profile/PersonalInformation/Form';
 
 const candidatesRoutes = [{ name: 'candidates', path: '/admin/candidates' }];
 
@@ -12,7 +13,7 @@ const CandidatesRoutes = () => {
         <Route path={`${url}/home`} exact component={Home} />
         <Route path={`${url}/sign-up`} exact component={Home} />
         <Route path={`${url}/sign-up/step2`} exact component={Home} />
-        <Route path={`${url}/profile/personal-information`} exact component={Home} />
+        <Route path={`${url}/profile/personal-information`} exact component={PersonalInformation} />
         <Route path={`${url}/profile/basic-education`} exact component={Home} />
         <Route path={`${url}/profile/college-education`} exact component={Home} />
         <Route path={`${url}/profile/other-education`} exact component={Home} />
