@@ -28,3 +28,8 @@ export const formatDate = (element, fullDate = true) => {
   }
   return dateShort;
 };
+
+export const getBaseUrl = (url, breakpoint) => {
+  const urlParts = url.split(breakpoint);
+  return urlParts[0];
+};

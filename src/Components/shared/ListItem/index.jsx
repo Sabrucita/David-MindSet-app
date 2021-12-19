@@ -1,7 +1,9 @@
 import styles from './listItem.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
-function ListItem({ id, dataElement, dataTable, openModal, missingData, resource }) {
+function ListItem({ id, dataElement, dataTable, openModal, missingData }) {
+  const { url } = useRouteMatch();
+
   const getDataContent = (data) => {
     let content = [];
     for (let property in data) {
@@ -26,7 +28,7 @@ function ListItem({ id, dataElement, dataTable, openModal, missingData, resource
           <span className="material-icons-outlined">clear</span>
         </button>
         {!missingData && (
-          <Link to={`/${resource}/form/${id}`}>
+          <Link to={`${url}/form/${id}`}>
             <button className="edit-btn">
               <span className="material-icons-outlined">edit</span>
             </button>

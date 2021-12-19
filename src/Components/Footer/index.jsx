@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './footer.module.css';
 
-function Footer() {
+function Footer({ resource }) {
   return (
     <footer className={styles.container}>
       <div className={styles.main}>
@@ -10,31 +10,31 @@ function Footer() {
         </div>
         <ul className={styles.rutes}>
           <li>
-            <Link to="/administrators">admins</Link>
+            <Link to={`/${resource}/admins`}>admins</Link>
           </li>
           <li>
-            <Link to="/applications">applications</Link>
+            <Link to={`/${resource}/applications`}>applications</Link>
           </li>
           <li>
-            <Link to="/companies">companies</Link>
+            <Link to={`/${resource}/companies`}>companies</Link>
           </li>
           <li>
-            <Link to="/interviews">interviews</Link>
+            <Link to={`/${resource}/interviews`}>interviews</Link>
           </li>
           <li>
-            <Link to="/positions">positions</Link>
+            <Link to={`/${resource}/positions`}>positions</Link>
           </li>
           <li>
-            <Link to="/postulants">postulants</Link>
+            <Link to={`/${resource}/candidates`}>candidates</Link>
           </li>
           <li>
-            <Link to="/profiles">profiles</Link>
+            <Link to={`/${resource}/profiles`}>profiles</Link>
           </li>
           <li>
-            <Link to="/psychologists">psychologists</Link>
+            <Link to={`/${resource}/psychologists`}>psychologists</Link>
           </li>
           <li>
-            <Link to="/sessions">sessions</Link>
+            <Link to={`/${resource}/sessions`}>sessions</Link>
           </li>
         </ul>
       </div>

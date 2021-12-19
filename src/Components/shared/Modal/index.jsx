@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { hideModal } from '../../../redux/modal/actions';
-import { capitalize, removeLastChar } from '../../../helpers';
+import { useRouteMatch, withRouter } from 'react-router-dom';
+import { hideModal } from 'redux/modal/actions';
+import { capitalize, removeLastChar, getBaseUrl } from 'helpers';
 import Preloader from '../Preloader';
 import styles from './modal.module.css';
 
@@ -12,6 +12,8 @@ function Modal({ acceptModalFn, history }) {
   const type = useSelector((store) => store.modal.type);
   const content = useSelector((store) => store.modal.content);
   const [title, setTitle] = useState('');
+  const { url } = useRouteMatch();
+  const baseUrl = getBaseUrl(url, '/form');
 
   let dataContent = [],
     modalContent;
@@ -53,7 +55,7 @@ function Modal({ acceptModalFn, history }) {
   const closeModalFn = () => {
     dispatch(hideModal());
     if (type === 'create' || type === 'update') {
-      history.push(`/${resource}`);
+      history.push(baseUrl);
     }
   };
 
