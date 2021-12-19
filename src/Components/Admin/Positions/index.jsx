@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deletePosition, getPositions } from 'redux/positions/thunks';
-import { positionsCleanup } from 'redux/positions/actions';
+import { deletePosition, getPositions } from 'redux/admin/positions/thunks';
+import { positionsCleanup } from 'redux/admin/positions/actions';
 import List from './List';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';

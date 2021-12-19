@@ -4,10 +4,10 @@ import List from './List';
 import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader';
-import { deleteProfiles, getProfiles } from 'redux/profiles/thunks';
+import { deleteProfiles, getProfiles } from 'redux/admin/profiles/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { showModal } from 'redux/modal/actions';
-import { profilesCleanup } from 'redux/profiles/actions';
+import { profilesCleanup } from 'redux/admin/profiles/actions';
 
 function Profiles() {
   const [selectedItem, setSelectedItem] = useState();

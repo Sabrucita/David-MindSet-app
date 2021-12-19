@@ -4,10 +4,10 @@ import List from './List';
 import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
-import { deleteCompany, getCompanies } from 'redux/companies/thunks';
+import { deleteCompany, getCompanies } from 'redux/admin/companies/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { showModal } from 'redux/modal/actions';
-import { companiesCleanup } from 'redux/companies/actions';
+import { companiesCleanup } from 'redux/admin/companies/actions';
 
 function Companies() {
   const [selectedItem, setSelectedItem] = useState();

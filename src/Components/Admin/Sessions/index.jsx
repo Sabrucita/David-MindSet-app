@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSessions, deleteSession } from 'redux/sessions/thunks';
-import { sessionsCleanup } from 'redux/sessions/actions';
+import { getSessions, deleteSession } from 'redux/admin/sessions/thunks';
+import { sessionsCleanup } from 'redux/admin/sessions/actions';
 import List from './List';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';

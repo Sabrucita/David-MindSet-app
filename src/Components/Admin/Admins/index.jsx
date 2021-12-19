@@ -4,10 +4,10 @@ import List from './List';
 import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
-import { deleteAdmin, getAdmins } from 'redux/admins/thunks';
+import { deleteAdmin, getAdmins } from 'redux/admin/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { showModal } from 'redux/modal/actions';
-import { adminsCleanUp } from 'redux/admins/actions';
+import { adminsCleanUp } from 'redux/admin/admins/actions';
 
 function Admins() {
   const [selectedItem, setSelectedItem] = useState();

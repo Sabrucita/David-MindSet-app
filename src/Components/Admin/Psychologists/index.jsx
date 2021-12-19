@@ -4,10 +4,10 @@ import List from './List';
 import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
-import { deletePsychologist, getPsychologists } from 'redux/psychologists/thunks';
+import { deletePsychologist, getPsychologists } from 'redux/admin/psychologists/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { showModal } from 'redux/modal/actions';
-import { psychologistsCleanUp } from 'redux/psychologists/actions';
+import { psychologistsCleanUp } from 'redux/admin/psychologists/actions';
 
 function Psychologists() {
   const [selectedItem, setSelectedItem] = useState();

@@ -8,8 +8,8 @@ import {
   createPsychologist,
   updatePsychologist,
   getPsychologist
-} from 'redux/psychologists/thunks';
-import { psychologistsCleanUp } from 'redux/psychologists/actions';
+} from 'redux/admin/psychologists/thunks';
+import { psychologistsCleanUp } from 'redux/admin/psychologists/actions';
 import { validateText, validateEmail } from 'validations';
 
 function PsychologistsForm({ match }) {

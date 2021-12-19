@@ -1,12 +1,12 @@
-import applicationReducer from './applications/reducer';
-import profileReducer from './profiles/reducer';
-import psychologistsReducer from './psychologists/reducer';
-import candidatesReducer from './candidates/reducer';
-import adminsReducer from './admins/reducer';
-import positionsReducer from './positions/reducer';
-import sessionsReducer from './sessions/reducer';
-import interviewReducer from './interviews/reducer';
-import companiesReducer from './companies/reducer';
+import applicationReducer from './admin/applications/reducer';
+import profileReducer from './admin/profiles/reducer';
+import psychologistsReducer from './admin/psychologists/reducer';
+import candidatesReducer from './admin/candidates/reducer';
+import adminsReducer from './admin/admins/reducer';
+import positionsReducer from './admin/positions/reducer';
+import sessionsReducer from './admin/sessions/reducer';
+import interviewReducer from './admin/interviews/reducer';
+import companiesReducer from './admin/companies/reducer';
 import modalReducer from './modal/reducer';
 import { combineReducers } from 'redux';
 

@@ -4,8 +4,8 @@ import styles from './form.module.css';
 import { useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCompany, updateCompany, getCompany } from 'redux/companies/thunks';
-import { companiesCleanup } from 'redux/companies/actions';
+import { createCompany, updateCompany, getCompany } from 'redux/admin/companies/thunks';
+import { companiesCleanup } from 'redux/admin/companies/actions';
 import { validateText, validateEmail, validatePhone, validateZipCode } from 'validations';
 
 function CompaniesForm({ match }) {

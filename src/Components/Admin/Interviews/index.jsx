@@ -5,9 +5,9 @@ import Modal from 'Components/shared/Modal';
 import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteInterview, getInterviews } from 'redux/interviews/thunks';
+import { deleteInterview, getInterviews } from 'redux/admin/interviews/thunks';
 import { showModal } from 'redux/modal/actions';
-import { interviewsCleanUp } from 'redux/interviews/actions';
+import { interviewsCleanUp } from 'redux/admin/interviews/actions';
 
 function Interviews() {
   const [selectedItem, setSelectedItem] = useState();

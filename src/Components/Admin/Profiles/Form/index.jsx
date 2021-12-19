@@ -3,8 +3,8 @@ import Fieldset from 'Components/shared/Fieldset';
 import styles from './form.module.css';
 import Modal from 'Components/shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProfiles, updateProfiles, getProfile } from 'redux/profiles/thunks';
-import { profilesCleanup } from 'redux/profiles/actions';
+import { createProfiles, updateProfiles, getProfile } from 'redux/admin/profiles/thunks';
+import { profilesCleanup } from 'redux/admin/profiles/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText } from 'validations';
 
