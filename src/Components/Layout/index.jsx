@@ -2,12 +2,12 @@ import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import styles from './layout.module.css';
 
-const Layout = ({ children, resource }) => {
+const Layout = ({ children, routes }) => {
   return (
     <div className={styles.container}>
-      <Header resource={resource} />
+      <Header routes={routes} />
       {children}
-      <Footer resource={resource} />
+      <Footer routes={routes} />
     </div>
   );
 };

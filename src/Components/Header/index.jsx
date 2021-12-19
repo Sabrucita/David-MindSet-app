@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 
-function Header({ resource }) {
+function Header({ routes }) {
   return (
     <header>
       <div className={styles.container}>
@@ -29,36 +29,16 @@ function Header({ resource }) {
       </div>
       <nav className={styles.navbar}>
         <div className={styles.appName}>
-          Mind<span>SET</span>
+          <Link to={'/home'}>
+            Mind<span>SET</span>
+          </Link>
         </div>
         <ul className={styles.rutes}>
-          <li>
-            <Link to={`/${resource}/admins`}>admins</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/applications`}>applications</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/companies`}>companies</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/interviews`}>interviews</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/positions`}>positions</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/candidates`}>candidates</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/profiles`}>profiles</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/psychologists`}>psychologists</Link>
-          </li>
-          <li>
-            <Link to={`/${resource}/sessions`}>sessions</Link>
-          </li>
+          {routes.map((route) => (
+            <li key={route.name}>
+              <Link to={route.path}>{route.name}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
