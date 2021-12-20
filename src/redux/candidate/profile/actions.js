@@ -90,3 +90,16 @@ export const deleteCandidatesFullfilled = (payload) => ({
 export const deleteCandidatesRejected = () => ({
   type: DELETE_CANDIDATES_REJECTED
 });
+
+//Delete Education
+export const deleteEducationFetching = () => ({
+  type: 'DELETE_EDUCATION_FETCHING'
+});
+
+export const deleteEducationFullfilled = () => ({
+  type: 'DELETE_EDUCATION_FULLFILLED'
+});
+
+export const deleteEducationRejected = () => ({
+  type: 'DELETE_EDUCATION_REJECTED'
+});
