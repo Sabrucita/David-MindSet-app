@@ -1,8 +1,12 @@
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Layout';
 import Home from 'Components/Home';
+import SignUp from 'Components/Candidate/Signup';
 
-const candidatesRoutes = [{ name: 'candidates', path: '/admin/candidates' }];
+const candidatesRoutes = [
+  { name: 'home', path: '/candidate' },
+  { name: 'Sign Up', path: '/candidate/sign-up' }
+];
 
 const CandidatesRoutes = () => {
   const { url } = useRouteMatch();
@@ -10,7 +14,7 @@ const CandidatesRoutes = () => {
     <Layout routes={candidatesRoutes} resource={'candidate'}>
       <Switch>
         <Route path={`${url}/home`} exact component={Home} />
-        <Route path={`${url}/sign-up`} exact component={Home} />
+        <Route path={`${url}/sign-up`} exact component={SignUp} />
         <Route path={`${url}/sign-up/step2`} exact component={Home} />
         <Route path={`${url}/profile/personal-information`} exact component={Home} />
         <Route path={`${url}/profile/basic-education`} exact component={Home} />
