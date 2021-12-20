@@ -29,7 +29,7 @@
 }
 
 .fieldset img{
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  object-fit:cover;
   border: 1px solid rgb(167, 167, 167);
 }
