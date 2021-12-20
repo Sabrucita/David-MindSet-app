@@ -18,6 +18,93 @@ import {
   deleteCandidatesRejected
 } from './actions';
 
+//delete education
+export const deleteEducation = (idCandidate, candidate, idEducation) => {
+  return (dispatch) => {
+    dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
+    candidate.education = candidate.education.filter((element) => element._id !== idEducation);
+
+    fetch(`${url}/candidates/${idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(updateModal('deleted'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Educations', 'error', err.message));
+      });
+  };
+};
+// create education
+export const createEducation = (candidate, newEducation) => {
+  return (dispatch) => {
+    dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
+    newEducation.type != 'college';
+    candidate.education.push(newEducation);
+
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Educations', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Educations', 'error', err.message));
+      });
+  };
+};
+//update education
+export const updateEducation = (candidate) => {
+  return (dispatch) => {
+    dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Educations', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Educations', 'error', err.message));
+      });
+  };
+};
+
 //GET ALL THE CANDIDATES
 export const getCandidates = () => {
   return (dispatch) => {
