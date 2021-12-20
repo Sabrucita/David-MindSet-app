@@ -60,6 +60,7 @@ export const getCandidateById = (id) => {
             education: data.education,
             experiences: data.experiences,
             courses: data.courses,
+            pictureUrl: data.pictureUrl,
             address: { street: data.address.street, number: data.address.number }
           };
           return dispatch(getCandidateByIdFullfilled(currentData));

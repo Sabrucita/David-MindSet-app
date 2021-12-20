@@ -99,6 +99,8 @@ function PersonalInformation() {
                 label="Picture Url"
                 component={Fieldset}
               />
+              <Field element="image" type="image" name="pictureUrl" component={Fieldset} />
+              <img src="pictureUrl" alt="" />
               <div className={styles.btnContainer}>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}

@@ -144,6 +144,13 @@ function CandidatesForm({ match }) {
                 type="number"
                 component={Fieldset}
               />
+              <Field
+                element="input"
+                type="text"
+                name="pictureUrl"
+                label="Picture Url"
+                component={Fieldset}
+              />
               {id && (
                 <Field
                   name="isOpenToWork"

@@ -27,3 +27,9 @@
   text-align: end;
   color: red;
 }
+
+.fieldset img{
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgb(167, 167, 167);
+}

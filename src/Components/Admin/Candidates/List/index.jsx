@@ -42,6 +42,7 @@ function List({ header, data, openModal }) {
                   postalCode: element.postalCode,
                   address: `${element.address.street} ${element.address.number}`,
                   birthday: formatDate(element.birthday, false),
+                  pictureUrl: element.pictureUrl,
                   openToWork: element.isOpenToWork
                 }}
                 openModal={openModal}
