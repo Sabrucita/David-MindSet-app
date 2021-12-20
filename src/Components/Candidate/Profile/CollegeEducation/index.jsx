@@ -1,13 +1,12 @@
 import styles from 'Components/Candidate/Profile/CollegeEducation/collegeEducation.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
-import { getCandidateById } from 'redux/admin/candidates/thunks';
 import Modal from 'Components/shared/Modal';
 import { showModal } from 'redux/modal/actions';
-import { deleteEducation } from 'redux/candidate/profile/thunks';
-// import { adminsCleanUp } from 'redux/admin/admins/actions';
+import { deleteEducation, getCandidateById } from 'redux/candidate/profile/thunks';
+import { formatDate } from 'helpers';
 
 function CollegeEducation({ match }) {
   const [selectedItem, setSelectedItem] = useState();
@@ -15,7 +14,8 @@ function CollegeEducation({ match }) {
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const candidates = useSelector((store) => store.candidates);
   const modal = useSelector((state) => state.modal.show);
-
+  const { url } = useRouteMatch();
+  let collegeEducation = [];
   const id = '61bfc7ea55715dcf9f552e15';
 
   useEffect(() => {
@@ -33,6 +33,10 @@ function CollegeEducation({ match }) {
     dispatch(deleteEducation(id, selectedCandidate, selectedItem._id));
   };
 
+  if (selectedCandidate.education) {
+    collegeEducation = selectedCandidate.education.filter((element) => element.type === 'college');
+  }
+
   return (
     <>
       <section className={styles.container}>
@@ -41,45 +45,56 @@ function CollegeEducation({ match }) {
         {candidates.isFetching ? (
           <Preloader />
         ) : (
-          selectedCandidate.education.map((element) => {
-            return (
-              // eslint-disable-next-line react/jsx-key
-              <div className={styles.boxContainer}>
-                <div className={styles.box}>
-                  <div className={styles.boxItem}>
-                    <h2>Title</h2>
-                    <span>{element.description}</span>
+          <>
+            {collegeEducation.length !== 0 ? (
+              collegeEducation.map((element) => {
+                return (
+                  <div key={element._id} className={styles.boxContainer}>
+                    <div className={styles.box}>
+                      <div className={styles.boxItem}>
+                        <h2>Title</h2>
+                        <span>{element.description}</span>
+                      </div>
+                      <div className={styles.boxItem}>
+                        <h3>Institution</h3>
+                        <span>{element.institution}</span>
+                      </div>
+                      <div className={styles.boxItem}>
+                        <h3>City</h3>
+                        <span>{element.city}</span>
+                      </div>
+                      <div className={styles.boxItem}>
+                        <h3>State</h3>
+                        <span>{element.state}</span>
+                      </div>
+                      <div className={styles.boxItem}>
+                        <h3>Graduation Date</h3>
+                        {element.graduationYear ? (
+                          <span>{formatDate(element.graduationYear, false)}</span>
+                        ) : (
+                          <span>On going</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className={styles.actions}>
+                      <Link to={`${url}/form/${element._id}`}>
+                        <button className="edit-btn">
+                          <span className="material-icons-outlined">edit</span>
+                        </button>
+                      </Link>
+                      <button onClick={() => openModal(element, 'delete')}>
+                        <span className="material-icons-outlined">clear</span>
+                      </button>
+                    </div>
                   </div>
-                  <div className={styles.boxItem}>
-                    <h3>Institution</h3>
-                    <span>{element.institution}</span>
-                  </div>
-                  <div className={styles.boxItem}>
-                    <h3>City</h3>
-                    <span>{element.city}</span>
-                  </div>
-                  <div className={styles.boxItem}>
-                    <h3>State</h3>
-                    <span>{element.state}</span>
-                  </div>
-                  <div className={styles.boxItem}>
-                    <h3>Graduation Date</h3>
-                    <span>{element.graduationYear}</span>
-                  </div>
-                </div>
-                <div className={styles.actions}>
-                  <button className="edit-btn">
-                    <span className="material-icons-outlined">edit</span>
-                  </button>
-                  <button onClick={() => openModal(element, 'delete')}>
-                    <span className="material-icons-outlined">clear</span>
-                  </button>
-                </div>
-              </div>
-            );
-          })
+                );
+              })
+            ) : (
+              <p>There is no work College Education yet.</p>
+            )}
+          </>
         )}
-        <Link to="/candidate/profile/college-education/form" className={styles.addMore}>
+        <Link to={`${url}/form`} className={styles.addMore}>
           <span>add more +</span>
         </Link>
         <Link to="/profile/other-education" className={styles.buttonAdd}>

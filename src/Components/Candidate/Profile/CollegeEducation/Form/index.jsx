@@ -1,47 +1,58 @@
-import styles from 'Components/Candidate/Profile/CollegeEducation/Form/collegeEducationForm.module.css';
-import { useEffect } from 'react';
+import styles from './collegeEducationForm.module.css';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import Modal from 'Components/shared/Modal';
-import { showModal } from 'redux/modal/actions';
-// import { adminsCleanUp } from 'redux/admin/admins/actions';
 import Fieldset from 'Components/Candidate/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
-import { createEducation } from 'redux/candidate/profile/thunks';
+import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
 
-function CollegeEducation() {
+function CollegeEducation({ match }) {
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
+  const [selectedEducation, setSelectedEducation] = useState({});
 
   const id = '61bfc7ea55715dcf9f552e15';
+  const idEducation = match.params.id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(adminsCleanUp());
-  //   };
-  // }, [dispatch]);
+  useEffect(() => {
+    if (idEducation) {
+      const education = selectedCandidate.education.find((element) => element._id === idEducation);
+      education.graduationYear = education.graduationYear?.substr(0, 10);
+      setSelectedEducation(education);
+    }
+  }, [dispatch]);
 
   const submitForm = (formValues) => {
-    // if (operation === 'create') {
+    if (idEducation) {
+      formValues._id = idEducation;
+      selectedCandidate.education = selectedCandidate.education.map((element) => {
+        if (element._id === idEducation) return formValues;
+        return element;
+      });
+      return dispatch(updateEducation(selectedCandidate));
+    }
     dispatch(createEducation(selectedCandidate, formValues));
-    // } else {
-    //   dispatch(updateAdmin(id, formValues));
-    // }
   };
 
   return (
     <>
+      {modal && <Modal acceptModalFn />}
       <section className={styles.container}>
-        {modal && <Modal acceptModalFn />}
-        <h1 className={styles.mainTitle}> ADD COLLEGE EDUCATION & POST GRADUATE</h1>
+        {!idEducation ? (
+          <h2 className={styles.mainTitle}>Add College Education & Post Graduate</h2>
+        ) : (
+          <h2 className={styles.mainTitle}>Edit College Education & Post Graduate</h2>
+        )}
         <div className={styles.item}>
           <Form
             onSubmit={submitForm}
+            initialValues={selectedEducation}
             render={({ handleSubmit, submitting, pristine }) => (
               <form className={styles.form} onSubmit={handleSubmit}>
                 <Field

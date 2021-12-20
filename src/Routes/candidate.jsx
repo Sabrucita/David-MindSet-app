@@ -28,7 +28,7 @@ const CandidatesRoutes = () => {
         <Route
           path={`${url}/profile/college-education/form/:id`}
           exact
-          component={CollegeEducation}
+          component={CollegeEducationForm}
         />
         <Route path={`${url}/profile/other-education`} exact component={Home} />
         <Route path={`${url}/profile/work-experience`} exact component={Home} />
