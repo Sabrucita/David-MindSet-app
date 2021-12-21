@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import Fieldset from 'Components/shared/Fieldset';
 import styles from './signup.module.css';
 import Modal from 'Components/shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCandidates } from 'redux/admin/candidates/thunks';
-import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText, validateEmail } from 'validations';
 
@@ -12,12 +11,6 @@ function SignUp1() {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-
-  useEffect(() => {
-    return () => {
-      dispatch(candidatesCleanUp());
-    };
-  }, []);
 
   const submitForm = (formValues) => {
     return dispatch(createCandidates(formValues));
@@ -40,7 +33,7 @@ function SignUp1() {
           subscription={{
             submitting: true
           }}
-          render={({ handleSubmit, submitting, pristine }) => (
+          render={({ handleSubmit }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
               <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
               <Field

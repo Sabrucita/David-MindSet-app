@@ -17,10 +17,10 @@
   }
   .form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
-    width: 100%;
+    width: 70%;
     padding: 0px 40px 40px 40px;
   }
   .btnContainer {

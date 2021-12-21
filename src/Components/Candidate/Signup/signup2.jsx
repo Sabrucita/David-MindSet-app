@@ -1,22 +1,28 @@
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import Fieldset from 'Components/shared/Fieldset';
 import styles from './signup.module.css';
 import Modal from 'Components/shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCandidates } from 'redux/admin/candidates/thunks';
-// import { candidatesCleanUp } from 'redux/admin/candidates/actions';
+import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 import { Form, Field } from 'react-final-form';
-import { validateText, validatePhone, birthdayValidation, validateZipCode } from 'validations';
+import {
+  validateText,
+  validatePhone,
+  birthdayValidation,
+  validateZipCode,
+  validateEmail
+} from 'validations';
 
 function SignUp2() {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-  //   useEffect(() => {
-  //     return () => {
-  //       dispatch(candidatesCleanUp());
-  //     };
-  //   }, []);
+  useEffect(() => {
+    return () => {
+      dispatch(candidatesCleanUp());
+    };
+  }, []);
 
   const submitForm = (formValues) => {
     return dispatch(createCandidates(formValues));
@@ -26,6 +32,8 @@ function SignUp2() {
     const errors = {};
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
     errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
+    errors.email = validateEmail(formValues.email);
+    errors.password = validateText(formValues.password, 'Password', 8, 16);
     errors.phone = validatePhone(formValues.phone, 'Phone Number');
     errors.city = validateText(formValues.city, 'City', 2, 40);
     errors.province = validateText(formValues.province, 'Province', 2, 40);
@@ -54,6 +62,14 @@ function SignUp2() {
             <form className={styles.form} onSubmit={handleSubmit}>
               <Field name="firstName" label="First Name" element="input" component={Fieldset} />
               <Field name="lastName" label="Last Name" element="input" component={Fieldset} />
+              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
+              <Field
+                name="password"
+                label="Password"
+                element="input"
+                type="password"
+                component={Fieldset}
+              />
               <Field
                 name="phone"
                 label="Phone Number"
