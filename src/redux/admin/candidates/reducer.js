@@ -21,7 +21,7 @@ const initialState = {
   isFetching: false,
   isFetchingDelete: false,
   list: [],
-  selectedElement: {},
+  selectedElement: { education: [] },
   error: { error: false, msg: '' }
 };
 
