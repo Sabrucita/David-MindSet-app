@@ -6,8 +6,10 @@ import Modal from 'Components/shared/Modal';
 import Fieldset from 'Components/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
 import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
+import { validateText } from 'validations';
+import { Link, useRouteMatch, withRouter } from 'react-router-dom';
 
-function CollegeEducation({ match }) {
+function CollegeEducation({ match, history }) {
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -40,6 +42,15 @@ function CollegeEducation({ match }) {
     dispatch(createEducation(selectedCandidate, formValues));
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    errors.description = validateText(formValues.description, 'Title', 3);
+    errors.institution = validateText(formValues.institution, 'Institution', 2);
+    errors.city = validateText(formValues.city, 'City', 3);
+    errors.state = validateText(formValues.state, 'State', 2);
+    return errors;
+  };
+
   return (
     <>
       {modal && <Modal acceptModalFn />}
@@ -53,6 +64,7 @@ function CollegeEducation({ match }) {
           <Form
             onSubmit={submitForm}
             initialValues={selectedEducation}
+            validate={validate}
             render={({ handleSubmit, submitting, pristine }) => (
               <form className={styles.form} onSubmit={handleSubmit}>
                 <Field
@@ -84,7 +96,6 @@ function CollegeEducation({ match }) {
                   type="date"
                   component={Fieldset}
                 />
-
                 <div className={styles.btnContainer}>
                   <button
                     className={`${styles.buttonGreen} ${
@@ -105,4 +116,4 @@ function CollegeEducation({ match }) {
   );
 }
 
-export default CollegeEducation;
+export default withRouter(CollegeEducation);
