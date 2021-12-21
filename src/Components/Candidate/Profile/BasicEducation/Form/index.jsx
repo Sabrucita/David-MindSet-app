@@ -22,7 +22,7 @@ function BasicEducation({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (idEducation) {
+    if (idEducation && selectedCandidate._idEducation) {
       const education = selectedCandidate.education.find((element) => element._id === idEducation);
       education.graduationYear = education.graduationYear?.substr(0, 10);
       setSelectedEducation(education);
