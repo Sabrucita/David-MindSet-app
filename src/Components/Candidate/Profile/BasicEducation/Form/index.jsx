@@ -6,6 +6,7 @@ import Modal from 'Components/shared/Modal';
 import Fieldset from 'Components/Candidate/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
 import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
+import { validateText } from 'validations';
 
 function BasicEducation({ match }) {
   const dispatch = useDispatch();
@@ -40,6 +41,16 @@ function BasicEducation({ match }) {
     dispatch(createEducation(selectedCandidate, formValues));
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    errors.description = validateText(formValues.descriptions, 'Descriptions', 2, 40);
+    errors.type = validateText(formValues.type, 'Type', 2, 40);
+    errors.institution = validateText(formValues.institution, 'Institution');
+    errors.city = validateText(formValues.city, 'City', 2, 40);
+    errors.state = validateText(formValues.state, ' State', 2, 40);
+    return errors;
+  };
+
   return (
     <>
       {modal && <Modal acceptModalFn />}
@@ -53,6 +64,7 @@ function BasicEducation({ match }) {
           <Form
             onSubmit={submitForm}
             initialValues={selectedEducation}
+            validate={validate}
             render={({ handleSubmit, submitting, pristine }) => (
               <form className={styles.form} onSubmit={handleSubmit}>
                 <Field
