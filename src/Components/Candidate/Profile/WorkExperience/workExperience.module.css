@@ -68,3 +68,18 @@
 .actions button {
   margin-bottom: 10px;
 }
+.addMore {
+  margin: 20px 0 0;
+  text-decoration: none;
+}
+.addMore span {
+  color: green;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+}
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

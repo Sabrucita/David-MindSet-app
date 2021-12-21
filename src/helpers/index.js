@@ -30,6 +30,5 @@ export const formatDate = (element, fullDate = true) => {
 };
 
 export const getBaseUrl = (url, breakpoint) => {
-  const urlParts = url.split(breakpoint);
-  return urlParts[0];
+  return url.split(breakpoint)[0];
 };

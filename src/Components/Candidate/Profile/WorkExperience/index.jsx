@@ -9,6 +9,7 @@ import styles from './workExperience.module.css';
 
 function WorkExperience() {
   const dispatch = useDispatch();
+  const candidates = useSelector((store) => store.candidates);
   const candidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
   const [selectedExperience, setSelectedExperience] = useState({});
@@ -37,7 +38,7 @@ function WorkExperience() {
       {modal && <Modal acceptModalFn={deleteItem} />}
       <section className={styles.container}>
         <h2 className={styles.title}>Work Experience</h2>
-        {candidate.isFetching ? (
+        {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
@@ -85,9 +86,17 @@ function WorkExperience() {
                 <p>There is no work experience yet.</p>
               )}
             </div>
-            <Link to={`${url}/form`} className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>ADD EXPERIENCE</span>
+            <Link to={`${url}/form`} className={styles.addMore}>
+              <span>add more +</span>
             </Link>
+            <div className={styles.btnContainer}>
+              <Link to={`college-education`} className={styles.buttonAdd}>
+                <span className={styles.buttonGreen}>GO BACK</span>
+              </Link>
+              <Link to={`hobbies`} className={styles.buttonAdd}>
+                <span className={styles.buttonGreen}>CONTINUE</span>
+              </Link>
+            </div>
           </>
         )}
       </section>

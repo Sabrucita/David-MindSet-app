@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import { validateText } from 'validations';
 import { getCandidateById, updateCandidates } from 'redux/candidate/profile/thunks';
+import { Link } from 'react-router-dom';
 import Fieldset from 'Components/shared/Fieldset';
 import Modal from 'Components/shared/Modal';
 import styles from './form.module.css';
@@ -22,13 +23,13 @@ function WorkExperienceForm({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (id) {
+    if (id && candidate.idCandidate) {
       const experience = candidate.experiences.find((experience) => experience._id === id);
       experience.since = experience.since.substr(0, 10);
       experience.until = experience.until.substr(0, 10);
       setExperience(experience);
     }
-  }, [candidate]);
+  }, [candidate.idCandidate]);
 
   const submitForm = (formData) => {
     if (id) {
@@ -90,6 +91,9 @@ function WorkExperienceForm({ match }) {
                 component={Fieldset}
               />
               <div className={styles.btnContainer}>
+                <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
+                  <span className={styles.buttonGreen}>BACK</span>
+                </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"
