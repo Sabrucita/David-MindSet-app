@@ -8,6 +8,12 @@
   max-width: 1200px;
   margin: auto;
 }
+.experiencesContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+}
 .title {
   width: 100%;
   margin-bottom: 20px;
@@ -33,4 +39,32 @@
 }
 .buttonGreen:hover {
   background-color: rgb(88, 88, 88);
+}
+.experienceContainer {
+  display: flex;
+  width: 30%;
+}
+.experienceContainer ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+.experienceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.experienceItem span {
+  margin: 10px 0;
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+.actions button {
+  margin-bottom: 10px;
 }

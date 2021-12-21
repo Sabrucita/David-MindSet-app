@@ -24,6 +24,8 @@ function WorkExperienceForm({ match }) {
   useEffect(() => {
     if (id) {
       const experience = candidate.experiences.find((experience) => experience._id === id);
+      experience.since = experience.since.substr(0, 10);
+      experience.until = experience.until.substr(0, 10);
       setExperience(experience);
     }
   }, [candidate]);

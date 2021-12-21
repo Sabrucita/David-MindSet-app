@@ -41,27 +41,50 @@ function WorkExperience() {
           <Preloader />
         ) : (
           <>
-            {candidate.experiences ? (
-              candidate.experiences.map((experience) => {
-                return (
-                  <div key={experience._id} className={styles.experienceContainer}>
-                    <ul>
-                      <li>Position: {experience.position}</li>
-                      <li>Company: {experience.company}</li>
-                      <li>Since: {experience.since}</li>
-                      <li>Until: {experience.until}</li>
-                      <li>Job Description: {experience.jobDescription}</li>
-                    </ul>
-                    <Link to={`${url}/form/${experience._id}`}>
-                      <button>Edit</button>
-                    </Link>
-                    <button onClick={() => openModal(experience)}>Delete</button>
-                  </div>
-                );
-              })
-            ) : (
-              <p>There is no work experience yet.</p>
-            )}
+            <div className={styles.experiencesContainer}>
+              {candidate.experiences ? (
+                candidate.experiences.map((experience) => {
+                  return (
+                    <div key={experience._id} className={styles.experienceContainer}>
+                      <ul>
+                        <li className={styles.experienceItem}>
+                          <span>Position:</span>
+                          <span>{experience.position}</span>
+                        </li>
+                        <li className={styles.experienceItem}>
+                          <span>Company:</span>
+                          <span>{experience.company}</span>
+                        </li>
+                        <li className={styles.experienceItem}>
+                          <span>Since:</span>
+                          <span>{experience.since?.substr(0, 10)}</span>
+                        </li>
+                        <li className={styles.experienceItem}>
+                          <span>Until:</span>
+                          <span>{experience.until?.substr(0, 10)}</span>
+                        </li>
+                        <li className={styles.experienceItem}>
+                          <span>Job Description:</span>
+                          <span>{experience.jobDescription}</span>
+                        </li>
+                      </ul>
+                      <div className={styles.actions}>
+                        <Link to={`${url}/form/${experience._id}`}>
+                          <button>
+                            <span className="material-icons-outlined">edit</span>
+                          </button>
+                        </Link>
+                        <button onClick={() => openModal(experience)}>
+                          <span className="material-icons-outlined">clear</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p>There is no work experience yet.</p>
+              )}
+            </div>
             <Link to={`${url}/form`} className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD EXPERIENCE</span>
             </Link>
