@@ -30,17 +30,45 @@ function PersonalInformationList() {
             {candidate ? (
               <div key={candidate._id} className={styles.infoContainer}>
                 <ul>
-                  <li>First Name: {candidate.firstName}</li>
-                  <li>Last Name: {candidate.lastName}</li>
-                  <li>Phone Number: {candidate.phone}</li>
-                  <li>City: {candidate.city}</li>
-                  <li>Province: {candidate.province}</li>
-                  <li>Country: {candidate.country}</li>
-                  <li>Birthday: {candidate.birthday}</li>
-                  <li>Address Street: {candidate.address?.street}</li>
-                  <li>Address Number: {candidate.address?.number}</li>
-                  <li>Picture URL: {candidate.pictureUrl}</li>
-                  <img src={candidate.pictureUrl} />
+                  <li>
+                    <p className={styles.inputTitle}>First Name</p>
+                    <p className={styles.inputValue}>{candidate.firstName}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Last Name</p>
+                    <p className={styles.inputValue}>{candidate.lastName}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Phone Number</p>
+                    <p className={styles.inputValue}>{candidate.phone}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>City</p>
+                    <p className={styles.inputValue}>{candidate.city}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Province</p>
+                    <p className={styles.inputValue}>{candidate.province}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Country</p>
+                    <p className={styles.inputValue}>{candidate.country}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Birthday</p>
+                    <p className={styles.inputValue}>{candidate.birthday}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Address Street</p>
+                    <p className={styles.inputValue}>{candidate.address?.street}</p>
+                  </li>
+                  <li>
+                    <p className={styles.inputTitle}>Address Number</p>
+                    <p className={styles.inputValue}>{candidate.address?.number}</p>
+                  </li>
+                  <li>
+                    <img className={styles.profilePicture} src={candidate.pictureUrl} />
+                  </li>
                 </ul>
               </div>
             ) : (
@@ -49,7 +77,7 @@ function PersonalInformationList() {
             <Link to={`${url}/form`} className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>EDIT INFORMATION</span>
             </Link>
-            <Link to="profile/college-education" className={styles.buttonAdd}>
+            <Link to="college-education" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>CONTINUE</span>
             </Link>
           </>

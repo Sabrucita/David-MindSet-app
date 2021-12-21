@@ -17,7 +17,7 @@ function Fieldset({ meta, input, element, label, options }) {
       field = <input {...input} id={input.name} className={hasError && styles.inputError}></input>;
       break;
     case 'image':
-      field = <img src={input.value} alt="Profile Picture"></img>;
+      field = <img className={styles.profilePicture} src={input.value} alt="Profile Picture"></img>;
       break;
     default:
       break;

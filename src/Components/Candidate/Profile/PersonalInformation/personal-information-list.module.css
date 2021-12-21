@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 50%;
   max-width: 1200px;
   margin: auto;
 }
@@ -37,11 +37,33 @@
 
 .infoContainer ul li{
   list-style: none;
-  padding: 10px;
+  width: 100%;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
 }
 
-img{
-  width: 150px;
+.infoContainer ul{
+  display: grid;
+  grid-template-areas: "li li";
+}
+
+.profilePicture{
+  width: 120px;
   object-fit:cover;
-  border: 1px solid rgb(167, 167, 167);
+}
+
+.inputValue{
+  font-size: 20px;
+  color: rgb(95, 95, 95);
+  margin: 0px 10px 0px 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.inputTitle{
+
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(97, 97, 97);
 }
