@@ -7,6 +7,7 @@ import Fieldset from 'Components/Candidate/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
 import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
 import { validateText } from 'validations';
+import { Link } from 'react-router-dom';
 
 function BasicEducation({ match }) {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function BasicEducation({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (idEducation && selectedCandidate._idCandidate) {
+    if (idEducation && selectedCandidate.idCandidate) {
       const education = selectedCandidate.education.find((element) => element._id === idEducation);
       education.graduationYear = education.graduationYear?.substr(0, 10);
       setSelectedEducation(education);
