@@ -22,12 +22,12 @@ function BasicEducation({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (idEducation && selectedCandidate._idEducation) {
+    if (idEducation && selectedCandidate._idCandidate) {
       const education = selectedCandidate.education.find((element) => element._id === idEducation);
       education.graduationYear = education.graduationYear?.substr(0, 10);
       setSelectedEducation(education);
     }
-  }, [dispatch]);
+  }, [selectedCandidate.idCandidate]);
 
   const submitForm = (formValues) => {
     if (idEducation) {
