@@ -41,57 +41,59 @@ function CollegeEducation({ match }) {
     <>
       <section className={styles.container}>
         {modal && <Modal acceptModalFn={acceptModal} />}
-        <h1 className={styles.h1}>COLLEGE EDUCATION & POST GRADUATE</h1>
+        <h1 className={styles.title}>COLLEGE EDUCATION & POST GRADUATE</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
-            {collegeEducation.length !== 0 ? (
-              collegeEducation.map((element) => {
-                return (
-                  <div key={element._id} className={styles.boxContainer}>
-                    <div className={styles.box}>
-                      <div className={styles.boxItem}>
-                        <h2>Title</h2>
-                        <span>{element.description}</span>
-                      </div>
-                      <div className={styles.boxItem}>
-                        <h3>Institution</h3>
-                        <span>{element.institution}</span>
-                      </div>
-                      <div className={styles.boxItem}>
-                        <h3>City</h3>
-                        <span>{element.city}</span>
-                      </div>
-                      <div className={styles.boxItem}>
-                        <h3>State</h3>
-                        <span>{element.state}</span>
-                      </div>
-                      <div className={styles.boxItem}>
-                        <h3>Graduation Date</h3>
-                        {element.graduationYear ? (
-                          <span>{formatDate(element.graduationYear, false)}</span>
-                        ) : (
-                          <span>On going</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className={styles.actions}>
-                      <Link to={`${url}/form/${element._id}`}>
-                        <button className="edit-btn">
-                          <span className="material-icons-outlined">edit</span>
+            <div className={styles.boxesContainer}>
+              {collegeEducation.length !== 0 ? (
+                collegeEducation.map((element) => {
+                  return (
+                    <div key={element._id} className={styles.boxContainer}>
+                      <ul>
+                        <li className={styles.boxItem}>
+                          <span>Title:</span>
+                          <span>{element.description}</span>
+                        </li>
+                        <li className={styles.boxItem}>
+                          <span>Institution:</span>
+                          <span>{element.institution}</span>
+                        </li>
+                        <li className={styles.boxItem}>
+                          <span>City:</span>
+                          <span>{element.city}</span>
+                        </li>
+                        <li className={styles.boxItem}>
+                          <span>State:</span>
+                          <span>{element.state}</span>
+                        </li>
+                        <li className={styles.boxItem}>
+                          <span>Graduation Date:</span>
+                          {element.graduationYear ? (
+                            <span>{formatDate(element.graduationYear, false)}</span>
+                          ) : (
+                            <span>On going</span>
+                          )}
+                        </li>
+                      </ul>
+                      <div className={styles.actions}>
+                        <Link to={`${url}/form/${element._id}`}>
+                          <button className="edit-btn">
+                            <span className="material-icons-outlined">edit</span>
+                          </button>
+                        </Link>
+                        <button onClick={() => openModal(element, 'delete')}>
+                          <span className="material-icons-outlined">clear</span>
                         </button>
-                      </Link>
-                      <button onClick={() => openModal(element, 'delete')}>
-                        <span className="material-icons-outlined">clear</span>
-                      </button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p>There is no work College Education yet.</p>
-            )}
+                  );
+                })
+              ) : (
+                <p>There is no work College Education yet.</p>
+              )}
+            </div>
           </>
         )}
         <Link to={`${url}/form`} className={styles.addMore}>
@@ -106,22 +108,3 @@ function CollegeEducation({ match }) {
 }
 
 export default CollegeEducation;
-
-// const initialValues = [
-//   {
-//     id: '1',
-//     description: 'acount',
-//     institution: 'uca',
-//     city: 'rosario',
-//     state: 'santa fe',
-//     graduationYear: '2021-12-06'
-//   },
-//   {
-//     id: '2',
-//     description: 'inge',
-//     institution: 'utn',
-//     city: 'rosario',
-//     state: 'santa fe',
-//     graduationYear: '2021-12-06'
-//   }
-// ];
