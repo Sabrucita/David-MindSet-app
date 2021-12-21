@@ -7,9 +7,8 @@ import Fieldset from 'Components/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
 import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
 import { validateText } from 'validations';
-import { Link, useRouteMatch, withRouter } from 'react-router-dom';
 
-function CollegeEducation({ match, history }) {
+function CollegeEducation({ match }) {
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -116,4 +115,4 @@ function CollegeEducation({ match, history }) {
   );
 }
 
-export default withRouter(CollegeEducation);
+export default CollegeEducation;
