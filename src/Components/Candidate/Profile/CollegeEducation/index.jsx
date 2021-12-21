@@ -99,7 +99,7 @@ function CollegeEducation({ match }) {
         <Link to={`${url}/form`} className={styles.addMore}>
           <span>add more +</span>
         </Link>
-        <Link to="/profile/other-education" className={styles.buttonAdd}>
+        <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
           <span className={styles.buttonGreen}>CONTINUE</span>
         </Link>
       </section>
