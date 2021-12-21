@@ -8,7 +8,7 @@ import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText, validatePhone, birthdayValidation } from 'validations';
 
-function PersonalInformation() {
+function PersonalInformationForm() {
   const dispatch = useDispatch();
   const formData = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -100,7 +100,6 @@ function PersonalInformation() {
                 component={Fieldset}
               />
               <Field element="image" type="image" name="pictureUrl" component={Fieldset} />
-              <img src="pictureUrl" alt="" />
               <div className={styles.btnContainer}>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
@@ -119,4 +118,4 @@ function PersonalInformation() {
   );
 }
 
-export default PersonalInformation;
+export default PersonalInformationForm;
