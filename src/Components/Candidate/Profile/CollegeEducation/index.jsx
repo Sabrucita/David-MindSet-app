@@ -33,9 +33,9 @@ function CollegeEducation({ match }) {
     dispatch(deleteEducation(id, selectedCandidate, selectedItem._id));
   };
 
-  if (selectedCandidate.education) {
-    collegeEducation = selectedCandidate.education.filter((element) => element.type === 'college');
-  }
+  // if (selectedCandidate.education) {
+  //   collegeEducation = selectedCandidate.education.filter((element) => element.type === 'college');
+  // }
 
   return (
     <>
@@ -47,8 +47,8 @@ function CollegeEducation({ match }) {
         ) : (
           <>
             <div className={styles.boxesContainer}>
-              {collegeEducation.length !== 0 ? (
-                collegeEducation.map((element) => {
+              {selectedCandidate.education.length !== 0 ? (
+                selectedCandidate.education.map((element) => {
                   return (
                     <div key={element._id} className={styles.boxContainer}>
                       <ul>
