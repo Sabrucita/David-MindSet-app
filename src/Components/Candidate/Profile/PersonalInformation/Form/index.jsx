@@ -7,6 +7,7 @@ import { updateCandidates, getCandidateById } from 'redux/admin/candidates/thunk
 import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText, validatePhone, birthdayValidation } from 'validations';
+import { Link } from 'react-router-dom';
 
 function PersonalInformationForm() {
   const dispatch = useDispatch();
@@ -101,6 +102,9 @@ function PersonalInformationForm() {
               />
               <Field element="image" type="image" name="pictureUrl" component={Fieldset} />
               <div className={styles.btnContainer}>
+                <Link to="profile/college-education" className={styles.buttonAdd}>
+                  <span className={styles.buttonGreen}>GO BACK</span>
+                </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"

@@ -49,6 +49,9 @@ function PersonalInformationList() {
             <Link to={`${url}/form`} className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>EDIT INFORMATION</span>
             </Link>
+            <Link to="profile/college-education" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>CONTINUE</span>
+            </Link>
           </>
         )}
       </section>

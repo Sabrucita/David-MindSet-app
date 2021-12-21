@@ -4,7 +4,10 @@ import Home from 'Components/Home';
 import PersonalInformationList from 'Components/Candidate/Profile/PersonalInformation';
 import PersonalInformationForm from 'Components/Candidate/Profile/PersonalInformation/Form';
 
-const candidatesRoutes = [{ name: 'candidates', path: '/admin/candidates' }];
+const candidatesRoutes = [
+  { name: 'candidates', path: '/admin/candidates' },
+  { name: 'Personal Information', path: '/candidate/profile/personal-information' }
+];
 
 const CandidatesRoutes = () => {
   const { url } = useRouteMatch();
