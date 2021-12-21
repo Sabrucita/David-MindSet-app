@@ -10,6 +10,7 @@ function PersonalInformationList() {
   const dispatch = useDispatch();
   const candidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
+  const candidates = useSelector((store) => store.candidates);
   const { url } = useRouteMatch();
 
   const id = '619188555b9988bf252a4d5a';
@@ -23,7 +24,7 @@ function PersonalInformationList() {
       {modal && <Modal />}
       <section className={styles.container}>
         <h2 className={styles.title}>Personal Information</h2>
-        {candidate.isFetching ? (
+        {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
@@ -74,12 +75,14 @@ function PersonalInformationList() {
             ) : (
               <p>There is no personal information yet.</p>
             )}
-            <Link to={`${url}/form`} className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>EDIT INFORMATION</span>
-            </Link>
-            <Link to="college-education" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>CONTINUE</span>
-            </Link>
+            <div className={styles.btnContainer}>
+              <Link to={`${url}/form`} className={styles.buttonAdd}>
+                <span className={styles.buttonGreen}>EDIT INFORMATION</span>
+              </Link>
+              <Link to="basic-education" className={styles.buttonAdd}>
+                <span className={styles.buttonGreen}>CONTINUE</span>
+              </Link>
+            </div>
           </>
         )}
       </section>

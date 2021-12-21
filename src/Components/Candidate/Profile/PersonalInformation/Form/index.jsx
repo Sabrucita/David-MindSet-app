@@ -102,7 +102,7 @@ function PersonalInformationForm() {
               />
               <Field element="image" type="image" name="pictureUrl" component={Fieldset} />
               <div className={styles.btnContainer}>
-                <Link to="profile/college-education" className={styles.buttonAdd}>
+                <Link to="../personal-information" className={styles.buttonAdd}>
                   <span className={styles.buttonGreen}>GO BACK</span>
                 </Link>
                 <button
