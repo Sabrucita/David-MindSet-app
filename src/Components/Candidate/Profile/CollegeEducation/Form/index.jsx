@@ -7,6 +7,7 @@ import Fieldset from 'Components/shared/Fieldset';
 import { getCandidateById } from 'redux/admin/candidates/thunks';
 import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
 import { validateText } from 'validations';
+import { Link } from 'react-router-dom';
 
 function CollegeEducation({ match }) {
   const dispatch = useDispatch();
@@ -22,12 +23,12 @@ function CollegeEducation({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (idEducation) {
+    if (idEducation && selectedCandidate.idCandidate) {
       const education = selectedCandidate.education.find((element) => element._id === idEducation);
       education.graduationYear = education.graduationYear?.substr(0, 10);
       setSelectedEducation(education);
     }
-  }, [dispatch]);
+  }, [selectedCandidate.idCandidate]);
 
   const submitForm = (formValues) => {
     if (idEducation) {
@@ -96,6 +97,9 @@ function CollegeEducation({ match }) {
                   component={Fieldset}
                 />
                 <div className={styles.btnContainer}>
+                  <Link to="/candidate/profile/college-education" className={styles.buttonAdd}>
+                    <span className={styles.buttonGreen}>GO BACK</span>
+                  </Link>
                   <button
                     className={`${styles.buttonGreen} ${
                       (submitting || pristine) && styles.disabled

@@ -23,7 +23,7 @@
 }
 .buttonGreen {
   padding: 16px 40px;
-  margin: 15px 0px;
+  margin: 20px;
   border: rgb(21, 139, 10);
   border-radius: 30px;
   background-color: rgb(21, 139, 10);
@@ -68,7 +68,6 @@
 .actions button{
   margin-bottom: 10px;
 }
-
 .addMore{
   text-decoration: none;
 }
@@ -77,4 +76,9 @@
   font-weight: bold;
   font-style: italic;
   text-decoration: none;
+}
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }

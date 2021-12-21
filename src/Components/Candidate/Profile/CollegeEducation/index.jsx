@@ -99,9 +99,14 @@ function CollegeEducation({ match }) {
         <Link to={`${url}/form`} className={styles.addMore}>
           <span>add more +</span>
         </Link>
-        <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
-          <span className={styles.buttonGreen}>CONTINUE</span>
-        </Link>
+        <div className={styles.btnContainer}>
+          <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
+            <span className={styles.buttonGreen}>GO BACK</span>
+          </Link>
+          <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
+            <span className={styles.buttonGreen}>CONTINUE</span>
+          </Link>
+        </div>
       </section>
     </>
   );
