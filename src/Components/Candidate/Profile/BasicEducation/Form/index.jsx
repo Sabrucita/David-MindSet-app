@@ -62,7 +62,15 @@ function BasicEducation({ match }) {
                   type="text"
                   component={Fieldset}
                 />
-                <Field name="type" label="type" element="input" type="text" component={Fieldset} />
+                <div>
+                  <label>Type</label>
+                  <Field name="type" component="select">
+                    <option />
+                    <option value="Elementary">Elementary</option>
+                    <option value="Middle">Middle</option>
+                    <option value="High">High</option>
+                  </Field>
+                </div>
                 <Field
                   name="institution"
                   label="Institution"

@@ -34,7 +34,10 @@ function BasicEducation({ match }) {
   };
 
   if (selectedCandidate.education) {
-    basicEducation = selectedCandidate.education.filter((element) => element.type != 'college');
+    basicEducation = selectedCandidate.education.filter(
+      (element) =>
+        element.type === 'Elementary' || element.type === 'Middle' || element.type === 'High'
+    );
   }
 
   return (
@@ -101,7 +104,7 @@ function BasicEducation({ match }) {
         <Link to={`${url}/form`} className={styles.addMore}>
           <span>add more +</span>
         </Link>
-        <Link to="/profile/other-education" className={styles.buttonAdd}>
+        <Link to="/profile/college-education" className={styles.buttonAdd}>
           <span className={styles.buttonGreen}>CONTINUE</span>
         </Link>
       </section>
