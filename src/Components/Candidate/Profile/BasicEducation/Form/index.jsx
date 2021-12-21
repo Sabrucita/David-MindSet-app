@@ -43,7 +43,7 @@ function BasicEducation({ match }) {
 
   const validate = (formValues) => {
     const errors = {};
-    errors.description = validateText(formValues.descriptions, 'Descriptions', 2, 40);
+    errors.description = validateText(formValues.description, 'Description', 2, 40);
     errors.type = validateText(formValues.type, 'Type', 2, 40);
     errors.institution = validateText(formValues.institution, 'Institution');
     errors.city = validateText(formValues.city, 'City', 2, 40);
