@@ -106,8 +106,10 @@ function BasicEducation({ match }) {
                   type="date"
                   component={Fieldset}
                 />
-
                 <div className={styles.btnContainer}>
+                  <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
+                    <span className={styles.buttonGreen}>GO BACK</span>
+                  </Link>
                   <button
                     className={`${styles.buttonGreen} ${
                       (submitting || pristine) && styles.disabled

@@ -90,3 +90,9 @@
     font-style: italic;
     text-decoration: none;
   }
+
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
