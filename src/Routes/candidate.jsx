@@ -11,10 +11,9 @@ import WorkExperience from 'Components/Candidate/Profile/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/Profile/WorkExperience/Form';
 
 const candidatesRoutes = [
-  { name: 'candidates', path: '/admin/candidates' },
-  { name: 'Basic Education', path: '/candidate/profile/basic-education' }
   { name: 'home', path: '/candidate' },
   { name: 'personal information', path: '/candidate/profile/personal-information' },
+  { name: 'Basic Education', path: '/candidate/profile/basic-education' },
   { name: 'College Education & plus', path: '/candidate/profile/college-education' },
   { name: 'work experience', path: '/candidate/profile/work-experience' }
 ];
