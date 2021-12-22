@@ -3,10 +3,13 @@ import Layout from 'Components/Layout';
 import Home from 'Components/Home';
 import PersonalInformationList from 'Components/Candidate/Profile/PersonalInformation';
 import PersonalInformationForm from 'Components/Candidate/Profile/PersonalInformation/Form';
+import WorkExperience from 'Components/Candidate/Profile/WorkExperience';
+import WorkExperienceForm from 'Components/Candidate/Profile/WorkExperience/Form';
 
 const candidatesRoutes = [
-  { name: 'candidates', path: '/admin/candidates' },
-  { name: 'Personal Information', path: '/candidate/profile/personal-information' }
+  { name: 'home', path: '/candidate' },
+  { name: 'personal information', path: '/candidate/profile/personal-information' },
+  { name: 'work experience', path: '/candidate/profile/work-experience' }
 ];
 
 const CandidatesRoutes = () => {
@@ -30,7 +33,9 @@ const CandidatesRoutes = () => {
         <Route path={`${url}/profile/basic-education`} exact component={Home} />
         <Route path={`${url}/profile/college-education`} exact component={Home} />
         <Route path={`${url}/profile/other-education`} exact component={Home} />
-        <Route path={`${url}/profile/work-experience`} exact component={Home} />
+        <Route path={`${url}/profile/work-experience`} exact component={WorkExperience} />
+        <Route path={`${url}/profile/work-experience/form`} exact component={WorkExperienceForm} />
+        <Route path={`${url}/profile/work-experience/form/:id`} component={WorkExperienceForm} />
         <Route path={`${url}/profile/hobbies`} exact component={Home} />
         <Route path={`${url}/profile/time-range`} exact component={Home} />
         <Route path={`${url}/profile/`}>
