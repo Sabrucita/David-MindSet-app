@@ -41,7 +41,7 @@ function CollegeEducation({ match }) {
     <>
       <section className={styles.container}>
         {modal && <Modal acceptModalFn={acceptModal} />}
-        <h1 className={styles.title}>COLLEGE EDUCATION & POST GRADUATE</h1>
+        <h1 className={styles.title}>College Education & Post Graduate</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (

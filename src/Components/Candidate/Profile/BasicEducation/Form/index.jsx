@@ -1,4 +1,4 @@
-import styles from './collegeEducationForm.module.css';
+import styles from './form.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
@@ -9,7 +9,7 @@ import { createEducation, updateEducation } from 'redux/candidate/profile/thunks
 import { validateText } from 'validations';
 import { Link } from 'react-router-dom';
 
-function CollegeEducation({ match }) {
+function BasicEducation({ match }) {
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
@@ -39,15 +39,16 @@ function CollegeEducation({ match }) {
       });
       return dispatch(updateEducation(selectedCandidate));
     }
-    dispatch(createEducation(selectedCandidate, formValues, 'college'));
+    dispatch(createEducation(selectedCandidate, formValues, formValues.type));
   };
 
   const validate = (formValues) => {
     const errors = {};
-    errors.description = validateText(formValues.description, 'Title', 3);
-    errors.institution = validateText(formValues.institution, 'Institution', 2);
-    errors.city = validateText(formValues.city, 'City', 3);
-    errors.state = validateText(formValues.state, 'State', 2);
+    errors.description = validateText(formValues.description, 'Description', 2, 40);
+    errors.type = validateText(formValues.type, 'Type', 2, 40);
+    errors.institution = validateText(formValues.institution, 'Institution');
+    errors.city = validateText(formValues.city, 'City', 2, 40);
+    errors.state = validateText(formValues.state, ' State', 2, 40);
     return errors;
   };
 
@@ -56,9 +57,9 @@ function CollegeEducation({ match }) {
       {modal && <Modal acceptModalFn />}
       <section className={styles.container}>
         {!idEducation ? (
-          <h2 className={styles.mainTitle}>Add College Education & Post Graduate</h2>
+          <h2 className={styles.mainTitle}>Add Basic Education</h2>
         ) : (
-          <h2 className={styles.mainTitle}>Edit College Education & Post Graduate</h2>
+          <h2 className={styles.mainTitle}>Edit Basic Education</h2>
         )}
         <div className={styles.item}>
           <Form
@@ -74,6 +75,15 @@ function CollegeEducation({ match }) {
                   type="text"
                   component={Fieldset}
                 />
+                <div>
+                  <label>Type</label>
+                  <Field name="type" component="select">
+                    <option />
+                    <option value="elementary">Elementary</option>
+                    <option value="middle">Middle</option>
+                    <option value="high">High</option>
+                  </Field>
+                </div>
                 <Field
                   name="institution"
                   label="Institution"
@@ -97,7 +107,7 @@ function CollegeEducation({ match }) {
                   component={Fieldset}
                 />
                 <div className={styles.btnContainer}>
-                  <Link to="/candidate/profile/college-education" className={styles.buttonAdd}>
+                  <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
                     <span className={styles.buttonGreen}>GO BACK</span>
                   </Link>
                   <button
@@ -119,4 +129,4 @@ function CollegeEducation({ match }) {
   );
 }
 
-export default CollegeEducation;
+export default BasicEducation;
