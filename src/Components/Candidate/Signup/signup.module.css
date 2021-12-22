@@ -23,6 +23,14 @@
     width: 70%;
     padding: 0px 40px 40px 40px;
   }
+  .form1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 70%;
+    padding: 0px 40px 40px 40px;
+  }
   .btnContainer {
     display: flex;
     justify-content: center;
@@ -32,6 +40,17 @@
     width: 30%;
     padding: 15px 0;
     margin: 40px 0 0;
+    border: rgb(21, 139, 10);
+    border-radius: 30px;
+    background-color: rgb(21, 139, 10);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .buttonGreen2 {
+    width: 30%;
+    padding: 15px 0;
+    margin: auto;
     border: rgb(21, 139, 10);
     border-radius: 30px;
     background-color: rgb(21, 139, 10);

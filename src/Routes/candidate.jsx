@@ -15,7 +15,6 @@ const CandidatesRoutes = () => {
       <Switch>
         <Route path={`${url}/home`} exact component={Home} />
         <Route path={`${url}/sign-up`} exact component={SignUp} />
-        <Route path={`${url}/sign-up/step2`} exact component={Home} />
         <Route path={`${url}/profile/personal-information`} exact component={Home} />
         <Route path={`${url}/profile/basic-education`} exact component={Home} />
         <Route path={`${url}/profile/college-education`} exact component={Home} />
