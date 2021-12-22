@@ -39,7 +39,7 @@ function BasicEducation({ match }) {
       });
       return dispatch(updateEducation(selectedCandidate));
     }
-    dispatch(createEducation(selectedCandidate, formValues));
+    dispatch(createEducation(selectedCandidate, formValues, formValues.type));
   };
 
   const validate = (formValues) => {
@@ -79,9 +79,9 @@ function BasicEducation({ match }) {
                   <label>Type</label>
                   <Field name="type" component="select">
                     <option />
-                    <option value="Elementary">Elementary</option>
-                    <option value="Middle">Middle</option>
-                    <option value="High">High</option>
+                    <option value="elementary">Elementary</option>
+                    <option value="middle">Middle</option>
+                    <option value="high">High</option>
                   </Field>
                 </div>
                 <Field

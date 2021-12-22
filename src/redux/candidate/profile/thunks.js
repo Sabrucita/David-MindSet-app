@@ -48,10 +48,10 @@ export const deleteEducation = (idCandidate, candidate, idEducation) => {
   };
 };
 // create education
-export const createEducation = (candidate, newEducation) => {
+export const createEducation = (candidate, newEducation, type) => {
   return (dispatch) => {
     dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
-    newEducation.type = 'college';
+    newEducation.type = type;
     candidate.education.push(newEducation);
 
     fetch(`${url}/candidates/${candidate.idCandidate}`, {

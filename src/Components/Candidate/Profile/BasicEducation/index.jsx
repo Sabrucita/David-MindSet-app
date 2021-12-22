@@ -36,7 +36,7 @@ function BasicEducation({ match }) {
   if (selectedCandidate.education) {
     basicEducation = selectedCandidate.education.filter(
       (element) =>
-        element.type === 'Elementary' || element.type === 'Middle' || element.type === 'High'
+        element.type === 'elementary' || element.type === 'middle' || element.type === 'high'
     );
   }
 

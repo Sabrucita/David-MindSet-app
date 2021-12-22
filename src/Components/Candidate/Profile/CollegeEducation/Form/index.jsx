@@ -39,7 +39,7 @@ function CollegeEducation({ match }) {
       });
       return dispatch(updateEducation(selectedCandidate));
     }
-    dispatch(createEducation(selectedCandidate, formValues));
+    dispatch(createEducation(selectedCandidate, formValues, 'college'));
   };
 
   const validate = (formValues) => {
