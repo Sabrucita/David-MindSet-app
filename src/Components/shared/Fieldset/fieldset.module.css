@@ -27,3 +27,8 @@
   text-align: end;
   color: red;
 }
+
+.profilePicture{
+  width: 150px;
+  object-fit:cover;
+}
