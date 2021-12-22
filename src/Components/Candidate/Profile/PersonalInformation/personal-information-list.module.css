@@ -1,0 +1,83 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.title {
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
+}
+.buttonAdd {
+  display: inline-flex;
+  align-self: center;
+  width: fit-content;
+  text-decoration: none;
+  margin: 20px;
+  padding: 0;
+}
+
+.buttonAdd a{
+  padding: 0;
+  margin: 0;
+}
+
+.buttonGreen {
+  padding: 16px 40px;
+  margin: 15px 0px;
+  border: rgb(21, 139, 10);
+  border-radius: 30px;
+  background-color: rgb(21, 139, 10);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 15px;
+}
+.buttonGreen:hover {
+  background-color: rgb(88, 88, 88);
+}
+
+.infoContainer ul li{
+  list-style: none;
+  width: 100%;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+.infoContainer ul{
+  display: grid;
+  grid-template-areas: "li li";
+}
+
+.profilePicture{
+  width: 120px;
+  object-fit:cover;
+}
+
+.inputValue{
+  font-size: 20px;
+  color: rgb(95, 95, 95);
+  margin: 0px 10px 0px 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.inputTitle{
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(97, 97, 97);
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
