@@ -8,6 +8,7 @@ import sessionsReducer from './admin/sessions/reducer';
 import interviewReducer from './admin/interviews/reducer';
 import companiesReducer from './admin/companies/reducer';
 import modalReducer from './modal/reducer';
+import authReducer from './auth/reducer';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
@@ -20,7 +21,8 @@ const reducer = combineReducers({
   sessions: sessionsReducer,
   interviews: interviewReducer,
   companies: companiesReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  auth: authReducer
 });
 
 export default reducer;
