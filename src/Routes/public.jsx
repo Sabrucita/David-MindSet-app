@@ -4,12 +4,13 @@ import Home from 'Components/Home';
 const publicRoutes = [
   { name: 'admin', path: '/admin' },
   { name: 'candidate', path: '/candidate' },
-  { name: 'sign up', path: '/candidate/sign-up' }
+  { name: 'login', path: '/auth/login' },
+  { name: 'sign up', path: '/auth/sign-up' }
 ];
 
 const PublicRoutes = () => {
   return (
-    <Layout routes={publicRoutes} resource={'admin'}>
+    <Layout routes={publicRoutes} resource={'/'}>
       <Home />
     </Layout>
   );

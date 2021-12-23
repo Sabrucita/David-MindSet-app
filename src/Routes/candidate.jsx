@@ -9,6 +9,7 @@ import CollegeEducation from 'Components/Candidate/Profile/CollegeEducation';
 import CollegeEducationForm from 'Components/Candidate/Profile/CollegeEducation/Form';
 import WorkExperience from 'Components/Candidate/Profile/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/Profile/WorkExperience/Form';
+import PrivateRoute from './PrivateRoute';
 
 const candidatesRoutes = [
   { name: 'home', path: '/candidate' },
@@ -23,47 +24,60 @@ const CandidatesRoutes = () => {
   return (
     <Layout routes={candidatesRoutes} resource={'candidate'}>
       <Switch>
-        <Route path={`${url}/home`} exact component={Home} />
-        <Route path={`${url}/sign-up`} exact component={Home} />
-        <Route path={`${url}/sign-up/step2`} exact component={Home} />
-        <Route path={`${url}/profile/basic-education/form`} exact component={BasicEducationForm} />
-        <Route
+        <PrivateRoute path={`${url}/home`} exact component={Home} />
+        <PrivateRoute
+          path={`${url}/profile/basic-education/form`}
+          exact
+          component={BasicEducationForm}
+        />
+        <PrivateRoute
           path={`${url}/profile/basic-education/form/:id`}
           exact
           component={BasicEducationForm}
         />
-        <Route path={`${url}/profile/basic-education`} exact component={BasicEducation} />
-        <Route
+        <PrivateRoute path={`${url}/profile/basic-education`} exact component={BasicEducation} />
+        <PrivateRoute
           path={`${url}/profile/personal-information`}
           exact
           component={PersonalInformationList}
         />
-        <Route
+        <PrivateRoute
           path={`${url}/profile/personal-information/form`}
           exact
           component={PersonalInformationForm}
         />
-        <Route path={`${url}/profile/basic-education`} exact component={Home} />
-        <Route path={`${url}/profile/college-education`} exact component={CollegeEducation} />
-        <Route
+        <PrivateRoute path={`${url}/profile/basic-education`} exact component={Home} />
+        <PrivateRoute
+          path={`${url}/profile/college-education`}
+          exact
+          component={CollegeEducation}
+        />
+        <PrivateRoute
           path={`${url}/profile/college-education/form`}
           exact
           component={CollegeEducationForm}
         />
-        <Route
+        <PrivateRoute
           path={`${url}/profile/college-education/form/:id`}
           exact
           component={CollegeEducationForm}
         />
-        <Route path={`${url}/profile/other-education`} exact component={Home} />
-        <Route path={`${url}/profile/work-experience`} exact component={WorkExperience} />
-        <Route path={`${url}/profile/work-experience/form`} exact component={WorkExperienceForm} />
-        <Route path={`${url}/profile/work-experience/form/:id`} component={WorkExperienceForm} />
-        <Route path={`${url}/profile/hobbies`} exact component={Home} />
-        <Route path={`${url}/profile/time-range`} exact component={Home} />
-        <Route path={`${url}/profile/`}>
+        <PrivateRoute path={`${url}/profile/other-education`} exact component={Home} />
+        <PrivateRoute path={`${url}/profile/work-experience`} exact component={WorkExperience} />
+        <PrivateRoute
+          path={`${url}/profile/work-experience/form`}
+          exact
+          component={WorkExperienceForm}
+        />
+        <PrivateRoute
+          path={`${url}/profile/work-experience/form/:id`}
+          component={WorkExperienceForm}
+        />
+        <PrivateRoute path={`${url}/profile/hobbies`} exact component={Home} />
+        <PrivateRoute path={`${url}/profile/time-range`} exact component={Home} />
+        <PrivateRoute path={`${url}/profile/`}>
           <Redirect to={`${url}/profile/personal-information`} />
-        </Route>
+        </PrivateRoute>
         <Redirect to={`${url}/home`} />
       </Switch>
     </Layout>
