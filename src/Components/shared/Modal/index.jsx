@@ -43,6 +43,12 @@ function Modal({ acceptModalFn, history }) {
       case 'error':
         setTitle(`Ups an error has happened...`);
         break;
+      case 'login':
+        setTitle(`Login info:`);
+        break;
+      case 'signUp':
+        setTitle(`Sign Up info:`);
+        break;
     }
   }, [type]);
 
@@ -59,7 +65,7 @@ function Modal({ acceptModalFn, history }) {
     }
   };
 
-  if (type === 'error') {
+  if (type === 'error' || type === 'login' || type === 'signUp') {
     modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);

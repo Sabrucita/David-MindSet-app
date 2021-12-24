@@ -9,7 +9,8 @@ import {
 const initialState = {
   isLoading: false,
   authenticated: false,
-  error: ''
+  error: '',
+  role: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,7 +26,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        authenticated: true
+        authenticated: true,
+        role: action.payload.role
       };
     }
     case LOGIN_ERROR: {

@@ -47,3 +47,7 @@ export function validateZipCode(value) {
     return `Zip Code must be less than 10000`;
   }
 }
+
+export function validatePassword(pass2, pass1) {
+  if (pass2 !== pass1) return `Passwords do not match`;
+}
