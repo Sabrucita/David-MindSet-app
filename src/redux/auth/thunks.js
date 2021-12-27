@@ -1,9 +1,15 @@
 import { url } from 'constants/index';
 import { showModal } from 'redux/modal/actions';
 
-import { loginPending, loginSuccess, loginError } from './actions';
+import {
+  loginPending,
+  loginSuccess,
+  loginError,
+  signupPending,
+  signupSuccess,
+  signupError
+} from './actions';
 import firebase from 'helpers/firebase';
-import { createCandidates } from 'redux/admin/candidates/thunks';
 
 export const login = (credentials) => {
   return (dispatch) => {
@@ -31,31 +37,38 @@ export const login = (credentials) => {
 };
 
 export const signUp = (candidate) => {
-  console.log(candidate);
   return (dispatch) => {
-    const firebaseDate = {
-      email: candidate.email,
-      password: candidate.password
-    };
+    // const firebaseDate = {
+    //   email: candidate.email,
+    //   password: candidate.password
+    // };
+    dispatch(signupPending());
     fetch(`${url}/auth/register`, {
       method: 'POST',
-      body: JSON.stringify(firebaseDate),
+      body: JSON.stringify(candidate),
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(async (res) => {
-        console.log(res);
         if (res.status === 201) {
           const data = await res.json();
-          dispatch(createCandidates(candidate));
-          return dispatch(showModal('Sign Up', 'signUp', data.data));
+          dispatch(signupSuccess());
+          return dispatch(
+            showModal(
+              'Sign Up',
+              'signUp',
+              'Congratulations! Your account has been created. Please Login'
+            )
+          );
         }
         const data = await res.json();
-        dispatch(showModal('candidates', 'signUp', data.message));
+        dispatch(signupError(data.msg || data.message));
+        dispatch(showModal('candidates', 'error', data.msg || data.message));
       })
       .catch((err) => {
-        dispatch(showModal('Sign Up', 'signUp', err.message));
+        dispatch(signupError(err.msg || err.message));
+        dispatch(showModal('Sign Up', 'error', err.message));
       });
   };
 };

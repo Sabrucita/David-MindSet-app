@@ -47,10 +47,9 @@ export const signupPending = () => {
   };
 };
 
-export const signupSuccess = (data) => {
+export const signupSuccess = () => {
   return {
-    type: SIGNUP_SUCCESS,
-    payload: data
+    type: SIGNUP_SUCCESS
   };
 };
 

@@ -11,7 +11,8 @@ import {
   validatePassword,
   validatePhone,
   validateZipCode,
-  birthdayValidation
+  birthdayValidation,
+  validateAddressNumber
 } from 'validations';
 
 function SignUp() {
@@ -19,26 +20,25 @@ function SignUp() {
   const modal = useSelector((store) => store.modal.show);
 
   const submitForm = (formValues) => {
-    console.log('entre');
-    return dispatch(signUp(formValues));
+    dispatch(signUp(formValues));
   };
 
   const validate = (formValues) => {
     const errors = {};
-    // errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
-    // errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
+    errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
+    errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
     errors.email = validateEmail(formValues.email);
-    // errors.password = validateText(formValues.password, 'Password', 8, 16);
-    // errors.phone = validatePhone(formValues.phone, 'Phone Number');
-    // errors.city = validateText(formValues.city, 'City', 2, 40);
-    // errors.province = validateText(formValues.province, 'Province', 2, 40);
-    // errors.country = validateText(formValues.country, 'Country', 2, 40);
-    // errors.postalCode = validateZipCode(formValues.postalCode);
-    // errors.birthday = birthdayValidation(formValues.birthday);
-    // errors.address = {
-    //   street: validateText(formValues.address?.street, 'Street', 2),
-    //   number: validateText(formValues.address?.number, 'Number')
-    // }
+    errors.password = validateText(formValues.password, 'Password', 8, 16);
+    errors.phone = validatePhone(formValues.phone, 'Phone Number');
+    errors.city = validateText(formValues.city, 'City', 2, 40);
+    errors.province = validateText(formValues.province, 'Province', 2, 40);
+    errors.country = validateText(formValues.country, 'Country', 2, 40);
+    errors.postalCode = validateZipCode(formValues.postalCode);
+    errors.birthday = birthdayValidation(formValues.birthday);
+    errors.address = {
+      street: validateText(formValues.address?.street, 'Street', 2),
+      number: validateAddressNumber(formValues.address?.number)
+    };
     errors.confirmpassword = validatePassword(formValues.confirmpassword, formValues.password);
     return errors;
   };
@@ -69,7 +69,7 @@ function SignUp() {
                 component={Fieldset}
                 id="pass2"
               />
-              {/* <Field name="firstName" label="First Name" element="input" component={Fieldset} />
+              <Field name="firstName" label="First Name" element="input" component={Fieldset} />
               <Field name="lastName" label="Last Name" element="input" component={Fieldset} />
               <Field
                 name="phone"
@@ -107,7 +107,7 @@ function SignUp() {
                 element="input"
                 type="number"
                 component={Fieldset}
-              ></Field> */}
+              ></Field>
               <div className={styles.btnContainer}>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}

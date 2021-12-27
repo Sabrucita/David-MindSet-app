@@ -60,9 +60,8 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    if (type === 'create' || type === 'update') {
-      history.push(baseUrl);
-    }
+    if (type === 'create' || type === 'update') return history.push(baseUrl);
+    if (type === 'signUp') return history.push('/auth/login');
   };
 
   if (type === 'error' || type === 'login' || type === 'signUp') {

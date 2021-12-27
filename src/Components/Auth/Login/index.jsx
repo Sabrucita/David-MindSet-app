@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './login.module.css';
 import Fieldset from 'Components/shared/Fieldset';
 import Modal from 'Components/shared/Modal';
-import { login, getRole } from 'redux/auth/thunks';
+import { login } from 'redux/auth/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { validateEmail, validateText } from 'validations';
 import { useEffect } from 'react';

@@ -51,3 +51,10 @@ export function validateZipCode(value) {
 export function validatePassword(pass2, pass1) {
   if (pass2 !== pass1) return `Passwords do not match`;
 }
+
+export function validateAddressNumber(value) {
+  if (!value) return `Address Number is required`;
+  if (value >= 10000) {
+    return `Address Number must be less than 10000`;
+  }
+}
