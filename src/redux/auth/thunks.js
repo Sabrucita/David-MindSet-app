@@ -52,7 +52,7 @@ export const signUp = (candidate) => {
     })
       .then(async (res) => {
         if (res.status === 201) {
-          const data = await res.json();
+          // const data = await res.json();
           dispatch(signupSuccess());
           return dispatch(
             showModal(
