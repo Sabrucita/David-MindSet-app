@@ -7,9 +7,33 @@ import {
   loginError,
   signupPending,
   signupSuccess,
-  signupError
+  signupError,
+  logoutPending,
+  logoutSuccess,
+  logoutError
 } from './actions';
 import firebase from 'helpers/firebase';
+
+import { getAuth } from 'firebase/auth';
+
+export const logOut = () => {
+  return (dispatch) => {
+    const auth = getAuth();
+    console.log(auth);
+    dispatch(logoutPending());
+    return firebase
+      .auth()
+      .signOut(auth)
+      .then(() => {
+        sessionStorage.removeItem('token');
+        dispatch(logoutSuccess());
+      })
+      .catch((error) => {
+        sessionStorage.removeItem('token');
+        dispatch(logoutError(error));
+      });
+  };
+};
 
 export const login = (credentials) => {
   return (dispatch) => {
@@ -23,17 +47,19 @@ export const login = (credentials) => {
         fetch(`${url}/auth/loginServer/${credentials.email}`, { headers: { token } })
           .then(async (res) => {
             const data = await res.json();
-            console.log(data.role);
             if (data.role) return dispatch(loginSuccess(data.role));
+            sessionStorage.removeItem('token');
             dispatch(loginError(data));
             dispatch(showModal('Login', 'login', 'This user has no role'));
           })
           .catch((error) => {
+            sessionStorage.removeItem('token');
             dispatch(loginError(error.toString()));
             dispatch(showModal('Login', 'error', error.message));
           });
       })
       .catch((error) => {
+        sessionStorage.removeItem('token');
         dispatch(loginError(error.toString()));
         dispatch(showModal('Login', 'error', 'Incorrect Email/Password'));
       });

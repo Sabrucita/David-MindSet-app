@@ -17,10 +17,10 @@ function LoginForm() {
   const history = useHistory();
 
   useEffect(() => {
-    if (authenticated) {
+    if (authenticated && role) {
       history.push(`/${role}`);
     }
-  }, [authenticated]);
+  }, [authenticated][role]);
 
   const onSubmit = (formValues) => {
     return dispatch(login(formValues));

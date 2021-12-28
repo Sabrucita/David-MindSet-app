@@ -5,6 +5,9 @@ import {
   SIGNUP_PENDING,
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
+  LOGOUT_PENDING,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
   CLEAN_ERROR,
   SET_AUTHENTICATION
 } from './actions';
@@ -37,6 +40,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        authenticated: false,
         error: action.payload
       };
     }
@@ -67,6 +71,26 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SIGNUP_ERROR: {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload
+      };
+    }
+    //LOGOUT
+    case LOGOUT_PENDING: {
+      return {
+        ...state,
+        isFetching: true,
+        error: initialState.error
+      };
+    }
+    case LOGOUT_SUCCESS: {
+      return {
+        initialState
+      };
+    }
+    case LOGOUT_ERROR: {
       return {
         ...state,
         isFetching: false,

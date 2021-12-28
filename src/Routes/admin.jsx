@@ -20,6 +20,9 @@ import SessionsForm from 'Components/Admin/Sessions/Form';
 import Layout from 'Components/Layout';
 import Home from 'Components/Home';
 import PrivateRoute from 'Routes/PrivateRoute';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const adminsRoutes = [
   { name: 'admins', path: '/admin/admins' },
@@ -34,6 +37,14 @@ const adminsRoutes = [
 ];
 
 const AdminRoutes = () => {
+  const role = useSelector((store) => store.auth.role);
+  const history = useHistory();
+  useEffect(() => {
+    if (role !== 'admin') {
+      history.goBack();
+    }
+  }, []);
+
   const { url } = useRouteMatch();
   return (
     <Layout routes={adminsRoutes} resource={'admin'}>
