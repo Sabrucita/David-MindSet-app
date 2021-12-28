@@ -20,18 +20,23 @@ export const login = (credentials) => {
       .then(async (response) => {
         const token = await response.user.getIdToken();
         sessionStorage.setItem('token', token);
-        fetch(`${url}/auth/loginServer`, { headers: { token } }).then(async (res) => {
-          const data = await res.json();
-          if (res.status === 200) {
-            return dispatch(loginSuccess(data.role));
-          }
-          dispatch(loginError(data));
-          dispatch(showModal('Login', 'login', 'This user has no role'));
-        });
+        fetch(`${url}/auth/loginServer/${credentials.email}`, { headers: { token } })
+          .then(async (res) => {
+            const data = await res.json();
+            if (data.role !== '') {
+              return dispatch(loginSuccess(data.role));
+            }
+            dispatch(loginError(data));
+            dispatch(showModal('Login', 'login', 'This user has no role'));
+          })
+          .catch((error) => {
+            dispatch(loginError(error.toString()));
+            dispatch(showModal('Login', 'error', error.message));
+          });
       })
       .catch((error) => {
         dispatch(loginError(error.toString()));
-        dispatch(showModal('Login', 'login', 'Incorrect Email/Password'));
+        dispatch(showModal('Login', 'error', 'Incorrect Email/Password'));
       });
   };
 };
