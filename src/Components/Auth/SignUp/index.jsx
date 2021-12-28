@@ -52,6 +52,7 @@ function SignUp() {
           validate={validate}
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
+              <h2 className={styles.mainTitle}>Sign Up</h2>
               <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
               <Field
                 name="password"
