@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         authenticated: true,
-        role: action.payload?.role
+        role: action.payload
       };
     }
     case LOGIN_ERROR: {

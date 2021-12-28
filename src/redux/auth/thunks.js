@@ -23,9 +23,8 @@ export const login = (credentials) => {
         fetch(`${url}/auth/loginServer/${credentials.email}`, { headers: { token } })
           .then(async (res) => {
             const data = await res.json();
-            if (data.role !== '') {
-              return dispatch(loginSuccess(data.role));
-            }
+            console.log(data.role);
+            if (data.role) return dispatch(loginSuccess(data.role));
             dispatch(loginError(data));
             dispatch(showModal('Login', 'login', 'This user has no role'));
           })
