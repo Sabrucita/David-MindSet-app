@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Layout';
 import Home from 'Components/Home';
 import BasicEducation from 'Components/Candidate/Profile/BasicEducation';
@@ -10,6 +10,9 @@ import CollegeEducationForm from 'Components/Candidate/Profile/CollegeEducation/
 import WorkExperience from 'Components/Candidate/Profile/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/Profile/WorkExperience/Form';
 import PrivateRoute from './PrivateRoute';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const candidatesRoutes = [
   { name: 'home', path: '/candidate' },
@@ -20,6 +23,14 @@ const candidatesRoutes = [
 ];
 
 const CandidatesRoutes = () => {
+  const role = useSelector((store) => store.auth.role);
+  const history = useHistory();
+  useEffect(() => {
+    if (role !== 'candidate') {
+      history.goBack();
+    }
+  }, []);
+
   const { url } = useRouteMatch();
   return (
     <Layout routes={candidatesRoutes} resource={'candidate'}>

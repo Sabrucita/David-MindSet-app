@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { getCandidateById } from 'redux/admin/candidates/thunks';
+import { getCandidateById } from 'redux/candidate/profile/thunks';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';
 import styles from './personal-information-list.module.css';
@@ -14,6 +14,7 @@ function PersonalInformationList() {
   const { url } = useRouteMatch();
 
   const id = '619188555b9988bf252a4d5a';
+  //const id = match.params.id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));

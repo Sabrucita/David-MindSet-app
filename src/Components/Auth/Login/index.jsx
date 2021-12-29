@@ -3,26 +3,27 @@ import { useHistory } from 'react-router-dom';
 import styles from './login.module.css';
 import Fieldset from 'Components/shared/Fieldset';
 import Modal from 'Components/shared/Modal';
-// import Button from 'Components/Shared/Button';
 import { login } from 'redux/auth/thunks';
-// import { cleanError } from 'redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { validateEmail, validateText } from 'validations';
+import { useEffect } from 'react';
 
 function LoginForm() {
-  // const error = useSelector((store) => store.auth.error);
   const modal = useSelector((store) => store.modal.show);
+  const role = useSelector((store) => store.auth.role);
+  const authenticated = useSelector((store) => store.auth.authenticated);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
+  useEffect(() => {
+    if (authenticated && role) {
+      history.push(`/${role}`);
+    }
+  }, [authenticated][role]);
+
   const onSubmit = (formValues) => {
-    return dispatch(login(formValues)).then((response) => {
-      if (response) {
-        console.log(response);
-        // history.push('/home');
-      }
-    });
+    return dispatch(login(formValues));
   };
 
   const validate = (formValues) => {
@@ -40,7 +41,7 @@ function LoginForm() {
           onSubmit={onSubmit}
           validate={validate}
           render={({ handleSubmit, submitting, pristine }) => (
-            <form onSubmit={handleSubmit} className={styles.container}>
+            <form onSubmit={handleSubmit} className={styles.form}>
               <h2 className={styles.mainTitle}>Login</h2>
               <Field
                 name="email"
@@ -57,7 +58,7 @@ function LoginForm() {
                 disabled={submitting}
                 component={Fieldset}
               />
-              <div className={styles.buttonContainer}>
+              <div className={styles.btnContainer}>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"

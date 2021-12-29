@@ -1,7 +1,21 @@
 import { Link } from 'react-router-dom';
 import styles from './header.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from 'redux/auth/thunks';
+import { useHistory } from 'react-router-dom';
 
 function Header({ routes }) {
+  const role = useSelector((store) => store.auth.role);
+  const authenticated = useSelector((store) => store.auth.authenticated);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const logout = () => {
+    dispatch(logOut());
+    history.push('/home');
+  };
+
   return (
     <header>
       <div className={styles.container}>
@@ -39,6 +53,15 @@ function Header({ routes }) {
               <Link to={route.path}>{route.name}</Link>
             </li>
           ))}
+          {role && authenticated ? (
+            <li>
+              <button className={styles.LogOut} onClick={logout}>
+                Log Out
+              </button>
+            </li>
+          ) : (
+            ''
+          )}
         </ul>
       </nav>
     </header>
