@@ -14,8 +14,10 @@ function CollegeEducation({ match }) {
   const modal = useSelector((store) => store.modal.show);
   const [selectedEducation, setSelectedEducation] = useState({});
 
-  const id = '61bfc7ea55715dcf9f552e15';
   const idEducation = match.params.id;
+
+  const userAuth = useSelector((store) => store.auth.user);
+  const id = userAuth._id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));

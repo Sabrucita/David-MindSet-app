@@ -16,7 +16,8 @@ function WorkExperienceForm({ match }) {
 
   const id = match.params.id;
 
-  const candidateId = '619188555b9988bf252a4d5a'; //Hardcoded until we decide how to store which user is logged in.
+  const userAuth = useSelector((store) => store.auth.user);
+  const candidateId = userAuth._id;
 
   useEffect(() => {
     dispatch(getCandidateById(candidateId));

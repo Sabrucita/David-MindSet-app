@@ -5,6 +5,7 @@ import { getCandidateById } from 'redux/candidate/profile/thunks';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';
 import styles from './personal-information-list.module.css';
+//import sidebarRoutes from 'Components/shared/Sidebar';
 
 function PersonalInformationList() {
   const dispatch = useDispatch();
@@ -13,8 +14,8 @@ function PersonalInformationList() {
   const candidates = useSelector((store) => store.candidates);
   const { url } = useRouteMatch();
 
-  const id = '619188555b9988bf252a4d5a';
-  //const id = match.params.id;
+  const userAuth = useSelector((store) => store.auth.user);
+  const id = userAuth._id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));
