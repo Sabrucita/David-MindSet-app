@@ -47,7 +47,8 @@ export const login = (credentials) => {
         fetch(`${url}/auth/loginServer`, { headers: { token } })
           .then(async (res) => {
             const data = await res.json();
-            if (data.role) return dispatch(loginSuccess(data.role));
+            // console.log(data);
+            if (res.status === 200) return dispatch(loginSuccess(data));
             sessionStorage.removeItem('token');
             dispatch(loginError(data));
             dispatch(showModal('Login', 'login', 'This user has no role'));
@@ -73,7 +74,7 @@ export const fetchLogin = () => {
     fetch(`${url}/auth/loginServer`, { headers: { token } })
       .then(async (res) => {
         const data = await res.json();
-        if (data.role) return dispatch(loginSuccess(data.role));
+        if (res.status === 200) return dispatch(loginSuccess(data));
         sessionStorage.removeItem('token');
         dispatch(loginError(data));
         dispatch(showModal('Login', 'login', 'This user has no role'));

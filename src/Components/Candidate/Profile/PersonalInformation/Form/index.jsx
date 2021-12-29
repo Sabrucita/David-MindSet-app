@@ -14,8 +14,8 @@ function PersonalInformationForm() {
   const formData = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
 
-  const id = '619188555b9988bf252a4d5a';
-  //const id = match.params.id;
+  const userAuth = useSelector((store) => store.auth.user);
+  const id = userAuth._id;
 
   useEffect(() => {
     dispatch(candidatesCleanUp());

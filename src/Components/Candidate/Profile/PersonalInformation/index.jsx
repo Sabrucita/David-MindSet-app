@@ -13,7 +13,8 @@ function PersonalInformationList() {
   const candidates = useSelector((store) => store.candidates);
   const { url } = useRouteMatch();
 
-  const id = '619188555b9988bf252a4d5a';
+  const userAuth = useSelector((store) => store.auth.user);
+  const id = userAuth._id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));

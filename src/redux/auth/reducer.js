@@ -13,10 +13,11 @@ import {
 } from './actions';
 
 const initialState = {
-  isLoading: false,
+  isFetching: false,
   authenticated: false,
   error: '',
-  role: ''
+  role: '',
+  user: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,15 +26,20 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: initialState.error
+        authenticated: false,
+        error: initialState.error,
+        role: initialState.role,
+        user: initialState.user
       };
     }
     case LOGIN_SUCCESS: {
+      console.log(action.payload);
       return {
         ...state,
         isFetching: false,
         authenticated: true,
-        role: action.payload
+        role: action.payload.role,
+        user: action.payload.user
       };
     }
     case LOGIN_ERROR: {
@@ -87,7 +93,12 @@ const reducer = (state = initialState, action) => {
     }
     case LOGOUT_SUCCESS: {
       return {
-        initialState
+        ...state,
+        isFetching: false,
+        authenticated: false,
+        error: initialState.error,
+        role: initialState.role,
+        user: initialState.user
       };
     }
     case LOGOUT_ERROR: {
