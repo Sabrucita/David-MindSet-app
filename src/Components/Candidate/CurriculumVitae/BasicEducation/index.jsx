@@ -1,4 +1,4 @@
-import styles from 'Components/Candidate/Profile/BasicEducation/basicEducation.module.css';
+import styles from 'Components/Candidate/CurriculumVitae/BasicEducation/basicEducation.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
