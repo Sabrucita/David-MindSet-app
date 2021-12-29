@@ -1,67 +1,75 @@
-import { useEffect } from 'react';
 import Fieldset from 'Components/shared/Fieldset';
-import styles from './form.module.css';
+import styles from './signup.module.css';
 import Modal from 'Components/shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCandidates, getCandidateById } from 'redux/candidate/profile/thunks';
-import { candidatesCleanUp } from 'redux/admin/candidates/actions';
+import { signUp } from 'redux/auth/thunks';
 import { Form, Field } from 'react-final-form';
-import { validateText, validatePhone, birthdayValidation } from 'validations';
-import { Link } from 'react-router-dom';
 
-function PersonalInformationForm() {
+import {
+  validateText,
+  validateEmail,
+  validatePassword,
+  validatePhone,
+  validateZipCode,
+  birthdayValidation,
+  validateAddressNumber
+} from 'validations';
+
+function SignUp() {
   const dispatch = useDispatch();
-  const formData = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
 
-  const id = '619188555b9988bf252a4d5a';
-  //const id = match.params.id;
-
-  useEffect(() => {
-    dispatch(candidatesCleanUp());
-    dispatch(getCandidateById(id));
-  }, [dispatch]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(candidatesCleanUp());
-    };
-  }, []);
-
   const submitForm = (formValues) => {
-    dispatch(updateCandidates(id, formValues));
+    dispatch(signUp(formValues));
   };
 
   const validate = (formValues) => {
     const errors = {};
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
     errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
+    errors.email = validateEmail(formValues.email);
+    errors.password = validateText(formValues.password, 'Password', 8, 16);
     errors.phone = validatePhone(formValues.phone, 'Phone Number');
     errors.city = validateText(formValues.city, 'City', 2, 40);
     errors.province = validateText(formValues.province, 'Province', 2, 40);
     errors.country = validateText(formValues.country, 'Country', 2, 40);
+    errors.postalCode = validateZipCode(formValues.postalCode);
     errors.birthday = birthdayValidation(formValues.birthday);
     errors.address = {
       street: validateText(formValues.address?.street, 'Street', 2),
-      number: validateText(formValues.address?.number, 'Number', 0, 4)
+      number: validateAddressNumber(formValues.address?.number)
     };
-
+    errors.confirmpassword = validatePassword(formValues.confirmpassword, formValues.password);
     return errors;
   };
 
   return (
     <>
+      {modal && <Modal />}
       <section className={styles.container}>
-        <h1 className={styles.mainTitle}>Personal Information</h1>
         <Form
           onSubmit={submitForm}
-          initialValues={formData}
           validate={validate}
-          subscription={{
-            submitting: true
-          }}
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
+              <h2 className={styles.mainTitle}>Sign Up</h2>
+              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
+              <Field
+                name="password"
+                label="Password"
+                element="input"
+                type="password"
+                component={Fieldset}
+                id="pass1"
+              />
+              <Field
+                name="confirmpassword"
+                label="Confirm Password"
+                element="input"
+                type="password"
+                component={Fieldset}
+                id="pass2"
+              />
               <Field name="firstName" label="First Name" element="input" component={Fieldset} />
               <Field name="lastName" label="Last Name" element="input" component={Fieldset} />
               <Field
@@ -73,6 +81,14 @@ function PersonalInformationForm() {
               />
               <Field name="city" label="City" element="input" component={Fieldset} />
               <Field name="province" label="Province" element="input" component={Fieldset} />
+              <Field name="country" label="Country" element="input" component={Fieldset} />
+              <Field
+                name="postalCode"
+                label="Zip Code"
+                element="input"
+                type="number"
+                component={Fieldset}
+              />
               <Field
                 name="birthday"
                 label="Birthday"
@@ -92,34 +108,22 @@ function PersonalInformationForm() {
                 element="input"
                 type="number"
                 component={Fieldset}
-              />
-              <Field
-                element="input"
-                type="text"
-                name="pictureUrl"
-                label="Picture Url"
-                component={Fieldset}
-              />
-              <Field element="image" type="image" name="pictureUrl" component={Fieldset} />
+              ></Field>
               <div className={styles.btnContainer}>
-                <Link to="../personal-information" className={styles.buttonAdd}>
-                  <span className={styles.buttonGreen}>GO BACK</span>
-                </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"
                   disabled={submitting || pristine}
                 >
-                  SAVE
+                  SIGN UP
                 </button>
               </div>
             </form>
           )}
         />
       </section>
-      {modal && <Modal />}
     </>
   );
 }
 
-export default PersonalInformationForm;
+export default SignUp;

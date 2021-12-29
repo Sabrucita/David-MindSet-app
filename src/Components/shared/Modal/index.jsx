@@ -43,6 +43,12 @@ function Modal({ acceptModalFn, history }) {
       case 'error':
         setTitle(`Ups an error has happened...`);
         break;
+      case 'login':
+        setTitle(`Login info:`);
+        break;
+      case 'signUp':
+        setTitle(`Sign Up info:`);
+        break;
     }
   }, [type]);
 
@@ -54,12 +60,11 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    if (type === 'create' || type === 'update') {
-      history.push(baseUrl);
-    }
+    if (type === 'create' || type === 'update') return history.push(baseUrl);
+    if (type === 'signUp') return history.push('/auth/login');
   };
 
-  if (type === 'error') {
+  if (type === 'error' || type === 'login' || type === 'signUp') {
     modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);

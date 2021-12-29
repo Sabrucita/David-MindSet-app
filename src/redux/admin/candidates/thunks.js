@@ -37,7 +37,7 @@ export const getCandidates = () => {
 export const getCandidateById = (id) => {
   return (dispatch) => {
     dispatch(getCandidateByIdFetching());
-    fetch(`${url}/candidates/${id}`)
+    fetch(`${url}/candidates/${id}`, { headers: { token: sessionStorage.getItem('token') } })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
