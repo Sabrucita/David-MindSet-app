@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import Modal from 'Components/shared/Modal';
 import Fieldset from 'Components/shared/Fieldset';
-import { getCandidateById } from 'redux/admin/candidates/thunks';
-import { createEducation, updateEducation } from 'redux/candidate/profile/thunks';
+import { getCandidateById, createEducation, updateEducation } from 'redux/candidate/profile/thunks';
 import { validateText } from 'validations';
 import { Link } from 'react-router-dom';
 

@@ -3,7 +3,7 @@ import Fieldset from 'Components/shared/Fieldset';
 import styles from './form.module.css';
 import Modal from 'Components/shared/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCandidates, getCandidateById } from 'redux/admin/candidates/thunks';
+import { updateCandidates, getCandidateById } from 'redux/candidate/profile/thunks';
 import { candidatesCleanUp } from 'redux/admin/candidates/actions';
 import { Form, Field } from 'react-final-form';
 import { validateText, validatePhone, birthdayValidation } from 'validations';

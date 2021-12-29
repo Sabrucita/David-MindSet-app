@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { getCandidateById } from 'redux/admin/candidates/thunks';
+import { getCandidateById } from 'redux/candidate/profile/thunks';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';
 import styles from './personal-information-list.module.css';

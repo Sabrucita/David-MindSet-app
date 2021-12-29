@@ -19,7 +19,7 @@ import { getAuth } from 'firebase/auth';
 export const logOut = () => {
   return (dispatch) => {
     const auth = getAuth();
-    console.log(auth);
+
     dispatch(logoutPending());
     return firebase
       .auth()
@@ -44,7 +44,7 @@ export const login = (credentials) => {
       .then(async (response) => {
         const token = await response.user.getIdToken();
         sessionStorage.setItem('token', token);
-        fetch(`${url}/auth/loginServer/${credentials.email}`, { headers: { token } })
+        fetch(`${url}/auth/loginServer`, { headers: { token } })
           .then(async (res) => {
             const data = await res.json();
             if (data.role) return dispatch(loginSuccess(data.role));
@@ -66,12 +66,28 @@ export const login = (credentials) => {
   };
 };
 
+export const fetchLogin = () => {
+  return (dispatch) => {
+    dispatch(loginPending());
+    const token = sessionStorage.getItem('token');
+    fetch(`${url}/auth/loginServer`, { headers: { token } })
+      .then(async (res) => {
+        const data = await res.json();
+        if (data.role) return dispatch(loginSuccess(data.role));
+        sessionStorage.removeItem('token');
+        dispatch(loginError(data));
+        dispatch(showModal('Login', 'login', 'This user has no role'));
+      })
+      .catch((error) => {
+        sessionStorage.removeItem('token');
+        dispatch(loginError(error.toString()));
+        dispatch(showModal('Login', 'error', error.message));
+      });
+  };
+};
+
 export const signUp = (candidate) => {
   return (dispatch) => {
-    // const firebaseDate = {
-    //   email: candidate.email,
-    //   password: candidate.password
-    // };
     dispatch(signupPending());
     fetch(`${url}/auth/register`, {
       method: 'POST',
@@ -82,7 +98,6 @@ export const signUp = (candidate) => {
     })
       .then(async (res) => {
         if (res.status === 201) {
-          // const data = await res.json();
           dispatch(signupSuccess());
           return dispatch(
             showModal(
