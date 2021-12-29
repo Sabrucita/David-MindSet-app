@@ -8,7 +8,7 @@ import { showModal } from 'redux/modal/actions';
 import { deleteEducation, getCandidateById } from 'redux/candidate/profile/thunks';
 import { formatDate } from 'helpers';
 
-function CollegeEducation({ match }) {
+function CollegeEducation() {
   const [selectedItem, setSelectedItem] = useState();
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
@@ -16,7 +16,9 @@ function CollegeEducation({ match }) {
   const modal = useSelector((state) => state.modal.show);
   const { url } = useRouteMatch();
   let collegeEducation = [];
-  const id = '61bfc7ea55715dcf9f552e15';
+
+  const userAuth = useSelector((store) => store.auth.user);
+  const id = userAuth._id;
 
   useEffect(() => {
     dispatch(getCandidateById(id));
