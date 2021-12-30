@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import Modal from 'Components/shared/Modal';
 import Fieldset from 'Components/shared/Fieldset';
-import { getCandidateById, createEducation, updateEducation } from 'redux/candidate/profile/thunks';
+import {
+  getCandidateById,
+  createOtherEducation,
+  updateOtherEducation
+} from 'redux/candidate/profile/thunks';
 import { validateText } from 'validations';
 import { Link } from 'react-router-dom';
 
@@ -38,16 +42,15 @@ function OtherEducation({ match }) {
         if (element._id === idEducation) return formValues;
         return element;
       });
-      return dispatch(updateEducation(selectedCandidate));
+      return dispatch(updateOtherEducation(selectedCandidate));
     }
-    dispatch(createEducation(selectedCandidate, formValues, 'tittle'));
-    console.log('createEducation');
+    dispatch(createOtherEducation(selectedCandidate, formValues, 'courses'));
   };
 
   const validate = (formValues) => {
     const errors = {};
-    errors.description = validateText(formValues.description, 'tittle', 3);
-    errors.institution = validateText(formValues.institution, 'institution', 2);
+    errors.tittle = validateText(formValues.tittle, 'Title', 3);
+    errors.institution = validateText(formValues.institution, 'Institution', 2);
     return errors;
   };
 

@@ -5,7 +5,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
 import Modal from 'Components/shared/Modal';
 import { showModal } from 'redux/modal/actions';
-import { deleteEducation, getCandidateById } from 'redux/candidate/profile/thunks';
+import { deleteOtherEducation, getCandidateById } from 'redux/candidate/profile/thunks';
 import { formatDate } from 'helpers';
 
 function OtherEducation() {
@@ -27,16 +27,17 @@ function OtherEducation() {
   // MODAL
   const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal('Otra Educations', type, item));
+    dispatch(showModal('courses', type, item));
   };
 
   //MODAL CONFIRM DELETE
   const acceptModal = () => {
-    dispatch(deleteEducation(id, selectedCandidate, selectedItem._id));
+    dispatch(deleteOtherEducation(id, selectedCandidate, selectedItem._id));
   };
 
-  if (selectedCandidate.education) {
-    otherEducation = selectedCandidate.courses.filter((element) => element.type === 'tittle');
+  if (selectedCandidate.courses) {
+    otherEducation = selectedCandidate.courses.filter((element) => element.type === 'courses');
+    console.log(selectedCandidate);
   }
   return (
     <>
