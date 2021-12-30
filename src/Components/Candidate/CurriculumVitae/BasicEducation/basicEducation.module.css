@@ -1,29 +1,59 @@
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
-}
-.title {
+.mainTitle {
   width: 100%;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 2px rgb(191, 191, 191) solid;
   font-size: 30px;
 }
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container p{
+  text-align: center;
+}
+
+.hola{
+  display: flex;
+  margin: 20px;
+}
+
+.sidebar{
+  border: 1px solid gray;
+  border-radius: 30px;
+  width: 15%;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.container h1 {
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
+  margin-top: 0;
+}
+
 .buttonAdd {
   display: inline-flex;
   align-self: flex-end;
   width: fit-content;
   text-decoration: none;
 }
+
 .buttonGreen {
   padding: 16px 40px;
-  margin: 20px;
+  margin: 15px 0px;
   border: rgb(21, 139, 10);
   border-radius: 30px;
   background-color: rgb(21, 139, 10);
@@ -31,35 +61,36 @@
   font-weight: bold;
   font-size: 15px;
 }
+
 .buttonGreen:hover {
   background-color: rgb(88, 88, 88);
 }
-.boxesContainer {
+
+.boxContainer{
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  width: 100%;
 }
-.boxContainer {
-  display: flex;
-  width: 30%;
-}
-.boxContainer ul {
+
+.box {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 0 0 10px;
+  margin-bottom: 10px;
   padding: 10px;
   border: 1px solid black;
 }
+
 .boxItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.boxItem span{
+.boxItem h2,
+.boxItem h3{
   margin: 10px 0;
 }
+.boxItem span{
+  margin-left: 20px;
+}
+
 .actions{
   display: flex;
   flex-direction: column;
@@ -68,8 +99,10 @@
 .actions button{
   margin-bottom: 10px;
 }
+
 .addMore{
   text-decoration: none;
+  text-align: center;
 }
 .addMore span{
   color: green;
@@ -77,6 +110,7 @@
   font-style: italic;
   text-decoration: none;
 }
+
 .btnContainer {
   display: flex;
   justify-content: space-between;

@@ -33,7 +33,6 @@ const reducer = (state = initialState, action) => {
       };
     }
     case LOGIN_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         isFetching: false,

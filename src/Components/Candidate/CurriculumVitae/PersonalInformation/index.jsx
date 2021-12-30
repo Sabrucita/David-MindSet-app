@@ -5,7 +5,7 @@ import { getCandidateById } from 'redux/candidate/profile/thunks';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';
 import styles from './personal-information-list.module.css';
-//import sidebarRoutes from 'Components/shared/Sidebar';
+import Sidebar from 'Components/shared/Sidebar';
 
 function PersonalInformationList() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function PersonalInformationList() {
     <>
       {modal && <Modal />}
       <section className={styles.container}>
-        <h2 className={styles.title}>Personal Information</h2>
+        <h1 className={styles.title}>Personal Information</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (

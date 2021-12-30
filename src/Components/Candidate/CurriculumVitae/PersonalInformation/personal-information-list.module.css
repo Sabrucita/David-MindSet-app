@@ -3,10 +3,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  justify-content: space-between;
   align-items: center;
+}
+
+.container p{
+  text-align: center;
+}
+
+.container h1 {
   width: 100%;
-  max-width: 1200px;
-  margin: auto;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px rgb(191, 191, 191) solid;
+  font-size: 30px;
+  margin-top: 0;
 }
 
 .title {

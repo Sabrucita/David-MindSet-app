@@ -47,7 +47,6 @@ export const login = (credentials) => {
         fetch(`${url}/auth/loginServer`, { headers: { token } })
           .then(async (res) => {
             const data = await res.json();
-            // console.log(data);
             if (res.status === 200) return dispatch(loginSuccess(data));
             sessionStorage.removeItem('token');
             dispatch(loginError(data));

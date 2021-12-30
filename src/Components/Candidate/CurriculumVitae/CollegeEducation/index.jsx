@@ -1,4 +1,4 @@
-import styles from 'Components/Candidate/Profile/CollegeEducation/collegeEducation.module.css';
+import styles from 'Components/Candidate/CurriculumVitae/CollegeEducation/collegeEducation.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
