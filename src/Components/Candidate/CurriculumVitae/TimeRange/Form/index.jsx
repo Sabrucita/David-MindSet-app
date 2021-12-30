@@ -27,39 +27,39 @@ function TimeRangeForm() {
 
   useEffect(() => {
     let timeRange = selectedCandidate.timeRange;
-    if (timeRange?.mon.startTime && timeRange?.mon.endTime) setMonday(true);
-    if (timeRange?.tue.startTime && timeRange?.tue.endTime) setTuesday(true);
-    if (timeRange?.wed.startTime && timeRange?.wed.endTime) setWednesday(true);
-    if (timeRange?.thu.startTime && timeRange?.thu.endTime) setThursday(true);
-    if (timeRange?.fri.startTime && timeRange?.fri.endTime) setFriday(true);
+    if (timeRange?.mon?.startTime && timeRange?.mon?.endTime) setMonday(true);
+    if (timeRange?.tue?.startTime && timeRange?.tue?.endTime) setTuesday(true);
+    if (timeRange?.wed?.startTime && timeRange?.wed?.endTime) setWednesday(true);
+    if (timeRange?.thu?.startTime && timeRange?.thu?.endTime) setThursday(true);
+    if (timeRange?.fri?.startTime && timeRange?.fri?.endTime) setFriday(true);
   }, [selectedCandidate]);
 
   const submitForm = (formValues) => {
-    if (!monday || (!formValues.mon?.startTime && !formValues.mon?.endTime)) {
+    if (!monday || (!formValues?.mon?.startTime && !formValues?.mon?.endTime)) {
       formValues.mon = '';
     } else {
       formValues.mon.startTime = parseInt(formValues.mon.startTime);
       formValues.mon.endTime = parseInt(formValues.mon.endTime);
     }
-    if (!tuesday || (!formValues.tue?.startTime && !formValues.tue?.endTime)) {
+    if (!tuesday || (!formValues?.tue?.startTime && !formValues?.tue?.endTime)) {
       formValues.tue = '';
     } else {
       formValues.tue.startTime = parseInt(formValues.tue.startTime);
       formValues.tue.endTime = parseInt(formValues.tue.endTime);
     }
-    if (!wednesday || (!formValues.wed?.startTime && !formValues.wed?.endTime)) {
+    if (!wednesday || (!formValues?.wed?.startTime && !formValues?.wed?.endTime)) {
       formValues.wed = '';
     } else {
       formValues.wed.startTime = parseInt(formValues.wed.startTime);
       formValues.wed.endTime = parseInt(formValues.wed.endTime);
     }
-    if (!thursday || (!formValues.thu?.startTime && !formValues.thu?.endTime)) {
+    if (!thursday || (!formValues?.thu?.startTime && !formValues?.thu?.endTime)) {
       formValues.thu = '';
     } else {
       formValues.thu.startTime = parseInt(formValues.thu.startTime);
       formValues.thu.endTime = parseInt(formValues.thu.endTime);
     }
-    if (!friday || (!formValues.fri?.startTime && !formValues.fri?.endTime)) {
+    if (!friday || (!formValues?.fri?.startTime && !formValues?.fri?.endTime)) {
       formValues.fri = '';
     } else {
       formValues.fri.startTime = parseInt(formValues.fri.startTime);
@@ -94,19 +94,19 @@ function TimeRangeForm() {
   const validate = (formValues) => {
     const errors = {};
     errors.mon = {
-      startTime: validateTime(monday, formValues.mon?.startTime, formValues.mon?.endTime)
+      startTime: validateTime(monday, formValues?.mon?.startTime, formValues?.mon?.endTime)
     };
     errors.tue = {
-      startTime: validateTime(tuesday, formValues.tue?.startTime, formValues.tue?.endTime)
+      startTime: validateTime(tuesday, formValues?.tue?.startTime, formValues?.tue?.endTime)
     };
     errors.wed = {
-      startTime: validateTime(wednesday, formValues.wed?.startTime, formValues.wed?.endTime)
+      startTime: validateTime(wednesday, formValues?.wed?.startTime, formValues?.wed?.endTime)
     };
     errors.thu = {
-      startTime: validateTime(thursday, formValues.thu?.startTime, formValues.thu?.endTime)
+      startTime: validateTime(thursday, formValues?.thu?.startTime, formValues?.thu?.endTime)
     };
     errors.fri = {
-      startTime: validateTime(friday, formValues.fri?.startTime, formValues.fri?.endTime)
+      startTime: validateTime(friday, formValues?.fri?.startTime, formValues?.fri?.endTime)
     };
     return errors;
   };
@@ -115,7 +115,7 @@ function TimeRangeForm() {
     <>
       {modal && <Modal acceptModalFn />}
       <section className={styles.container}>
-        <h2 className={styles.title}>Update Availability Time Ranges</h2>
+        <h2 className={styles.title}>Update Available Time Ranges</h2>
         <Form
           onSubmit={submitForm}
           initialValues={selectedCandidate.timeRange}

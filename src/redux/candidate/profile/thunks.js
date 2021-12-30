@@ -172,7 +172,6 @@ export const updateCandidates = (id, candidate) => {
 //UPDATE TIME RANGE
 export const updateTimeRange = (candidate) => {
   return (dispatch) => {
-    console.log(candidate);
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${candidate.idCandidate}`, {

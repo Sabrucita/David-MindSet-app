@@ -25,7 +25,7 @@ function TimeRange() {
     <>
       {modal && <Modal />}
       <section className={styles.container}>
-        <h1 className={styles.title}>Availability Time Ranges</h1>
+        <h1 className={styles.title}>Available Time Ranges</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (
