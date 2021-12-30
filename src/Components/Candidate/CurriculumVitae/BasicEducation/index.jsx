@@ -107,10 +107,10 @@ function BasicEducation() {
           <span>add more +</span>
         </Link>
         <div className={styles.btnContainer}>
-          <Link to="/candidate/profile/personal-information" className={styles.buttonAdd}>
+          <Link to="/candidate/curriculumvitae/personal-information" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>GO BACK</span>
           </Link>
-          <Link to="/candidate/profile/college-education" className={styles.buttonAdd}>
+          <Link to="/candidate/curriculumvitae/college-education" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>CONTINUE</span>
           </Link>
         </div>
