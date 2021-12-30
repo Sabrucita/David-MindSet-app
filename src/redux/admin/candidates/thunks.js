@@ -41,6 +41,7 @@ export const getCandidateById = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
+          console.log(data);
           const currentData = {
             idCandidate: data._id,
             firstName: data.firstName,
@@ -61,7 +62,8 @@ export const getCandidateById = (id) => {
             experiences: data.experiences,
             courses: data.courses,
             pictureUrl: data.pictureUrl,
-            address: { street: data.address.street, number: data.address.number }
+            address: { street: data.address.street, number: data.address.number },
+            timeRange: data.timeRange
           };
           return dispatch(getCandidateByIdFullfilled(currentData));
         }

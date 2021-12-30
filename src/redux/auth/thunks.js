@@ -61,7 +61,7 @@ export const login = (credentials) => {
       .catch((error) => {
         sessionStorage.removeItem('token');
         dispatch(loginError(error.toString()));
-        dispatch(showModal('Login', 'error', 'Incorrect Email/Password'));
+        dispatch(showModal('Login', 'error', error.message));
       });
   };
 };

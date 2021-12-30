@@ -58,3 +58,13 @@ export function validateAddressNumber(value) {
     return `Address Number must be less than 10000`;
   }
 }
+
+export const validateTime = (availability, startTime, endTime) => {
+  if (!availability || (!startTime && !endTime)) return undefined;
+  if ((!startTime && endTime) || (startTime && !endTime)) return 'Must complete the both fields';
+  if (startTime % 1 !== 0) return 'Since hour must be a whole number';
+  if (endTime % 1 !== 0) return 'Until hour must be a whole number';
+  if (startTime > 23 || startTime < 0) return 'Since Hour must be between 0 and 23';
+  if (endTime > 24 || endTime < 1) return 'Until Hour must be between 1 and 24';
+  if (startTime >= endTime) return 'End must to be later than Start';
+};
