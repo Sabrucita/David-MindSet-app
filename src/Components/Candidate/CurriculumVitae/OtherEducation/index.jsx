@@ -15,12 +15,12 @@ function OtherEducation() {
   const candidates = useSelector((store) => store.candidates);
   const modal = useSelector((state) => state.modal.show);
   const { url } = useRouteMatch();
-  let otherEducation = [];
 
   const userAuth = useSelector((store) => store.auth.user);
   const id = userAuth._id;
 
   useEffect(() => {
+    console.log('useEffect');
     dispatch(getCandidateById(id));
   }, [dispatch]);
 
@@ -35,24 +35,20 @@ function OtherEducation() {
     dispatch(deleteOtherEducation(id, selectedCandidate, selectedItem._id));
   };
 
-  if (selectedCandidate.courses) {
-    otherEducation = selectedCandidate.courses.filter((element) => element.type === 'courses');
-    console.log(selectedCandidate);
-  }
   return (
     <>
+      {modal && <Modal acceptModalFn={acceptModal} />}
       <section className={styles.container}>
-        {modal && <Modal acceptModalFn={acceptModal} />}
         <h1 className={styles.title}>Other Education & Languages</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (
           <>
             <div className={styles.boxesContainer}>
-              {otherEducation.length !== 0 ? (
-                otherEducation.map((element) => {
+              {selectedCandidate.courses.length !== 0 ? (
+                selectedCandidate.courses.map((element) => {
                   return (
-                    <div key={element._id} className={styles.boxContainer}>
+                    <div key={selectedCandidate._id} className={styles.boxContainer}>
                       <ul>
                         <li className={styles.boxItem}>
                           <span>Title:</span>
