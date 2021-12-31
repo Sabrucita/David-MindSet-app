@@ -90,7 +90,7 @@ function OtherEducation() {
           <span>add more +</span>
         </Link>
         <div className={styles.btnContainer}>
-          <Link to="/candidate/curriculumvitae/basic-education" className={styles.buttonAdd}>
+          <Link to="/candidate/curriculumvitae/college-education" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>GO BACK</span>
           </Link>
           <Link to="/candidate/curriculumvitae/work-experience" className={styles.buttonAdd}>
