@@ -60,11 +60,57 @@
 .tableContainer thead{
   font-weight: bold;
 }
-
 .tableContainer table td{
   padding: 10px;
   margin: 10px;
 }
 .tableContainer table tbody td{
   border: 1px solid gray;
+}
+.openToWork{
+  display: flex;
+  justify-content: center;
+}
+.openToWork span{
+  margin-right: 20px;
+  font-size: 40px;
+  font-weight: bold;
+}
+.btnAvailable{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: lightgreen;
+  font-size: 30px;
+  font-weight: bold;
+}
+.btnAvailable::before{
+  content: "YES";
+}
+.btnAvailable:hover{
+  box-shadow: 0 0 5px 3px gray;
+  background-color: lightsalmon;
+}
+.btnAvailable:hover::before{
+  content: "Press to NO";
+}
+
+.btnNotAvailable{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: lightsalmon;
+  font-size: 30px;
+  font-weight: bold;
+}
+.btnNotAvailable:hover{
+  box-shadow: 0 0 5px 3px gray;
+  background-color: lightgreen;
+}
+.btnNotAvailable:hover::before{
+  content: "Press to YES";
+}
+.btnNotAvailable::before{
+  content: "NO";
+}
+.textIntro{
+  font-weight: bold;
 }

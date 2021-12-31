@@ -1,4 +1,4 @@
-import styles from './timeRangeForm.module.css';
+import styles from './availability.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
@@ -66,7 +66,7 @@ function AvailabilityForm() {
       formValues.fri.endTime = parseInt(formValues.fri.endTime);
     }
     selectedCandidate.timeRange = formValues;
-    // dispatch(updateTimeRange(selectedCandidate));
+    dispatch(updateTimeRange(selectedCandidate));
   };
 
   const changeAvailability = (day) => {
@@ -93,21 +93,21 @@ function AvailabilityForm() {
 
   const validate = (formValues) => {
     const errors = {};
-    // errors.mon = {
-    //   startTime: validateTime(monday, formValues?.mon?.startTime, formValues?.mon?.endTime)
-    // };
-    // errors.tue = {
-    //   startTime: validateTime(tuesday, formValues?.tue?.startTime, formValues?.tue?.endTime)
-    // };
-    // errors.wed = {
-    //   startTime: validateTime(wednesday, formValues?.wed?.startTime, formValues?.wed?.endTime)
-    // };
-    // errors.thu = {
-    //   startTime: validateTime(thursday, formValues?.thu?.startTime, formValues?.thu?.endTime)
-    // };
-    // errors.fri = {
-    //   startTime: validateTime(friday, formValues?.fri?.startTime, formValues?.fri?.endTime)
-    // };
+    errors.mon = {
+      startTime: validateTime(monday, formValues?.mon?.startTime, formValues?.mon?.endTime)
+    };
+    errors.tue = {
+      startTime: validateTime(tuesday, formValues?.tue?.startTime, formValues?.tue?.endTime)
+    };
+    errors.wed = {
+      startTime: validateTime(wednesday, formValues?.wed?.startTime, formValues?.wed?.endTime)
+    };
+    errors.thu = {
+      startTime: validateTime(thursday, formValues?.thu?.startTime, formValues?.thu?.endTime)
+    };
+    errors.fri = {
+      startTime: validateTime(friday, formValues?.fri?.startTime, formValues?.fri?.endTime)
+    };
     return errors;
   };
 
