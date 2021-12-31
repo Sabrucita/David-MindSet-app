@@ -45,10 +45,10 @@ function OtherEducation() {
         ) : (
           <>
             <div className={styles.boxesContainer}>
-              {selectedCandidate.courses.length !== 0 ? (
+              {selectedCandidate.courses ? (
                 selectedCandidate.courses.map((element) => {
                   return (
-                    <div key={selectedCandidate._id} className={styles.boxContainer}>
+                    <div key={element._id} className={styles.boxContainer}>
                       <ul>
                         <li className={styles.boxItem}>
                           <span>Title:</span>
