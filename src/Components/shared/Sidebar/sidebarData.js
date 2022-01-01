@@ -165,6 +165,11 @@ const sidebarAdmin = [
     title: 'Sessions',
     path: '/admin/sessions',
     cName: 'nav'
+  },
+  {
+    title: 'Reports',
+    path: '/admin/reports',
+    cName: 'nav'
   }
 ];
 
