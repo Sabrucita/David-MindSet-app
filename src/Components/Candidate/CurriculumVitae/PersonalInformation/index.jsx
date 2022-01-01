@@ -5,7 +5,6 @@ import { getCandidateById } from 'redux/candidate/profile/thunks';
 import Modal from 'Components/shared/Modal';
 import Preloader from 'Components/shared/Preloader';
 import styles from './personal-information-list.module.css';
-import Sidebar from 'Components/shared/Sidebar';
 
 function PersonalInformationList() {
   const dispatch = useDispatch();

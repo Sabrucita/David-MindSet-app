@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from 'Components/shared/Sidebar';
-import styles from './candidate.module.css';
+import styles from './routes.module.css';
 
 const candidatesRoutes = [
   { name: 'home', path: '/candidate' },
