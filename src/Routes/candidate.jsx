@@ -9,6 +9,8 @@ import CollegeEducation from 'Components/Candidate/CurriculumVitae/CollegeEducat
 import CollegeEducationForm from 'Components/Candidate/CurriculumVitae/CollegeEducation/Form';
 import WorkExperience from 'Components/Candidate/CurriculumVitae/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/CurriculumVitae/WorkExperience/Form';
+import WorkProfile from 'Components/Candidate/CurriculumVitae/WorkProfile';
+import availableDates from 'Components/Candidate/CurriculumVitae/WorkProfile/AvailableDates';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -19,19 +21,21 @@ const candidatesRoutes = [
   { name: 'personal information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
-  { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' }
+  { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' },
+  { name: 'work profile', path: '/candidate/curriculumvitae/work-profile' }
 ];
 
 const CandidatesRoutes = () => {
   const role = useSelector((store) => store.auth.role);
   const history = useHistory();
+  const { url } = useRouteMatch();
+
   useEffect(() => {
     if (role !== 'candidate') {
       history.goBack();
     }
   }, []);
 
-  const { url } = useRouteMatch();
   return (
     <Layout routes={candidatesRoutes} resource={'candidate'}>
       <Switch>
@@ -94,6 +98,12 @@ const CandidatesRoutes = () => {
         />
         <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
         <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={Home} />
+        <PrivateRoute path={`${url}/curriculumvitae/work-profile`} exact component={WorkProfile} />
+        <PrivateRoute
+          path={`${url}/curriculumvitae/work-profile/available-dates`}
+          exact
+          component={availableDates}
+        />
         <PrivateRoute path={`${url}/curriculumvitae/`}>
           <Redirect to={`${url}/curriculumvitae/personal-information`} />
         </PrivateRoute>
