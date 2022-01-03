@@ -130,9 +130,11 @@ function Interviews() {
         ) : (
           <>
             <List data={interviews.list} header={tableHeader} openModal={openModal} />
+            {/*
             <Link to={`${url}/form`} className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD INTERVIEW</span>
             </Link>
+            */}
           </>
         )}
       </section>
