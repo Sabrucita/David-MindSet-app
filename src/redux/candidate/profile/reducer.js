@@ -14,6 +14,13 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
+  GET_INTERVIEW_FETCHING,
+  GET_INTERVIEW_FULFILLED,
+  GET_INTERVIEW_REJECTED,
+  DELETE_INTERVIEW_FETCHING,
+  DELETE_INTERVIEW_FULFILLED,
+  DELETE_INTERVIEW_REJECTED,
+  INTERVIEWS_CLEANUP,
   CANDIDATES_CLEANUP
 } from 'constants/index';
 
@@ -138,6 +145,52 @@ const reducer = (state = initialState, action) => {
     default: {
       return state;
     }
+    //GET 1
+    case GET_INTERVIEW_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case GET_INTERVIEW_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: action.payload
+      };
+    case GET_INTERVIEW_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
+    // CLEAN UP
+    case INTERVIEWS_CLEANUP:
+      return {
+        ...state,
+        isFetching: false,
+        selectedElement: {},
+        error: false
+      };
+    //DELETE
+    case DELETE_INTERVIEW_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      };
+    case DELETE_INTERVIEW_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        list: state.list.filter((element) => element._id !== action.payload.data._id)
+      };
+    case DELETE_INTERVIEW_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
   }
 };
 

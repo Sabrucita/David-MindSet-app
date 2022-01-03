@@ -5,6 +5,13 @@ import {
   UPDATE_CANDIDATES_FETCHING,
   UPDATE_CANDIDATES_FULLFILLED,
   UPDATE_CANDIDATES_REJECTED,
+  GET_INTERVIEW_FETCHING,
+  GET_INTERVIEW_FULFILLED,
+  GET_INTERVIEW_REJECTED,
+  DELETE_INTERVIEW_FETCHING,
+  DELETE_INTERVIEW_FULFILLED,
+  DELETE_INTERVIEW_REJECTED,
+  INTERVIEWS_CLEANUP,
   CANDIDATES_CLEANUP
 } from 'constants/index';
 
@@ -38,4 +45,37 @@ export const updateCandidatesFullfilled = (payload) => ({
 
 export const updateCandidatesRejected = () => ({
   type: UPDATE_CANDIDATES_REJECTED
+});
+
+//GET 1 INTERVIEW
+export const getInterviewFetching = () => ({
+  type: GET_INTERVIEW_FETCHING
+});
+
+export const getInterviewFulfilled = (payload) => ({
+  type: GET_INTERVIEW_FULFILLED,
+  payload
+});
+
+export const getInterviewRejected = () => ({
+  type: GET_INTERVIEW_REJECTED
+});
+
+//CLEAN INTERVIEW
+export const interviewsCleanUp = () => ({
+  type: INTERVIEWS_CLEANUP
+});
+
+//DELETE INTERVIEWS
+export const deleteInterviewFetching = () => ({
+  type: DELETE_INTERVIEW_FETCHING
+});
+
+export const deleteInterviewFulfilled = (payload) => ({
+  type: DELETE_INTERVIEW_FULFILLED,
+  payload
+});
+
+export const deleteInterviewRejected = () => ({
+  type: DELETE_INTERVIEW_REJECTED
 });

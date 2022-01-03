@@ -6,7 +6,13 @@ import {
   getCandidateByIdRejected,
   updateCandidatesFetching,
   updateCandidatesFullfilled,
-  updateCandidatesRejected
+  updateCandidatesRejected,
+  getInterviewFetching,
+  getInterviewFulfilled,
+  getInterviewRejected,
+  deleteInterviewFetching,
+  deleteInterviewFulfilled,
+  deleteInterviewRejected
 } from './actions';
 
 //delete education
@@ -164,6 +170,58 @@ export const updateCandidates = (id, candidate) => {
       .catch((err) => {
         dispatch(updateCandidatesRejected(err));
         dispatch(showModal('candidates', 'error', err.message));
+      });
+  };
+};
+
+//GET 1 INTERVIEW
+export const getInterview = (id) => {
+  return (dispatch) => {
+    dispatch(getInterviewFetching());
+    fetch(`${url}/interviews/${id}`)
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          const currentData = {
+            idCandidate: data.idCandidate?._id,
+            idCompany: data.idCompany?._id,
+            date: data.date.substr(0, 16),
+            status: data.status
+          };
+          return dispatch(getInterviewFulfilled(currentData));
+        }
+        const data = await res.json();
+        throw new Error(data.msg);
+      })
+      .catch((err) => {
+        dispatch(getInterviewRejected());
+        dispatch(showModal('interviews', 'error', err.message));
+      });
+  };
+};
+
+//DELETE INTERVIEW
+export const deleteInterview = (id) => {
+  return (dispatch) => {
+    dispatch(deleteInterviewFetching());
+    dispatch(updateModal('fetching'));
+    fetch(`${url}/interviews/${id}`, {
+      method: 'DELETE'
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(deleteInterviewFulfilled(data));
+          data.data.idCompany = data.data.idCompany?._id;
+          data.data.idCandidate = data.data.idCandidate?._id;
+          return dispatch(updateModal('deleted', data.data));
+        }
+        const data = await res.json();
+        throw new Error(data.msg);
+      })
+      .catch((err) => {
+        dispatch(deleteInterviewRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
