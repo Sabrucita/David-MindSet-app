@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedSession } from 'redux/candidate/sessions/actions.js';
+import { showModal } from 'redux/modal/actions';
+import CalendarHour from '../CalendarHour';
+import styles from './calendarDay.module.css';
 
 function CalendarDay({ day, availableHours }) {
+  const dispatch = useDispatch();
   const [hours, setHours] = useState([]);
+  const [showHours, setShowHours] = useState(false);
+  const idCandidate = useSelector((store) => store.auth.user._id);
 
   useEffect(() => {
     const newHours = [];
@@ -11,25 +19,36 @@ function CalendarDay({ day, availableHours }) {
     setHours(newHours);
   }, []);
 
+  const toggleHour = () => {
+    setShowHours(!showHours);
+  };
+
+  const createSession = (idPsychologist, hour) => {
+    const selectedSession = {
+      idCandidate,
+      idPsychologist,
+      date: `2022-01-${day.number}Z`,
+      time: hour
+    };
+    dispatch(setSelectedSession(selectedSession));
+    const sessionDate = { date: selectedSession.date, time: selectedSession.time };
+    dispatch(showModal('session', 'session', sessionDate));
+  };
+
   return (
-    <div>
-      <h3>
+    <div className={styles.day}>
+      <h3 onClick={toggleHour}>
         {day.day} {day.number}
       </h3>
-      <ul>
-        {hours.map((hour) => {
-          return (
-            <li key={hour.hour}>
-              {hour.hour}
-              <ul>
-                {hour.psychologists.map((psychologist) => {
-                  return <li key={psychologist.id}>{psychologist.name}</li>;
-                })}
-              </ul>
-            </li>
-          );
-        })}
-      </ul>
+      {showHours ? (
+        <ul className={styles.list}>
+          {hours.map((hour) => {
+            return <CalendarHour key={hour.hour} hour={hour} fn={createSession} />;
+          })}
+        </ul>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

@@ -1,28 +1,24 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { showModal } from 'redux/modal/actions';
 import Modal from 'Components/shared/Modal';
 import CalendarDay from './CalendarDay';
 import styles from './availableDates.module.css';
-import { getAvailableDates } from 'redux/candidate/sessions/thunks';
+import { createSession, getAvailableDates } from 'redux/candidate/sessions/thunks';
 
-function AvailableDates({ history }) {
+function AvailableDates() {
   const dispatch = useDispatch();
   const dates = useSelector((store) => store.candidateSessions.list);
   const currentWeek = useSelector((store) => store.candidateSessions.currentWeek);
+  const selectedSession = useSelector((store) => store.candidateSessions.selectedSession);
   const modal = useSelector((store) => store.modal.show);
 
   useEffect(() => {
     dispatch(getAvailableDates());
   }, [dispatch]);
 
-  const openModal = () => {
-    dispatch(showModal('experiences', 'delete'));
-  };
-
-  const goToProfile = () => {
-    history.push('/candidate/home');
+  const createSessionFn = () => {
+    dispatch(createSession(selectedSession));
   };
 
   const getAvailableHours = (currentDay) => {
@@ -42,7 +38,7 @@ function AvailableDates({ history }) {
 
   return (
     <>
-      {modal && <Modal acceptModalFn={goToProfile} />}
+      {modal && <Modal acceptModalFn={createSessionFn} />}
       <section className={styles.container}>
         <h2 className={styles.title}>Available Dates</h2>
         {console.log(dates)}
@@ -51,9 +47,6 @@ function AvailableDates({ history }) {
           <Link to="/candidate/curriculumvitae/work-profile" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>GO BACK</span>
           </Link>
-          <button className={styles.buttonAdd} onClick={openModal}>
-            <span className={styles.buttonGreen}>SAVE</span>
-          </button>
         </div>
       </section>
     </>

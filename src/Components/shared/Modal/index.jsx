@@ -49,6 +49,9 @@ function Modal({ acceptModalFn, history }) {
       case 'signUp':
         setTitle(`Sign Up info:`);
         break;
+      case 'session':
+        setTitle(`Do you want to select this date for your ${resource}?`);
+        break;
     }
   }, [type]);
 
@@ -60,7 +63,10 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    if (type === 'create' || type === 'update') return history.push(baseUrl);
+    if (type === 'create' || type === 'update') {
+      if (resource === 'sessions') return history.push('/candidate/profile');
+      return history.push(baseUrl);
+    }
     if (type === 'signUp') return history.push('/auth/login');
   };
 
@@ -93,17 +99,17 @@ function Modal({ acceptModalFn, history }) {
           </div>
         )}
         <div className={styles.buttonModal}>
-          {type === 'delete' && (
+          {(type === 'delete' || type === 'session') && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
               ACCEPT
             </button>
           )}
-          {type === 'delete' && (
+          {(type === 'delete' || type === 'session') && (
             <button className={styles.modalCancel} onClick={closeModalFn}>
               CANCEL
             </button>
           )}
-          {type !== 'delete' && type !== 'fetching' && (
+          {type !== 'delete' && type !== 'fetching' && type !== 'session' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>

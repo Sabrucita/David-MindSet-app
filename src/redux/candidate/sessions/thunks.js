@@ -3,7 +3,10 @@ import { showModal, updateModal } from 'redux/modal/actions';
 import {
   getAvailableDatesFetching,
   getAvailableDatesFulfilled,
-  getAvailableDatesRejected
+  getAvailableDatesRejected,
+  createSessionFetching,
+  createSessionFulfilled,
+  createSessionRejected
 } from './actions';
 
 export const getAvailableDates = () => {
@@ -15,12 +18,39 @@ export const getAvailableDates = () => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          console.log(data);
           return dispatch(getAvailableDatesFulfilled(data));
         }
       })
       .catch(() => {
         dispatch(getAvailableDatesRejected());
+      });
+  };
+};
+
+export const createSession = (session) => {
+  return (dispatch) => {
+    dispatch(createSessionFetching());
+    dispatch(showModal('sessions', 'fetching'));
+    fetch(`${url}/candidate/sessions`, {
+      method: 'POST',
+      body: JSON.stringify(session),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 201) {
+          await res.json();
+          dispatch(createSessionFulfilled());
+          return dispatch(updateModal('create'));
+        }
+        const data = await res.json();
+        dispatch(createSessionRejected(data));
+        dispatch(updateModal('error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(createSessionRejected());
+        dispatch(updateModal('error', err.message));
       });
   };
 };
