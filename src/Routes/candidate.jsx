@@ -24,7 +24,7 @@ const candidatesRoutes = [
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
-  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' }
+  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
   { name: 'Availability', path: '/candidate/profile/availability' }
 ];
 
