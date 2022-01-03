@@ -102,10 +102,10 @@ function CollegeEducation() {
           <span>add more +</span>
         </Link>
         <div className={styles.btnContainer}>
-          <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
+          <Link to="/candidate/curriculumvitae/basic-education" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>GO BACK</span>
           </Link>
-          <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
+          <Link to="/candidate/curriculumvitae/work-experience" className={styles.buttonAdd}>
             <span className={styles.buttonGreen}>CONTINUE</span>
           </Link>
         </div>

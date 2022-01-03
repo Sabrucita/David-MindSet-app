@@ -61,7 +61,8 @@ export const getCandidateById = (id) => {
             experiences: data.experiences,
             courses: data.courses,
             pictureUrl: data.pictureUrl,
-            address: { street: data.address.street, number: data.address.number }
+            address: { street: data.address.street, number: data.address.number },
+            timeRange: data.timeRange
           };
           return dispatch(getCandidateByIdFullfilled(currentData));
         }
