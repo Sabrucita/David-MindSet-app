@@ -1,5 +1,3 @@
-import styles from './listDayItem.module.css';
-
 function ListDayItem({ title, startTime, endTime }) {
   return (
     <tr>
