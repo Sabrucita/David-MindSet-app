@@ -108,7 +108,10 @@ function BasicEducation({ match }) {
                   component={Fieldset}
                 />
                 <div className={styles.btnContainer}>
-                  <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
+                  <Link
+                    to="/candidate/curriculumvitae/basic-education"
+                    className={styles.buttonAdd}
+                  >
                     <span className={styles.buttonGreen}>GO BACK</span>
                   </Link>
                   <button

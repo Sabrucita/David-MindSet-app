@@ -9,6 +9,8 @@ import CollegeEducation from 'Components/Candidate/CurriculumVitae/CollegeEducat
 import CollegeEducationForm from 'Components/Candidate/CurriculumVitae/CollegeEducation/Form';
 import WorkExperience from 'Components/Candidate/CurriculumVitae/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/CurriculumVitae/WorkExperience/Form';
+import TimeRange from 'Components/Candidate/CurriculumVitae/TimeRange';
+import TimeRangeForm from 'Components/Candidate/CurriculumVitae/TimeRange/Form';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -22,6 +24,7 @@ const candidatesRoutes = [
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
+  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' }
   { name: 'Availability', path: '/candidate/profile/availability' }
 ];
 
@@ -96,7 +99,12 @@ const CandidatesRoutes = () => {
           component={WorkExperienceForm}
         />
         <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
-        <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={Home} />
+        <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={TimeRange} />
+        <PrivateRoute
+          path={`${url}/curriculumvitae/time-range/form`}
+          exact
+          component={TimeRangeForm}
+        />
         <PrivateRoute path={`${url}/curriculumvitae/`}>
           <Redirect to={`${url}/curriculumvitae/personal-information`} />
         </PrivateRoute>
