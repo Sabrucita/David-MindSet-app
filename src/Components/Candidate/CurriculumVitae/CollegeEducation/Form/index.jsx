@@ -98,7 +98,10 @@ function CollegeEducation({ match }) {
                   component={Fieldset}
                 />
                 <div className={styles.btnContainer}>
-                  <Link to="/candidate/profile/college-education" className={styles.buttonAdd}>
+                  <Link
+                    to="/candidate/curriculumvitae/college-education"
+                    className={styles.buttonAdd}
+                  >
                     <span className={styles.buttonGreen}>GO BACK</span>
                   </Link>
                   <button
