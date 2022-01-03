@@ -88,7 +88,6 @@ export const deleteAdmin = (id) => {
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await response.json();
-        console.log(data);
         dispatch(updateAdminRejected(data));
         dispatch(showModal('administrators', 'error', data.msg));
       })
