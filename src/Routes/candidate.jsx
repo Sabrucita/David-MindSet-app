@@ -19,11 +19,7 @@ import Sidebar from 'Components/shared/Sidebar';
 import styles from './routes.module.css';
 
 const candidatesRoutes = [
-<<<<<<< HEAD
   { name: 'Home', path: '/candidate' },
-=======
-  { name: 'home', path: '/candidate' },
->>>>>>> development
   { name: 'Personal Information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
