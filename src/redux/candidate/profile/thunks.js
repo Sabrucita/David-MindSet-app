@@ -1,5 +1,5 @@
 import { url } from 'constants/index';
-import { showModal, updateModal } from 'redux/modal/actions';
+import { hideModal, showModal, updateModal } from 'redux/modal/actions';
 import {
   getCandidateByIdFetching,
   getCandidateByIdFullfilled,
@@ -202,8 +202,6 @@ export const updateTimeRange = (candidate) => {
 //UPDATE OPEN TO WORK
 export const updateOpenToWork = (candidate) => {
   return (dispatch) => {
-    // dispatch(updateCandidatesFetching());
-    // dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
     fetch(`${url}/candidates/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
@@ -215,6 +213,7 @@ export const updateOpenToWork = (candidate) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
+          dispatch(hideModal());
           return dispatch(updateCandidatesFullfilled(data));
         }
         const data = await res.json();

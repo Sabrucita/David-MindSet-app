@@ -6,6 +6,7 @@ import Preloader from 'Components/shared/Preloader/index';
 import Modal from 'Components/shared/Modal';
 import { getCandidateById, updateOpenToWork } from 'redux/candidate/profile/thunks';
 import ListDayItem from './ListDayItem';
+import { showModal } from 'redux/modal/actions';
 
 function Availability() {
   const dispatch = useDispatch();
@@ -21,14 +22,29 @@ function Availability() {
     dispatch(getCandidateById(id));
   }, [dispatch]);
 
-  const switchOpenToWork = () => {
+  const openModal = () => {
+    if (selectedCandidate.isOpenToWork) {
+      dispatch(
+        showModal(
+          'Availabilitys',
+          'availability',
+          `That's mean that you are not looking for a job, so you won't available for any job interviews.`
+        )
+      );
+    } else {
+      acceptModal();
+    }
+  };
+
+  //MODAL CONFIRM DELETE
+  const acceptModal = () => {
     selectedCandidate.isOpenToWork = !selectedCandidate.isOpenToWork;
     dispatch(updateOpenToWork(selectedCandidate));
   };
 
   return (
     <>
-      {modal && <Modal />}
+      {modal && <Modal acceptModalFn={acceptModal} />}
       <section className={styles.container}>
         <h1 className={styles.title}>Availability</h1>
         {candidates.isFetching ? (
@@ -42,7 +58,7 @@ function Availability() {
                 className={
                   selectedCandidate?.isOpenToWork ? styles.btnAvailable : styles.btnNotAvailable
                 }
-                onClick={() => switchOpenToWork()}
+                onClick={() => openModal()}
               ></button>
             </div>
             {selectedCandidate?.isOpenToWork ? (
