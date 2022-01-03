@@ -41,7 +41,6 @@ export const getCandidateById = (id) => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
-          console.log(data);
           const currentData = {
             idCandidate: data._id,
             firstName: data.firstName,
