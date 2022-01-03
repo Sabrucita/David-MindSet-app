@@ -17,8 +17,8 @@ import Sidebar from 'Components/shared/Sidebar';
 import styles from './routes.module.css';
 
 const candidatesRoutes = [
-  { name: 'home', path: '/candidate' },
-  { name: 'personal information', path: '/candidate/curriculumvitae/personal-information' },
+  { name: 'Home', path: '/candidate' },
+  { name: 'Personal Information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
   { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' }

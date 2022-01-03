@@ -13,7 +13,7 @@ function List({ header, data, openModal }) {
           </tr>
         </thead>
         {data.length === 0 ? (
-          <p className={styles.loading}>There are no applications</p>
+          <p className={styles.loading}>There are no companies</p>
         ) : (
           <tbody>
             {data.map((element) => {
