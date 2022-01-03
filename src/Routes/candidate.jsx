@@ -13,13 +13,16 @@ import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import JobInterviews from 'Components/Candidate/Profile/Interviews';
+import JobInterviewsForm from 'Components/Candidate/Profile/Interviews/InterviewsForm';
 
 const candidatesRoutes = [
   { name: 'home', path: '/candidate' },
   { name: 'personal information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
-  { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' }
+  { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' },
+  { name: 'Job interviews', path: '/candidate/profile/job-interviews' }
 ];
 
 const CandidatesRoutes = () => {
@@ -97,6 +100,8 @@ const CandidatesRoutes = () => {
         <PrivateRoute path={`${url}/curriculumvitae/`}>
           <Redirect to={`${url}/curriculumvitae/personal-information`} />
         </PrivateRoute>
+        <PrivateRoute path={`${url}/profile/job-interviews`} exact component={JobInterviews} />
+        <PrivateRoute path={`${url}/profile/job-interviews/form/`} component={JobInterviewsForm} />
         <Redirect to={`${url}/home`} />
       </Switch>
     </Layout>
