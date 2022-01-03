@@ -15,14 +15,17 @@ import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Availability from 'Components/Candidate/Profile/Availability';
+import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
 
 const candidatesRoutes = [
-  { name: 'home', path: '/candidate' },
+  { name: 'Home', path: '/candidate' },
   { name: 'Personal Information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
-  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' }
+  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
+  { name: 'Availability', path: '/candidate/profile/availability' }
 ];
 
 const CandidatesRoutes = () => {
@@ -105,6 +108,8 @@ const CandidatesRoutes = () => {
         <PrivateRoute path={`${url}/curriculumvitae/`}>
           <Redirect to={`${url}/curriculumvitae/personal-information`} />
         </PrivateRoute>
+        <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
+        <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
         <Redirect to={`${url}/home`} />
       </Switch>
     </Layout>
