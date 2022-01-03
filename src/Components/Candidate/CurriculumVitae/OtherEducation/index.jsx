@@ -20,7 +20,6 @@ function OtherEducation() {
   const id = userAuth._id;
 
   useEffect(() => {
-    console.log('useEffect');
     dispatch(getCandidateById(id));
   }, [dispatch]);
 
