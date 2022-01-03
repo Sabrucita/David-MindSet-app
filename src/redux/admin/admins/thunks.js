@@ -24,7 +24,12 @@ import {
 export const getAdmin = (id) => {
   return (dispatch) => {
     dispatch(getAdminFetching());
-    fetch(`${url}/administrators/${id}`)
+    fetch(`${url}/administrators/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
@@ -47,7 +52,12 @@ export const getAdmin = (id) => {
 export const getAdmins = () => {
   return (dispatch) => {
     dispatch(getAdminsFetching());
-    fetch(`${url}/administrators`)
+    fetch(`${url}/administrators`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         dispatch(getAdminsFulfilled(data));
@@ -65,7 +75,11 @@ export const deleteAdmin = (id) => {
     dispatch(deleteAdminFetching());
     dispatch(showModal('administrators', 'fetching'));
     fetch(`${url}/administrators/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         if (response.status === 200) {
@@ -74,7 +88,9 @@ export const deleteAdmin = (id) => {
           return dispatch(updateModal('deleted', data.data));
         }
         const data = await response.json();
+        console.log(data);
         dispatch(updateAdminRejected(data));
+        dispatch(showModal('administrators', 'error', data.msg));
       })
       .catch((err) => {
         dispatch(deleteAdminRejected(err));
@@ -98,7 +114,8 @@ export const createAdmin = (admin) => {
         password: admin.password
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {
@@ -133,7 +150,8 @@ export const updateAdmin = (id, admin) => {
         password: admin.password
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {
