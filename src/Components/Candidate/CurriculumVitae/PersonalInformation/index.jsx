@@ -24,7 +24,7 @@ function PersonalInformationList() {
     <>
       {modal && <Modal />}
       <section className={styles.container}>
-        <h2 className={styles.title}>Personal Information</h2>
+        <h1 className={styles.title}>Personal Information</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (

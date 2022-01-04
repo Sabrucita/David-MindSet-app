@@ -68,32 +68,46 @@ function WorkExperienceForm({ match }) {
           validate={validate}
           render={({ handleSubmit, submitting, pristine }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
-              <Field
-                name="position"
-                label="Position"
-                element="input"
-                type="text"
-                component={Fieldset}
-              />
-              <Field
-                name="company"
-                label="Company"
-                element="input"
-                type="text"
-                component={Fieldset}
-              />
-              <Field name="since" label="Since" element="input" type="date" component={Fieldset} />
-              <Field name="until" label="Until" element="input" type="date" component={Fieldset} />
-              <Field
-                name="jobDescription"
-                label="Job Description"
-                element="input"
-                type="text"
-                component={Fieldset}
-              />
+              <div className={styles.fieldsetContainer}>
+                <Field
+                  name="position"
+                  label="Position"
+                  element="input"
+                  type="text"
+                  component={Fieldset}
+                />
+                <Field
+                  name="company"
+                  label="Company"
+                  element="input"
+                  type="text"
+                  component={Fieldset}
+                />
+                <Field
+                  name="since"
+                  label="Since"
+                  element="input"
+                  type="date"
+                  component={Fieldset}
+                />
+                <Field
+                  name="until"
+                  label="Until"
+                  element="input"
+                  type="date"
+                  component={Fieldset}
+                />
+                <Field
+                  name="jobDescription"
+                  label="Job Description"
+                  element="input"
+                  type="text"
+                  component={Fieldset}
+                />
+              </div>
               <div className={styles.btnContainer}>
                 <Link to="/candidate/profile/work-experience" className={styles.buttonAdd}>
-                  <span className={styles.buttonGreen}>BACK</span>
+                  <span className={styles.buttonGreen}>GO BACK</span>
                 </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}

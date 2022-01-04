@@ -49,7 +49,7 @@ function Admins() {
         ) : (
           <>
             <List data={admins.list} header={tableHeader} openModal={openModal} />
-            <Link to="/admin/administrators/form" className={styles.buttonAdd}>
+            <Link to="/admin/admins/form" className={styles.buttonAdd}>
               <span className={styles.buttonGreen}>ADD ADMINISTRATOR</span>
             </Link>
           </>
