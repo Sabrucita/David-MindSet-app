@@ -16,14 +16,24 @@ function Interviews() {
   const selectedInterview = useSelector((store) => store.interviews.selectedElement);
   const modal = useSelector((state) => state.modal.show);
   const { url } = useRouteMatch();
-  let interviews = [];
-
+  const interviews = useSelector((store) => store.interviews.list);
   const userAuth = useSelector((store) => store.auth.user);
   const id = userAuth._id;
+  const [candidateInterview, setCandidateInterview] = useState([]);
 
   useEffect(() => {
-    dispatch(getInterview(id));
-  }, [dispatch]);
+    if (!interviews.lenght) {
+      dispatch(getInterview(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    setCandidateInterview(
+      interviews.filter(
+        (interview) => interview.candidate._id === process.env.REACT_APP_CANDIDATES_ID
+      )
+    );
+  }, [interviews]);
 
   useEffect(() => {
     return () => {
