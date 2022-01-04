@@ -8,6 +8,9 @@ import {
   GET_INTERVIEW_FETCHING,
   GET_INTERVIEW_FULFILLED,
   GET_INTERVIEW_REJECTED,
+  GET_INTERVIEWS_FETCHING,
+  GET_INTERVIEWS_FULFILLED,
+  GET_INTERVIEWS_REJECTED,
   DELETE_INTERVIEW_FETCHING,
   DELETE_INTERVIEW_FULFILLED,
   DELETE_INTERVIEW_REJECTED,
@@ -64,6 +67,20 @@ export const getInterviewRejected = () => ({
 //CLEAN INTERVIEW
 export const interviewsCleanUp = () => ({
   type: INTERVIEWS_CLEANUP
+});
+
+//GET ALL INTERVIEWS
+export const getInterviewsFetching = () => ({
+  type: GET_INTERVIEWS_FETCHING
+});
+
+export const getInterviewsFulfilled = (payload) => ({
+  type: GET_INTERVIEWS_FULFILLED,
+  payload
+});
+
+export const getInterviewsRejected = () => ({
+  type: GET_INTERVIEWS_REJECTED
 });
 
 //DELETE INTERVIEWS

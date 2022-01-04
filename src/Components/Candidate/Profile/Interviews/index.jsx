@@ -5,9 +5,9 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
 import Modal from 'Components/shared/Modal';
 import { showModal } from 'redux/modal/actions';
-import { deleteInterview, getInterview } from 'redux/candidate/profile/thunks';
+import { deleteInterview, getInterviews } from 'redux/candidate/profile/thunks';
 import List from 'Components/Candidate/Profile/Interviews//List';
-import { interviewsCleanUp } from 'redux/admin/interviews/actions';
+import { interviewsCleanUp } from 'redux/candidate/profile/thunks';
 import { formatDate } from 'helpers';
 
 function Interviews() {
@@ -23,7 +23,7 @@ function Interviews() {
 
   useEffect(() => {
     if (!interviews.lenght) {
-      dispatch(getInterview());
+      dispatch(getInterviews());
     }
   }, []);
 

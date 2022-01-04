@@ -10,6 +10,9 @@ import {
   getInterviewFetching,
   getInterviewFulfilled,
   getInterviewRejected,
+  getInterviewsFetching,
+  getInterviewsFulfilled,
+  getInterviewsRejected,
   deleteInterviewFetching,
   deleteInterviewFulfilled,
   deleteInterviewRejected
@@ -195,6 +198,26 @@ export const getInterview = (id) => {
       })
       .catch((err) => {
         dispatch(getInterviewRejected());
+        dispatch(showModal('interviews', 'error', err.message));
+      });
+  };
+};
+
+//GET ALL INTERVIEWS
+export const getInterviews = () => {
+  return (dispatch) => {
+    dispatch(getInterviewsFetching());
+    fetch(`${url}/interviews`)
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          return dispatch(getInterviewsFulfilled(data));
+        }
+        const data = await res.json();
+        throw new Error(data.msg);
+      })
+      .catch((err) => {
+        dispatch(getInterviewsRejected());
         dispatch(showModal('interviews', 'error', err.message));
       });
   };
