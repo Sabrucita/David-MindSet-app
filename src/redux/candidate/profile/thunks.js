@@ -9,6 +9,98 @@ import {
   updateCandidatesRejected
 } from './actions';
 
+//delete Hobbies
+export const deleteHobbies = (idCandidate, candidate, idEducation) => {
+  return (dispatch) => {
+    dispatch(showModal('Hobbies and Skills', 'fetching', { info: 'Loading...' }));
+    candidate.hobbies = candidate.hobbies.filter((element) => element._id !== idEducation);
+
+    fetch(`${url}/candidates/${idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(updateModal('deleted'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Hobbies and Skills', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Hobbies and Skills', 'error', err.message));
+      });
+  };
+};
+
+// create Hobbies
+export const createHobbies = (candidate, newHobbie, type) => {
+  return (dispatch) => {
+    dispatch(showModal('Hobbies and Skills', 'fetching', { info: 'Loading...' }));
+    newHobbie.type = type;
+    candidate.hobbies.push(newHobbie);
+
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Hobbies and Skills', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Hobbies and Skills', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Hobbies and Skills', 'error', err.message));
+      });
+  };
+};
+
+//update Hobbies
+export const updateHobbies = (candidate) => {
+  return (dispatch) => {
+    dispatch(showModal('Hobbies and Skills', 'fetching', { info: 'Loading...' }));
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Hobbies and Skills', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Hobbies and Skills', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Hobbies and Skills', 'error', err.message));
+      });
+  };
+};
+
 //delete education
 export const deleteEducation = (idCandidate, candidate, idEducation) => {
   return (dispatch) => {
