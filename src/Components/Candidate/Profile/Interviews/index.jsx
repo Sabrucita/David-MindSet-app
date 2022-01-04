@@ -7,7 +7,7 @@ import Modal from 'Components/shared/Modal';
 import { showModal } from 'redux/modal/actions';
 import { deleteInterview, getInterviews } from 'redux/candidate/profile/thunks';
 import List from 'Components/Candidate/Profile/Interviews//List';
-import { interviewsCleanUp } from 'redux/candidate/profile/thunks';
+import { interviewsCleanUp } from 'redux/candidate/profile/actions';
 import { formatDate } from 'helpers';
 
 function Interviews() {
