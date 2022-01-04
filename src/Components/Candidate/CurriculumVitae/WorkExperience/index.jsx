@@ -38,7 +38,7 @@ function WorkExperience() {
     <>
       {modal && <Modal acceptModalFn={deleteItem} />}
       <section className={styles.container}>
-        <h2 className={styles.title}>Work Experience</h2>
+        <h1 className={styles.title}>Work Experience</h1>
         {candidates.isFetching ? (
           <Preloader />
         ) : (

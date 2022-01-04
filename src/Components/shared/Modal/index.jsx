@@ -49,6 +49,17 @@ function Modal({ acceptModalFn, history }) {
       case 'signUp':
         setTitle(`Sign Up info:`);
         break;
+      case 'session':
+        setTitle(`Do you want to select this date for your ${resource}?`);
+        break;
+      case 'skip':
+        setTitle(
+          `You won't be able to schedule any interview until you have a session with a psychologist. Are you sure you want to skip it ?`
+        );
+        break;
+      case 'availability':
+        setTitle(`Are you sure?`);
+        break;
     }
   }, [type]);
 
@@ -60,11 +71,14 @@ function Modal({ acceptModalFn, history }) {
 
   const closeModalFn = () => {
     dispatch(hideModal());
-    if (type === 'create' || type === 'update') return history.push(baseUrl);
+    if (type === 'create' || type === 'update') {
+      if (resource === 'sessions') return history.push('/candidate/profile');
+      return history.push(baseUrl);
+    }
     if (type === 'signUp') return history.push('/auth/login');
   };
 
-  if (type === 'error' || type === 'login' || type === 'signUp') {
+  if (type === 'error' || type === 'login' || type === 'signUp' || type === 'availability') {
     modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);
@@ -93,21 +107,31 @@ function Modal({ acceptModalFn, history }) {
           </div>
         )}
         <div className={styles.buttonModal}>
-          {type === 'delete' && (
+          {(type === 'delete' ||
+            type === 'session' ||
+            type === 'skip' ||
+            type === 'availability') && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
               ACCEPT
             </button>
           )}
-          {type === 'delete' && (
+          {(type === 'delete' ||
+            type === 'session' ||
+            type === 'skip' ||
+            type === 'availability') && (
             <button className={styles.modalCancel} onClick={closeModalFn}>
               CANCEL
             </button>
           )}
-          {type !== 'delete' && type !== 'fetching' && (
-            <button className={styles.modalOkConfirm} onClick={closeModalFn}>
-              OK
-            </button>
-          )}
+          {type !== 'delete' &&
+            type !== 'fetching' &&
+            type !== 'session' &&
+            type !== 'skip' &&
+            type !== 'availability' && (
+              <button className={styles.modalOkConfirm} onClick={closeModalFn}>
+                OK
+              </button>
+            )}
         </div>
       </div>
     </div>
