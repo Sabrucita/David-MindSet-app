@@ -1,5 +1,5 @@
 import { url } from 'constants/index';
-import { showModal, updateModal } from 'redux/modal/actions';
+import { hideModal, showModal, updateModal } from 'redux/modal/actions';
 import {
   getCandidateByIdFetching,
   getCandidateByIdFullfilled,
@@ -195,6 +195,34 @@ export const updateTimeRange = (candidate) => {
       .catch((err) => {
         dispatch(updateCandidatesRejected(err));
         dispatch(showModal('Availability Time Rangess', 'error', err.message));
+      });
+  };
+};
+
+//UPDATE OPEN TO WORK
+export const updateOpenToWork = (candidate) => {
+  return (dispatch) => {
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(hideModal());
+          return dispatch(updateCandidatesFullfilled(data));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Availabilitys', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Availabilitys', 'error', err.message));
       });
   };
 };

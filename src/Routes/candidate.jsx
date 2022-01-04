@@ -17,6 +17,8 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from 'Components/shared/Sidebar';
 import styles from './routes.module.css';
+import Availability from 'Components/Candidate/Profile/Availability';
+import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
 
 const candidatesRoutes = [
   { name: 'Home', path: '/candidate' },
@@ -24,7 +26,8 @@ const candidatesRoutes = [
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
-  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' }
+  { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
+  { name: 'Availability', path: '/candidate/profile/availability' }
 ];
 
 const CandidatesRoutes = () => {
@@ -100,7 +103,14 @@ const CandidatesRoutes = () => {
             component={WorkExperienceForm}
           />
           <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
-          <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={Home} />
+          <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={TimeRange} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/time-range/form`}
+            exact
+            component={TimeRangeForm}
+          />
+          <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
+          <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
           <PrivateRoute path={`${url}/curriculumvitae/`}>
             <Redirect to={`${url}/curriculumvitae/personal-information`} />
           </PrivateRoute>
