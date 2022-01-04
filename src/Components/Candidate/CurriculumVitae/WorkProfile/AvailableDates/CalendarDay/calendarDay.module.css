@@ -1,0 +1,23 @@
+.day {
+  width: 100%;
+  padding: 0px 20px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: #f0f4f9;
+}
+.day h3 {
+  cursor: pointer;
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+  list-style: none;
+}
+.list::after {
+  content: '';
+  flex: auto;
+}

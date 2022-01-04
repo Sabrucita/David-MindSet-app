@@ -11,6 +11,8 @@ import OtherEducation from 'Components/Candidate/CurriculumVitae/OtherEducation'
 import OtherEducationForm from 'Components/Candidate/CurriculumVitae/OtherEducation/Form';
 import WorkExperience from 'Components/Candidate/CurriculumVitae/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/CurriculumVitae/WorkExperience/Form';
+import WorkProfile from 'Components/Candidate/CurriculumVitae/WorkProfile';
+import availableDates from 'Components/Candidate/CurriculumVitae/WorkProfile/AvailableDates';
 import TimeRange from 'Components/Candidate/CurriculumVitae/TimeRange';
 import TimeRangeForm from 'Components/Candidate/CurriculumVitae/TimeRange/Form';
 import PrivateRoute from './PrivateRoute';
@@ -30,19 +32,21 @@ const candidatesRoutes = [
   { name: 'Other Education & Languages', path: '/candidate/curriculumvitae/other-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
+  { name: 'Work Profile', path: '/candidate/curriculumvitae/work-profile' },
   { name: 'Availability', path: '/candidate/profile/availability' }
 ];
 
 const CandidatesRoutes = () => {
   const role = useSelector((store) => store.auth.role);
   const history = useHistory();
+  const { url } = useRouteMatch();
+
   useEffect(() => {
     if (role !== 'candidate') {
       history.goBack();
     }
   }, []);
 
-  const { url } = useRouteMatch();
   return (
     <Layout routes={candidatesRoutes} resource={'candidate'}>
       <div className={styles.bodyContainer}>
@@ -125,6 +129,16 @@ const CandidatesRoutes = () => {
             path={`${url}/curriculumvitae/time-range/form`}
             exact
             component={TimeRangeForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-profile`}
+            exact
+            component={WorkProfile}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-profile/available-dates`}
+            exact
+            component={availableDates}
           />
           <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
           <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
