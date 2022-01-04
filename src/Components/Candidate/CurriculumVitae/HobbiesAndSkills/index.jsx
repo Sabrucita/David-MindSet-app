@@ -6,7 +6,6 @@ import Preloader from 'Components/shared/Preloader/index';
 import Modal from 'Components/shared/Modal';
 import { showModal } from 'redux/modal/actions';
 import { deleteHobbies, getCandidateById } from 'redux/candidate/profile/thunks';
-import { formatDate } from 'helpers';
 
 function Hobbies() {
   const [selectedItem, setSelectedItem] = useState();
@@ -27,7 +26,7 @@ function Hobbies() {
   // MODAL
   const openModal = (item, type) => {
     setSelectedItem(item);
-    dispatch(showModal('hobbies', 'mainSkills', type, item));
+    dispatch(showModal('hobbies', type, item));
   };
 
   //MODAL CONFIRM DELETE
@@ -45,18 +44,14 @@ function Hobbies() {
         ) : (
           <>
             <div className={styles.boxesContainer}>
-              {selectedCandidate ? (
-                selectedCandidate.map((element) => {
+              {selectedCandidate.hobbies ? (
+                selectedCandidate.hobbies.map((element) => {
                   return (
                     <div key={element._id} className={styles.boxContainer}>
                       <ul>
                         <li className={styles.boxItem}>
                           <span>Title:</span>
                           <span>{element.hobbies}</span>
-                        </li>
-                        <li className={styles.boxItem}>
-                          <span>Main Skills:</span>
-                          <span>{element.mainSkills}</span>
                         </li>
                       </ul>
                       <div className={styles.actions}>
