@@ -33,8 +33,9 @@ export const createSessionFetching = () => ({
   type: CREATE_SESSION_FETCHING
 });
 
-export const createSessionFulfilled = () => ({
-  type: CREATE_SESSION_FULFILLED
+export const createSessionFulfilled = (payload) => ({
+  type: CREATE_SESSION_FULFILLED,
+  payload
 });
 
 export const createSessionRejected = () => ({

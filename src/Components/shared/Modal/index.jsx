@@ -52,6 +52,11 @@ function Modal({ acceptModalFn, history }) {
       case 'session':
         setTitle(`Do you want to select this date for your ${resource}?`);
         break;
+      case 'skip':
+        setTitle(
+          `You won't be able to schedule any interview until you have a session with a psychologist. Are you sure you want to skip it ?`
+        );
+        break;
     }
   }, [type]);
 
@@ -99,17 +104,17 @@ function Modal({ acceptModalFn, history }) {
           </div>
         )}
         <div className={styles.buttonModal}>
-          {(type === 'delete' || type === 'session') && (
+          {(type === 'delete' || type === 'session' || type === 'skip') && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
               ACCEPT
             </button>
           )}
-          {(type === 'delete' || type === 'session') && (
+          {(type === 'delete' || type === 'session' || type === 'skip') && (
             <button className={styles.modalCancel} onClick={closeModalFn}>
               CANCEL
             </button>
           )}
-          {type !== 'delete' && type !== 'fetching' && type !== 'session' && (
+          {type !== 'delete' && type !== 'fetching' && type !== 'session' && type !== 'skip' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>

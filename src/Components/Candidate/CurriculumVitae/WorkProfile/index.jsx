@@ -10,11 +10,11 @@ function WorkProfile({ history }) {
   const { url } = useRouteMatch();
 
   const openModal = () => {
-    dispatch(showModal('experiences', 'delete'));
+    dispatch(showModal('session', 'skip'));
   };
 
   const goToProfile = () => {
-    history.push('/candidate/home');
+    history.push('/candidate/profile');
   };
 
   return (

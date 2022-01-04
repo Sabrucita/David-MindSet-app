@@ -33,7 +33,7 @@ export const createSession = (session) => {
     dispatch(showModal('sessions', 'fetching'));
     fetch(`${url}/candidate/sessions`, {
       method: 'POST',
-      body: JSON.stringify(session),
+      body: JSON.stringify(session.data),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -41,7 +41,7 @@ export const createSession = (session) => {
       .then(async (res) => {
         if (res.status === 201) {
           await res.json();
-          dispatch(createSessionFulfilled());
+          dispatch(createSessionFulfilled(session));
           return dispatch(updateModal('create'));
         }
         const data = await res.json();

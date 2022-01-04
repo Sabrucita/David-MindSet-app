@@ -41,7 +41,6 @@ function AvailableDates() {
       {modal && <Modal acceptModalFn={createSessionFn} />}
       <section className={styles.container}>
         <h2 className={styles.title}>Available Dates</h2>
-        {console.log(dates)}
         {currentWeek.map((day) => getAvailableHours(day))}
         <div className={styles.btnContainer}>
           <Link to="/candidate/curriculumvitae/work-profile" className={styles.buttonAdd}>

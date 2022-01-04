@@ -25,13 +25,16 @@ function CalendarDay({ day, availableHours }) {
 
   const createSession = (idPsychologist, hour) => {
     const selectedSession = {
-      idCandidate,
-      idPsychologist,
-      date: `2022-01-${day.number}Z`,
-      time: hour
+      day,
+      data: {
+        idCandidate,
+        idPsychologist,
+        date: `2022-01-${day.number}Z`,
+        time: hour
+      }
     };
     dispatch(setSelectedSession(selectedSession));
-    const sessionDate = { date: selectedSession.date, time: selectedSession.time };
+    const sessionDate = { date: selectedSession.data.date, time: selectedSession.data.time };
     dispatch(showModal('session', 'session', sessionDate));
   };
 
