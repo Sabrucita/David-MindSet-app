@@ -23,7 +23,7 @@ function Interviews() {
 
   useEffect(() => {
     if (!interviews.lenght) {
-      dispatch(getInterview(id));
+      dispatch(getInterview());
     }
   }, []);
 
