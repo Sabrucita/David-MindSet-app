@@ -9,6 +9,96 @@ import {
   updateCandidatesRejected
 } from './actions';
 
+//delete other education
+export const deleteOtherEducation = (idCandidate, candidate, idEducation) => {
+  return (dispatch) => {
+    dispatch(showModal('Other Educations', 'fetching', { info: 'Loading...' }));
+    candidate.courses = candidate.courses.filter((element) => element._id !== idEducation);
+
+    fetch(`${url}/candidates/${idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(updateModal('deleted'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Other Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Other Educations', 'error', err.message));
+      });
+  };
+};
+// create other education
+export const createOtherEducation = (candidate, newEducation, type) => {
+  return (dispatch) => {
+    dispatch(showModal('Other Educations', 'fetching', { info: 'Loading...' }));
+    newEducation.type = type;
+    candidate.courses.push(newEducation);
+
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Other Educations', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Other Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Other Educations', 'error', err.message));
+      });
+  };
+};
+//update other education
+export const updateOtherEducation = (candidate) => {
+  return (dispatch) => {
+    dispatch(showModal('Other Educations', 'fetching', { info: 'Loading...' }));
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Other Educations', 'create'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Other Educations', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Other Educations', 'error', err.message));
+      });
+  };
+};
+
 //delete education
 export const deleteEducation = (idCandidate, candidate, idEducation) => {
   return (dispatch) => {

@@ -7,6 +7,8 @@ import PersonalInformationList from 'Components/Candidate/CurriculumVitae/Person
 import PersonalInformationForm from 'Components/Candidate/CurriculumVitae/PersonalInformation/Form';
 import CollegeEducation from 'Components/Candidate/CurriculumVitae/CollegeEducation';
 import CollegeEducationForm from 'Components/Candidate/CurriculumVitae/CollegeEducation/Form';
+import OtherEducation from 'Components/Candidate/CurriculumVitae/OtherEducation';
+import OtherEducationForm from 'Components/Candidate/CurriculumVitae/OtherEducation/Form';
 import WorkExperience from 'Components/Candidate/CurriculumVitae/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/CurriculumVitae/WorkExperience/Form';
 import TimeRange from 'Components/Candidate/CurriculumVitae/TimeRange';
@@ -25,6 +27,7 @@ const candidatesRoutes = [
   { name: 'Personal Information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
+  { name: 'Other Education & Languages', path: '/candidate/curriculumvitae/other-education' },
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
   { name: 'Availability', path: '/candidate/profile/availability' }
@@ -87,7 +90,21 @@ const CandidatesRoutes = () => {
             exact
             component={CollegeEducationForm}
           />
-          <PrivateRoute path={`${url}/curriculumvitae/other-education`} exact component={Home} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/other-education`}
+            exact
+            component={OtherEducation}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/other-education/form`}
+            exact
+            component={OtherEducationForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/other-education/form/:id`}
+            exact
+            component={OtherEducationForm}
+          />
           <PrivateRoute
             path={`${url}/curriculumvitae/work-experience`}
             exact
