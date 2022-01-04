@@ -62,13 +62,13 @@ function BasicEducation({ match }) {
         ) : (
           <h2 className={styles.mainTitle}>Edit Basic Education</h2>
         )}
-        <div className={styles.item}>
-          <Form
-            onSubmit={submitForm}
-            initialValues={selectedEducation}
-            validate={validate}
-            render={({ handleSubmit, submitting, pristine }) => (
-              <form className={styles.form} onSubmit={handleSubmit}>
+        <Form
+          onSubmit={submitForm}
+          initialValues={selectedEducation}
+          validate={validate}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.fieldsetContainer}>
                 <Field
                   name="description"
                   label="Title"
@@ -107,27 +107,22 @@ function BasicEducation({ match }) {
                   type="date"
                   component={Fieldset}
                 />
-                <div className={styles.btnContainer}>
-                  <Link
-                    to="/candidate/curriculumvitae/basic-education"
-                    className={styles.buttonAdd}
-                  >
-                    <span className={styles.buttonGreen}>GO BACK</span>
-                  </Link>
-                  <button
-                    className={`${styles.buttonGreen} ${
-                      (submitting || pristine) && styles.disabled
-                    }`}
-                    type="submit"
-                    disabled={submitting || pristine}
-                  >
-                    SUBMIT
-                  </button>
-                </div>
-              </form>
-            )}
-          />
-        </div>
+              </div>
+              <div className={styles.btnContainer}>
+                <Link to="/candidate/profile/basic-education" className={styles.buttonAdd}>
+                  <span className={styles.buttonGreen}>GO BACK</span>
+                </Link>
+                <button
+                  className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  SUBMIT
+                </button>
+              </div>
+            </form>
+          )}
+        />
       </section>
     </>
   );

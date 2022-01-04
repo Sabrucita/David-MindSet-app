@@ -15,6 +15,8 @@ import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Sidebar from 'Components/shared/Sidebar';
+import styles from './routes.module.css';
 import Availability from 'Components/Candidate/Profile/Availability';
 import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
 
@@ -40,78 +42,81 @@ const CandidatesRoutes = () => {
   const { url } = useRouteMatch();
   return (
     <Layout routes={candidatesRoutes} resource={'candidate'}>
-      <Switch>
-        <PrivateRoute path={`${url}/home`} exact component={Home} />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/basic-education/form`}
-          exact
-          component={BasicEducationForm}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/basic-education/form/:id`}
-          exact
-          component={BasicEducationForm}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/basic-education`}
-          exact
-          component={BasicEducation}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/personal-information`}
-          exact
-          component={PersonalInformationList}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/personal-information/form`}
-          exact
-          component={PersonalInformationForm}
-        />
-        <PrivateRoute path={`${url}/curriculumvitae/basic-education`} exact component={Home} />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/college-education`}
-          exact
-          component={CollegeEducation}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/college-education/form`}
-          exact
-          component={CollegeEducationForm}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/college-education/form/:id`}
-          exact
-          component={CollegeEducationForm}
-        />
-        <PrivateRoute path={`${url}/curriculumvitae/other-education`} exact component={Home} />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/work-experience`}
-          exact
-          component={WorkExperience}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/work-experience/form`}
-          exact
-          component={WorkExperienceForm}
-        />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/work-experience/form/:id`}
-          component={WorkExperienceForm}
-        />
-        <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
-        <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={TimeRange} />
-        <PrivateRoute
-          path={`${url}/curriculumvitae/time-range/form`}
-          exact
-          component={TimeRangeForm}
-        />
-        <PrivateRoute path={`${url}/curriculumvitae/`}>
-          <Redirect to={`${url}/curriculumvitae/personal-information`} />
-        </PrivateRoute>
-        <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
-        <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
-        <Redirect to={`${url}/home`} />
-      </Switch>
+      <div className={styles.bodyContainer}>
+        <Sidebar />
+        <Switch>
+          <PrivateRoute path={`${url}/home`} exact component={Home} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/basic-education/form`}
+            exact
+            component={BasicEducationForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/basic-education/form/:id`}
+            exact
+            component={BasicEducationForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/basic-education`}
+            exact
+            component={BasicEducation}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/personal-information`}
+            exact
+            component={PersonalInformationList}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/personal-information/form`}
+            exact
+            component={PersonalInformationForm}
+          />
+          <PrivateRoute path={`${url}/curriculumvitae/basic-education`} exact component={Home} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/college-education`}
+            exact
+            component={CollegeEducation}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/college-education/form`}
+            exact
+            component={CollegeEducationForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/college-education/form/:id`}
+            exact
+            component={CollegeEducationForm}
+          />
+          <PrivateRoute path={`${url}/curriculumvitae/other-education`} exact component={Home} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-experience`}
+            exact
+            component={WorkExperience}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-experience/form`}
+            exact
+            component={WorkExperienceForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-experience/form/:id`}
+            component={WorkExperienceForm}
+          />
+          <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
+          <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={TimeRange} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/time-range/form`}
+            exact
+            component={TimeRangeForm}
+          />
+          <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
+          <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
+          <PrivateRoute path={`${url}/curriculumvitae/`}>
+            <Redirect to={`${url}/curriculumvitae/personal-information`} />
+          </PrivateRoute>
+          <Redirect to={`${url}/home`} />
+        </Switch>
+      </div>
     </Layout>
   );
 };
