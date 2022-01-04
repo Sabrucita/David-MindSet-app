@@ -1,5 +1,5 @@
 import { url } from 'constants/index';
-import { showModal, updateModal } from 'redux/modal/actions';
+import { hideModal, showModal, updateModal } from 'redux/modal/actions';
 import {
   getCandidateByIdFetching,
   getCandidateByIdFullfilled,
@@ -216,7 +216,8 @@ export const getCandidateById = (id) => {
             education: data.education,
             experiences: data.experiences,
             courses: data.courses,
-            address: { street: data.address.street, number: data.address.number }
+            address: { street: data.address.street, number: data.address.number },
+            timeRange: data.timeRange
           };
           return dispatch(getCandidateByIdFullfilled(currentData));
         }
@@ -254,6 +255,64 @@ export const updateCandidates = (id, candidate) => {
       .catch((err) => {
         dispatch(updateCandidatesRejected(err));
         dispatch(showModal('candidates', 'error', err.message));
+      });
+  };
+};
+
+//UPDATE TIME RANGE
+export const updateTimeRange = (candidate) => {
+  return (dispatch) => {
+    dispatch(updateCandidatesFetching());
+    dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updateCandidatesFullfilled(data));
+          return dispatch(showModal('Availability Time Rangess', 'update'));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Availability Time Rangess', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Availability Time Rangess', 'error', err.message));
+      });
+  };
+};
+
+//UPDATE OPEN TO WORK
+export const updateOpenToWork = (candidate) => {
+  return (dispatch) => {
+    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+      method: 'PUT',
+      body: JSON.stringify(candidate),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(hideModal());
+          return dispatch(updateCandidatesFullfilled(data));
+        }
+        const data = await res.json();
+        dispatch(updateCandidatesRejected(data));
+        dispatch(showModal('Availabilitys', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updateCandidatesRejected(err));
+        dispatch(showModal('Availabilitys', 'error', err.message));
       });
   };
 };

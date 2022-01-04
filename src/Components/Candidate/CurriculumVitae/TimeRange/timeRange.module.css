@@ -5,25 +5,9 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 1200px;
+  margin: auto;
 }
-
-.container p{
-  text-align: center;
-}
-
-.container h1 {
-  width: 100%;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px rgb(191, 191, 191) solid;
-  font-size: 30px;
-  margin-top: 0;
-}
-
 .title {
   width: 100%;
   margin-bottom: 20px;
@@ -50,39 +34,10 @@
 .buttonGreen:hover {
   background-color: rgb(88, 88, 88);
 }
-.boxesContainer {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  width: 100%;
-}
-.boxContainer {
-  display: flex;
-  width: 30%;
-}
-.boxContainer ul {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0 0 10px;
-  padding: 10px;
-  border: 1px solid black;
-}
-.boxItem {
+.btnContainer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-.boxItem span{
-  margin: 10px 0;
-}
-.actions{
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-}
-.actions button{
-  margin-bottom: 10px;
+  width: 100%;
 }
 .addMore{
   text-decoration: none;
@@ -93,8 +48,23 @@
   font-style: italic;
   text-decoration: none;
 }
-.btnContainer {
-  display: flex;
-  justify-content: space-between;
+.tableContainer{
   width: 100%;
+  padding: 20px;
+  border: 1px solid gray;
+  text-align: center;
+}
+.tableContainer table{
+  margin: 0 auto 20px;
+}
+.tableContainer thead{
+  font-weight: bold;
+}
+
+.tableContainer table td{
+  padding: 10px;
+  margin: 10px;
+}
+.tableContainer table tbody td{
+  border: 1px solid gray;
 }

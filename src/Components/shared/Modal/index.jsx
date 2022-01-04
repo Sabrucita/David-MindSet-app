@@ -49,6 +49,9 @@ function Modal({ acceptModalFn, history }) {
       case 'signUp':
         setTitle(`Sign Up info:`);
         break;
+      case 'availability':
+        setTitle(`Are you sure?`);
+        break;
     }
   }, [type]);
 
@@ -64,7 +67,7 @@ function Modal({ acceptModalFn, history }) {
     if (type === 'signUp') return history.push('/auth/login');
   };
 
-  if (type === 'error' || type === 'login' || type === 'signUp') {
+  if (type === 'error' || type === 'login' || type === 'signUp' || type === 'availability') {
     modalContent = <p>{content}</p>;
     for (const property in content) {
       dataContent.push(content[property]);
@@ -93,17 +96,17 @@ function Modal({ acceptModalFn, history }) {
           </div>
         )}
         <div className={styles.buttonModal}>
-          {type === 'delete' && (
+          {(type === 'delete' || type === 'availability') && (
             <button className={styles.modalOk} onClick={acceptModalFn}>
               ACCEPT
             </button>
           )}
-          {type === 'delete' && (
+          {(type === 'delete' || type === 'availability') && (
             <button className={styles.modalCancel} onClick={closeModalFn}>
               CANCEL
             </button>
           )}
-          {type !== 'delete' && type !== 'fetching' && (
+          {type !== 'delete' && type !== 'fetching' && type !== 'availability' && (
             <button className={styles.modalOkConfirm} onClick={closeModalFn}>
               OK
             </button>
