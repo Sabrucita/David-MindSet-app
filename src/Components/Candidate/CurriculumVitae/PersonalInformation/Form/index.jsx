@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 function PersonalInformationForm() {
   const dispatch = useDispatch();
-  const formData = useSelector((store) => store.candidates.selectedElement);
+  const formData = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
 
   const userAuth = useSelector((store) => store.auth.user);

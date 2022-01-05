@@ -9,8 +9,8 @@ import styles from './workExperience.module.css';
 
 function WorkExperience() {
   const dispatch = useDispatch();
-  const candidates = useSelector((store) => store.candidates);
-  const candidate = useSelector((store) => store.candidates.selectedElement);
+  const candidates = useSelector((store) => store.candidateProfile);
+  const candidate = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
   const [selectedExperience, setSelectedExperience] = useState({});
   const { url } = useRouteMatch();

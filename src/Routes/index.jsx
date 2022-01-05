@@ -5,6 +5,7 @@ import { tokenListener } from 'helpers/firebase';
 const PublicRoutes = lazy(() => import('Routes/public'));
 const CandidateRoutes = lazy(() => import('Routes/candidate'));
 const AdminRoutes = lazy(() => import('Routes/admin'));
+const PsychologistRoutes = lazy(() => import('Routes/psychologist'));
 const AuthRoutes = lazy(() => import('Routes/auth'));
 
 const Routes = () => {
@@ -19,6 +20,7 @@ const Routes = () => {
           <Route path="/home" component={PublicRoutes} />
           <Route path="/candidate" component={CandidateRoutes} />
           <Route path="/admin" component={AdminRoutes} />
+          <Route path="/psychologist" component={PsychologistRoutes} />
           <Route path="/auth" component={AuthRoutes} />
           <Redirect to="/home" />
         </Switch>

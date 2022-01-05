@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 function OtherEducation({ match }) {
   const dispatch = useDispatch();
-  const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
+  const selectedCandidate = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
   const [selectedEducation, setSelectedEducation] = useState({});
 

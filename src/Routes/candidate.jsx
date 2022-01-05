@@ -17,14 +17,14 @@ import WorkProfile from 'Components/Candidate/CurriculumVitae/WorkProfile';
 import availableDates from 'Components/Candidate/CurriculumVitae/WorkProfile/AvailableDates';
 import TimeRange from 'Components/Candidate/CurriculumVitae/TimeRange';
 import TimeRangeForm from 'Components/Candidate/CurriculumVitae/TimeRange/Form';
+import Availability from 'Components/Candidate/Profile/Availability';
+import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
+import Profile from 'Components/Candidate/Profile';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from 'Components/shared/Sidebar';
-import Profile from 'Components/Candidate/Profile';
-import Availability from 'Components/Candidate/Profile/Availability';
-import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
 import styles from './routes.module.css';
 
 const candidatesRoutes = [
