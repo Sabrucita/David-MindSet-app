@@ -6,7 +6,10 @@ import {
   getCandidateByIdRejected,
   updateCandidatesFetching,
   updateCandidatesFullfilled,
-  updateCandidatesRejected
+  updateCandidatesRejected,
+  getPositionsFetching,
+  getPositionsFulfilled,
+  getPositionsRejected
 } from './actions';
 
 //delete other education
@@ -313,6 +316,22 @@ export const updateOpenToWork = (candidate) => {
       .catch((err) => {
         dispatch(updateCandidatesRejected(err));
         dispatch(showModal('Availabilitys', 'error', err.message));
+      });
+  };
+};
+
+//GET ALL POSITIONS
+export const getPositions = () => {
+  return (dispatch) => {
+    dispatch(getPositionsFetching());
+    fetch(`${url}/open-positions`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getPositionsFulfilled(data));
+      })
+      .catch((err) => {
+        dispatch(getPositionsRejected());
+        dispatch(showModal('positions', 'error', err.message));
       });
   };
 };

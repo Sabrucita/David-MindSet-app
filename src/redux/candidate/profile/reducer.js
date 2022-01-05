@@ -14,6 +14,9 @@ import {
   DELETE_CANDIDATES_FETCHING,
   DELETE_CANDIDATES_FULLFILLED,
   DELETE_CANDIDATES_REJECTED,
+  GET_POSITIONS_FETCHING,
+  GET_POSITIONS_FULFILLED,
+  GET_POSITIONS_REJECTED,
   CANDIDATES_CLEANUP
 } from 'constants/index';
 
@@ -138,6 +141,26 @@ const reducer = (state = initialState, action) => {
     default: {
       return state;
     }
+    // GET POSITIONS
+    case GET_POSITIONS_FETCHING:
+      return {
+        ...state,
+        isFetching: true,
+        selectedElement: {},
+        error: false
+      };
+    case GET_POSITIONS_FULFILLED:
+      return {
+        ...state,
+        isFetching: false,
+        list: action.payload
+      };
+    case GET_POSITIONS_REJECTED:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      };
   }
 };
 

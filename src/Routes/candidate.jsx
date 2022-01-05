@@ -23,6 +23,7 @@ import Sidebar from 'Components/shared/Sidebar';
 import styles from './routes.module.css';
 import Availability from 'Components/Candidate/Profile/Availability';
 import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
+import JobOpportunities from 'Components/Candidate/Profile/JobOpportunites';
 
 const candidatesRoutes = [
   { name: 'Home', path: '/candidate' },
@@ -33,7 +34,8 @@ const candidatesRoutes = [
   { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
   { name: 'Work Profile', path: '/candidate/curriculumvitae/work-profile' },
-  { name: 'Availability', path: '/candidate/profile/availability' }
+  { name: 'Availability', path: '/candidate/profile/availability' },
+  { name: 'Job Opportunities', path: '/candidate/profile/job-opportunities' }
 ];
 
 const CandidatesRoutes = () => {
@@ -142,6 +144,7 @@ const CandidatesRoutes = () => {
           />
           <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
           <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
+          <PrivateRoute path={`${url}/profile/job-opportunities`} component={JobOpportunities} />
           <PrivateRoute path={`${url}/curriculumvitae/`}>
             <Redirect to={`${url}/curriculumvitae/personal-information`} />
           </PrivateRoute>

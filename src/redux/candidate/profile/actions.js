@@ -5,8 +5,29 @@ import {
   UPDATE_CANDIDATES_FETCHING,
   UPDATE_CANDIDATES_FULLFILLED,
   UPDATE_CANDIDATES_REJECTED,
-  CANDIDATES_CLEANUP
+  CANDIDATES_CLEANUP,
+  GET_POSITIONS_FETCHING,
+  GET_POSITIONS_FULFILLED,
+  GET_POSITIONS_REJECTED
 } from 'constants/index';
+
+// GET POSITIONS
+export const getPositionsFetching = () => {
+  return {
+    type: GET_POSITIONS_FETCHING
+  };
+};
+export const getPositionsFulfilled = (payload) => {
+  return {
+    type: GET_POSITIONS_FULFILLED,
+    payload
+  };
+};
+export const getPositionsRejected = () => {
+  return {
+    type: GET_POSITIONS_REJECTED
+  };
+};
 
 //Get Candidates By ID
 export const getCandidateByIdFetching = () => ({
