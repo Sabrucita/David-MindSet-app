@@ -39,7 +39,7 @@
   .buttonGreen:hover {
     background-color: rgb(88, 88, 88);
   }
-  
+
   .buttonAdd {
     display: inline-flex;
     align-self: flex-end;
@@ -53,7 +53,7 @@
     cursor: not-allowed;
   }
   .form fieldset {
-    width: 50%;
+    width: 100%;
     padding: 10px 40px;
     margin: 0;
     border: none;
@@ -62,6 +62,7 @@
   .form label {
     display: block;
     padding: 10px 5px;
+    text-align: center;
   }
   .form input,
   .form select {

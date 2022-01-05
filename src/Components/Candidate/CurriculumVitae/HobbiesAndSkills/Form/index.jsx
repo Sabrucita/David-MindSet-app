@@ -12,9 +12,9 @@ function Hobbies({ match }) {
   const dispatch = useDispatch();
   const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-  const [selectedHobbie, setSelectedHobbie] = useState({});
+  const [selectedHobby, setSelectedHobby] = useState({});
 
-  const idEducation = match.params.id;
+  const idHobbySkill = match.params.id;
 
   const userAuth = useSelector((store) => store.auth.user);
   const id = userAuth._id;
@@ -24,17 +24,17 @@ function Hobbies({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (idEducation && selectedCandidate.idCandidate) {
-      const hobbies = selectedCandidate.hobbies.find((element) => element._id === idEducation);
-      setSelectedHobbie(hobbies);
+    if (idHobbySkill && selectedCandidate.idCandidate) {
+      const hobbies = selectedCandidate.hobbies.find((element) => element._id === idHobbySkill);
+      setSelectedHobby(hobbies);
     }
   }, [selectedCandidate.idCandidate]);
 
   const submitForm = (formValues) => {
-    if (idEducation) {
-      formValues._id = idEducation;
+    if (idHobbySkill) {
+      formValues._id = idHobbySkill;
       selectedCandidate.hobbies = selectedCandidate.hobbies.map((element) => {
-        if (element._id === idEducation) return formValues;
+        if (element._id === idHobbySkill) return formValues;
         return element;
       });
       return dispatch(updateHobbies(selectedCandidate));
@@ -52,21 +52,21 @@ function Hobbies({ match }) {
     <>
       {modal && <Modal acceptModalFn />}
       <section className={styles.container}>
-        {!idEducation ? (
-          <h2 className={styles.mainTitle}>Add Hobbie or Skill</h2>
+        {!idHobbySkill ? (
+          <h2 className={styles.mainTitle}>Add Hobby or Skill</h2>
         ) : (
-          <h2 className={styles.mainTitle}>Edit Hobbie or Skill</h2>
+          <h2 className={styles.mainTitle}>Edit Hobby or Skill</h2>
         )}
         <div className={styles.item}>
           <Form
             onSubmit={submitForm}
-            initialValues={selectedHobbie}
+            initialValues={selectedHobby}
             validate={validate}
             render={({ handleSubmit, submitting, pristine }) => (
               <form className={styles.form} onSubmit={handleSubmit}>
                 <Field
                   name="hobbies"
-                  label="Hobbie or Skill"
+                  label="Hobby or Skill"
                   element="input"
                   type="text"
                   component={Fieldset}

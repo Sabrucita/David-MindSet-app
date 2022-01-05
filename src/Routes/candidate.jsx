@@ -34,7 +34,6 @@ const candidatesRoutes = [
   { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Hobbies & Skills', path: '/candidate/curriculumvitae/hobbies-and-skills' },
   { name: 'Other Education & Languages', path: '/candidate/curriculumvitae/other-education' },
-  { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
   { name: 'Work Profile', path: '/candidate/curriculumvitae/work-profile' },
   { name: 'Availability', path: '/candidate/profile/availability' }
