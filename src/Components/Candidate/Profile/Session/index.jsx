@@ -8,7 +8,7 @@ import styles from './session.module.css';
 
 function Session() {
   const dispatch = useDispatch();
-  const scheduledSession = useSelector((store) => store.candidateSessions.scheduledSession);
+  const scheduledSession = useSelector((store) => store.candidateProfileessions.scheduledSession);
   const modal = useSelector((store) => store.modal.show);
   const [selectedSession, setSelectedSession] = useState({});
   const candidateId = useSelector((store) => store.auth.user._id);

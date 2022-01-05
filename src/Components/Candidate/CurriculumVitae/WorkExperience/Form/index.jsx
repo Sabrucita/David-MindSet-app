@@ -10,7 +10,7 @@ import styles from './form.module.css';
 
 function WorkExperienceForm({ match }) {
   const dispatch = useDispatch();
-  const candidate = useSelector((store) => store.candidates.selectedElement);
+  const candidate = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
   const [experience, setExperience] = useState({});
 

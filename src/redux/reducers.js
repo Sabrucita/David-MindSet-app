@@ -9,7 +9,12 @@ import sessionsReducer from './admin/sessions/reducer';
 import interviewReducer from './admin/interviews/reducer';
 import companiesReducer from './admin/companies/reducer';
 //CANDIDATE
+import candidateProfileReducer from './candidate/profile/reducer';
 import candidateSessionsReducer from './candidate/sessions/reducer';
+//PSYCHOLOGIST
+// import psychologistProfileReducer from './psychologist/profile/reducer';
+// import psychologistCandidateReducer from './psychologist/session/reducer';
+// import psychologistSessionsReducer from './psychologist/session/reducer';
 //SHARED
 import authReducer from './auth/reducer';
 import modalReducer from './modal/reducer';
@@ -27,7 +32,12 @@ const reducer = combineReducers({
   interviews: interviewReducer,
   companies: companiesReducer,
   //CANDIDATE
+  candidateProfile: candidateProfileReducer,
   candidateSessions: candidateSessionsReducer,
+  //PSYCHOLOGIST
+  // psychologistProfile: psychologistProfileReducer,
+  // psychologistCandidate: psychologistCandidateReducer,
+  // psychologistSessions: psychologistSessionsReducer,
   //SHARED
   modal: modalReducer,
   auth: authReducer

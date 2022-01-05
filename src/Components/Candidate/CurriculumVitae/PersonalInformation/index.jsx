@@ -8,9 +8,9 @@ import styles from './personal-information-list.module.css';
 
 function PersonalInformationList() {
   const dispatch = useDispatch();
-  const candidate = useSelector((store) => store.candidates.selectedElement);
+  const candidate = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
-  const candidates = useSelector((store) => store.candidates);
+  const candidates = useSelector((store) => store.candidateProfile);
   const { url } = useRouteMatch();
 
   const userAuth = useSelector((store) => store.auth.user);

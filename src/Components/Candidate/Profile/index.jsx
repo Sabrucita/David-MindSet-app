@@ -8,9 +8,9 @@ import styles from './profile.module.css';
 
 function Profile() {
   const dispatch = useDispatch();
-  const candidates = useSelector((store) => store.candidates);
+  const candidates = useSelector((store) => store.candidateProfile);
   const hasPendingSession = useSelector(
-    (store) => store.candidates.selectedElement.hasPendingSession
+    (store) => store.candidateProfile.selectedElement.hasPendingSession
   );
 
   const userAuth = useSelector((store) => store.auth.user);

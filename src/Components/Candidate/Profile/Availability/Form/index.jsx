@@ -15,7 +15,7 @@ function AvailabilityForm() {
   const [friday, setFriday] = useState();
 
   const dispatch = useDispatch();
-  const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
+  const selectedCandidate = useSelector((store) => store.candidateProfile.selectedElement);
   const modal = useSelector((store) => store.modal.show);
 
   const userAuth = useSelector((store) => store.auth.user);

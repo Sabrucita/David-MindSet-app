@@ -10,8 +10,8 @@ import { showModal } from 'redux/modal/actions';
 
 function Availability() {
   const dispatch = useDispatch();
-  const selectedCandidate = useSelector((store) => store.candidates.selectedElement);
-  const candidates = useSelector((store) => store.candidates);
+  const selectedCandidate = useSelector((store) => store.candidateProfile.selectedElement);
+  const candidates = useSelector((store) => store.candidateProfile);
   const modal = useSelector((state) => state.modal.show);
   const { url } = useRouteMatch();
 

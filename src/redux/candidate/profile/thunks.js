@@ -15,7 +15,7 @@ export const deleteOtherEducation = (idCandidate, candidate, idEducation) => {
     dispatch(showModal('Other Educations', 'fetching', { info: 'Loading...' }));
     candidate.courses = candidate.courses.filter((element) => element._id !== idEducation);
 
-    fetch(`${url}/candidates/${idCandidate}`, {
+    fetch(`${url}/candidate/profile/${idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -46,7 +46,7 @@ export const createOtherEducation = (candidate, newEducation, type) => {
     newEducation.type = type;
     candidate.courses.push(newEducation);
 
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -74,7 +74,7 @@ export const createOtherEducation = (candidate, newEducation, type) => {
 export const updateOtherEducation = (candidate) => {
   return (dispatch) => {
     dispatch(showModal('Other Educations', 'fetching', { info: 'Loading...' }));
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -105,7 +105,7 @@ export const deleteHobbies = (idCandidate, candidate, idEducation) => {
     dispatch(showModal('Hobbies and Skills', 'fetching', { info: 'Loading...' }));
     candidate.hobbies = candidate.hobbies.filter((element) => element._id !== idEducation);
 
-    fetch(`${url}/candidates/${idCandidate}`, {
+    fetch(`${url}/candidate/profile/${idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -137,7 +137,7 @@ export const createHobbies = (candidate, newHobbie, type) => {
     newHobbie.type = type;
     candidate.hobbies.push(newHobbie);
 
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -165,7 +165,7 @@ export const createHobbies = (candidate, newHobbie, type) => {
 export const updateHobbies = (candidate) => {
   return (dispatch) => {
     dispatch(showModal('Hobbies and Skills', 'fetching', { info: 'Loading...' }));
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -196,7 +196,7 @@ export const deleteEducation = (idCandidate, candidate, idEducation) => {
     dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
     candidate.education = candidate.education.filter((element) => element._id !== idEducation);
 
-    fetch(`${url}/candidates/${idCandidate}`, {
+    fetch(`${url}/candidate/profile/${idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -227,7 +227,7 @@ export const createEducation = (candidate, newEducation, type) => {
     newEducation.type = type;
     candidate.education.push(newEducation);
 
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -255,7 +255,7 @@ export const createEducation = (candidate, newEducation, type) => {
 export const updateEducation = (candidate) => {
   return (dispatch) => {
     dispatch(showModal('Educations', 'fetching', { info: 'Loading...' }));
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -284,7 +284,7 @@ export const updateEducation = (candidate) => {
 export const getCandidateById = (id) => {
   return (dispatch) => {
     dispatch(getCandidateByIdFetching());
-    fetch(`${url}/candidates/${id}`, { headers: { token: sessionStorage.getItem('token') } })
+    fetch(`${url}/candidate/profile/${id}`, { headers: { token: sessionStorage.getItem('token') } })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
@@ -325,7 +325,7 @@ export const updateCandidates = (id, candidate) => {
   return (dispatch) => {
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
-    fetch(`${url}/candidates/${id}`, {
+    fetch(`${url}/candidate/profile/${id}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -356,7 +356,7 @@ export const updateTimeRange = (candidate) => {
   return (dispatch) => {
     dispatch(updateCandidatesFetching());
     dispatch(showModal('candidates', 'fetching', { info: 'Loading...' }));
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
@@ -384,7 +384,7 @@ export const updateTimeRange = (candidate) => {
 //UPDATE OPEN TO WORK
 export const updateOpenToWork = (candidate) => {
   return (dispatch) => {
-    fetch(`${url}/candidates/${candidate.idCandidate}`, {
+    fetch(`${url}/candidate/profile/${candidate.idCandidate}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
       headers: {
