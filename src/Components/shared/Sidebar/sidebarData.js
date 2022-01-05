@@ -1,5 +1,9 @@
 const sidebarCandidate = [
   {
+    title: 'Profile',
+    path: '/candidate/profile'
+  },
+  {
     title: 'Curriculum Vitae',
     path: '#',
     subNav: [

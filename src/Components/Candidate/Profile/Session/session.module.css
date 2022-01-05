@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.title {
+  width: 100%;
+  font-size: 22px;
+}
+.sessionContainer {
+  display: flex;
+  width: 30%;
+}
+.sessionContainer ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+.sessionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sessionItem span {
+  margin: 10px 0;
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+.actions button {
+  margin-bottom: 10px;
+}
+.addMore {
+  margin: 20px 0 0;
+  text-decoration: none;
+}
+.addMore span {
+  color: green;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+}
