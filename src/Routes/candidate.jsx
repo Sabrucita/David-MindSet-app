@@ -20,9 +20,10 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from 'Components/shared/Sidebar';
-import styles from './routes.module.css';
+import Profile from 'Components/Candidate/Profile';
 import Availability from 'Components/Candidate/Profile/Availability';
 import AvailabilityForm from 'Components/Candidate/Profile/Availability/Form';
+import styles from './routes.module.css';
 
 const candidatesRoutes = [
   { name: 'Home', path: '/candidate' },
@@ -140,6 +141,11 @@ const CandidatesRoutes = () => {
             exact
             component={availableDates}
           />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/work-profile/available-dates/:id`}
+            component={availableDates}
+          />
+          <PrivateRoute path={`${url}/profile`} exact component={Profile} />
           <PrivateRoute path={`${url}/profile/availability`} exact component={Availability} />
           <PrivateRoute path={`${url}/profile/availability/form/`} component={AvailabilityForm} />
           <PrivateRoute path={`${url}/curriculumvitae/`}>

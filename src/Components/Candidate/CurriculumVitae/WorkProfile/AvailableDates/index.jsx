@@ -4,21 +4,26 @@ import { Link } from 'react-router-dom';
 import Modal from 'Components/shared/Modal';
 import CalendarDay from './CalendarDay';
 import styles from './availableDates.module.css';
-import { createSession, getAvailableDates } from 'redux/candidate/sessions/thunks';
+import { createSession, updateSession, getAvailableDates } from 'redux/candidate/sessions/thunks';
+import Preloader from 'Components/shared/Preloader';
 
-function AvailableDates() {
+function AvailableDates({ match }) {
   const dispatch = useDispatch();
+  const sessions = useSelector((store) => store.candidateSessions);
   const dates = useSelector((store) => store.candidateSessions.list);
   const currentWeek = useSelector((store) => store.candidateSessions.currentWeek);
   const selectedSession = useSelector((store) => store.candidateSessions.selectedSession);
   const modal = useSelector((store) => store.modal.show);
+
+  const sessionId = match.params.id;
 
   useEffect(() => {
     dispatch(getAvailableDates());
   }, [dispatch]);
 
   const createSessionFn = () => {
-    dispatch(createSession(selectedSession));
+    if (sessionId) dispatch(updateSession(sessionId, selectedSession));
+    else dispatch(createSession(selectedSession));
   };
 
   const getAvailableHours = (currentDay) => {
@@ -41,11 +46,21 @@ function AvailableDates() {
       {modal && <Modal acceptModalFn={createSessionFn} />}
       <section className={styles.container}>
         <h2 className={styles.title}>Available Dates</h2>
-        {currentWeek.map((day) => getAvailableHours(day))}
+        {sessions.isFetching ? (
+          <Preloader />
+        ) : (
+          <>{currentWeek.map((day) => getAvailableHours(day))}</>
+        )}
         <div className={styles.btnContainer}>
-          <Link to="/candidate/curriculumvitae/work-profile" className={styles.buttonAdd}>
-            <span className={styles.buttonGreen}>GO BACK</span>
-          </Link>
+          {sessionId ? (
+            <Link to="/candidate/profile" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>GO BACK</span>
+            </Link>
+          ) : (
+            <Link to="/candidate/curriculumvitae/work-profile" className={styles.buttonAdd}>
+              <span className={styles.buttonGreen}>GO BACK</span>
+            </Link>
+          )}
         </div>
       </section>
     </>
