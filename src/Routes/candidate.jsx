@@ -11,6 +11,8 @@ import OtherEducation from 'Components/Candidate/CurriculumVitae/OtherEducation'
 import OtherEducationForm from 'Components/Candidate/CurriculumVitae/OtherEducation/Form';
 import WorkExperience from 'Components/Candidate/CurriculumVitae/WorkExperience';
 import WorkExperienceForm from 'Components/Candidate/CurriculumVitae/WorkExperience/Form';
+import Hobbies from 'Components/Candidate/CurriculumVitae/HobbiesAndSkills';
+import HobbiesForm from 'Components/Candidate/CurriculumVitae/HobbiesAndSkills/Form';
 import WorkProfile from 'Components/Candidate/CurriculumVitae/WorkProfile';
 import availableDates from 'Components/Candidate/CurriculumVitae/WorkProfile/AvailableDates';
 import TimeRange from 'Components/Candidate/CurriculumVitae/TimeRange';
@@ -30,8 +32,9 @@ const candidatesRoutes = [
   { name: 'Personal Information', path: '/candidate/curriculumvitae/personal-information' },
   { name: 'Basic Education', path: '/candidate/curriculumvitae/basic-education' },
   { name: 'College Education & plus', path: '/candidate/curriculumvitae/college-education' },
+  { name: 'work experience', path: '/candidate/curriculumvitae/work-experience' },
+  { name: 'Hobbies & Skills', path: '/candidate/curriculumvitae/hobbies-and-skills' },
   { name: 'Other Education & Languages', path: '/candidate/curriculumvitae/other-education' },
-  { name: 'Work Experience', path: '/candidate/curriculumvitae/work-experience' },
   { name: 'Time Range', path: '/candidate/curriculumvitae/time-range/form' },
   { name: 'Work Profile', path: '/candidate/curriculumvitae/work-profile' },
   { name: 'Availability', path: '/candidate/profile/availability' }
@@ -124,7 +127,21 @@ const CandidatesRoutes = () => {
             path={`${url}/curriculumvitae/work-experience/form/:id`}
             component={WorkExperienceForm}
           />
-          <PrivateRoute path={`${url}/curriculumvitae/hobbies`} exact component={Home} />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/hobbies-and-skills`}
+            exact
+            component={Hobbies}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/hobbies-and-skills/form`}
+            exact
+            component={HobbiesForm}
+          />
+          <PrivateRoute
+            path={`${url}/curriculumvitae/hobbies-and-skills/form/:id`}
+            exact
+            component={HobbiesForm}
+          />
           <PrivateRoute path={`${url}/curriculumvitae/time-range`} exact component={TimeRange} />
           <PrivateRoute
             path={`${url}/curriculumvitae/time-range/form`}
