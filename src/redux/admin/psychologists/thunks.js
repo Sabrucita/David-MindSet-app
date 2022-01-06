@@ -24,7 +24,12 @@ import {
 export const getPsychologist = (id) => {
   return (dispatch) => {
     dispatch(getPsychologistFetching());
-    fetch(`${url}/psychologists/${id}`)
+    fetch(`${url}/admin/psychologists/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
@@ -47,7 +52,12 @@ export const getPsychologist = (id) => {
 export const getPsychologists = () => {
   return (dispatch) => {
     dispatch(getPsychologistsFetching());
-    fetch(`${url}/psychologists`)
+    fetch(`${url}/admin/psychologists`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         dispatch(getPsychologistsFulfilled(data));
@@ -64,8 +74,12 @@ export const deletePsychologist = (id) => {
   return (dispatch) => {
     dispatch(deletePsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists/${id}`, {
-      method: 'DELETE'
+    fetch(`${url}/admin/psychologists/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         if (response.status === 200) {
@@ -89,7 +103,7 @@ export const createPsychologist = (psychologist) => {
   return (dispatch) => {
     dispatch(createPsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists`, {
+    fetch(`${url}/admin/psychologists`, {
       method: 'POST',
       body: JSON.stringify({
         firstName: psychologist.firstName,
@@ -98,7 +112,8 @@ export const createPsychologist = (psychologist) => {
         password: psychologist.password
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {
@@ -124,7 +139,7 @@ export const updatePsychologist = (id, psychologist) => {
   return (dispatch) => {
     dispatch(updatePsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists/${id}`, {
+    fetch(`${url}/admin/psychologists/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         firstName: psychologist.firstName,
@@ -133,7 +148,8 @@ export const updatePsychologist = (id, psychologist) => {
         password: psychologist.password
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {
@@ -149,6 +165,36 @@ export const updatePsychologist = (id, psychologist) => {
       .catch((err) => {
         dispatch(updatePsychologistRejected(err));
         dispatch(showModal('psychologists', 'error', err.message));
+      });
+  };
+};
+
+//Update IsActive
+
+export const updateIsActive = (psychologist) => {
+  return (dispatch) => {
+    dispatch(updatePsychologistFetching());
+    fetch(`${url}/admin/psychologists/${psychologist.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(psychologist),
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          dispatch(updatePsychologistFulfilled(data));
+          return dispatch(showModal('Is Active Propertys', 'update'));
+        }
+        const data = await res.json();
+        dispatch(updatePsychologistRejected(data));
+        dispatch(showModal('Is Active Propertys', 'error', data.msg));
+      })
+      .catch((err) => {
+        dispatch(updatePsychologistRejected(err));
+        dispatch(showModal('Is Active Propertys', 'error', err.message));
       });
   };
 };

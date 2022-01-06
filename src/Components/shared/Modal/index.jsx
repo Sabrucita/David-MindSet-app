@@ -6,7 +6,7 @@ import { capitalize, removeLastChar, getBaseUrl } from 'helpers';
 import Preloader from '../Preloader';
 import styles from './modal.module.css';
 
-function Modal({ acceptModalFn, history }) {
+function Modal({ acceptModalFn, secondAcceptModalFn, history }) {
   const dispatch = useDispatch();
   const resource = useSelector((store) => store.modal.resource);
   const type = useSelector((store) => store.modal.type);
@@ -59,6 +59,16 @@ function Modal({ acceptModalFn, history }) {
         break;
       case 'availability':
         setTitle(`Are you sure?`);
+        break;
+      case 'changeIsNotActive':
+        setTitle(
+          `Are you sure that you want to disable this ${removeLastChar(capitalize(resource))}?`
+        );
+        break;
+      case 'changeIsActive':
+        setTitle(
+          `Are you sure that you want to activate this ${removeLastChar(capitalize(resource))}?`
+        );
         break;
     }
   }, [type]);
@@ -115,10 +125,17 @@ function Modal({ acceptModalFn, history }) {
               ACCEPT
             </button>
           )}
+          {(type === 'changeIsActive' || type === 'changeIsNotActive') && (
+            <button className={styles.modalOk} onClick={secondAcceptModalFn}>
+              ACCEPT
+            </button>
+          )}
           {(type === 'delete' ||
             type === 'session' ||
             type === 'skip' ||
-            type === 'availability') && (
+            type === 'availability' ||
+            type === 'changeIsActive' ||
+            type === 'changeIsNotActive') && (
             <button className={styles.modalCancel} onClick={closeModalFn}>
               CANCEL
             </button>
@@ -127,7 +144,9 @@ function Modal({ acceptModalFn, history }) {
             type !== 'fetching' &&
             type !== 'session' &&
             type !== 'skip' &&
-            type !== 'availability' && (
+            type !== 'availability' &&
+            type !== 'changeIsActive' &&
+            type !== 'changeIsNotActive' && (
               <button className={styles.modalOkConfirm} onClick={closeModalFn}>
                 OK
               </button>

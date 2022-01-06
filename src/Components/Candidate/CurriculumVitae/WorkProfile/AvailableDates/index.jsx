@@ -9,10 +9,10 @@ import Preloader from 'Components/shared/Preloader';
 
 function AvailableDates({ match }) {
   const dispatch = useDispatch();
-  const sessions = useSelector((store) => store.candidateProfileessions);
-  const dates = useSelector((store) => store.candidateProfileessions.list);
-  const currentWeek = useSelector((store) => store.candidateProfileessions.currentWeek);
-  const selectedSession = useSelector((store) => store.candidateProfileessions.selectedSession);
+  const sessions = useSelector((store) => store.candidateSessions);
+  const dates = useSelector((store) => store.candidateSessions.list);
+  const currentWeek = useSelector((store) => store.candidateSessions.currentWeek);
+  const selectedSession = useSelector((store) => store.candidateSessions.selectedSession);
   const modal = useSelector((store) => store.modal.show);
 
   const sessionId = match.params.id;

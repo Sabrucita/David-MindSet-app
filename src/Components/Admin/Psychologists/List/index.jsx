@@ -22,17 +22,21 @@ function List({ header, data, openModal }) {
                   firstName: element.firstName,
                   lastName: element.lastName,
                   email: element.email,
-                  password: element.password
+                  isActive: element.isActive === true ? 'YES' : 'NO'
                 }}
                 dataElement={{
                   id: element._id,
                   firstName: element.firstName,
                   lastName: element.lastName,
                   email: element.email,
-                  password: element.password
+                  isActive: element.isActive
                 }}
                 openModal={openModal}
                 missingData={element._id === null || element._id === null}
+                remove={true}
+                edit={true}
+                switchActive={true}
+                viewMore={true}
               />
             );
           })}
