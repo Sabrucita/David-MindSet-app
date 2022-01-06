@@ -4,9 +4,10 @@ import styles from './form.module.css';
 import { useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAdmin, updateAdmin, getAdmin } from 'redux/admin/admins/thunks';
+import { updateAdmin, getAdmin } from 'redux/admin/admins/thunks';
 import { adminsCleanUp } from 'redux/admin/admins/actions';
 import { validateText, validateEmail } from 'validations';
+import { Link } from 'react-router-dom';
 
 function AdminsForm({ match }) {
   const dispatch = useDispatch();
@@ -14,15 +15,9 @@ function AdminsForm({ match }) {
   const modal = useSelector((store) => store.modal.show);
 
   const id = match.params.id;
-  let operation;
-
-  if (id) operation = 'update';
-  else operation = 'create';
 
   useEffect(() => {
-    if (operation === 'update') {
-      dispatch(getAdmin(id));
-    }
+    dispatch(getAdmin(id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,29 +27,20 @@ function AdminsForm({ match }) {
   }, []);
 
   const submitForm = (formValues) => {
-    if (operation === 'create') {
-      dispatch(createAdmin(formValues));
-    } else {
-      dispatch(updateAdmin(id, formValues));
-    }
+    dispatch(updateAdmin(id, formValues));
   };
 
   const validate = (formValues) => {
     const errors = {};
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
     errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
-    errors.password = validateText(formValues.password, 'Password', 8, 16);
     errors.email = validateEmail(formValues.email);
     return errors;
   };
   return (
     <>
       <section className={styles.container}>
-        {operation === 'create' ? (
-          <h1 className={styles.mainTitle}>Add new administrator</h1>
-        ) : (
-          <h1 className={styles.mainTitle}>Edit administrator</h1>
-        )}
+        <h1 className={styles.mainTitle}>Edit administrator</h1>
         <Form
           onSubmit={submitForm}
           initialValues={formData}
@@ -75,15 +61,10 @@ function AdminsForm({ match }) {
                 type="text"
                 component={Fieldset}
               />
-              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
-              <Field
-                name="password"
-                label="Password"
-                element="input"
-                type="password"
-                component={Fieldset}
-              />
               <div className={styles.btnContainer}>
+                <Link to="/admin/admins" className={styles.buttonAdd}>
+                  <span className={styles.buttonGreen}>GO BACK</span>
+                </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"

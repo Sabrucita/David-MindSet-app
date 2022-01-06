@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import List from './List';
 import Modal from 'Components/shared/Modal';
-import { Link } from 'react-router-dom';
 import Preloader from 'Components/shared/Preloader/index';
 import { deleteAdmin, getAdmins } from 'redux/admin/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,7 +36,7 @@ function Admins() {
     dispatch(deleteAdmin(selectedItem.id));
   };
 
-  const tableHeader = ['First Name', 'Last Name', 'Email', 'Password', 'Actions'];
+  const tableHeader = ['First Name', 'Last Name', 'Email', 'Actions'];
 
   return (
     <>
@@ -49,9 +48,6 @@ function Admins() {
         ) : (
           <>
             <List data={admins.list} header={tableHeader} openModal={openModal} />
-            <Link to="/admin/admins/form" className={styles.buttonAdd}>
-              <span className={styles.buttonGreen}>ADD ADMINISTRATOR</span>
-            </Link>
           </>
         )}
       </section>

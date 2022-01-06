@@ -24,7 +24,12 @@ import {
 export const getPsychologist = (id) => {
   return (dispatch) => {
     dispatch(getPsychologistFetching());
-    fetch(`${url}/psychologists/${id}`)
+    fetch(`${url}/admin/psychologists/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
@@ -32,7 +37,7 @@ export const getPsychologist = (id) => {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
-            password: data.password
+            pictureUrl: data.pictureUrl
           };
           return dispatch(getPsychologistFulfilled(currentData));
         }
@@ -47,7 +52,12 @@ export const getPsychologist = (id) => {
 export const getPsychologists = () => {
   return (dispatch) => {
     dispatch(getPsychologistsFetching());
-    fetch(`${url}/psychologists`)
+    fetch(`${url}/admin/psychologists`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         dispatch(getPsychologistsFulfilled(data));
@@ -64,8 +74,12 @@ export const deletePsychologist = (id) => {
   return (dispatch) => {
     dispatch(deletePsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists/${id}`, {
-      method: 'DELETE'
+    fetch(`${url}/admin/psychologists/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         if (response.status === 200) {
@@ -89,16 +103,12 @@ export const createPsychologist = (psychologist) => {
   return (dispatch) => {
     dispatch(createPsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists`, {
+    fetch(`${url}/admin/psychologists`, {
       method: 'POST',
-      body: JSON.stringify({
-        firstName: psychologist.firstName,
-        lastName: psychologist.lastName,
-        email: psychologist.email,
-        password: psychologist.password
-      }),
+      body: JSON.stringify(psychologist),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {
@@ -109,7 +119,7 @@ export const createPsychologist = (psychologist) => {
         }
         const data = await res.json();
         dispatch(createPsychologistRejected(data));
-        dispatch(showModal('psychologists', 'error', data.msg));
+        dispatch(showModal('psychologists', 'error', data.msg || data.message));
       })
       .catch((err) => {
         dispatch(createPsychologistRejected(err));
@@ -124,16 +134,16 @@ export const updatePsychologist = (id, psychologist) => {
   return (dispatch) => {
     dispatch(updatePsychologistFetching());
     dispatch(showModal('psychologists', 'fetching'));
-    fetch(`${url}/psychologists/${id}`, {
+    fetch(`${url}/admin/psychologists/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         firstName: psychologist.firstName,
         lastName: psychologist.lastName,
-        email: psychologist.email,
-        password: psychologist.password
+        pictureUrl: psychologist.pictureUrl
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       }
     })
       .then(async (res) => {

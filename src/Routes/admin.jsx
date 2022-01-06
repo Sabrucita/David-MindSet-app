@@ -1,4 +1,4 @@
-import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
+import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Admins from 'Components/Admin/Admins';
 import AdminsForm from 'Components/Admin/Admins/Form';
 import Applications from 'Components/Admin/Applications';
@@ -55,7 +55,6 @@ const AdminRoutes = () => {
         <Switch>
           <PrivateRoute path={`${url}/home`} exact component={Home} />
           <PrivateRoute path={`${url}/admins`} exact component={Admins} />
-          <PrivateRoute path={`${url}/admins/form`} exact component={AdminsForm} />
           <PrivateRoute path={`${url}/admins/form/:id`} component={AdminsForm} />
           <PrivateRoute path={`${url}/applications`} exact component={Applications} />
           <PrivateRoute path={`${url}/applications/form`} exact component={ApplicationsForm} />

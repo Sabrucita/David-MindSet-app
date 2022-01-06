@@ -37,7 +37,7 @@ function Psychologists() {
     dispatch(deletePsychologist(selectedItem.id));
   };
 
-  const tableHeader = ['First Name', 'Last Name', 'Email', 'Password', 'Actions'];
+  const tableHeader = ['First Name', 'Last Name', 'Email', 'Actions'];
 
   return (
     <>

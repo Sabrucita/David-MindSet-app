@@ -21,15 +21,13 @@ function List({ header, data, openModal }) {
                 dataTable={{
                   firstName: element.firstName,
                   lastName: element.lastName,
-                  email: element.email,
-                  password: element.password
+                  email: element.email
                 }}
                 dataElement={{
                   id: element._id,
                   firstName: element.firstName,
                   lastName: element.lastName,
-                  email: element.email,
-                  password: element.password
+                  email: element.email
                 }}
                 openModal={openModal}
                 missingData={element._id === null || element._id === null}

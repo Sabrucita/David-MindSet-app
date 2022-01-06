@@ -21,21 +21,29 @@
   width: 100%;
   padding: 0px 40px 40px 40px;
 }
-.btnContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.buttonAdd {
+  display: inline-flex;
+  align-self: flex-end;
+  width: fit-content;
+  text-decoration: none;
 }
 .buttonGreen {
-  width: 30%;
-  padding: 15px 0;
-  margin: 40px 0 0;
+  padding: 16px 40px;
+  margin: 20px;
   border: rgb(21, 139, 10);
   border-radius: 30px;
   background-color: rgb(21, 139, 10);
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 15px;
+}
+.buttonGreen:hover {
+  background-color: rgb(88, 88, 88);
+}
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 .disabled {
   border: rgb(121, 121, 121);
@@ -61,10 +69,4 @@
   border: 1px solid rgb(167, 167, 167);
   border-radius: 30px;
   box-sizing: border-box;
-}
-
-.buttonGreen:hover {
-  background-color: rgb(88, 88, 88);
-  color: #fff;
-  font-style: normal;
 }

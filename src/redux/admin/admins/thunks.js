@@ -24,7 +24,7 @@ import {
 export const getAdmin = (id) => {
   return (dispatch) => {
     dispatch(getAdminFetching());
-    fetch(`${url}/administrators/${id}`, {
+    fetch(`${url}/admin/administrators/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         token: sessionStorage.getItem('token')
@@ -52,7 +52,7 @@ export const getAdmin = (id) => {
 export const getAdmins = () => {
   return (dispatch) => {
     dispatch(getAdminsFetching());
-    fetch(`${url}/administrators`, {
+    fetch(`${url}/admin/administrators`, {
       headers: {
         'Content-Type': 'application/json',
         token: sessionStorage.getItem('token')
@@ -74,7 +74,7 @@ export const deleteAdmin = (id) => {
   return (dispatch) => {
     dispatch(deleteAdminFetching());
     dispatch(showModal('administrators', 'fetching'));
-    fetch(`${url}/administrators/${id}`, {
+    fetch(`${url}/admin/administrators/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -98,49 +98,13 @@ export const deleteAdmin = (id) => {
   };
 };
 
-//Add new psychologist
-
-export const createAdmin = (admin) => {
-  return (dispatch) => {
-    dispatch(createAdminFetching());
-    dispatch(showModal('administrators', 'fetching'));
-    fetch(`${url}/administrators`, {
-      method: 'POST',
-      body: JSON.stringify({
-        firstName: admin.firstName,
-        lastName: admin.lastName,
-        email: admin.email,
-        password: admin.password
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        token: sessionStorage.getItem('token')
-      }
-    })
-      .then(async (res) => {
-        if (res.status === 201) {
-          const data = await res.json();
-          dispatch(createAdminFulfilled(data));
-          return dispatch(showModal('administrators', 'create', data.data));
-        }
-        const data = await res.json();
-        dispatch(createAdminRejected(data));
-        dispatch(showModal('administrators', 'error', data.msg));
-      })
-      .catch((err) => {
-        dispatch(createAdminRejected(err));
-        dispatch(showModal('administrators', 'error', err.message));
-      });
-  };
-};
-
-//Update psychologist
+//Update admin
 
 export const updateAdmin = (id, admin) => {
   return (dispatch) => {
     dispatch(updateAdminFetching());
     dispatch(showModal('administrators', 'fetching'));
-    fetch(`${url}/administrators/${id}`, {
+    fetch(`${url}/admin/administrators/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         firstName: admin.firstName,

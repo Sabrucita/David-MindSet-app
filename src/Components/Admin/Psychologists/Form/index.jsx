@@ -11,6 +11,7 @@ import {
 } from 'redux/admin/psychologists/thunks';
 import { psychologistsCleanUp } from 'redux/admin/psychologists/actions';
 import { validateText, validateEmail } from 'validations';
+import { Link } from 'react-router-dom';
 
 function PsychologistsForm({ match }) {
   const dispatch = useDispatch();
@@ -47,8 +48,10 @@ function PsychologistsForm({ match }) {
     const errors = {};
     errors.firstName = validateText(formValues.firstName, 'First Name', 2, 40);
     errors.lastName = validateText(formValues.lastName, 'Last Name', 2, 40);
-    errors.password = validateText(formValues.password, 'Password', 8, 16);
-    errors.email = validateEmail(formValues.email);
+    if (operation === 'create') {
+      errors.password = validateText(formValues.password, 'Password', 8, 16);
+      errors.email = validateEmail(formValues.email);
+    }
     return errors;
   };
   return (
@@ -79,15 +82,38 @@ function PsychologistsForm({ match }) {
                 type="text"
                 component={Fieldset}
               />
-              <Field name="email" label="Email" element="input" type="email" component={Fieldset} />
               <Field
-                name="password"
-                label="Password"
                 element="input"
-                type="password"
+                type="text"
+                name="pictureUrl"
+                label="Picture Url"
                 component={Fieldset}
               />
+              <Field name="pictureUrl" element="image" type="image" component={Fieldset} />
+              {operation === 'create' ? (
+                <>
+                  <Field
+                    name="email"
+                    label="Email"
+                    element="input"
+                    type="email"
+                    component={Fieldset}
+                  />
+                  <Field
+                    name="password"
+                    label="Password"
+                    element="input"
+                    type="password"
+                    component={Fieldset}
+                  />
+                </>
+              ) : (
+                ''
+              )}
               <div className={styles.btnContainer}>
+                <Link to="/admin/psychologists" className={styles.buttonAdd}>
+                  <span className={styles.buttonGreen}>GO BACK</span>
+                </Link>
                 <button
                   className={`${styles.buttonGreen} ${(submitting || pristine) && styles.disabled}`}
                   type="submit"
