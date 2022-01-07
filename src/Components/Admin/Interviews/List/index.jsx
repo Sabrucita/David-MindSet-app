@@ -45,6 +45,10 @@ function List({ header, data, openModal }) {
                   }}
                   openModal={openModal}
                   missingData={element.idCandidate === null || element.idCompany === null}
+                  remove={true}
+                  edit={true}
+                  switchActive={false}
+                  viewMore={true}
                 />
               );
             })}

@@ -46,7 +46,7 @@ function ListItem({
     <tr id={id}>
       {getDataContent(dataTable)}
       <td className={dataElement.isActive ? styles.actionBtn : styles.actionBtnNotActivate}>
-        {switchActive ? (
+        {switchActive && (
           <>
             {dataElement.isActive ? (
               <button onClick={changeIsNotActive}>
@@ -58,33 +58,25 @@ function ListItem({
               </button>
             )}
           </>
-        ) : (
-          ''
         )}
-        {edit && !missingData ? (
+        {edit && !missingData && (
           <Link to={`${url}/form/${id}`}>
             <button className="edit-btn">
               <span className="material-icons-outlined">edit</span>
             </button>
           </Link>
-        ) : (
-          ''
         )}
-        {viewMore ? (
+        {viewMore && (
           <Link to={`${url}/form/${id}`}>
             <button className="view-btn" onClick={viewElement}>
               <span className="material-icons-outlined">search</span>
             </button>
           </Link>
-        ) : (
-          ''
         )}
-        {remove ? (
+        {remove && (
           <button onClick={deleteElement}>
             <span className="material-icons-outlined">clear</span>
           </button>
-        ) : (
-          ''
         )}
       </td>
     </tr>

@@ -40,7 +40,11 @@ function List({ data }) {
             element.idPsychologist.lastName
           )}`
         : 'Deleted',
-      date: element.date
+      date: element.date,
+      remove: true,
+      edit: true,
+      switchActive: false,
+      viewMore: true
     };
     return dataElement;
   };
