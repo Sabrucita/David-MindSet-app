@@ -44,6 +44,9 @@ function List({ header, data, openModal }) {
                   }}
                   openModal={openModal}
                   missingData={element.idCandidate === null || element.idOpenPosition === null}
+                  remove={true}
+                  edit={true}
+                  viewMore={true}
                 />
               );
             })}

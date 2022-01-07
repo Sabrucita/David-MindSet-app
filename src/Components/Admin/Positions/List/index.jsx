@@ -27,7 +27,11 @@ function List({ data }) {
       company: element.idCompany ? capitalize(element.idCompany.name) : 'Deleted',
       startDate: element.startDate,
       endDate: element.endDate,
-      jobDescription: element.jobDescription
+      jobDescription: element.jobDescription,
+      remove: true,
+      edit: true,
+      switchActive: false,
+      viewMore: true
     };
     return dataElement;
   };

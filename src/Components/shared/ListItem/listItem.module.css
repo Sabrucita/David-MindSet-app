@@ -2,3 +2,11 @@
   display: flex;
   justify-content: space-between;
 }
+.actionBtnNotActivate{
+  display: flex;
+  justify-content: space-between;
+  background-color: salmon;
+}
+.notActivate {
+  background-color: salmon;
+}
